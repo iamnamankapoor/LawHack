@@ -26,8 +26,9 @@ Projet né au hackathon Mistral × Stanford CodeX (LLM x Law, Paris).
 10. [Configuration et clés](#10-configuration-et-clés)
 11. [Démo](#11-démo)
 12. [Feuille de route](#12-feuille-de-route)
-13. [Consignes pour les agents de code](#13-consignes-pour-les-agents-de-code)
-14. [Références](#14-références)
+13. [Organisation de l'équipe](#13-organisation-de-léquipe-3-personnes)
+14. [Consignes pour les agents de code](#14-consignes-pour-les-agents-de-code)
+15. [Références](#15-références)
 
 ---
 
@@ -373,7 +374,32 @@ BASELINE_MODEL=openai/gpt-6-astra
 - Restitution des faits : chronologie acteur · action · date · source · statut · confiance.
 - Hébergement UE (ex. eu/jev) pour la confidentialité des dossiers.
 
-## 13. Consignes pour les agents de code
+## 13. Organisation de l'équipe (3 personnes)
+
+Chaque personne possède ses dossiers ; le contrat entre elles est le format du registre (`lawhack/schema.py`), figé tôt.
+
+| Rôle | Périmètre | Dossiers |
+|---|---|---|
+| **1 · Système 1 & registre** | Zonage robuste (20 arrêts variés), segmentation, prompts Jev EN vs FR, calibration des seuils, bascule Jev ↔ OpenJev | `lawhack/zoning.py`, `segmenter.py`, `attributor.py`, `system_one.py` |
+| **2 · Système 2 & produit** | Récupération, réponse Mistral citée `[S-xx]`, vérification Jev + abstention, chat, pastilles, animation | `lawhack/answer.py`, `verify.py`, `app/` |
+| **3 · Juriste : données, benchmark, pitch** | Annotation avec la grille de rôles, questions pièges + réponses attendues, benchmark Astra vs LawHack, choix du cas réel, pitch | `eval/`, `data/` |
+
+Synchronisations : (1) schéma du registre figé ; (2) test de bout en bout à mi-parcours sur le PDF de démo ; (3) gel du code 1 h avant la fin (corrections, répétition, chiffres).
+
+### Grille de rôles (fournie par l'équipe)
+
+| Rôle | Code | Où il parle |
+|---|---|---|
+| Cour d'appel (2nd degré) | `JURIDICTION_FOND` | Rapportée dans l'exposé, le moyen et la réponse (« l'arrêt retient », « la cour d'appel a relevé ») |
+| Cour de cassation (juge du droit, pas des faits) | `COUR_CASSATION` | « Réponse de la Cour », « Par ces motifs, la Cour : » |
+| Demandeur (conteste l'arrêt d'appel) | `DEMANDEUR` | « Énoncé du moyen », moyen annexé |
+| Défendeur | `DEFENDEUR` | Fins de non-recevoir, pourvoi incident |
+
+Plan type d'un arrêt : informations générales → parties → faits et procédure → « Énoncé du moyen » → « Réponse de la Cour » → « Par ces motifs, la Cour : ».
+Marqueurs d'approbation (la Cour valide la cour d'appel → statut `DECIDE`) : « a retenu à bon droit », « en a exactement déduit », « le moyen n'est donc pas fondé ».
+Solutions : `REJET`, `CASSATION`, `CASSATION_PARTIELLE`, `CASSATION_PARTIELLE_SANS_RENVOI`, `CASSATION_SANS_RENVOI` (détectées dans `lawhack/solution.py`).
+
+## 14. Consignes pour les agents de code
 
 Ce README est la **source de vérité** du produit. Avant de coder :
 
@@ -389,7 +415,7 @@ Ce README est la **source de vérité** du produit. Avant de coder :
 - Ne pas promettre « zéro erreur » dans l'UI ou la documentation.
 - Petites PR focalisées, avec tests (`pytest`) sur zonage, segmentation et politique d'honnêteté.
 
-## 14. Références
+## 15. Références
 
 - TypeSafe — [Introducing System One models and Jev](https://typesafe.ai/blog/introducing-system-one-models-and-jev) · [Documentation](https://docs.typesafe.ai) · [Jev 1.13 jaggedness](https://docs.typesafe.ai/model-jaggedness/jev-1.13)
 - Cookbooks TypeSafe utiles : [Double-checking citations](https://docs.typesafe.ai/cookbooks/citation_check), [Line-by-line search](https://docs.typesafe.ai/cookbooks/semantic_find), [Re-ranking (CLERC legal)](https://docs.typesafe.ai/cookbooks/rerank_typesafe), [Confidence-gated routing](https://docs.typesafe.ai/patterns/confidence-routing)

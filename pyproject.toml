@@ -1,0 +1,21 @@
+[project]
+name = "lawhack"
+version = "0.1.0"
+description = "Harness Système 1 → Système 2 pour l'attribution énonciative dans les décisions de justice"
+requires-python = ">=3.10"
+dependencies = [
+  "pydantic>=2",
+  "pymupdf4llm",
+  "typesafe-sdk>=0.7",
+  "mistralai",
+  "python-dotenv",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+include = ["lawhack*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

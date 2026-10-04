@@ -28,6 +28,7 @@ ANSWER_CODE_FINGERPRINT = hashlib.sha256(
 
 ANSWER_ABOVE = 0.8
 WARN_ABOVE = 0.5
+FALSE_BELOW = 0.2
 MAX_PARAGRAPHS = 4
 MIN_PARAGRAPH_P = 0.05
 COVER = 0.9
@@ -51,6 +52,7 @@ SPEAKER_LABELS = {
     "LOI": "Loi",
     "INDETERMINE": "Indéterminé",
 }
+TIER_LABELS = {"sur": "Sûr", "probable": "Probable", "incertain": "Incertain", "faux": "Faux"}
 ZONE_LABELS = {
     Zone.INTRODUCTION: "En-tête",
     Zone.EXPOSE: "Faits et procédure",
@@ -78,6 +80,9 @@ class Pill(BaseModel):
     source_text: str
     probabilities: dict[str, float]
     note: str | None = None
+    tier: str = "sur"
+    tier_label: str = "Sûr"
+    reasons: list[str] = Field(default_factory=list)
 
 
 class AnswerSentence(BaseModel):
@@ -126,6 +131,64 @@ def _describe(e: RegistryEntry) -> str:
     para = f"§{e.paragraph}" if e.paragraph else "sans numéro"
     return (f"[{e.id}] locuteur={speaker_label(e)} ({e.speaker.confidence:.0%}) · "
             f"rubrique={ZONE_LABELS[e.zone]} · {para} · statut={e.status.value}\n{e.text}")
+
+
+def _reasons(c: RegistryEntry, supported: float, ok_threshold: float, note: str | None) -> list[str]:
+    if c.source == "lawyer":
+        speaker_reason = "Locuteur confirmé par un avocat."
+    elif c.source == "rule":
+        if c.zone is Zone.DISPOSITIF:
+            speaker_reason = "Passage du dispositif : c'est la décision de la Cour."
+        elif c.zone is Zone.MOYENS:
+            speaker_reason = "Passage de l'énoncé du moyen : c'est l'argument d'une partie, la Cour ne le reprend pas à son compte."
+        else:
+            speaker_reason = f"Locuteur déduit de la structure de l'arrêt ({ZONE_LABELS[c.zone]})."
+    else:
+        speaker = SPEAKER_LABELS.get(c.speaker.value, c.speaker.value)
+        if c.speaker.confidence >= ok_threshold:
+            speaker_reason = f"Jev attribue clairement ce passage à : {speaker}."
+        else:
+            runner_up = max(
+                (
+                    (value, probability)
+                    for value, probability in c.speaker.probabilities.items()
+                    if value != c.speaker.value
+                ),
+                key=lambda item: item[1],
+                default=(None, None),
+            )[0]
+            if runner_up in SPEAKER_LABELS:
+                speaker_reason = f"Jev hésite entre {speaker} et {SPEAKER_LABELS[runner_up]}."
+            else:
+                speaker_reason = "Jev n'est pas sûr du locuteur."
+
+    if note:
+        content_reason = note
+    elif supported >= ok_threshold:
+        content_reason = "Le passage cité dit bien ce qu'affirme la phrase."
+    elif supported >= WARN_ABOVE:
+        content_reason = "Le passage cité ne soutient la phrase qu'en partie."
+    elif supported >= FALSE_BELOW:
+        content_reason = "Le passage cité ne permet pas de confirmer la phrase."
+    else:
+        content_reason = "Le passage cité contredit la phrase ou l'attribue à un autre locuteur."
+
+    if c.status.value == "ALLEGUE":
+        status_reason = "Le passage rapporte une allégation, pas un fait établi."
+    elif c.status.value == "CONTESTE":
+        status_reason = "Ce point est contesté par une partie."
+    elif c.status.value == "CONSTATE" and c.speaker.value == Speaker.JURIDICTION_FOND.value:
+        status_reason = "Fait constaté par les juges du fond (la Cour de cassation ne juge pas les faits)."
+    else:
+        status_reason = None
+
+    content_first = note is not None or (
+        min(c.speaker.confidence, supported) < ok_threshold and supported < c.speaker.confidence
+    )
+    reasons = [content_reason, speaker_reason] if content_first else [speaker_reason, content_reason]
+    if status_reason:
+        reasons.append(status_reason)
+    return reasons
 
 
 def draft_user_message(question: str, context: list[RegistryEntry]) -> str:
@@ -367,10 +430,19 @@ async def verify(draft_text: str, registry: Registry, client: SystemOneClient) -
                 confidence, level = c.speaker.confidence, "warn"
                 who = SPEAKER_LABELS[c.speaker.value].lower()
                 note = f"Rapporté par le {who}" + (f" (§{c.paragraph})" if c.paragraph else "") + ", pas par la Cour."
+            if level == "ok":
+                tier = "sur"
+            elif level == "warn":
+                tier = "probable"
+            elif supported < FALSE_BELOW:
+                tier = "faux"
+            else:
+                tier = "incertain"
             pills.append(Pill(
                 segment_id=c.id, speaker=c.speaker.value, label=speaker_label(c),
                 paragraph=c.paragraph, zone_label=ZONE_LABELS[c.zone], confidence=round(confidence, 3),
                 level=level, source_text=c.text, probabilities=c.speaker.probabilities, note=note,
+                tier=tier, tier_label=TIER_LABELS[tier], reasons=_reasons(c, supported, ok_threshold, note),
             ))
         out.append(AnswerSentence(text=text, pills=pills, supported=round(supported, 3)))
     return out

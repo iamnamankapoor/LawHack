@@ -7,7 +7,7 @@ import pytest
 from lawhack import answer as answer_module
 from lawhack.answer import ask, draft as answer_draft, revise as answer_revise
 from lawhack.attributor import build_registry
-from lawhack.schema import Decision, Zone
+from lawhack.schema import Decision, Speaker, Zone
 from lawhack.segmenter import segment
 from lawhack.solution import Solution
 from lawhack.system_one import SystemOneResult
@@ -97,6 +97,17 @@ def _registry(doc):
 
 def _para(registry, n):
     return next(e for e in registry.entries if e.paragraph == n)
+
+
+def _verified_pill(registry, entry, claim, supported, **updates):
+    entry = entry.model_copy(update=updates)
+    registry = registry.model_copy(update={
+        "entries": [entry if current.id == entry.id else current for current in registry.entries]
+    })
+    result = asyncio.run(
+        answer_module.verify(f"{claim} [{entry.id}].", registry, _fake(registry, supported=supported))
+    )
+    return result[0].pills[0]
 
 
 def test_abstains_when_nothing_relevant(legifrance_doc, monkeypatch):
@@ -302,6 +313,8 @@ def test_pills_carry_speaker_paragraph_and_confidence(legifrance_doc, monkeypatc
     result = asyncio.run(ask(registry, "Que décide la Cour ?", _fake(registry, relevant={s9, s7})))
     first, second, third = result.sentences
     assert first.pills[0].label == "Cour, approuvant la cour d'appel" and first.pills[0].paragraph == 9 and first.pills[0].level == "ok"
+    assert first.pills[0].tier == "sur" and first.pills[0].tier_label == "Sûr"
+    assert any("dit bien" in reason for reason in first.pills[0].reasons)
     assert second.pills[0].paragraph == 7
     assert third.pills == [] and third.supported == 0.0
     assert "[Cour, approuvant la cour d'appel · §9 · " in result.render() and "[non sourcé ⚠]" in result.render()
@@ -313,6 +326,48 @@ def test_low_verification_downgrades_pill(legifrance_doc, monkeypatch):
     monkeypatch.setattr(answer_module, "draft", lambda q, ctx, m=None: f"La Cour casse l'arrêt [{s9}].")
     result = asyncio.run(ask(registry, "Que décide la Cour ?", _fake(registry, relevant={s9}, supported=0.2)))
     assert result.sentences[0].pills[0].level == "unsupported"
+
+
+def test_jev_runner_up_is_named_in_pill_reasons(legifrance_doc):
+    registry = _registry(legifrance_doc)
+    entry = _para(registry, 7)
+    pill = _verified_pill(
+        registry,
+        entry,
+        "Le demandeur soutient sa thèse",
+        0.9,
+        source="jev",
+        speaker=Decision(
+            value=Speaker.DEMANDEUR.value,
+            probabilities={"DEMANDEUR": 0.6, "JURIDICTION_FOND": 0.4},
+            confidence=0.6,
+        ),
+    )
+
+    assert pill.tier == "probable"
+    assert "Jev hésite entre Demandeur et Cour d'appel." in pill.reasons
+    assert {speaker.value for speaker in Speaker} <= answer_module.SPEAKER_LABELS.keys()
+
+
+def test_low_support_sets_uncertain_or_false_tier_and_weakest_reason_first(legifrance_doc):
+    registry = _registry(legifrance_doc)
+    entry = _para(registry, 9)
+
+    uncertain = _verified_pill(registry, entry, "La Cour confirme cet élément", 0.3)
+    false = _verified_pill(registry, entry, "La Cour confirme cet élément", 0.1)
+
+    assert uncertain.tier == "incertain"
+    assert uncertain.reasons[0] == "Le passage cité ne permet pas de confirmer la phrase."
+    assert false.tier == "faux"
+    assert any("contredit" in reason for reason in false.reasons)
+
+
+def test_lawyer_source_is_explained_as_human_confirmed(legifrance_doc):
+    registry = _registry(legifrance_doc)
+    entry = _para(registry, 9)
+    pill = _verified_pill(registry, entry, "La Cour confirme cet élément", 0.9, source="lawyer")
+
+    assert "Locuteur confirmé par un avocat." in pill.reasons
 
 
 def test_retrieving_a_moyen_brings_the_cour_reply(legifrance_doc, monkeypatch):
@@ -541,5 +596,7 @@ def test_lower_court_reported_in_a_moyen_is_a_warning(legifrance_doc, monkeypatc
     result = asyncio.run(ask(registry, "Qu'a décidé la cour d'appel ?", _fake(registry, relevant={s7.id}, supported=0.1)))
     first, pronoun, party = (s.pills[0] for s in result.sentences)
     assert first.level == pronoun.level == "warn"
+    assert pronoun.tier == "probable"
     assert pronoun.note.startswith("Rapporté par le demandeur (§7)")
+    assert pronoun.note in pronoun.reasons
     assert party.note is None

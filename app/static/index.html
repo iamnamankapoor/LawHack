@@ -22,10 +22,11 @@
   .msg { margin:14px 0; padding:14px 16px; border-radius:12px; background:var(--panel) } .msg.q { background:#1e2430; text-align:right }
   .pill { display:inline-block; font-size:12px; padding:0 7px; margin-left:4px; border-radius:999px; color:#111; font-weight:600; position:relative; cursor:help; white-space:nowrap }
   .pill.warn { outline:2px solid #f59e0b } .pill.unsupported { outline:2px solid #ef4444; opacity:.8 }
+  .pill.faux { outline:2px solid #ef4444; text-decoration:line-through }
   .pill.none { background:#3a3f4b; color:#e6e8ee }
   .tip { display:none; position:absolute; z-index:5; bottom:130%; left:0; width:380px; white-space:normal; background:#0b0d12; color:var(--text);
          border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-weight:400; font-size:12.5px; box-shadow:0 8px 24px #0008 }
-  .pill:hover .tip { display:block } .tip i { color:var(--muted) }
+  .pill:hover .tip { display:block }
   .abstain { color:var(--muted); font-style:italic } .err { color:#f87171 }
   form { display:flex; gap:8px; margin-top:16px } input { flex:1; background:var(--panel); border:1px solid var(--line); color:var(--text); border-radius:8px; padding:10px 12px; font-size:15px }
   .fb { margin-top:10px; padding-top:8px; border-top:1px solid var(--line); font-size:12.5px; color:var(--muted); display:flex; flex-wrap:wrap; gap:6px; align-items:center }
@@ -95,11 +96,15 @@ async function animate(data, wall) {
 
 function pill(p, i) {
   const where = p.paragraph ? '§'+p.paragraph : p.zone_label;
-  const probs = Object.entries(p.probabilities).sort((a,b) => b[1]-a[1]).slice(0,3).map(([k,v]) => `${NAMES[k]||k} ${Math.round(v*100)} %`).join(', ');
-  const warn = p.level === 'ok' ? '' : ' ⚠';
-  return `<span class="pill ${p.level}" data-s="${i}" data-seg="${p.segment_id}" data-speaker="${p.speaker}" style="background:${color(p.speaker)}">${p.label} · ${where} · ${Math.round(p.confidence*100)} %${warn}
-    <span class="tip"><b>${esc(p.zone_label)}${p.paragraph ? ', §'+p.paragraph : ''}</b> — ${p.segment_id}<br>« ${esc(p.source_text)} »<br><i>${probs}</i>
-    ${p.level === 'warn' ? '<br><b style="color:#f59e0b">' + esc(p.note || 'À vérifier dans le texte.') + '</b>' : ''}${p.level === 'unsupported' ? '<br><b style="color:#ef4444">Non soutenu par le passage cité.</b>' : ''}</span></span>`;
+  const tier = p.tier || ({ok:'sur', warn:'probable', unsupported:'incertain'}[p.level] || 'incertain');
+  const tierLabel = p.tier_label || ({sur:'Sûr', probable:'Probable', incertain:'Incertain', faux:'Faux'}[tier] || 'Incertain');
+  const tierColor = ({sur:'#3fb950', probable:'#f59e0b', incertain:'#ef4444', faux:'#ef4444'})[tier] || '#ef4444';
+  const reasons = Array.isArray(p.reasons) && p.reasons.length
+    ? `<ul>${p.reasons.map(reason => `<li>${esc(reason)}</li>`).join('')}</ul>`
+    : (p.note ? `<b>${esc(p.note)}</b>` : '');
+  return `<span class="pill ${p.level} ${tier}" data-s="${i}" data-seg="${p.segment_id}" data-speaker="${p.speaker}" style="background:${color(p.speaker)}">${p.label} · ${where} · ${tierLabel}
+    <span class="tip"><b>${esc(p.zone_label)}${p.paragraph ? ', §'+p.paragraph : ''}</b> — ${p.segment_id}<br>« ${esc(p.source_text)} »<br>
+    <b style="color:${tierColor}">${esc(tierLabel)}</b>${reasons}</span></span>`;
 }
 
 function render(a) {
@@ -112,7 +117,7 @@ function render(a) {
 
 function learningLine(l) {
   const left = Math.max(0, l.min_labels - l.labels);
-  const thr = `seuil « vérifié » ${Math.round(l.ok_threshold*100)} %`;
+  const thr = `seuil « Sûr » ${Math.round(l.ok_threshold*100)} %`;
   return `Apprentissage : ${l.labels} pastille${l.labels > 1 ? 's' : ''} notée${l.labels > 1 ? 's' : ''} · ${l.corrections} correction${l.corrections > 1 ? 's' : ''} du registre · `
     + `${l.validated_answers} réponse${l.validated_answers > 1 ? 's' : ''} validée${l.validated_answers > 1 ? 's' : ''} · `
     + (left ? `${thr} (par défaut, recalibré après ${left} retour${left > 1 ? 's' : ''} de plus)` : `${thr} (appris sur vos retours, défaut ${Math.round(l.default_threshold*100)} %)`);

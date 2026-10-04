@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LawHack · Who said it</title>
+<title>Legible · Who said it</title>
 <link rel="icon" type="image/svg+xml" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="64" height="64" fill="none"%3E %3Crect width="32" height="32" rx="7" fill="#ffffff"/%3E %3Crect x="7" y="5" width="5" height="7" fill="#3e63dd"/%3E %3Crect x="7" y="12" width="5" height="6" fill="#ef5f00"/%3E %3Crect x="7" y="18" width="5" height="6" fill="#6e56cf"/%3E %3Crect x="7" y="24" width="19" height="4" rx="1" fill="#1c1b19"/%3E %3C/svg%3E'>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,12 +45,14 @@ nav.top .wrap { height:100%; display:flex; align-items:center; gap:24px }
 
 /* Landing */
 nav.top .wrap { position:relative }
-.links { position:absolute; left:50%; transform:translateX(-50%); display:flex; gap:28px }
-.links a { font:500 11px/1 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--ink); text-decoration:none; opacity:.6; transition:opacity .2s }
+.links { position:absolute; left:50%; transform:translateX(-50%); display:flex; gap:8px }
+.links a { font:500 11px/1 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--ink); text-decoration:none; padding:10px 10px; opacity:.72; transition:opacity .2s }
 .links a:hover { opacity:1 }
 body:not([data-view=upload]) .links { display:none }
 body[data-view=upload] nav.top { background:color-mix(in srgb,#efefef 90%,transparent); border-color:#d9d9d9 }
-html { scroll-behavior:smooth } #how, #try { scroll-margin-top:64px }
+@media (prefers-reduced-motion:no-preference) { html { scroll-behavior:smooth } }
+:focus-visible { outline:2px solid var(--v-cour); outline-offset:2px }
+#how, #try { scroll-margin-top:64px }
 .lhero { position:relative; height:clamp(560px,calc(100vh - 64px),880px); background:#efefef; overflow:hidden; border-bottom:1px solid #d9d9d9 }
 .skyline { position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:min(1100px,86%); height:100%; display:flex; align-items:flex-end }
 .skyline i { position:relative; flex:1; height:var(--h); margin-left:-1px; border:1px solid #cdcdcd; border-bottom:0; transform-origin:bottom; animation:barup 1.3s var(--ease) both; animation-delay:calc(var(--i) * 70ms + 150ms) }
@@ -59,8 +61,9 @@ html { scroll-behavior:smooth } #how, #try { scroll-margin-top:64px }
 .lh .ln { display:block; overflow:hidden; padding-bottom:.06em }
 .lh .ln > span { display:inline-block; animation:rise 1s var(--ease) both; animation-delay:calc(var(--i) * 110ms + 150ms) }
 .hcta { position:absolute; inset:auto 0 20px; z-index:1; display:flex; align-items:center; gap:20px; animation:in .6s var(--ease) .8s both }
-.hcta p { max-width:46ch; font-size:12.5px; line-height:1.45; color:#4a4a4a }
-.cta { display:inline-flex; align-items:stretch; flex:none; height:42px; background:var(--ink); color:#fff; border:1px solid var(--ink); text-decoration:none; font:500 11px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; transition:transform .15s var(--ease) }
+.hcta p { max-width:48ch; padding:4px 0; background:#efefef; font-size:13.5px; line-height:1.5; color:#3a3a3a }
+.hcta small { display:block; margin-top:4px; font:400 11px/1.4 var(--mono); letter-spacing:.04em; color:#6f6f6f }
+.cta { display:inline-flex; align-items:stretch; flex:none; height:46px; background:var(--ink); color:#fff; border:1px solid var(--ink); text-decoration:none; font:500 11px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; transition:transform .15s var(--ease) }
 .cta span { display:flex; align-items:center; padding:0 18px }
 .cta i { display:grid; place-items:center; width:40px; border-left:1px solid #333; font-style:normal; font-size:14px; color:var(--acc); transition:transform .3s var(--ease) }
 .cta:hover i { transform:translateX(3px) } .cta:active { transform:scale(.98) }
@@ -70,7 +73,7 @@ html { scroll-behavior:smooth } #how, #try { scroll-margin-top:64px }
 .dhead { border-bottom:1px solid #2c2c2e } .dhead .wrap { height:80px; display:flex; align-items:center; justify-content:space-between }
 .dhead strong { font-size:22px; font-weight:400; letter-spacing:-.03em }
 .dtitle { padding-top:104px; align-items:center }
-.dtitle p { grid-column:1 / span 3; font-size:12.5px; line-height:1.45; color:#8a8a8e; max-width:24ch }
+.dtitle p { grid-column:1 / span 3; font-size:13.5px; line-height:1.5; color:#9a9a9f; max-width:24ch }
 .dtitle h2, .tryh h2 { grid-column:4 / span 9; font-size:clamp(38px,5.2vw,72px); line-height:1.02; letter-spacing:-.045em; font-weight:400 }
 .cards { margin-top:96px; row-gap:24px }
 .card { grid-column:span 4; display:flex; flex-direction:column; min-height:400px; padding:20px 12px 12px; background:#151517; transition:background .3s }
@@ -82,8 +85,8 @@ html { scroll-behavior:smooth } #how, #try { scroll-margin-top:64px }
 .art .dot { fill:var(--acc); stroke:none; opacity:0; transform-box:fill-box; transform-origin:center; transform:scale(0); transition:all .4s var(--snap) .9s }
 .card.in .art .d { stroke-dashoffset:0 } .card.in .art .dot { opacity:1; transform:none }
 .card h3 { margin-top:auto; padding:0 12px; font-size:22px; font-weight:400; letter-spacing:-.03em }
-.card p { margin-top:14px; padding:0 12px; max-width:32ch; font-size:13px; line-height:1.45; color:#a1a1a6 }
-.card footer { margin-top:44px; padding-left:12px; display:flex; justify-content:space-between; align-items:center; font:400 10px/1 var(--mono); letter-spacing:.1em; text-transform:uppercase; color:#8a8a8e }
+.card p { margin-top:14px; padding:0 12px; max-width:32ch; font-size:14px; line-height:1.5; color:#b4b4b9 }
+.card footer { margin-top:44px; padding-left:12px; display:flex; justify-content:space-between; align-items:center; font:400 11px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:#9a9a9f }
 .card footer b { display:flex; height:22px; border:1px solid #3a3a3c; font-weight:400 }
 .card footer b span { display:grid; place-items:center; width:24px }
 .card footer b i { display:grid; place-items:center; width:22px; border-left:1px solid #3a3a3c; font-style:normal; color:var(--acc); transition:transform .3s var(--ease) }
@@ -267,7 +270,7 @@ html { scroll-behavior:smooth } #how, #try { scroll-margin-top:64px }
 </svg>
 
 <nav class="top"><div class="wrap">
-  <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="7" y="5" width="5" height="7" fill="#3e63dd"/><rect x="7" y="12" width="5" height="6" fill="#ef5f00"/><rect x="7" y="18" width="5" height="6" fill="#6e56cf"/><rect x="7" y="24" width="19" height="4" rx="1" fill="#1c1b19"/><rect x="15" y="7" width="11" height="2.4" rx="1.2" fill="#d0cec7"/><rect x="15" y="13.6" width="8" height="2.4" rx="1.2" fill="#d0cec7"/><rect x="15" y="19.8" width="10" height="2.4" rx="1.2" fill="#d0cec7"/></svg>LawHack</a>
+  <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="7" y="5" width="5" height="7" fill="#3e63dd"/><rect x="7" y="12" width="5" height="6" fill="#ef5f00"/><rect x="7" y="18" width="5" height="6" fill="#6e56cf"/><rect x="7" y="24" width="19" height="4" rx="1" fill="#1c1b19"/><rect x="15" y="7" width="11" height="2.4" rx="1.2" fill="#d0cec7"/><rect x="15" y="13.6" width="8" height="2.4" rx="1.2" fill="#d0cec7"/><rect x="15" y="19.8" width="10" height="2.4" rx="1.2" fill="#d0cec7"/></svg>Legible</a>
   <div class="links"><a href="#how">How it works</a><a href="#try">Try it</a><a href="https://github.com/talal95c/LawHack">GitHub</a></div>
   <div id="docbar"><strong id="docname"></strong><span id="docmeta" class="num"></span></div>
   <button class="btn" id="reset">Nouvel arrêt</button>
@@ -280,11 +283,11 @@ html { scroll-behavior:smooth } #how, #try { scroll-margin-top:64px }
     <h1 class="lh"><span class="ln"><span style="--i:0">Know exactly</span></span><span class="ln"><span style="--i:1">who said what</span></span><span class="ln"><span style="--i:2">in every ruling.</span></span></h1>
     <div class="hcta wrap">
       <button class="cta" id="herodemo"><span>Try the demo</span><i>»</i></button>
-      <p>Speaker attribution for French Cour de cassation rulings. Tell what the Court holds from what the court of appeal found or a party alleges.</p>
+      <p>Speaker attribution for French Cour de cassation rulings. Tell what the Court holds from what the court of appeal found or a party alleges.<small>Free demo · no sign-up · a ruling is read in seconds</small></p>
     </div>
   </div>
   <div class="dark" id="how" lang="en">
-    <div class="dhead"><div class="wrap"><strong>LawHack Pipeline</strong><a class="cta ghost" href="#try"><span>Upload a ruling</span><i>»</i></a></div></div>
+    <div class="dhead"><div class="wrap"><strong>Legible Pipeline</strong><a class="cta ghost" href="#try"><span>Upload a ruling</span><i>»</i></a></div></div>
     <div class="wrap grid dtitle"><p>Explore the three steps behind every answer.</p><h2>How we stop attribution hallucinations.</h2></div>
     <div class="wrap grid cards">
       <article class="card">
@@ -302,7 +305,7 @@ html { scroll-behavior:smooth } #how, #try { scroll-margin-top:64px }
       <article class="card">
         <svg class="art" viewBox="0 0 200 64" aria-hidden="true"><path class="g" d="M0 2H200M0 62H200"/><path class="g" stroke-dasharray="2 3" d="M0 24H200"/><path class="g d" pathLength="1" style="--i:1" d="M0 58L60 40L120 50L200 18"/><path class="w d" pathLength="1" d="M0 60L52 28L104 46L148 12L200 6"/><circle class="dot" cx="148" cy="12" r="2.5"/></svg>
         <h3>Verifying</h3>
-        <p>Each sentence is re-checked against its source. Misattributions are flagged; when the ruling is silent, LawHack abstains.</p>
+        <p>Each sentence is re-checked against its source. Misattributions are flagged; when the ruling is silent, Legible abstains.</p>
         <footer>Source verification<b><span>03</span><i>»</i></b></footer>
       </article>
     </div>

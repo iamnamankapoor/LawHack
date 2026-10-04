@@ -52,7 +52,35 @@ body:not([data-view=upload]) .links { display:none }
 body[data-view=upload] nav.top { background:color-mix(in srgb,#efefef 90%,transparent); border-color:#d9d9d9 }
 @media (prefers-reduced-motion:no-preference) { html { scroll-behavior:smooth } }
 :focus-visible { outline:2px solid var(--v-cour); outline-offset:2px }
-#how, #try { scroll-margin-top:64px }
+#how, #try, #bench { scroll-margin-top:64px }
+.showcase { padding-top:112px; border-bottom:1px solid var(--hair) }
+.shnote { margin-block:24px 56px } .shnote p { grid-column:4 / span 7; margin:0; color:var(--grey); font-size:15px; line-height:1.5 }
+#showcase { display:block; width:100%; height:2400px; border:0 }
+.wbench { padding-block:16px 96px }
+.wbh { align-items:start; border-top:1px solid var(--ink); padding-top:20px }
+.wbh .mono { grid-column:1 / span 3; font:400 11px/1.6 var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--grey) }
+.wbh h2 { grid-column:4 / span 9; margin:0; font-size:clamp(30px,3.6vw,52px); line-height:1.04; letter-spacing:-.045em; font-weight:400; text-wrap:balance }
+.wbsub { margin:20px 0 48px; padding-left:calc(25% + 6px); color:var(--grey); font-size:15px; line-height:1.5 }
+.wbsub code { font:400 13px var(--mono); color:var(--ink) }
+.wbt { border-top:1px solid var(--ink) }
+.wr { display:grid; grid-template-columns:1.3fr 2.2fr 1.4fr 1.4fr .8fr .9fr; gap:24px; align-items:center; padding:22px 0; border-bottom:1px solid var(--hair); font-size:15px }
+.wr.wh { padding:14px 0; border-bottom-color:var(--ink); font-size:12px; font-weight:600; color:var(--grey); align-items:end }
+.wr > span:first-child { padding-left:12px }
+.wr.us { background:var(--wash); box-shadow:inset 3px 0 0 var(--v-cour) }
+.wr b { display:block; font-weight:600 } .wr small { display:block; color:var(--grey); font-size:12.5px; margin-top:2px }
+.wr .ok { color:var(--ok); font-weight:600 } .wr .bad { color:var(--bad); font-weight:600 }
+.wbar { display:grid !important; grid-template-columns:1fr auto; column-gap:14px; align-items:center }
+.wbar i { height:12px; background:linear-gradient(var(--ok),var(--ok)) 0 0/var(--w) 100% no-repeat, var(--wash); }
+.wbar.bad i { background:linear-gradient(var(--bad),var(--bad)) 0 0/var(--w) 100% no-repeat, var(--wash) }
+.wr.us .wbar i { background-color:#fff }
+.wbar b { font-size:20px; color:var(--ink) } .wbar small { grid-column:2; text-align:right }
+.wkv { margin-top:40px; border-top:1px solid var(--ink) }
+.wkv > div { display:grid; grid-template-columns:calc(25% - 18px) 1fr; gap:24px; padding:12px 0 12px 12px; border-bottom:1px solid var(--hair); font-size:14px; line-height:1.5 }
+.wkv > div > span:first-child { font:400 11px/2 var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--grey) }
+.wkv b { font-weight:600 } .wkv code { font:400 13px var(--mono) }
+.wbnote { margin:16px 0 0; max-width:720px; color:var(--grey); font-size:13px; line-height:1.5 }
+.shcta { width:calc(100% - 80px); max-width:1200px; padding-inline:0; display:flex; align-items:center; justify-content:space-between; gap:24px; padding-block:40px 112px; border-top:1px solid var(--hair) }
+.shcta p { margin:0; font-size:clamp(22px,2.4vw,32px); letter-spacing:-.03em }
 .lhero { position:relative; height:clamp(560px,calc(100vh - 64px),880px); background:#efefef; overflow:hidden; border-bottom:1px solid #d9d9d9 }
 .skyline { position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:min(1100px,86%); height:100%; display:flex; align-items:flex-end }
 .skyline i { position:relative; flex:1; height:var(--h); margin-left:-1px; border:1px solid #cdcdcd; border-bottom:0; transform-origin:bottom; animation:barup 1.3s var(--ease) both; animation-delay:calc(var(--i) * 70ms + 150ms) }
@@ -246,7 +274,9 @@ body[data-view=upload] nav.top { background:color-mix(in srgb,#efefef 90%,transp
   .wrap { padding-inline:20px }
   .links { display:none }
   .hcta { flex-direction:column; align-items:flex-start; gap:12px }
-  .dtitle p, .dtitle h2, .tryh .mono, .tryh h2, .card, #drop, #demo { grid-column:span 12 }
+  .dtitle p, .dtitle h2, .tryh .mono, .tryh h2, .card, #drop, #demo, .shnote p { grid-column:span 12 }
+  .wr { grid-template-columns:1fr 1fr; row-gap:14px } .wr > span:first-child { grid-column:1 / -1 } .wr > .wbar { grid-column:1 / -1 } .wr > span { padding-inline:12px } .wr [data-l]::before { grid-column:1 / -1; content:attr(data-l); display:block; font-size:11px; font-weight:500; color:var(--grey); margin-bottom:2px } .wr.wh { display:none } .wbh .mono, .wbh h2 { grid-column:span 12 } .wbsub { padding-left:0 } .wkv > div { grid-template-columns:1fr; gap:2px; padding-inline:12px }
+  .showcase { padding-top:64px } .shcta { flex-direction:column; align-items:flex-start; padding-block:32px 64px }
   .dtitle { padding-top:64px; row-gap:16px } .tryh { row-gap:16px } .cards { margin-top:56px }
   .card { min-height:340px }
   .desk { grid-template-columns:1fr; height:auto }
@@ -273,7 +303,7 @@ body[data-view=upload] nav.top { background:color-mix(in srgb,#efefef 90%,transp
 
 <nav class="top"><div class="wrap">
   <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="7" y="5" width="5" height="7" fill="#3e63dd"/><rect x="7" y="12" width="5" height="6" fill="#ef5f00"/><rect x="7" y="18" width="5" height="6" fill="#6e56cf"/><rect x="7" y="24" width="19" height="4" rx="1" fill="#1c1b19"/><rect x="15" y="7" width="11" height="2.4" rx="1.2" fill="#d0cec7"/><rect x="15" y="13.6" width="8" height="2.4" rx="1.2" fill="#d0cec7"/><rect x="15" y="19.8" width="10" height="2.4" rx="1.2" fill="#d0cec7"/></svg>Legible</a>
-  <div class="links"><a href="#how">How it works</a><a href="#try">Try it</a><a href="https://github.com/talal95c/LawHack">GitHub</a></div>
+  <div class="links"><a href="#how">How it works</a><a href="#bench">Benchmark</a><a href="#try">Try it</a><a href="https://github.com/talal95c/LawHack">GitHub</a></div>
   <div id="docbar"><strong id="docname"></strong><span id="docmeta" class="num"></span></div>
   <button class="btn" id="reset">Nouvel arrêt</button>
 </div></nav>
@@ -311,6 +341,32 @@ body[data-view=upload] nav.top { background:color-mix(in srgb,#efefef 90%,transp
         <footer>Source verification<b><span>03</span><i>»</i></b></footer>
       </article>
     </div>
+  </div>
+  <div class="showcase" id="bench" lang="en">
+    <div class="wrap grid tryh"><span class="mono">Benchmark</span><h2>Legible next to GPT-6.1, Mistral and the legal AI platforms.</h2></div>
+    <div class="wrap grid shnote"><p>Precomputed by our models on two Cour de cassation rulings: Legible maps every speaker, then checks a legal AI draft sentence by sentence. Below, the same drafts judged by frontier models alone.</p></div>
+    <iframe id="showcase" src="/showcase/" title="Legible analysis and model comparison" loading="lazy" scrolling="no"></iframe>
+    <div class="wrap wbench" id="wide">
+      <div class="grid wbh"><span class="mono">Wider benchmark</span><h2>18 rulings, 62 questions: Legible answers with 1 slip in 53 sentences.</h2></div>
+      <p class="wbsub">Legible (Jev + Mistral) against Mistral alone, same drafting model (<code>mistral-medium-latest</code>), on 18 Judilibre rulings of the Cour de cassation.</p>
+      <div class="wbt" role="table" aria-label="Legible against Mistral alone">
+        <div class="wr wh" role="row"><span role="columnheader">System</span><span role="columnheader">Wrong or misattributed sentences</span><span role="columnheader">“Did the Court find…?” (a court of appeal finding)</span><span role="columnheader">Party argument passed off as the ruling</span><span role="columnheader">Outcome</span><span role="columnheader">Off-topic (abstains)</span></div>
+        <div class="wr us" role="row"><span role="cell"><b>Legible</b><small>Jev + Mistral</small></span><span role="cell" data-l="Wrong or misattributed" class="wbar"><i style="--w:1.9%"></i><b>1 / 53</b><small>+ 2 uncertain</small></span><span role="cell" data-l="“Did the Court find…?”" class="ok">18 / 18</span><span role="cell" data-l="Party argument as ruling">7 / 8</span><span role="cell" data-l="Outcome">18 / 18</span><span role="cell" data-l="Off-topic">18 / 18</span></div>
+        <div class="wr" role="row"><span role="cell"><b>Mistral alone</b><small>mistral-medium-latest</small></span><span role="cell" data-l="Wrong or misattributed" class="wbar bad"><i style="--w:38.3%"></i><b>18 / 47</b></span><span role="cell" data-l="“Did the Court find…?”" class="bad">1 / 18</span><span role="cell" data-l="Party argument as ruling">7 / 8</span><span role="cell" data-l="Outcome">18 / 18</span><span role="cell" data-l="Off-topic">18 / 18</span></div>
+      </div>
+      <p class="wbnote">Every sentence of every answer is judged by a panel of 3 Mistral models (medium, magistral, large) reading the full ruling; the 53 sentences where the panel disagreed were annotated by hand. Limits: one annotator, only 8 “party argument” questions. Treat the numbers as a demonstration, not a measurement.</p>
+    </div>
+    <div class="wrap wbench" id="wide25">
+      <div class="grid wbh"><span class="mono">Légifrance benchmark</span><h2>25 rulings, 112 questions: 4× fewer misattributions than Mistral alone.</h2></div>
+      <p class="wbsub">Legible (Jev + Mistral) against Mistral alone, same drafting model (<code>mistral-medium-latest</code>), on 25 Légifrance rulings of the Cour de cassation.</p>
+      <div class="wbt" role="table" aria-label="Legible against Mistral alone, 25 Légifrance rulings">
+        <div class="wr wh" role="row"><span role="columnheader">System</span><span role="columnheader">Answers with a misattribution</span><span role="columnheader">“Did the Court find…?” (a lower-court finding)</span><span role="columnheader">Party argument or censured reasoning passed off as the ruling</span><span role="columnheader">Outcome</span><span role="columnheader">Off-topic (abstains)</span></div>
+        <div class="wr us" role="row"><span role="cell"><b>Legible</b><small>Jev + Mistral</small></span><span role="cell" data-l="Misattributed answers" class="wbar"><i style="--w:4.9%"></i><b>11 / 224</b></span><span role="cell" data-l="“Did the Court find…?”" class="ok">47 / 50</span><span role="cell" data-l="Party argument as ruling">27 / 50</span><span role="cell" data-l="Outcome">49 / 50</span><span role="cell" data-l="Off-topic">45 / 50</span></div>
+        <div class="wr" role="row"><span role="cell"><b>Mistral alone</b><small>mistral-medium-latest</small></span><span role="cell" data-l="Misattributed answers" class="wbar bad"><i style="--w:19.6%"></i><b>44 / 224</b></span><span role="cell" data-l="“Did the Court find…?”" class="bad">0 / 50</span><span role="cell" data-l="Party argument as ruling">39 / 50</span><span role="cell" data-l="Outcome">49 / 50</span><span role="cell" data-l="Off-topic">49 / 50</span></div>
+      </div>
+      <div class="wkv" role="table" aria-label="Benchmark protocol and results"><div role="row"><span role="rowheader">Corpus</span><span role="cell">25 recent Cour de cassation rulings (Légifrance) · 6 chambers · every outcome</span></div><div role="row"><span role="rowheader">Questions</span><span role="cell">112 frozen questions × 2 inputs (uploaded PDF, plain text) = 224 answers per system</span></div><div role="row"><span role="rowheader">Gold answers</span><span role="cell">Légifrance metadata, the ruling's own structure, the official summary — not a model</span></div><div role="row"><span role="rowheader">Scoring</span><span role="cell">Blind judge <code>mistral-large</code>: sees neither citations nor system name</span></div><div role="row"><span role="rowheader">Overall score</span><span role="cell"><b>Legible 0.86–0.87</b> · Mistral alone 0.76</span></div><div role="row"><span role="rowheader">Paired gap</span><span role="cell">+0.10 to +0.11 · 95% bootstrap CI excludes 0</span></div><div role="row"><span role="rowheader">System 1</span><span role="cell">PDF fidelity ≥ 0.986 · zoning 98.5% · speakers 259 / 259 · outcome 24 / 25</span></div><div role="row"><span role="rowheader">Known limits</span><span role="cell">No polarity check yet (a rejected argument can be restated as the Court's view) · 2–5× slower</span></div><div role="row"><span role="rowheader">Full report</span><span role="cell"><code>bench/legifrance25/BENCHMARK.md</code></span></div></div>
+    </div>
+    <div class="wrap shcta"><p>Now run Legible on your own ruling.</p><a class="cta" href="#try" data-goto-drop><span>Test it yourself</span><i>»</i></a></div>
   </div>
   <div class="wrap try" id="try" lang="en">
     <div class="grid tryh"><span class="mono">Try it</span><h2>Try it on a real ruling.</h2></div>
@@ -389,6 +445,7 @@ function gotoDrop(e) {
   drop.focus({preventScroll:true});
   drop.classList.remove('call'); void drop.offsetWidth; drop.classList.add('call');
 }
+addEventListener('message', e => { const h = e.data && e.data.legibleShowcase; if (e.source === $('showcase').contentWindow && h > 0) $('showcase').style.height = h + 'px'; });
 $('herodemo').onclick = gotoDrop;
 document.querySelectorAll('[data-goto-drop]').forEach(a => a.onclick = gotoDrop);
 let drags = 0;

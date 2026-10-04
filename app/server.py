@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from lawhack import feedback
@@ -32,6 +33,7 @@ DEMO_PDF = ROOT / "data" / "samples" / "cass_civ3_2022-12-14_21-24539.pdf"
 STATIC = Path(__file__).resolve().parent / "static"
 
 app = FastAPI(title="LawHack")
+app.mount("/showcase", StaticFiles(directory=STATIC / "showcase", html=True), name="showcase")
 _registries: dict[str, tuple[Registry, Solution]] = {}
 _answers: dict[str, tuple[str, Answer]] = {}
 

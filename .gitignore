@@ -8,3 +8,5 @@ data/history.json
 data/raw/
 *.egg-info/
 .venv/
+data/hf/
+/eval/cache/

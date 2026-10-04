@@ -81,6 +81,9 @@ def _speaker(segs, i):
     s = segs[i]
     if s["section"] in ("dispositif", "sommaire"):
         return {"speaker": "court", "p": 1.0, "rule": True}
+    # Only the Court censures: "En statuant ainsi, … la cour d'appel a violé" is its voice even when it restates an argument
+    if re.match(r"^(\d+\. )?(En|Qu'en) (statuant|se déterminant) ainsi", s["text"]):
+        return {"speaker": "court", "p": 1.0, "rule": True}
     before = "\n".join(x["text"] for x in segs[max(0, i - 4):i])[-2500:]
     state = {"section": s["section"], "titre": s["heading"] or "", "moyen": s["ground"] or "",
              "contexte_precedent": before, "CIBLE": s["text"]}

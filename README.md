@@ -42,14 +42,18 @@ decision ─► segment (rules) ─► who speaks (Jev) ─► what the Court di
 - **Uncertain labels:** a second Jev pass with the options reversed (averaged), then a cheap LLM only if still unsure.
 - **Guard:** misattribution, laundering, a wrong opening line, and an answer that contradicts the dispositif → one rewrite.
 
-Details: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Design language (IBM Carbon, IBM Plex): [`docs/design.html`](docs/design.html).
+Details: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Design (Radix Colors, Source Serif 4 + Instrument Sans, the voice-margin logo): [`docs/design.html`](docs/design.html).
 
 ## The app
 
-- **Décision:** the text with a margin bar per voice and a status tag per paragraph; *Cour seule* dims everything that is not the Court.
-- **Ce que la Cour a jugé:** the Court's own sentences, quoted verbatim per ground, plus what it did not rule on. No paraphrase: interpretation stays with the lawyer.
-- **Poser une question:** answers cite paragraphs (§ links jump to the text) and say when they were verified.
-- **Vérifier un brouillon:** paste a note written by Legora, Harvey or ChatGPT; each sentence is *conforme / à vérifier / à corriger*, with its source paragraph and a rewrite.
+Opens on a blank page: paste a decision or drop a PDF / .txt (*Voir un exemple* loads the red-test decision).
+
+- **Reading view:** the full text with a margin bar per voice. Paragraphs that are not the Court's are labelled with who is speaking and what the Court did with them (*censuré, approuvé, non tranché, argument écarté…*). *La Cour seulement* folds the other voices into placeholders that open in place.
+- **Synthèse:** the outcome and, per ground, the Court's own sentences quoted verbatim, plus what it did not rule on. No paraphrase: interpretation stays with the lawyer.
+- **Questions:** answers cite paragraphs (§ links jump to the text) and say whether their attributions were verified.
+- **Vérifier un texte:** paste a note written by Legora, Harvey or ChatGPT; each sentence is *conforme / à vérifier / à corriger*, with its source paragraph and a rewrite.
+
+Labels come from real Jev calls through the Vercel AI Gateway; the fake Jev in `tests/` is only for offline tests.
 
 ## Run
 
@@ -60,7 +64,7 @@ cp .env.example .env               # AI_GATEWAY_API_KEY is required
 uvicorn legible.api:app --port 8766
 ```
 
-Open http://localhost:8766 and pick one of the 14 bundled decisions (`data/decisions/`), or drop a PDF / .txt.
+Open http://localhost:8766, then paste a decision or drop a PDF / .txt. The 14 decisions used in the evaluation are in `data/decisions/`.
 
 - **Tests (offline, fake Jev):** `pytest`
 - **MCP connector** (Claude, ChatGPT, Le Chat, Legora): `pip install -e ".[mcp]"` then `python -m legible.mcp_server` (stdio) or `--http`

@@ -27,7 +27,7 @@ def test_red_test_labels():
     s = by_ref(segs)
     assert s["§8"]["speaker"] == "cour_appel" and s["§8"]["stance"] == "not_ruled"
     assert s["§9"]["stance"] == "quashed"  # "En statuant ainsi" censures the passage just before it
-    assert s["§10"]["speaker"] == "court"
+    assert s["§10"]["speaker"] == "court" and s["§10"].get("rule")  # only the Court censures, even while restating an argument
     assert set(outcomes.values()) == {"cassation"}
 
 

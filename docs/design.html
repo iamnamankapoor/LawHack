@@ -2,284 +2,99 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Legible Design Language</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Legible design</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
 <style>
-/* Layout: Carbon 2x grid feel — a spec column, then a full-width app mockup (decision reader left, Court panel right).
-   Tokens follow IBM Carbon (White theme / Gray 100 theme) colour and type scales. */
-:root {
-  --bg: #ffffff; --layer: #f4f4f4; --layer-2: #e8e8e8; --border: #e0e0e0; --border-strong: #8d8d8d;
-  --text: #161616; --text-2: #525252; --text-3: #6f6f6f; --focus: #0f62fe; --link: #0f62fe;
-  /* Speakers (Carbon palette) */
-  --court: #0f62fe;  --court-bg: #edf5ff;     /* Blue 60 / Blue 10 */
-  --ca: #ba4e00;     --ca-bg: #fff2e8;        /* Orange 60 / Orange 10 */
-  --party: #8a3ffc;  --party-bg: #f6f2ff;     /* Purple 60 / Purple 10 */
-  --facts: #6f6f6f;  --facts-bg: #f4f4f4;     /* Gray 60 / Gray 10 */
-  --prior: #005d5d;  --prior-bg: #d9fbfb;     /* Teal 70 / Teal 10 */
-  /* Court's stance (Carbon support colours) */
-  --ok: #198038; --ok-bg: #defbe6; --no: #da1e28; --no-bg: #fff1f1; --open: #8e6a00; --open-bg: #fcf4d6;
-  --sans: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
-  --serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
-  --mono: "IBM Plex Mono", Menlo, Consolas, monospace;
-  color-scheme: light;
-}
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #161616; --layer: #262626; --layer-2: #393939; --border: #393939; --border-strong: #6f6f6f;
-  --text: #f4f4f4; --text-2: #c6c6c6; --text-3: #a8a8a8; --focus: #ffffff; --link: #78a9ff;
-  --court: #78a9ff; --court-bg: #001d6c; --ca: #ff832b; --ca-bg: #3e1a00; --party: #be95ff; --party-bg: #31135e;
-  --facts: #a8a8a8; --facts-bg: #262626; --prior: #3ddbd9; --prior-bg: #022b30;
-  --ok: #42be65; --ok-bg: #044317; --no: #ff8389; --no-bg: #520408; --open: #f1c21b; --open-bg: #302400;
-  color-scheme: dark; } }
-:root[data-theme="dark"] {
-  --bg: #161616; --layer: #262626; --layer-2: #393939; --border: #393939; --border-strong: #6f6f6f;
-  --text: #f4f4f4; --text-2: #c6c6c6; --text-3: #a8a8a8; --focus: #ffffff; --link: #78a9ff;
-  --court: #78a9ff; --court-bg: #001d6c; --ca: #ff832b; --ca-bg: #3e1a00; --party: #be95ff; --party-bg: #31135e;
-  --facts: #a8a8a8; --facts-bg: #262626; --prior: #3ddbd9; --prior-bg: #022b30;
-  --ok: #42be65; --ok-bg: #044317; --no: #ff8389; --no-bg: #520408; --open: #f1c21b; --open-bg: #302400;
-  color-scheme: dark; }
-
+:root { --page:#fbfaf8; --surface:#fff; --sunken:#f4f3f0; --border:#e6e4df; --line:#d0cec7; --ink:#1c1b19; --text-2:#5c5a54; --text-3:#8b8982;
+  --court:#3e63dd; --court-tint:#edf2fe; --ca:#ef5f00; --ca-tint:#fff1e7; --party:#6e56cf; --party-tint:#f4f0fe; --prior:#12a594; --prior-tint:#e0f8f3; --facts:#b5b3ad;
+  --ok:#218358; --ok-tint:#e9f6e9; --no:#ce2c31; --no-tint:#feebec; --open:#ab6400; --open-tint:#fff7c2;
+  --sans:"Instrument Sans","Helvetica Neue",Arial,sans-serif; --serif:"Source Serif 4",Georgia,serif; color-scheme: light; }
 * { box-sizing: border-box; }
-[hidden] { display: none !important; }
-body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.43 var(--sans); letter-spacing: 0.16px; }
-.wrap { max-width: 1184px; margin: 0 auto; padding-inline: 24px; padding-block: 48px 96px; }
-.col { max-width: 70ch; }
-h1, h2, h3 { font-weight: 400; margin: 0; text-wrap: balance; }
-h1 { font-size: 2.625rem; line-height: 1.2; font-weight: 300; }
-h2 { font-size: 1.75rem; line-height: 1.29; margin-top: 72px; padding-top: 16px; border-top: 1px solid var(--border); }
-h3 { font: 600 0.875rem/1.29 var(--sans); letter-spacing: 0.16px; margin-top: 32px; }
-p { margin: 8px 0; }
-.label { font: 400 0.75rem/1.33 var(--sans); letter-spacing: 0.32px; color: var(--text-3); }
-.mono { font-family: var(--mono); font-size: 0.8125rem; }
-a { color: var(--link); }
-:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
-
-/* Logo */
-.brand { display: flex; align-items: center; gap: 12px; }
-.brand svg { flex: none; }
-.wordmark { font: 300 1.75rem/1 var(--sans); letter-spacing: -0.4px; }
-.wordmark b { font-weight: 600; }
-.logos { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 16px; }
-.logos > div { background: var(--bg); padding: 32px 24px; display: flex; flex-direction: column; gap: 16px; align-items: flex-start; min-width: 0; }
-.logos > div.inv { background: #161616; color: #f4f4f4; }
-.logos .label { color: inherit; opacity: 0.7; }
-
-/* Swatches */
-.sw { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 12px; }
-.sw > div { background: var(--bg); padding: 12px; min-width: 0; }
-.chipc { height: 48px; border-left: 4px solid; margin-bottom: 8px; }
-
-/* Speaker + stance tags (Carbon tag shape: 24px, full pill) */
-.tag { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 8px; border-radius: 24px; font: 400 0.75rem/1 var(--sans); letter-spacing: 0.32px; white-space: nowrap; }
-.tag svg { width: 12px; height: 12px; flex: none; }
-.t-court { background: var(--court-bg); color: var(--court); } .t-ca { background: var(--ca-bg); color: var(--ca); }
-.t-party { background: var(--party-bg); color: var(--party); } .t-facts { background: var(--facts-bg); color: var(--facts); }
-.t-prior { background: var(--prior-bg); color: var(--prior); }
-.s-ok { background: var(--ok-bg); color: var(--ok); } .s-no { background: var(--no-bg); color: var(--no); } .s-open { background: var(--open-bg); color: var(--open); }
-.tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-.type { display: grid; gap: 16px; margin-top: 12px; }
-.type > div { display: grid; grid-template-columns: 140px 1fr; gap: 16px; align-items: baseline; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
-@media (max-width: 560px) { .type > div { grid-template-columns: 1fr; gap: 4px; } }
-
-/* App mockup */
-.app { margin-top: 20px; border: 1px solid var(--border); background: var(--bg); }
-.shell { display: flex; align-items: center; gap: 16px; height: 48px; padding: 0 16px; background: #161616; color: #f4f4f4; }
-.shell .crumb { font-size: 0.875rem; color: #c6c6c6; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
-.shell .sp { flex: 1; }
-.shell .pill { font-size: 0.75rem; color: #c6c6c6; border: 1px solid #525252; padding: 2px 8px; border-radius: 24px; white-space: nowrap; }
-.panes { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
-@media (max-width: 860px) { .panes { grid-template-columns: 1fr; } }
-.reader { border-right: 1px solid var(--border); min-width: 0; }
-.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--layer); }
-.toggle { display: inline-flex; border: 1px solid var(--border-strong); }
-.toggle button { font: 400 0.8125rem var(--sans); padding: 6px 12px; border: 0; background: transparent; color: var(--text); cursor: pointer; }
-.toggle button[aria-pressed="true"] { background: var(--text); color: var(--bg); }
-.filter { font: 400 0.75rem var(--sans); }
-.doc { padding: 8px 0 24px; }
-.sec { font: 600 0.75rem/1.33 var(--sans); letter-spacing: 0.32px; text-transform: uppercase; color: var(--text-3); padding: 20px 24px 6px 28px; }
-.para { position: relative; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 8px; padding: 10px 24px 10px 24px; border-left: 4px solid transparent; transition: opacity .15s; }
-.para .n { font: 400 0.75rem var(--mono); color: var(--text-3); padding-top: 3px; }
-.para .txt { font: 400 0.9375rem/1.6 var(--serif); }
-.para .meta { grid-column: 2; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-.para.court { border-left-color: var(--court); }
-.para.ca { border-left-color: var(--ca); background: color-mix(in srgb, var(--ca-bg) 55%, transparent); }
-.para.party { border-left-color: var(--party); background: color-mix(in srgb, var(--party-bg) 55%, transparent); }
-.para.focus { outline: 2px solid var(--focus); outline-offset: -2px; }
-.courtonly .para:not(.court) { opacity: 0.38; }
-.courtonly .para:not(.court) .meta { display: none; }
-@media (prefers-reduced-motion: reduce) { .para { transition: none; } }
-
-.side { min-width: 0; display: flex; flex-direction: column; }
-.tabs { display: flex; border-bottom: 1px solid var(--border); overflow-x: auto; }
-.tabs button { font: 400 0.875rem var(--sans); padding: 12px 16px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--text-2); cursor: pointer; white-space: nowrap; }
-.tabs button[aria-selected="true"] { color: var(--text); border-bottom-color: var(--court); font-weight: 600; }
-.panel { padding: 20px; display: grid; gap: 16px; align-content: start; }
-.tile { border: 1px solid var(--border); background: var(--layer); padding: 16px; }
-.tile h4 { margin: 0 0 8px; font: 600 0.875rem var(--sans); }
-.quote { font: 400 0.9375rem/1.6 var(--serif); border-left: 3px solid var(--court); padding-left: 12px; margin: 8px 0; }
-.cite { font: 400 0.75rem var(--mono); color: var(--text-3); }
-.notice { display: grid; grid-template-columns: 20px 1fr; gap: 8px; padding: 12px 16px; border-left: 3px solid var(--open); background: var(--open-bg); font-size: 0.8125rem; }
-.notice.no { border-left-color: var(--no); background: var(--no-bg); }
-.ask { display: flex; border-bottom: 1px solid var(--border-strong); background: var(--layer); }
-.ask input { flex: 1; min-width: 0; font: 400 0.875rem var(--sans); border: 0; background: transparent; padding: 12px 16px; color: var(--text); }
-.btn { font: 400 0.875rem var(--sans); border: 0; background: var(--focus); color: #fff; padding: 0 16px; cursor: pointer; }
-:root[data-theme="dark"] .btn { color: #161616; }
-.answer { font-size: 0.875rem; line-height: 1.6; }
-.answer .ref { font: 500 0.75rem var(--mono); color: var(--link); text-decoration: underline; cursor: pointer; }
-.answer p:first-child { font-weight: 600; }
-.legend { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 0.75rem; color: var(--text-2); margin-top: 12px; }
-ul.rules { padding-left: 18px; } ul.rules li { margin: 6px 0; }
-.foot { margin-top: 64px; font-size: 0.75rem; color: var(--text-3); border-top: 1px solid var(--border); padding-top: 16px; }
+body { margin:0; background:var(--page); color:var(--ink); font:15px/1.55 var(--sans); }
+main { max-width: 860px; margin: 0 auto; padding-inline: 24px; padding-block: 56px 80px; display: grid; gap: 56px; }
+h1 { font: 600 2.5rem/1.1 var(--serif); letter-spacing: -.02em; margin: 0; }
+h2 { font: 600 1.375rem/1.3 var(--serif); margin: 0 0 16px; }
+p { margin: 0 0 12px; max-width: 64ch; color: var(--text-2); }
+.lead { font-size: 1.125rem; }
+.brand { display:flex; align-items:center; gap:14px; }
+.brand svg { width:64px; height:64px; }
+.brand span { font: 600 3rem/1 var(--serif); letter-spacing: -.015em; }
+.marks { display:flex; flex-wrap:wrap; gap:16px; }
+.marks div { display:grid; place-items:center; width:120px; height:120px; border:1px solid var(--border); border-radius:12px; background:var(--surface); }
+.marks svg { width:56px; height:56px; }
+.marks .small svg { width:20px; height:20px; }
+.swatches { display:grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.sw { border:1px solid var(--border); border-radius:10px; overflow:hidden; background:var(--surface); font-size:.8125rem; }
+.sw i { display:block; height:56px; }
+.sw div { padding:10px 12px; } .sw b { display:block; font-weight:600; color:var(--ink); } .sw code { color:var(--text-3); }
+.type { display:grid; gap:18px; }
+.type div { padding:18px 20px; border:1px solid var(--border); border-radius:10px; background:var(--surface); }
+.type small { display:block; color:var(--text-3); font-size:.8125rem; margin-bottom:6px; }
+.para { padding:10px 0 10px 20px; border-left:3px solid var(--court); margin:8px 0; }
+.para p { font:400 1.0625rem/1.65 var(--serif); color:var(--ink); margin:0; }
+.para.ca { border-left-color:var(--ca); background:linear-gradient(90deg,var(--ca-tint),transparent 70%); }
+.who { display:flex; gap:6px; align-items:center; font-size:.8125rem; font-weight:500; color:#cc4e00; margin-bottom:6px; }
+.chip { display:inline-flex; align-items:center; padding:1px 8px; border-radius:99px; font-size:.75rem; font-weight:500; }
+.chip.open { background:var(--open-tint); color:var(--open); } .chip.ok { background:var(--ok-tint); color:var(--ok); } .chip.no { background:var(--no-tint); color:var(--no); }
+ul { margin:0; padding-left:20px; color:var(--text-2); max-width:64ch; } li { margin-bottom:8px; } li b { color:var(--ink); }
 </style>
 </head>
 <body>
-<div class="wrap">
-
-<header class="col">
-  <div class="brand" aria-label="Legible">
-    <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="0.5" y="0.5" width="39" height="39" fill="none" stroke="currentColor" stroke-opacity=".18"/><rect x="8" y="9" width="3" height="4" fill="var(--court)"/><rect x="14" y="10" width="18" height="2" fill="currentColor"/><rect x="8" y="16" width="3" height="4" fill="var(--ca)"/><rect x="14" y="17" width="14" height="2" fill="currentColor" fill-opacity=".45"/><rect x="8" y="23" width="3" height="4" fill="var(--party)"/><rect x="14" y="24" width="16" height="2" fill="currentColor" fill-opacity=".45"/><rect x="8" y="30" width="3" height="4" fill="var(--court)"/><rect x="14" y="31" width="11" height="2" fill="currentColor"/></svg>
-    <span class="wordmark"><b>legi</b>ble</span>
-  </div>
-  <h1 style="margin-top:32px">Le langage visuel de Legible</h1>
-  <p class="label" style="margin-top:8px">Design language proposal · built on IBM Carbon (Apache 2.0) · v0.1, 4 October 2026</p>
-  <p style="margin-top:16px"><strong>Legi</strong> is the law, <strong>legible</strong> is readable. The product makes a decision readable by showing <em>who is speaking</em> in every paragraph and <em>what the Court did with it</em>. The design does the same: colour says who is speaking, a word and an icon say what the Court did, and the Court's own voice comes first.</p>
+<main>
+<header>
+  <div class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="7" y="5" width="5" height="7" fill="var(--court)"/><rect x="7" y="12" width="5" height="6" fill="var(--ca)"/><rect x="7" y="18" width="5" height="6" fill="var(--party)"/><rect x="7" y="24" width="19" height="4" rx="1" fill="var(--ink)"/><rect x="15" y="7" width="11" height="2.4" rx="1.2" fill="var(--line)"/><rect x="15" y="13.6" width="8" height="2.4" rx="1.2" fill="var(--line)"/><rect x="15" y="19.8" width="10" height="2.4" rx="1.2" fill="var(--line)"/></svg><span>Legible</span></div>
+  <p class="lead" style="margin-top:20px">A reading tool for lawyers, not a dashboard. The decision text is the product; everything else stays quiet so that who is speaking is the one thing the eye picks up.</p>
 </header>
 
-<h2>1 · Logo</h2>
-<div class="col"><p>A four-line document. Each line has a margin tick in a different voice: the Court, the court of appeal, a party, the Court again. It is the product's core interaction in miniature, and it survives at 16 px. The wordmark sets <b>legi</b> in semibold to carry the name's meaning.</p></div>
-<div class="logos">
-  <div><span class="label">Primary, light</span><div class="brand"><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="8" y="9" width="3" height="4" fill="#0f62fe"/><rect x="14" y="10" width="18" height="2" fill="#161616"/><rect x="8" y="16" width="3" height="4" fill="#ba4e00"/><rect x="14" y="17" width="14" height="2" fill="#161616" fill-opacity=".45"/><rect x="8" y="23" width="3" height="4" fill="#8a3ffc"/><rect x="14" y="24" width="16" height="2" fill="#161616" fill-opacity=".45"/><rect x="8" y="30" width="3" height="4" fill="#0f62fe"/><rect x="14" y="31" width="11" height="2" fill="#161616"/></svg><span class="wordmark" style="color:#161616"><b>legi</b>ble</span></div></div>
-  <div class="inv"><span class="label">Primary, on Gray 100 (app shell)</span><div class="brand"><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="8" y="9" width="3" height="4" fill="#78a9ff"/><rect x="14" y="10" width="18" height="2" fill="#f4f4f4"/><rect x="8" y="16" width="3" height="4" fill="#ff832b"/><rect x="14" y="17" width="14" height="2" fill="#f4f4f4" fill-opacity=".5"/><rect x="8" y="23" width="3" height="4" fill="#be95ff"/><rect x="14" y="24" width="16" height="2" fill="#f4f4f4" fill-opacity=".5"/><rect x="8" y="30" width="3" height="4" fill="#78a9ff"/><rect x="14" y="31" width="11" height="2" fill="#f4f4f4"/></svg><span class="wordmark"><b>legi</b>ble</span></div></div>
-  <div><span class="label">App icon / favicon (16–32 px)</span><div style="display:flex;gap:16px;align-items:end"><svg width="48" height="48" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" fill="#161616"/><rect x="8" y="9" width="4" height="5" fill="#78a9ff"/><rect x="15" y="10.5" width="17" height="2" fill="#f4f4f4"/><rect x="8" y="17.5" width="4" height="5" fill="#ff832b"/><rect x="15" y="19" width="13" height="2" fill="#f4f4f4" fill-opacity=".5"/><rect x="8" y="26" width="4" height="5" fill="#78a9ff"/><rect x="15" y="27.5" width="10" height="2" fill="#f4f4f4"/></svg><svg width="16" height="16" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" fill="#161616"/><rect x="8" y="9" width="6" height="6" fill="#78a9ff"/><rect x="17" y="10.5" width="15" height="3" fill="#f4f4f4"/><rect x="8" y="18" width="6" height="6" fill="#ff832b"/><rect x="17" y="19.5" width="11" height="3" fill="#f4f4f4"/><rect x="8" y="27" width="6" height="6" fill="#78a9ff"/><rect x="17" y="28.5" width="9" height="3" fill="#f4f4f4"/></svg></div></div>
-</div>
-
-<h2>2 · Colour: who is speaking</h2>
-<div class="col"><p>Five voices, taken from the Carbon palette so contrast is already tested in light and dark themes. Colour is always paired with an icon and a word, never used alone.</p></div>
-<div class="sw">
-  <div><div class="chipc" style="border-color:var(--court);background:var(--court-bg)"></div><strong>Cour de cassation</strong><div class="label mono">Blue 60 · #0f62fe</div><div class="label">The Court in its own voice</div></div>
-  <div><div class="chipc" style="border-color:var(--ca);background:var(--ca-bg)"></div><strong>Cour d'appel</strong><div class="label mono">Orange 60 · #ba4e00</div><div class="label">Judgment under appeal, quoted by the Court</div></div>
-  <div><div class="chipc" style="border-color:var(--party);background:var(--party-bg)"></div><strong>Partie</strong><div class="label mono">Purple 60 · #8a3ffc</div><div class="label">A party's argument (moyen)</div></div>
-  <div><div class="chipc" style="border-color:var(--prior);background:var(--prior-bg)"></div><strong>Jurisprudence antérieure</strong><div class="label mono">Teal 70 · #005d5d</div><div class="label">The Court's own earlier case law</div></div>
-  <div><div class="chipc" style="border-color:var(--facts);background:var(--facts-bg)"></div><strong>Faits et procédure</strong><div class="label mono">Gray 60 · #6f6f6f</div><div class="label">Neutral recital</div></div>
-</div>
-
-<h3>What the Court did with it: stance tags</h3>
-<div class="col"><p>Carbon support colours, each with a distinct icon so the meaning survives colour blindness and greyscale printing. <em>Non tranché</em> uses amber, not grey: it is the label that prevents the most common AI error, so it must be noticed.</p></div>
-<div class="tags">
-  <span class="tag s-ok"><svg viewBox="0 0 12 12"><path d="M2 6.5l2.5 2.5L10 3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Approuvé</span>
-  <span class="tag s-no"><svg viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.6"/></svg>Censuré</span>
-  <span class="tag s-open"><svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M3 9L9 3" stroke="currentColor" stroke-width="1.4"/></svg>Non tranché</span>
-  <span class="tag s-no"><svg viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.6"/></svg>Argument écarté</span>
-  <span class="tag s-ok"><svg viewBox="0 0 12 12"><path d="M2 6.5l2.5 2.5L10 3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Argument accueilli</span>
-  <span class="tag t-prior"><svg viewBox="0 0 12 12"><path d="M9.5 4.5A3.8 3.8 0 1 0 9.6 8" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M9.8 2v3h-3" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Jurisprudence abandonnée</span>
-</div>
-
-<h2>3 · Type</h2>
-<div class="col"><p>IBM Plex: Sans for the interface, <strong>Serif for the decision text</strong> (long legal prose reads better in a serif), Mono for references and paragraph numbers. Carbon's productive type scale.</p></div>
-<div class="type">
-  <div><span class="label">Heading 05 · Plex Sans Light 32</span><span style="font:300 2rem/1.25 var(--sans)">Ce que la Cour a jugé</span></div>
-  <div><span class="label">Body long · Plex Serif 15/24</span><span style="font:400 0.9375rem/1.6 var(--serif)">En statuant ainsi, alors que le refus de la salariée du seul poste de reclassement qui lui avait été proposé ne suffisait pas à démontrer l'exécution sérieuse et loyale de l'obligation de reclassement…</span></div>
-  <div><span class="label">Body compact · Plex Sans 14/20</span><span>La Cour ne s'est pas prononcée sur ce point. Le motif est celui de la cour d'appel (§ 8).</span></div>
-  <div><span class="label">Code / citation · Plex Mono 13</span><span class="mono">Cass. soc., 11 sept. 2026, n° 24-21.242, § 10</span></div>
-</div>
-
-<h2>4 · The main screen</h2>
-<div class="col"><p>Two panes. <strong>Left, the decision</strong>, with a margin bar per voice and the Court's voice shown first (<em>Cour seule</em> dims everything else). <strong>Right, three tabs</strong>: what the Court held (its own sentences, quoted, no paraphrase), questions with paragraph citations, and the draft checker. This mockup uses the real red-test decision and the labels our pipeline produced. Try the toggle and the tabs.</p></div>
-
-<div class="app" role="region" aria-label="Legible app mockup">
-  <div class="shell">
-    <svg width="22" height="22" viewBox="0 0 40 40" aria-hidden="true"><rect x="8" y="9" width="4" height="5" fill="#78a9ff"/><rect x="15" y="10.5" width="17" height="2" fill="#f4f4f4"/><rect x="8" y="17.5" width="4" height="5" fill="#ff832b"/><rect x="15" y="19" width="13" height="2" fill="#f4f4f4" fill-opacity=".5"/><rect x="8" y="26" width="4" height="5" fill="#78a9ff"/><rect x="15" y="27.5" width="10" height="2" fill="#f4f4f4"/></svg>
-    <span style="font-size:1rem"><span style="font-weight:600">legi</span><span style="font-weight:300">ble</span></span>
-    <span class="crumb">Cass. soc., 11 sept. 2026, n° 24-21.242 · Cassation partielle · Inédit</span>
-    <span class="sp"></span>
-    <span class="pill">Analysé · 24 paragraphes · 4 s</span>
+<section>
+  <h2>Mark and wordmark</h2>
+  <p>The mark is an L made of the reading margin: its stem is the bar Legible draws beside each paragraph, split into the three voices (Court, cour d'appel, parties), standing on an ink baseline next to lines of text. The wordmark is one word, “Legible”, set in Source Serif 4 Semibold, the same face as the decisions.</p>
+  <div class="marks">
+    <div><svg viewBox="0 0 32 32"><rect x="7" y="5" width="5" height="7" fill="var(--court)"/><rect x="7" y="12" width="5" height="6" fill="var(--ca)"/><rect x="7" y="18" width="5" height="6" fill="var(--party)"/><rect x="7" y="24" width="19" height="4" rx="1" fill="var(--ink)"/><rect x="15" y="7" width="11" height="2.4" rx="1.2" fill="var(--line)"/><rect x="15" y="13.6" width="8" height="2.4" rx="1.2" fill="var(--line)"/><rect x="15" y="19.8" width="10" height="2.4" rx="1.2" fill="var(--line)"/></svg></div>
+    <div class="small"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#fff"/><rect x="7" y="5" width="5" height="7" fill="var(--court)"/><rect x="7" y="12" width="5" height="6" fill="var(--ca)"/><rect x="7" y="18" width="5" height="6" fill="var(--party)"/><rect x="7" y="24" width="19" height="4" rx="1" fill="var(--ink)"/></svg></div>
+    <div style="background:var(--ink)"><svg viewBox="0 0 32 32"><rect x="7" y="5" width="5" height="7" fill="var(--court)"/><rect x="7" y="12" width="5" height="6" fill="var(--ca)"/><rect x="7" y="18" width="5" height="6" fill="var(--party)"/><rect x="7" y="24" width="19" height="4" rx="1" fill="#fff"/></svg></div>
   </div>
-  <div class="panes">
-    <div class="reader">
-      <div class="toolbar">
-        <div class="toggle" role="group" aria-label="Affichage">
-          <button type="button" id="b-court" aria-pressed="true">Cour seule</button>
-          <button type="button" id="b-all" aria-pressed="false">Toutes les voix</button>
-        </div>
-        <span class="tag t-court filter">Cour 7</span><span class="tag t-ca filter">Cour d'appel 8</span><span class="tag t-party filter">Partie 2</span>
-      </div>
-      <div class="doc courtonly" id="doc">
-        <div class="sec">Énoncé du moyen</div>
-        <div class="para party" id="p3"><span class="n">§ 3</span><span class="txt">La salariée fait grief à l'arrêt de dire que son licenciement repose sur une cause réelle et sérieuse… alors « que l'employeur est tenu d'adresser à chacun des salariés dont le licenciement est envisagé des offres de reclassement précises, concrètes et personnalisées… »</span><span class="meta"><span class="tag t-party">Partie</span><span class="tag s-ok"><svg viewBox="0 0 12 12"><path d="M2 6.5l2.5 2.5L10 3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Argument accueilli</span></span></div>
-        <div class="sec">Réponse de la Cour</div>
-        <div class="para court" id="p4"><span class="n">§ 4</span><span class="txt">Il résulte de ce texte que le licenciement pour motif économique d'un salarié ne peut intervenir que lorsque tous les efforts de formation et d'adaptation ont été réalisés et que le reclassement de l'intéressé ne peut être opéré sur les emplois disponibles…</span><span class="meta"><span class="tag t-court">Cour de cassation</span></span></div>
-        <div class="para ca" id="p5"><span class="n">§ 5</span><span class="txt">Pour débouter la salariée…, l'arrêt relève, d'abord, que… la salariée a refusé cette proposition… au motif qu'elle ne répondait pas à ses attentes.</span><span class="meta"><span class="tag t-ca">Cour d'appel</span><span class="tag s-no"><svg viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.6"/></svg>Censuré</span></span></div>
-        <div class="para ca" id="p7"><span class="n">§ 7</span><span class="txt">Il relève, encore, … que cela ne correspond pas à « ses attentes et souhaits d'évolution », ce qui n'est pas identique, et ne constitue pas un critère légal de reclassement.</span><span class="meta"><span class="tag t-ca">Cour d'appel</span><span class="tag s-open"><svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M3 9L9 3" stroke="currentColor" stroke-width="1.4"/></svg>Non tranché</span></span></div>
-        <div class="para ca" id="p8"><span class="n">§ 8</span><span class="txt">Il retient, enfin, que le seul fait, non contesté par l'employeur, qu'il s'agit d'un poste sans responsabilité de management… ne suffit pas à considérer que cette proposition n'est pas loyale et sérieuse.</span><span class="meta"><span class="tag t-ca">Cour d'appel</span><span class="tag s-open"><svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M3 9L9 3" stroke="currentColor" stroke-width="1.4"/></svg>Non tranché</span></span></div>
-        <div class="para ca" id="p9"><span class="n">§ 9</span><span class="txt">Il en déduit… que l'employeur a loyalement rempli son obligation de reclassement.</span><span class="meta"><span class="tag t-ca">Cour d'appel</span><span class="tag s-no"><svg viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.6"/></svg>Censuré</span></span></div>
-        <div class="para court" id="p10"><span class="n">§ 10</span><span class="txt">En statuant ainsi, alors que le refus de la salariée du seul poste de reclassement qui lui avait été proposé ne suffisait pas à démontrer l'exécution sérieuse et loyale de l'obligation de reclassement…, la cour d'appel a violé le texte susvisé.</span><span class="meta"><span class="tag t-court">Cour de cassation</span></span></div>
-      </div>
-    </div>
-    <div class="side">
-      <div class="tabs" role="tablist" aria-label="Outils">
-        <button role="tab" id="t1" aria-selected="true" aria-controls="v1">Ce que la Cour a jugé</button>
-        <button role="tab" id="t2" aria-selected="false" aria-controls="v2">Poser une question</button>
-        <button role="tab" id="t3" aria-selected="false" aria-controls="v3">Vérifier un brouillon</button>
-      </div>
-      <div class="panel" role="tabpanel" id="v1" aria-labelledby="t1">
-        <div class="tile"><h4>Premier moyen · reclassement</h4><span class="tag s-no" style="margin-bottom:8px"><svg viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.6"/></svg>Cassation</span>
-          <div class="quote">« le refus de la salariée du seul poste de reclassement qui lui avait été proposé ne suffisait pas à démontrer l'exécution sérieuse et loyale de l'obligation de reclassement »</div><span class="cite">§ 10 · texte de la Cour, cité mot pour mot</span></div>
-        <div class="tile"><h4>Second moyen · discrimination</h4><span class="tag s-no" style="margin-bottom:8px"><svg viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.6"/></svg>Cassation · dénaturation</span>
-          <div class="quote">« la cour d'appel qui en a dénaturé les termes clairs et précis, a violé le principe susvisé »</div><span class="cite">§ 15</span></div>
-        <div class="notice" role="note"><svg width="16" height="16" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.2" fill="none" stroke="var(--open)" stroke-width="1.4"/><path d="M3 9L9 3" stroke="var(--open)" stroke-width="1.4"/></svg><span><strong>Non tranché par la Cour :</strong> les motifs de la cour d'appel aux § 6, 7 et 8 (absence de management, attentes de la salariée). Ils tombent avec l'arrêt cassé, sans être approuvés.</span></div>
-      </div>
-      <div class="panel" role="tabpanel" id="v2" aria-labelledby="t2" hidden>
-        <div class="ask"><input id="q" value="Selon la Cour, l'absence de responsabilité managériale suffit-elle à rendre l'offre déloyale ?" aria-label="Votre question"><button class="btn" type="button">Demander</button></div>
-        <div class="answer">
-          <p>La Cour de cassation ne s'est pas prononcée sur ce point.</p>
-          <p>Cette appréciation est celle de la cour d'appel <span class="ref" data-p="p8">§ 8</span> <span class="tag t-ca">Cour d'appel</span> <span class="tag s-open">Non tranché</span>. La Cour a cassé l'arrêt pour un autre motif : le refus du seul poste proposé ne prouvait pas une recherche loyale de reclassement <span class="ref" data-p="p10">§ 10</span> <span class="tag t-court">Cour</span>.</p>
-        </div>
-        <div class="notice" role="note"><span aria-hidden="true">i</span><span>Réponse vérifiée : aucune phrase n'attribue à la Cour un passage qui n'est pas le sien.</span></div>
-      </div>
-      <div class="panel" role="tabpanel" id="v3" aria-labelledby="t3" hidden>
-        <span class="label">Brouillon collé (note client rédigée par une IA)</span>
-        <div class="tile"><p style="margin:0">« Selon la Cour de cassation, l'absence de responsabilité managériale ne suffit pas à rendre l'offre déloyale. »</p></div>
-        <div class="notice no" role="alert"><svg width="16" height="16" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3l6 6M9 3l-6 6" stroke="var(--no)" stroke-width="1.6"/></svg><span><strong>À corriger.</strong> Attribué à la Cour ; en réalité motif de la cour d'appel, non tranché par la Cour <span class="ref" data-p="p8">§ 8</span>.</span></div>
-        <div class="tile"><span class="label">Proposition de reformulation</span><p style="margin:6px 0 0">« La cour d'appel avait retenu que l'absence de responsabilité managériale ne suffisait pas à rendre l'offre déloyale (§ 8) ; la Cour de cassation ne s'est pas prononcée sur ce point et a cassé pour un autre motif (§ 10). »</p></div>
-        <div style="display:flex;gap:1px"><button class="btn" type="button" style="height:40px">Appliquer</button><button class="btn" type="button" style="height:40px;background:var(--layer-2);color:var(--text)">Envoyer pour relecture</button></div>
-      </div>
-    </div>
+</section>
+
+<section>
+  <h2>Colour: one hue per voice</h2>
+  <p>Radix Colors, light only. Warm sand neutrals; a voice colour is used for the margin bar, a faint tint behind the paragraph and its label. The Court's verdict on a passage uses a separate green / red / amber set, always with an icon and a word, never colour alone.</p>
+  <div class="swatches">
+    <div class="sw"><i style="background:var(--court)"></i><div><b>La Cour</b><code>indigo 9 · #3e63dd</code></div></div>
+    <div class="sw"><i style="background:var(--ca)"></i><div><b>Cour d'appel</b><code>orange 9 · #ef5f00</code></div></div>
+    <div class="sw"><i style="background:var(--party)"></i><div><b>Partie</b><code>violet 9 · #6e56cf</code></div></div>
+    <div class="sw"><i style="background:var(--prior)"></i><div><b>Jurisprudence antérieure</b><code>teal 9 · #12a594</code></div></div>
+    <div class="sw"><i style="background:var(--facts)"></i><div><b>Faits et procédure</b><code>sand 8 · #b5b3ad</code></div></div>
+    <div class="sw"><i style="background:var(--page)"></i><div><b>Page</b><code>sand 1 · #fbfaf8</code></div></div>
   </div>
-</div>
-<div class="legend"><span><span class="tag t-court">Cour</span> its own voice</span><span><span class="tag t-ca">Cour d'appel</span> quoted</span><span><span class="tag t-party">Partie</span> argument</span><span>Click a <span class="mono" style="color:var(--link)">§</span> in an answer to jump to the paragraph.</span></div>
+</section>
 
-<h2>5 · Rules for the product</h2>
-<ul class="rules col">
-  <li><strong>Colour = who is speaking. Icon + word = what the Court did.</strong> Never colour alone (≈ 8 % of men are colour-blind; decisions get printed in greyscale).</li>
-  <li><strong>Margin bar, not highlighter.</strong> A 4 px bar per paragraph and a faint tint for non-Court voices. The Court's own text stays on white: it is what the lawyer reads most.</li>
-  <li><strong>Court first.</strong> Default view dims everything that is not the Court. One click shows all voices.</li>
-  <li><strong>Quote, don't paraphrase.</strong> "Ce que la Cour a jugé" is the Court's own sentences, verbatim, per ground. Interpretation stays with the lawyer.</li>
-  <li><strong>Every claim has a § link.</strong> Click jumps to the paragraph and outlines it.</li>
-  <li><strong>Confidence only when it matters.</strong> No percentages by default; an amber "à vérifier" tag only when a label is uncertain.</li>
-  <li><strong>Review, not send.</strong> The checker proposes rewrites and "Envoyer pour relecture"; nothing goes to a client in one click.</li>
-  <li><strong>French UI and French citation format</strong> (Cass. soc., 11 sept. 2026, n° 24-21.242, § 10). Confidentiality line on upload: zero data retention, no training.</li>
-  <li><strong>Not DSFR.</strong> The French state design system (Marianne, République Française identity) is reserved for public services; a private tool using it would look official. Carbon gives the same sober, accessible, data-dense feel without that confusion.</li>
-</ul>
+<section>
+  <h2>Type</h2>
+  <div class="type">
+    <div><small>Source Serif 4, decision text and headings</small><span style="font:400 1.0625rem/1.65 var(--serif)">Il résulte de ce texte que le licenciement pour motif économique d'un salarié ne peut intervenir que lorsque tous les efforts de formation et d'adaptation ont été réalisés.</span></div>
+    <div><small>Instrument Sans, interface, labels and controls</small><span>Toutes les voix · La Cour seulement · Vérifier un texte</span></div>
+  </div>
+</section>
 
-<p class="foot">Legible · design language v0.1 · IBM Carbon colour and type tokens, IBM Plex fonts (SIL OFL). Mockup content: Cass. soc., 11 sept. 2026, n° 24-21.242 (public, pseudonymised), labels produced by the Legible pipeline.</p>
-</div>
-<script>
-(() => {
-  const doc = document.getElementById('doc'), bc = document.getElementById('b-court'), ba = document.getElementById('b-all');
-  const set = (court) => { doc.classList.toggle('courtonly', court); bc.setAttribute('aria-pressed', court); ba.setAttribute('aria-pressed', !court); };
-  bc.addEventListener('click', () => set(true)); ba.addEventListener('click', () => set(false));
-  const tabs = [...document.querySelectorAll('[role=tab]')];
-  tabs.forEach(t => t.addEventListener('click', () => tabs.forEach(o => {
-    const on = o === t; o.setAttribute('aria-selected', on); document.getElementById(o.getAttribute('aria-controls')).hidden = !on;
-  })));
-  document.querySelectorAll('.ref[data-p]').forEach(r => r.addEventListener('click', () => {
-    set(false); const p = document.getElementById(r.dataset.p);
-    document.querySelectorAll('.para.focus').forEach(x => x.classList.remove('focus'));
-    p.classList.add('focus'); p.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-  }));
-})();
-</script>
+<section>
+  <h2>A paragraph, labelled</h2>
+  <p>Only the paragraphs that are not the Court's carry a label, which says who is speaking and what the Court did with it. The Court's own paragraphs carry no label: they are the default.</p>
+  <div class="para ca"><div class="who">Cour d'appel <span class="chip open">non tranché par la Cour</span></div><p>Il retient, enfin, que le seul fait, non contesté par l'employeur, qu'il s'agit d'un poste sans responsabilité managériale […] ne suffit pas à considérer que cette proposition n'est pas loyale et sérieuse.</p></div>
+  <div class="para"><p>En statuant ainsi, alors que le refus de la salariée du seul poste de reclassement qui lui avait été proposé ne suffisait pas à démontrer l'exécution sérieuse et loyale de l'obligation de reclassement […], la cour d'appel a violé le texte susvisé.</p></div>
+</section>
+
+<section>
+  <h2>Principles</h2>
+  <ul>
+    <li><b>Blank first.</b> The app opens on one box: paste the decision or drop a PDF / .txt. An example is one quiet link away.</li>
+    <li><b>The text stays whole.</b> Legible never rewrites the decision. “La Cour seulement” folds the other voices into one-line placeholders that open in place.</li>
+    <li><b>Quote, don't paraphrase.</b> The synthesis is the Court's own sentences, verbatim, each linked to its paragraph. Interpretation stays with the lawyer.</li>
+    <li><b>Show the check.</b> Every answer says whether its attributions were verified; every flagged sentence names its source paragraph and offers a rewrite.</li>
+    <li><b>French legal citation.</b> Cass. soc., 11 sept. 2026, n° 24-21.242; paragraph numbers as § 8.</li>
+  </ul>
+</section>
+</main>
 </body>
 </html>

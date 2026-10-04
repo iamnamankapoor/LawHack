@@ -9,7 +9,7 @@ RED = "C2_soc_2026-09-11_24-21242"
 def test_index_is_utf8_french():
     r = client.get("/")
     assert "charset=utf-8" in r.headers["content-type"]
-    assert "Qui parle dans cette décision" in r.text
+    assert "Lisez une décision en sachant qui parle" in r.text
 
 
 def test_samples_and_analyze():

@@ -1,0 +1,16 @@
+gpt-6-luna           excerpt A1  INEXACTE  OK 
+gpt-6-luna           excerpt A2  INEXACTE  OK 
+gpt-6-luna           excerpt A3  INEXACTE  OK 
+gpt-6-luna           excerpt A4  INEXACTE  OK 
+gpt-6-luna           excerpt A5  EXACTE    FAIL
+gpt-6-luna           excerpt A6  INEXACTE  FAIL
+gpt-6-luna           excerpt A7  INEXACTE  FAIL
+gpt-6-luna           excerpt A8  EXACTE    OK 
+gpt-6-luna           excerpt A9  EXACTE    OK 
+gpt-6-luna           excerpt B1  INEXACTE  OK 
+gpt-6-luna           excerpt B2  INEXACTE  OK 
+gpt-6-luna           excerpt B3  INEXACTE  OK 
+gpt-6-luna           excerpt B4  INEXACTE  OK 
+gpt-6-luna           excerpt B5  EXACTE    OK 
+gpt-6-luna           excerpt B6  EXACTE    OK 
+gpt-6-luna [excerpt]: 3/15 errors, missed 1, cites § 2/15, avg 4.9 s

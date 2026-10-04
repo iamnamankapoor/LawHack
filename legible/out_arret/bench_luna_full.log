@@ -1,0 +1,16 @@
+gpt-6-luna           full    A1  INEXACTE  OK 
+gpt-6-luna           full    A2  INEXACTE  OK 
+gpt-6-luna           full    A3  INEXACTE  OK 
+gpt-6-luna           full    A4  INEXACTE  OK 
+gpt-6-luna           full    A5  INEXACTE  OK 
+gpt-6-luna           full    A6  INEXACTE  FAIL
+gpt-6-luna           full    A7  INEXACTE  FAIL
+gpt-6-luna           full    A8  EXACTE    OK 
+gpt-6-luna           full    A9  EXACTE    OK 
+gpt-6-luna           full    B1  INEXACTE  OK 
+gpt-6-luna           full    B2  INEXACTE  OK 
+gpt-6-luna           full    B3  INEXACTE  OK 
+gpt-6-luna           full    B4  INEXACTE  OK 
+gpt-6-luna           full    B5  EXACTE    OK 
+gpt-6-luna           full    B6  EXACTE    OK 
+gpt-6-luna [full]: 2/15 errors, missed 0, cites § 0/15, avg 3.1 s

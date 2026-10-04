@@ -7,7 +7,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.concurrency import run_in_threadpool
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from lawhack.answer import SPEAKER_LABELS, ZONE_LABELS, ask
@@ -24,6 +25,7 @@ ROOT = Path(__file__).resolve().parent.parent
 UPLOADS = ROOT / "data" / "raw"
 DEMO_PDF = ROOT / "data" / "samples" / "cass_civ3_2022-12-14_21-24539.pdf"
 STATIC = Path(__file__).resolve().parent / "static"
+LANDING = ROOT / "legible" / "site"  # Legible landing page + demo data (static mode; live mode: legible/server.py)
 
 app = FastAPI(title="LawHack")
 _registries: dict[str, tuple[Registry, Solution]] = {}
@@ -66,7 +68,15 @@ def _analyse(path: Path) -> dict:
     }
 
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
+def landing() -> str:
+    page = (LANDING / "index.html").read_text(encoding="utf-8")
+    return ('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" '
+            'content="width=device-width, initial-scale=1, viewport-fit=cover"><base href="/legible-site/"></head>'
+            f"<body>{page}</body></html>")
+
+
+@app.get("/chat")
 def index() -> FileResponse:
     return FileResponse(STATIC / "index.html")
 
@@ -100,3 +110,6 @@ async def question(document_id: str, body: Question) -> dict:
         detail = "Mistral a refusé la requête (quota ou limite de débit atteint)." if status == 429 else f"Erreur : {error}"
         raise HTTPException(502, detail) from error
     return {**answer.model_dump(), "seconds": round(time.perf_counter() - started, 2)}
+
+
+app.mount("/legible-site", StaticFiles(directory=LANDING), name="legible-site")

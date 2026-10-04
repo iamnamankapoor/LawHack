@@ -2,6 +2,11 @@
 
 > **Les IA juridiques savent ce qui a été dit. LawHack vérifie qui l'a dit.**
 
+**▶ Landing page and demo (Legible)**
+- `uvicorn app.server:app --port 8000`, then open http://localhost:8000. The home page is the Legible landing page, a static demo on two Cour de cassation decisions. The LawHack chat is at http://localhost:8000/chat.
+- Live mode (upload a decision, check a draft, compare with GPT): `cd legible && pip install -r requirements.txt && python -m uvicorn server:app --port 8766`. Details are in [legible/README.md](legible/README.md).
+- Demo film: [legible/video/out/legible-30s.mp4](legible/video/out/legible-30s.mp4).
+
 LawHack est un *harness* **Système 1 → Système 2** pour les décisions de justice françaises.
 Un modèle rapide et calibré (Jev, de TypeSafe) attribue chaque passage d'un arrêt à son
 locuteur — la Cour, la juridiction du fond, une partie… — avec une probabilité. Un grand LLM

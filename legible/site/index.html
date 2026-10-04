@@ -625,7 +625,7 @@ addEventListener("resize", drawThread); addEventListener("scroll", drawThread, {
 
 /* ---------------- benchmark ---------------- */
 function renderBench() {
-  const nice = m => m.replace(/^gpt-/, "GPT-").replace("mistral-medium-3-5", "Mistral Medium 3.5").replace("-sol", " Sol").replace("-astra", " Astra");
+  const nice = m => m.replace(/^gpt-/, "GPT-").replace("mistral-medium-3-5", "Mistral Medium 3.5").replace("-sol", " Sol").replace("-astra", " Astra").replace("-luna", " Luna");
   const traps = D.arrets.filter(a => a.draft && a.draft.length && a.draft[0].trap).flatMap(a => a.draft);
   const nTraps = traps.filter(v => !v.trap.correct).length;
   const by = {};
@@ -633,7 +633,7 @@ function renderBench() {
   const fa = n => n ? `<i>${n} false alarm${n > 1 ? "s" : ""}</i>` : "";
   const bar = (n, total, alarms) => n == null ? `<span class="nope">not measured</span>` :
     `<div class="bar ${n ? "" : "zero"}"><div class="track"><div class="fill" style="--w:${(100 * n / Math.max(total, 1)).toFixed(1)}%"></div></div><b>${n}</b>${fa(alarms)}</div>`;
-  const rows = ["gpt-6.1-sol", "gpt-6-astra", "mistral-medium-3-5"].filter(m => by[m]).map(m => {
+  const rows = ["gpt-6.1-sol", "gpt-6-astra", "gpt-6-luna", "mistral-medium-3-5"].filter(m => by[m]).map(m => {
     const f = by[m].full, x = by[m].excerpt, any = f || x;
     return { name: nice(m), sub: `${any.provider} model, alone`, full: f ? f.errors : null, fullFa: f && f.false_alarms,
       ex: x ? x.errors : null, exFa: x && x.false_alarms, cites: f ? `${f.cites_paragraph} / ${f.total}` : "—",

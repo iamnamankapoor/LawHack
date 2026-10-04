@@ -104,6 +104,8 @@ body[data-view=upload] nav.top { background:color-mix(in srgb,#efefef 90%,transp
 #drop:hover svg, #drop:focus-visible svg { transform:translateY(-3px) }
 #drop.over { background:color-mix(in srgb,var(--v-cour) 6%,var(--paper)); border-color:var(--v-cour); box-shadow:inset 0 0 0 1px var(--v-cour); color:var(--v-cour) }
 #drop.over svg { transform:translateY(-6px) scale(1.08) }
+#drop.call { animation:call 1.2s var(--ease) }
+@keyframes call { 0%,100% { box-shadow:inset 0 0 0 0 var(--v-cour) } 30% { box-shadow:inset 0 0 0 2px var(--v-cour), 0 0 0 8px color-mix(in srgb,var(--v-cour) 14%,transparent) } }
 #drop.shake { animation:shake .4s var(--ease); border-color:var(--bad); box-shadow:inset 0 0 0 1px var(--bad) }
 #demo { grid-column:span 4; display:flex; flex-direction:column; justify-content:space-between; gap:24px; padding:24px; background:var(--ink); color:var(--paper); text-align:left; transition:background .2s }
 #demo .eyebrow { color:var(--soft) }
@@ -282,12 +284,12 @@ body[data-view=upload] nav.top { background:color-mix(in srgb,#efefef 90%,transp
     <div class="skyline" aria-hidden="true"><i style="--i:0;--h:34%"></i><i style="--i:1;--h:26%"></i><i style="--i:2;--h:48%;--v:#3e63dd"></i><i style="--i:3;--h:72%"></i><i style="--i:4;--h:26%;--v:#ef5f00"></i><i style="--i:5;--h:68%"></i><i style="--i:6;--h:40%;--v:#6e56cf"></i><i style="--i:7;--h:30%"></i></div>
     <h1 class="lh"><span class="ln"><span style="--i:0">Know exactly</span></span><span class="ln"><span style="--i:1">who said what</span></span><span class="ln"><span style="--i:2">in every ruling.</span></span></h1>
     <div class="hcta wrap">
-      <button class="cta" id="herodemo"><span>Try the demo</span><i>»</i></button>
+      <button class="cta" id="herodemo"><span>Upload a ruling</span><i>»</i></button>
       <p>Speaker attribution for French Cour de cassation rulings. Tell what the Court holds from what the court of appeal found or a party alleges.<small>Free demo · no sign-up · a ruling is read in seconds</small></p>
     </div>
   </div>
   <div class="dark" id="how" lang="en">
-    <div class="dhead"><div class="wrap"><strong>Legible Pipeline</strong><a class="cta ghost" href="#try"><span>Upload a ruling</span><i>»</i></a></div></div>
+    <div class="dhead"><div class="wrap"><strong>Legible Pipeline</strong><a class="cta ghost" href="#try" data-goto-drop><span>Upload a ruling</span><i>»</i></a></div></div>
     <div class="wrap grid dtitle"><p>Explore the three steps behind every answer.</p><h2>How we stop attribution hallucinations.</h2></div>
     <div class="wrap grid cards">
       <article class="card">
@@ -379,9 +381,30 @@ drop.onclick = () => $('file').click();
 drop.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $('file').click(); } };
 drop.ondragover = e => { e.preventDefault(); drop.classList.add('over'); $('droptitle').textContent = 'Release the file'; };
 drop.ondragleave = () => { drop.classList.remove('over'); $('droptitle').textContent = 'Drop a ruling'; };
-drop.ondrop = e => { e.preventDefault(); drop.ondragleave(); if (e.dataTransfer.files[0]) upload(e.dataTransfer.files[0]); };
+
 $('file').onchange = e => { const f = e.target.files[0]; e.target.value = ''; if (f) upload(f); };
-$('herodemo').onclick = () => $('demo').click();
+function gotoDrop(e) {
+  if (e) e.preventDefault();
+  drop.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'center'});
+  drop.focus({preventScroll:true});
+  drop.classList.remove('call'); void drop.offsetWidth; drop.classList.add('call');
+}
+$('herodemo').onclick = gotoDrop;
+document.querySelectorAll('[data-goto-drop]').forEach(a => a.onclick = gotoDrop);
+let drags = 0;
+const onLanding = () => document.body.dataset.view === 'upload';
+const hasFile = e => [...(e.dataTransfer?.types || [])].includes('Files');
+document.addEventListener('dragenter', e => {
+  if (!onLanding() || !hasFile(e)) return;
+  if (drags++ === 0) { drop.scrollIntoView({block:'center'}); drop.classList.add('over'); $('droptitle').textContent = 'Release the file'; }
+});
+document.addEventListener('dragleave', e => { if (onLanding() && hasFile(e) && --drags <= 0) { drags = 0; drop.ondragleave(); } });
+document.addEventListener('dragover', e => { if (onLanding() && hasFile(e)) e.preventDefault(); });
+document.addEventListener('drop', e => {
+  if (!onLanding() || !hasFile(e)) return;
+  e.preventDefault(); drags = 0; drop.ondragleave();
+  if (e.dataTransfer.files[0]) upload(e.dataTransfer.files[0]);
+});
 const seen = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && (e.target.classList.add('in'), seen.unobserve(e.target))), {threshold:.35});
 document.querySelectorAll('.card').forEach(c => seen.observe(c));
 $('demo').onclick = () => start(fetch('/api/documents/demo', {method:'POST'}), 'Civ. 3, 14 déc. 2022');

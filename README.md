@@ -310,7 +310,7 @@ Méthode de notation :
 
 ### Résultats — benchmark Légifrance 25 arrêts
 
-**Résultats (25 arrêts Légifrance, 112 questions, 2026-10-04)** — rapport complet : [`bench/legifrance25/BENCHMARK.md`](bench/legifrance25/BENCHMARK.md)
+**Résultats (25 arrêts Légifrance, 112 questions, 2026-10-04, code `b038009`, avant PR #26)** — rapport complet : [`bench/legifrance25/BENCHMARK.md`](bench/legifrance25/BENCHMARK.md)
 
 Corpus : 25 arrêts récents de 6 chambres (civ. 1/2/3, com., soc., crim.) couvrant toutes les solutions (rejet, cassation, partielle, sans renvoi). Les questions sont figées et le gold est structurel (métadonnées, marqueurs de l'arrêt, sommaire officiel). Chaque système a répondu deux fois, sur le PDF uploadé et sur le texte brut, soit 224 réponses par système. Les réponses sont notées par un juge aveugle, `mistral-large`, qui voit les réponses sans les pastilles ni le nom du système.
 

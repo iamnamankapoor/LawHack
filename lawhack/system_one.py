@@ -45,11 +45,11 @@ class TypeSafeSystemOne:
                     confidence=float(answer.confidence),
                 )
             else:
-                noul = answer.noul
+                p_yes = float(answer.noul)
                 decisions[key] = Decision(
-                    value=noul.choice if hasattr(noul, "choice") else str(noul),
-                    probabilities={k: float(v) for k, v in getattr(noul, "probabilities", {}).items()},
-                    confidence=float(getattr(noul, "confidence", 1.0)),
+                    value="yes" if p_yes >= 0.5 else "no",
+                    probabilities={"yes": p_yes, "no": 1 - p_yes},
+                    confidence=max(p_yes, 1 - p_yes),
                 )
         usage = getattr(response, "usage", None)
         return SystemOneResult(

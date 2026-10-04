@@ -347,6 +347,19 @@ ANSWER_MODEL=mistral-medium-3-5
 BASELINE_MODEL=openai/gpt-6-astra
 ```
 
+### Démarrage rapide
+
+```bash
+python3 -m pip install --user -U pip        # pip ≥ 21.3 requis pour l'installation éditable
+python3 -m pip install --user -e ".[dev]"
+cp .env.example .env                         # puis renseigner les clés
+python -m pytest                             # tests hors-ligne (client Jev simulé)
+python scripts/analyse.py data/samples/cass_civ3_2022-12-14_21-24539.pdf          # registre (Système 1)
+python scripts/ask.py data/samples/cass_civ3_2022-12-14_21-24539.pdf "Que décide la Cour ?"   # réponse (Système 2)
+```
+
+Le registre est mis en cache dans `data/cache/<doc_id>.json` (`--no-cache` pour le recalculer).
+
 ## 11. Démo (≈ 3 minutes)
 
 1. Le problème en une phrase + un exemple réel d'erreur d'attribution.

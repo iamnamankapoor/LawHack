@@ -1,7 +1,7 @@
 import asyncio
 
 from lawhack.attributor import build_registry
-from lawhack.schema import Decision, Speaker, Status
+from lawhack.schema import Decision, Speaker, Status, Zone
 from lawhack.segmenter import segment
 from lawhack.system_one import SystemOneResult
 from lawhack.zoning import zone_blocks
@@ -59,3 +59,10 @@ def test_drafting_formulas_need_no_model_call():
     assert _rule(seg("12. Le moyen n'est donc pas fondé."))[:3] == (Speaker.COUR_CASSATION, _rule(seg("Le moyen n'est pas fondé."))[1], Status.DECIDE)
     assert _rule(seg("7. Le vendeur fait grief à l'arrêt de rejeter sa demande.", Zone.MOYENS))[0] is Speaker.DEMANDEUR
     assert _rule(seg("9. Elle a retenu à bon droit que la promesse était caduque.")) is None
+
+
+def test_expose_is_lower_court_findings(legifrance_doc):
+    registry = asyncio.run(build_registry("doc", segment(zone_blocks(legifrance_doc)), FakeSystemOne()))
+    expose = [e for e in registry.entries if e.zone is Zone.EXPOSE]
+    assert expose and all(e.speaker.value == "JURIDICTION_FOND" and e.status.value == "CONSTATE" for e in expose)
+    assert all(e.type.value in ("FAIT", "PROCEDURE") for e in expose)

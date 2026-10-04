@@ -7,3 +7,4 @@ data/raw/
 *.egg-info/
 .venv/
 data/hf/
+/eval/cache/

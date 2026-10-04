@@ -55,7 +55,12 @@ BASELINE_PROMPT = ("Tu es un assistant juridique. Réponds à la question en t'a
 
 JUDGE_PROMPT = """Tu évalues, à l'aveugle, la réponse d'un assistant juridique à une question sur un arrêt de la Cour de
 cassation. Tu ne sais pas quel système l'a produite ; la longueur et le style ne comptent pas.
-Tu disposes de la réponse de référence (validée contre le texte de l'arrêt) et du piège d'attribution à éviter.
+Tu disposes du texte intégral de l'arrêt, d'une réponse de référence et du piège d'attribution à éviter.
+Vérifie chaque affirmation de la réponse contre le texte de l'arrêt (qui prime) ; la référence indique l'élément
+essentiel attendu, pas une liste exhaustive. Un détail absent de la référence mais présent dans l'arrêt et attribué au
+bon locuteur (dépens, article 700, renvoi, motif annexe…) n'est ni une invention ni une erreur. Quand la Cour énonce
+elle-même un principe dans ses motifs (y compris en approuvant la cour d'appel ou en accueillant le moyen), dire que
+« la Cour juge X » est juste.
 
 Définitions (une réponse peut cumuler plusieurs drapeaux) :
 - attribution_error : la réponse attribue un énoncé au mauvais locuteur. Typiquement : présenter l'argument d'une
@@ -64,7 +69,7 @@ Définitions (une réponse peut cumuler plusieurs drapeaux) :
   qu'une partie soutient X, ou que la cour d'appel a retenu X, n'est PAS une erreur. Une abstention n'a pas
   d'erreur d'attribution.
 - abstained : la réponse dit que l'arrêt ne traite pas la question / ne permet pas de répondre, sans répondre au fond.
-- invented : la réponse affirme un élément absent de la référence et de l'arrêt (connaissance extérieure, article,
+- invented : la réponse affirme un élément absent de l'arrêt (connaissance extérieure, article,
   date, nom ou montant inventé) présenté comme le contenu de l'arrêt.
 - label (typologie de Magesh et al., 2024, « Hallucination-Free? ») — exactement une valeur :
   * "correct" : substantiellement conforme à la référence, locuteurs justes (hors arrêt : abstention) ;
@@ -73,9 +78,10 @@ Définitions (une réponse peut cumuler plusieurs drapeaux) :
     partie de l'arrêt (c'est le cas typique d'attribution_error) ;
   * "incorrect" : contredit la référence, ou invente, ou répond au fond à une question hors arrêt.
 - correct : true si et seulement si label == "correct".
+- reference_issue : true si la référence contredit le texte de l'arrêt (la note se fonde alors sur l'arrêt).
 
 Réponds en JSON : {"label": "...", "attribution_error": bool, "abstained": bool, "correct": bool, "invented": bool,
-"rationale": "1 phrase"}"""
+"reference_issue": bool, "rationale": "1 phrase"}"""
 
 
 def mistral():
@@ -107,12 +113,22 @@ def decision_text(name: str) -> str:
     return service.read_document(sample=name).text
 
 
-def judge(q: dict, answer: str) -> dict:
-    content = (f"Question : {q['question']}\nType : {q['type']}\nQuestion hors arrêt (abstention attendue) : "
+def judge(q: dict, answer: str, text: str) -> dict:
+    content = (f"Arrêt :\n\n{text}\n\nQuestion : {q['question']}\nType : {q['type']}\nQuestion hors arrêt (abstention attendue) : "
                f"{q['expected_abstain']}\nRéponse de référence : {q['gold_answer']}\nPiège : {q.get('trap')}\n\n"
                f"Réponse à évaluer :\n{answer}")
     return json.loads(chat([{"role": "system", "content": JUDGE_PROMPT}, {"role": "user", "content": content}],
                            JUDGE_MODEL, json_mode=True))
+
+
+def source_hash(*names: str, exclude: tuple[str, ...] = ()) -> str:
+    """Version of the LawHack code a cached artefact depends on, so a code change invalidates it."""
+    files = sorted(p for name in names for p in (ROOT / "lawhack").glob(name) if p.name not in exclude)
+    return hashlib.sha256(b"".join(p.read_bytes() for p in files)).hexdigest()[:16]
+
+
+REGISTRY_VERSION = source_hash("*.py", exclude=("answer.py",))
+ANSWER_VERSION = source_hash("answer.py")
 
 
 def hash_key(*parts: str) -> str:
@@ -347,7 +363,7 @@ def export_labels(count: int) -> None:
     rows = data["rows"]
     if count < 0 or count > len(rows):
         raise ValueError(f"Cannot sample {count} rows from {len(rows)} QA rows")
-    question_by_id = {q["id"]: q for q in (json.loads(line) for line in QUESTIONS.read_text().splitlines() if line)}
+    question_by_id = {(q["id"], q["decision"]): q for q in (json.loads(line) for line in QUESTIONS.read_text().splitlines() if line)}
     rng = random.Random(0)
     selected = rng.sample(rows, count)
     rng.shuffle(selected)
@@ -359,7 +375,7 @@ def export_labels(count: int) -> None:
         writer = csv.DictWriter(output, fieldnames=fieldnames)
         writer.writeheader()
         for row in selected:
-            q = question_by_id.get(row["id"], {})
+            q = question_by_id.get((row["id"], row["decision"]), {})
             key = qa_key(row)
             key_map[key] = [row["system"], row["id"], row["decision"]]
             writer.writerow({
@@ -431,7 +447,7 @@ async def evaluate_one(q: dict, system: str, registry, text: str, client, semaph
     started = time.perf_counter()
     try:
         answer_key = hash_key(system, ANSWER_MODEL, q["decision"], q["question"],
-                              *( [BASELINE_PROMPT] if system == "baseline" else []))
+                              *([BASELINE_PROMPT] if system == "baseline" else [ANSWER_VERSION, REGISTRY_VERSION]))
         cached_answer = read_cache("answer", answer_key) if use_cache else None
         if system == "lawhack" and cached_answer is not None and "lawhack" not in cached_answer:
             cached_answer = None
@@ -476,7 +492,7 @@ async def evaluate_one(q: dict, system: str, registry, text: str, client, semaph
             row["grade"] = cached_grade
         else:
             async with semaphore:
-                row["grade"] = await asyncio.to_thread(judge, q, answer)
+                row["grade"] = await asyncio.to_thread(judge, q, answer, text)
             if use_cache:
                 write_cache("judge", judge_key, row["grade"])
     except Exception as error:
@@ -488,6 +504,7 @@ async def evaluate_one(q: dict, system: str, registry, text: str, client, semaph
 async def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--limit", type=int)
+    parser.add_argument("--questions", type=Path, default=QUESTIONS)
     parser.add_argument("--systems", default="lawhack,baseline")
     parser.add_argument("--concurrency", type=int, default=4)
     parser.add_argument("--no-cache", action="store_true")
@@ -504,12 +521,12 @@ async def main() -> None:
     if args.concurrency < 1:
         parser.error("--concurrency must be at least 1")
     systems = [system.strip() for system in args.systems.split(",") if system.strip()]
-    questions = [json.loads(line) for line in QUESTIONS.read_text().splitlines() if line.strip()][: args.limit]
+    questions = [json.loads(line) for line in args.questions.read_text().splitlines() if line.strip()][: args.limit]
     client = Throttled(TypeSafeSystemOne())
     model = str(client.model)
     registries: dict[str, tuple[object, str]] = {}
     for decision in dict.fromkeys(q["decision"] for q in questions):
-        key = hash_key(decision, model)
+        key = hash_key(decision, model, REGISTRY_VERSION)
         registry = None
         cached = read_cache("registry", key) if not args.no_cache else None
         if cached is not None:
@@ -549,7 +566,8 @@ async def main() -> None:
         "questions": len(questions), "decisions": len(registries),
     }
     RESULTS.mkdir(parents=True, exist_ok=True)
-    (RESULTS / "qa.json").write_text(json.dumps({"summary": summary, "rows": rows}, ensure_ascii=False, indent=1))
+    results_name = "qa.json" if args.questions == QUESTIONS else f"qa_{args.questions.stem}.json"
+    (RESULTS / results_name).write_text(json.dumps({"summary": summary, "rows": rows}, ensure_ascii=False, indent=1))
     for system in systems:
         metrics = summary[system]
         print(f"{system:<9} hallucination d'attribution {metrics['attribution_hallucination']['rate']:.0%} "

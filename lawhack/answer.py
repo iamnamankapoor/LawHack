@@ -133,8 +133,8 @@ async def retrieve(registry: Registry, question: str, client: SystemOneClient) -
 
 def _paragraph_choice(keys: list[str]) -> Choice:
     criteria = {
-        key: "No paragraph of the decision answers the question" if key == NONE
-        else f"Paragraph `paragraphs.{key}` answers the question"
+        key: "No paragraph of the decision mentions what the question asks about" if key == NONE
+        else f"Paragraph `paragraphs.{key}` answers the question or mentions the facts, arguments or rules it asks about"
         for key in keys
     }
     return Choice(instructions="Which paragraph of the decision best answers `question`?", criteria=criteria)
@@ -176,7 +176,9 @@ Règles impératives :
   Ne présente jamais l'argument d'une partie ou le motif de la cour d'appel comme une décision de la Cour.
 - Si la Cour approuve la cour d'appel (« à bon droit », « exactement déduit »), dis-le explicitement.
 - Si le point n'apparaît que dans le moyen, écris que la Cour ne le tranche pas et que c'est l'argument du demandeur.
-- Si les extraits ne permettent pas de répondre, réponds exactement : « L'arrêt ne traite pas cette question. »
+- « Est-il établi que… ? » : si le fait n'est qu'allégué par une partie ou rapporté sans être constaté, dis qui l'allègue
+  et que l'arrêt ne le tient pas pour établi.
+- Seulement si aucun extrait n'évoque le sujet de la question, réponds exactement : « L'arrêt ne traite pas cette question. »
 - N'utilise aucune connaissance extérieure à ces extraits. Réponse en français, concise (au plus 5 phrases)."""
 
 

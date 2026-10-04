@@ -19,6 +19,9 @@ MIN_PARAGRAPH_P = 0.05
 COVER = 0.9
 PARAGRAPH_CHARS = 1500
 NONE = "NONE"
+TARGET_ANY = "ANY"
+TARGET_MIN = 0.6
+MAX_PINNED = 3
 
 SPEAKER_LABELS = {
     "COUR_CASSATION": "Cour",
@@ -111,20 +114,38 @@ async def retrieve(registry: Registry, question: str, client: SystemOneClient) -
     keys = [*paragraphs, NONE]
     # Two passes with reversed option order counter Jev's first-option bias and run-to-run variance;
     # we abstain only when both passes agree that no paragraph answers.
-    passes = await asyncio.gather(*(client.decide(state, {"best": _paragraph_choice(order)}) for order in (keys, keys[::-1])))
+    target_result, *passes = await asyncio.gather(
+        client.decide({"question": question}, {"target": _target_choice()}),
+        *(client.decide(state, {"best": _paragraph_choice(order)}) for order in (keys, keys[::-1])),
+    )
     votes = [r.decisions["best"].probabilities for r in passes]
-    if all(max(v, key=v.get) == NONE for v in votes):
+    target_probabilities = target_result.decisions["target"].probabilities
+    top_target = max(target_probabilities, key=target_probabilities.get)
+    target_probability = target_probabilities[top_target]
+    pinned: list[RegistryEntry] = []
+    if top_target in _PARTIES and target_probability >= TARGET_MIN:
+        target_blocks = [
+            group for group in paragraphs.values()
+            if any(e.zone is Zone.MOYENS and e.speaker.value == top_target for e in group)
+        ]
+        non_annexed = [group for group in target_blocks if not _is_annexed_moyen(group[0])]
+        for group in (non_annexed or target_blocks)[:MAX_PINNED]:
+            pinned.extend(group)
+
+    abstained = all(max(v, key=v.get) == NONE for v in votes)
+    if abstained and not pinned:
         return []
-    averaged = {k: sum(v.get(k, 0.0) for v in votes) / len(votes) for k in keys if k != NONE}
-    ranked = sorted(averaged.items(), key=lambda t: -t[1])
-    picked: dict[str, RegistryEntry] = {}
-    cumulative = 0.0
-    for key, p in ranked[:MAX_PARAGRAPHS]:
-        if key == NONE or p < MIN_PARAGRAPH_P or cumulative >= COVER:
-            break
-        cumulative += p
-        for e in paragraphs[key]:
-            picked[e.id] = e
+    picked: dict[str, RegistryEntry] = {e.id: e for e in pinned}
+    if not abstained:
+        averaged = {k: sum(v.get(k, 0.0) for v in votes) / len(votes) for k in keys if k != NONE}
+        ranked = sorted(averaged.items(), key=lambda t: -t[1])
+        cumulative = 0.0
+        for key, p in ranked[:MAX_PARAGRAPHS]:
+            if key == NONE or p < MIN_PARAGRAPH_P or cumulative >= COVER:
+                break
+            cumulative += p
+            for e in paragraphs[key]:
+                picked[e.id] = e
     # The operative ruling is short and needed to state what the Cour actually decided.
     for e in registry.entries:
         if e.zone is Zone.DISPOSITIF:
@@ -143,6 +164,17 @@ def _paragraph_choice(keys: list[str]) -> Choice:
         for key in keys
     }
     return Choice(instructions="Which paragraph of the decision best answers `question`?", criteria=criteria)
+
+
+def _target_choice() -> Choice:
+    return Choice(
+        instructions="Whose statements does `question` ask about in this Cour de cassation decision?",
+        criteria={
+            "DEMANDEUR": "The arguments, grievances (griefs) or moyens of the party who filed the pourvoi (demandeur)",
+            "DEFENDEUR": "The arguments of the opposing party (défendeur au pourvoi)",
+            TARGET_ANY: "Anything else: what the Cour decides or why, what the lower court held, facts, procedure, or a topic",
+        },
+    )
 
 
 def _section(e: RegistryEntry) -> str:

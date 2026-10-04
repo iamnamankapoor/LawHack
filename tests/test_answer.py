@@ -3,7 +3,7 @@ import asyncio
 from lawhack import answer as answer_module
 from lawhack.answer import ask
 from lawhack.attributor import build_registry
-from lawhack.schema import Decision
+from lawhack.schema import Decision, Zone
 from lawhack.segmenter import segment
 from lawhack.system_one import SystemOneResult
 from lawhack.zoning import zone_blocks
@@ -14,11 +14,20 @@ from tests.test_attributor import FakeSystemOne
 class FakeRetrieval(FakeSystemOne):
     """`relevant` = segment ids whose paragraphs Jev should pick; `supported` = verification probability."""
 
-    def __init__(self, relevant=(), supported=0.9):
+    def __init__(self, relevant=(), supported=0.9, target="ANY", target_p=0.9):
         super().__init__()
         self.relevant, self.supported = set(relevant), supported
+        self.target, self.target_p = target, target_p
 
     async def decide(self, state, questions):
+        if "target" in questions:
+            keys = questions["target"].criteria
+            other_p = (1 - self.target_p) / (len(keys) - 1)
+            probs = {key: self.target_p if key == self.target else other_p for key in keys}
+            return SystemOneResult(
+                decisions={"target": Decision(value=self.target, probabilities=probs, confidence=self.target_p)},
+                model="fake",
+            )
         if "best" in questions:
             keys = [k for k in questions["best"].criteria if k != "NONE"]
             hits = [k for k in keys if any(sid in self.relevant for sid in self.paragraph_ids.get(k, ()))]
@@ -85,6 +94,61 @@ def test_retrieving_a_moyen_brings_the_cour_reply(legifrance_doc, monkeypatch):
     monkeypatch.setattr(answer_module, "draft", lambda q, ctx, m=None: seen.setdefault("ctx", ctx) and f"Le vendeur soutient [{s7}].")
     asyncio.run(ask(registry, "Que soutient le vendeur ?", _fake(registry, relevant={s7})))
     assert {e.paragraph for e in seen["ctx"]} >= {7, 8, 9, 10, 11}
+
+
+def test_party_question_pins_the_moyen_even_when_jev_says_none(legifrance_doc, monkeypatch):
+    registry = _registry(legifrance_doc)
+    s7 = _para(registry, 7).id
+    seen = {}
+    monkeypatch.setattr(
+        answer_module, "draft",
+        lambda q, ctx, m=None: seen.setdefault("ctx", ctx) and f"Le vendeur soutient [{s7}].",
+    )
+    asyncio.run(ask(registry, "Que soutient le demandeur au pourvoi ?", _fake(registry, target="DEMANDEUR")))
+
+    context = seen["ctx"]
+    assert any(e.paragraph == 7 and e.zone is Zone.MOYENS and e.speaker.value == "DEMANDEUR" for e in context)
+    assert {e.paragraph for e in context} >= {9, 10}
+    assert 15 not in {e.paragraph for e in context}
+
+
+def test_off_topic_still_abstains_with_any_target(legifrance_doc, monkeypatch):
+    registry = _registry(legifrance_doc)
+    fake = _fake(registry, target="ANY")
+    assert asyncio.run(answer_module.retrieve(registry, "Montant du préjudice moral ?", fake)) == []
+    monkeypatch.setattr(answer_module, "draft", lambda *a: (_ for _ in ()).throw(AssertionError("no LLM call")))
+
+    result = asyncio.run(ask(registry, "Montant du préjudice moral ?", fake))
+
+    assert result.abstained and result.sentences == []
+
+
+def test_defendeur_target_without_defendeur_moyen_abstains(legifrance_doc):
+    registry = _registry(legifrance_doc)
+    assert not any(
+        e.zone is Zone.MOYENS and e.speaker.value == "DEFENDEUR"
+        for e in registry.entries
+    )
+
+    context = asyncio.run(
+        answer_module.retrieve(registry, "Que soutient le défendeur au pourvoi ?", _fake(registry, target="DEFENDEUR"))
+    )
+
+    assert context == []
+
+
+def test_low_confidence_target_does_not_pin(legifrance_doc):
+    registry = _registry(legifrance_doc)
+
+    context = asyncio.run(
+        answer_module.retrieve(
+            registry,
+            "Que soutient le demandeur au pourvoi ?",
+            _fake(registry, target="DEMANDEUR", target_p=0.5),
+        )
+    )
+
+    assert context == []
 
 
 def test_abstains_only_when_both_passes_say_none(legifrance_doc, monkeypatch):

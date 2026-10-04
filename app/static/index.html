@@ -95,7 +95,7 @@ function pill(p) {
   const warn = p.level === 'ok' ? '' : ' ⚠';
   return `<span class="pill ${p.level}" style="background:${color(p.speaker)}">${p.label} · ${where} · ${Math.round(p.confidence*100)} %${warn}
     <span class="tip"><b>${esc(p.zone_label)}${p.paragraph ? ', §'+p.paragraph : ''}</b> — ${p.segment_id}<br>« ${esc(p.source_text)} »<br><i>${probs}</i>
-    ${p.level === 'warn' ? '<br><b style="color:#f59e0b">À vérifier dans le texte.</b>' : ''}${p.level === 'unsupported' ? '<br><b style="color:#ef4444">Non soutenu par le passage cité.</b>' : ''}</span></span>`;
+    ${p.level === 'warn' ? '<br><b style="color:#f59e0b">' + esc(p.note || 'À vérifier dans le texte.') + '</b>' : ''}${p.level === 'unsupported' ? '<br><b style="color:#ef4444">Non soutenu par le passage cité.</b>' : ''}</span></span>`;
 }
 
 function render(a) {

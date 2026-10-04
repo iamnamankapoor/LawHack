@@ -42,6 +42,10 @@ ZONE_LABELS = {
 }
 NOT_ADDRESSED = "L'arrêt ne traite pas cette question."
 _CITE = re.compile(r"\[(S-\d{3})\]")
+_LOWER_COURT = re.compile(r"\b(cour d'appel|arr[êe]t attaqu[ée]|juges? du fond|tribunal)\b", re.I)
+_PRONOUN = re.compile(r"^(elle|il|celle-ci|celui-ci)\b", re.I)
+_PARTY_CLAIM = re.compile(r"\b(soutien|reproch|grief|fai(t|sait|saient) valoir|invoqu|argu|pr[ée]tend|contest|selon (le|la|les) (demandeu|défendeu|vendeu|acquéreu))", re.I)
+_PARTIES = {"DEMANDEUR", "DEFENDEUR"}
 
 
 class Pill(BaseModel):
@@ -54,6 +58,7 @@ class Pill(BaseModel):
     level: str  # "ok" | "warn" | "unsupported"
     source_text: str
     probabilities: dict[str, float]
+    note: str | None = None
 
 
 class AnswerSentence(BaseModel):
@@ -247,37 +252,49 @@ async def verify(draft_text: str, registry: Registry, client: SystemOneClient) -
         cited = [registry.by_id(i) for i in dict.fromkeys(_CITE.findall(span))]
         sentences.append((re.sub(r"\s+([.,;:!?])", r"\1", _CITE.sub("", span)).strip(), [c for c in cited if c]))
 
-    state = {
-        f"claim_{i}": {"claim": text, "cited_sentences": {c.id: {"speaker": c.speaker.value, "text": c.text} for c in cited}}
-        for i, (text, cited) in enumerate(sentences) if cited
-    }
-    questions = {
-        f"ok:{i}": Noul(
+    # One Jev call per claim: batched questions influence each other and drag correct claims down.
+    async def check(i: int, text: str, cited: list[RegistryEntry]) -> tuple[str, object]:
+        state = {"claim": text, "cited_sentences": {c.id: {"speaker": c.speaker.value, "text": c.text} for c in cited}}
+        question = Noul(
             instructions=(
-                f"Is `claim_{i}.claim` fully supported by `claim_{i}.cited_sentences`, AND does it attribute each "
-                "statement to the same speaker as the cited sentences (court of cassation vs lower court vs party)?"
+                "Is `claim` fully supported by `cited_sentences`, AND does it attribute each statement to the same "
+                "speaker as the cited sentences (court of cassation vs lower court vs party)?"
             )
         )
-        for i, (_, cited) in enumerate(sentences) if cited
-    }
-    decisions = (await client.decide(state, questions)).decisions if questions else {}
+        return f"ok:{i}", (await client.decide(state, {"ok": question})).decisions["ok"]
+
+    checks = [check(i, text, cited) for i, (text, cited) in enumerate(sentences) if cited]
+    decisions = dict(await asyncio.gather(*checks))
 
     out: list[AnswerSentence] = []
+    about_lower_court = False
     for i, (text, cited) in enumerate(sentences):
         if not text:
             continue
+        about_lower_court = bool(_LOWER_COURT.search(text)) or (about_lower_court and bool(_PRONOUN.match(text)))
         supported = decisions[f"ok:{i}"].probabilities["yes"] if cited else 0.0
         pills = []
         for c in cited:
             confidence = min(c.speaker.confidence, supported)
             level = "ok" if confidence >= ANSWER_ABOVE else "warn" if confidence >= WARN_ABOVE else "unsupported"
+            note = None
+            if about_lower_court and _reports_lower_court(text, c):
+                # The party's moyen paraphrases the arrêt attaqué: a real source, but second-hand.
+                confidence, level = c.speaker.confidence, "warn"
+                who = SPEAKER_LABELS[c.speaker.value].lower()
+                note = f"Rapporté par le {who}" + (f" (§{c.paragraph})" if c.paragraph else "") + ", pas par la Cour."
             pills.append(Pill(
                 segment_id=c.id, speaker=c.speaker.value, label=speaker_label(c),
                 paragraph=c.paragraph, zone_label=ZONE_LABELS[c.zone], confidence=round(confidence, 3),
-                level=level, source_text=c.text, probabilities=c.speaker.probabilities,
+                level=level, source_text=c.text, probabilities=c.speaker.probabilities, note=note,
             ))
         out.append(AnswerSentence(text=text, pills=pills, supported=round(supported, 3)))
     return out
+
+
+def _reports_lower_court(claim: str, cited: RegistryEntry) -> bool:
+    """A claim about the lower court resting only on a party's moyen (not a claim about what the party argues)."""
+    return cited.zone is Zone.MOYENS and cited.speaker.value in _PARTIES and not _PARTY_CLAIM.search(claim)
 
 
 async def ask(registry: Registry, question: str, client: SystemOneClient, model: str | None = None) -> Answer:

@@ -156,8 +156,8 @@ async def retrieve(registry: Registry, question: str, client: SystemOneClient) -
         # A question naming the wrong speaker (« la Cour a-t-elle constaté… ») can hide the passage: retry on its substance.
         state = {**state, "question": strip_cues(question)}
         votes = await _vote(state, keys, client)
+    rescued = _lexical_match(paragraphs, strip_cues(question))
     if none_everywhere() and not pinned:
-        rescued = _lexical_match(paragraphs, strip_cues(question))
         if rescued is None:
             return []
         votes = [{rescued: 1.0}]
@@ -172,6 +172,9 @@ async def retrieve(registry: Registry, question: str, client: SystemOneClient) -
             cumulative += p
             for e in paragraphs[key]:
                 picked[e.id] = e
+    if rescued is not None:
+        for e in paragraphs[rescued]:
+            picked[e.id] = e
     # The operative ruling is short and needed to state what the Cour actually decided.
     for e in registry.entries:
         if e.zone is Zone.DISPOSITIF:

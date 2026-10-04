@@ -1,5 +1,9 @@
+import base64
 import hashlib
+import json
+import os
 import re
+import urllib.request
 from pathlib import Path
 
 import pymupdf
@@ -14,15 +18,42 @@ def load_pdf(path: str | Path) -> Document:
     pages: list[tuple[int, int]] = []
     offset = 0
     with pymupdf.open(path) as pdf:
-        for page in pdf:
-            text = strip_page_furniture(page.get_text("text"))
-            if not text.endswith("\n"):
-                text += "\n"
-            parts.append(text)
-            pages.append((offset, offset + len(text)))
-            offset += len(text)
+        raw = [page.get_text("text") for page in pdf]
+    if sum(len(t.strip()) for t in raw) < MIN_TEXT_CHARS:
+        raw = ocr_pdf(path)  # e.g. "Microsoft Print to PDF" turns the text into drawn glyphs
+    for page_text in raw:
+        text = strip_page_furniture(page_text)
+        if not text.endswith("\n"):
+            text += "\n"
+        parts.append(text)
+        pages.append((offset, offset + len(text)))
+        offset += len(text)
     text = "".join(parts)
     return Document(id=_digest(text), text=text, pages=pages)
+
+
+MIN_TEXT_CHARS = 200
+OCR_MODEL = "mistral-ocr-latest"
+
+
+class NoTextError(ValueError):
+    pass
+
+
+def ocr_pdf(path: str | Path) -> list[str]:
+    """Pages of a PDF without a text layer, read by Mistral OCR (markdown, headings flattened)."""
+    key = os.environ.get("MISTRAL_API_KEY")
+    if not key:
+        raise NoTextError("Ce PDF ne contient pas de texte (scan ou impression en image) et MISTRAL_API_KEY manque pour l'OCR.")
+    data = base64.b64encode(Path(path).read_bytes()).decode()
+    body = {"model": os.environ.get("OCR_MODEL", OCR_MODEL),
+            "document": {"type": "document_url", "document_url": f"data:application/pdf;base64,{data}"}}
+    base = os.environ.get("MISTRAL_BASE_URL", "https://api.mistral.ai/v1")
+    req = urllib.request.Request(f"{base}/ocr", data=json.dumps(body).encode(),
+                                 headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=180) as resp:
+        pages = json.load(resp)["pages"]
+    return [re.sub(r"(?m)^#+\s+", "", p["markdown"]) for p in pages]
 
 
 def load_text(text: str, doc_id: str | None = None) -> Document:
@@ -43,7 +74,8 @@ def _digest(text: str) -> str:
 # Légifrance print headers/footers repeated on each page.
 _FURNITURE = [
     re.compile(r"^\d{2}/\d{2}/\d{4} \d{2}:\d{2}$"),
-    re.compile(r"^https?://\S+$"),
+    re.compile(r"^https?://"),
+    re.compile(r"^\d{1,2}/\d{1,2}/\d{2,4},? \d{1,2}:\d{2}(\s?[AP]M)?$", re.I),
     re.compile(r"^\d+/\d+$"),
     re.compile(r"- Légifrance$"),
 ]

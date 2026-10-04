@@ -10,10 +10,11 @@ from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
-from lawhack.answer import SPEAKER_LABELS, ZONE_LABELS, ask, speaker_label
+from lawhack.answer import SPEAKER_LABELS, ZONE_LABELS, ask
 from lawhack.pipeline import analyse, load
 from lawhack.schema import Registry
 from lawhack.system_one import TypeSafeSystemOne
+from lawhack.answer import speaker_label
 
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 

@@ -17,8 +17,11 @@ def load_pdf(path: str | Path) -> Document:
     parts: list[str] = []
     pages: list[tuple[int, int]] = []
     offset = 0
-    with pymupdf.open(path) as pdf:
-        raw = [page.get_text("text") for page in pdf]
+    try:
+        with pymupdf.open(path) as pdf:
+            raw = [page.get_text("text") for page in pdf]
+    except pymupdf.FileDataError as error:
+        raise NoTextError("Fichier PDF illisible ou corrompu.") from error
     if sum(len(t.strip()) for t in raw) < MIN_TEXT_CHARS:
         raw = ocr_pdf(path)  # e.g. "Microsoft Print to PDF" turns the text into drawn glyphs
     for page_text in raw:

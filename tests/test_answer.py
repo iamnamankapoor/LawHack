@@ -160,3 +160,43 @@ def test_rewrite_is_dropped_or_ignored(legifrance_doc, monkeypatch):
     assert len(calls) == 2
     (kept,) = result.sentences
     assert kept.text == "Autre phrase." and kept.revised_from is None and kept.pills[0].level == "unsupported"
+
+
+def test_rewrite_citing_other_passage_is_rejected(legifrance_doc, monkeypatch):
+    registry = _registry(legifrance_doc)
+    s8, s9 = _para(registry, 8).id, _para(registry, 9).id
+    fake = _fake(registry, relevant={s8}, supported=0.2)
+    monkeypatch.setattr(answer_module, "draft", lambda q, ctx, m=None: f"Phrase douteuse [{s8}].")
+
+    def revise(sentence, cited, model=None):
+        fake.supported = 0.95
+        return f"Autre affirmation [{s9}]."
+
+    monkeypatch.setattr(answer_module, "revise", revise)
+    (only,) = asyncio.run(ask(registry, "?", fake)).sentences
+    assert only.text == "Phrase douteuse." and only.revised_from is None
+
+
+def test_recheck_failure_keeps_draft_and_removing_everything_abstains(legifrance_doc, monkeypatch):
+    registry = _registry(legifrance_doc)
+    s8 = _para(registry, 8).id
+    fake = _fake(registry, relevant={s8}, supported=0.2)
+    monkeypatch.setattr(answer_module, "draft", lambda q, ctx, m=None: f"Phrase douteuse [{s8}].")
+    real_verify = answer_module.verify
+    calls = []
+
+    async def flaky_verify(text, reg, client):
+        calls.append(text)
+        if len(calls) > 1:
+            raise RuntimeError("Jev timeout")
+        return await real_verify(text, reg, client)
+
+    monkeypatch.setattr(answer_module, "verify", flaky_verify)
+    monkeypatch.setattr(answer_module, "revise", lambda s, c, m=None: f"Réécrite [{s8}].")
+    (only,) = asyncio.run(ask(registry, "?", fake)).sentences
+    assert only.text == "Phrase douteuse." and only.pills[0].level == "unsupported"
+
+    monkeypatch.setattr(answer_module, "verify", real_verify)
+    monkeypatch.setattr(answer_module, "revise", lambda s, c, m=None: "SUPPRIMER")
+    result = asyncio.run(ask(registry, "?", fake))
+    assert result.abstained and result.sentences == []

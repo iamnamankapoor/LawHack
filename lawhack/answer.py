@@ -311,8 +311,10 @@ async def ask(registry: Registry, question: str, client: SystemOneClient, model:
     text = await asyncio.to_thread(draft, question, context, model)
     if text.strip().startswith(NOT_ADDRESSED):
         return Answer(question=question, sentences=[], abstained=True)
-    sentences = await verify(text, registry, client)
-    return Answer(question=question, sentences=await _repair(sentences, registry, client, model))
+    sentences = await _repair(await verify(text, registry, client), registry, client, model)
+    if not sentences:
+        return Answer(question=question, sentences=[], abstained=True)
+    return Answer(question=question, sentences=sentences)
 
 
 def _flagged(s: AnswerSentence) -> bool:
@@ -330,17 +332,21 @@ async def _repair(
     async def fix(i: int) -> AnswerSentence | None:
         s = sentences[i]
         cited = [registry.by_id(p.segment_id) for p in s.pills]
+        allowed = {c.id for c in cited}
         tags = " ".join(f"[{c.id}]" for c in cited)
-        try:
+        try:  # a failed rewrite or re-check must not lose the verified draft
             rewritten = (await asyncio.to_thread(revise, f"{s.text} {tags}", cited, model)).strip()
-        except Exception as error:  # a failed rewrite must not lose the verified draft
+            if rewritten.startswith(DROP):
+                return None
+            ids = set(_CITE.findall(rewritten))
+            if not ids:
+                rewritten = f"{rewritten} {tags}"
+            elif not ids <= allowed:
+                return s
+            checked = await verify(rewritten, registry, client)
+        except Exception as error:
             log.warning("Reformulation impossible (%s) : phrase conservée avec son avertissement.", error)
             return s
-        if rewritten.startswith(DROP):
-            return None
-        if not _CITE.search(rewritten):
-            rewritten = f"{rewritten} {tags}"
-        checked = await verify(rewritten, registry, client)
         if len(checked) != 1 or checked[0].supported <= s.supported:
             return s
         return checked[0].model_copy(update={"revised_from": s.text})

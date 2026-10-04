@@ -437,7 +437,7 @@ async function send(text) {
 /* Lawyer feedback */
 const plural = (n, w) => `${n} ${w}${n > 1 ? 's' : ''}`;
 function learningLine(l) {
-  const left = Math.max(0, l.min_labels - l.labels), thr = `seuil « vérifié » <b>${Math.round(l.ok_threshold * 100)}\u202f%</b>`;
+  const left = Math.max(0, l.min_labels - l.labels), thr = `seuil « Sûr » <b>${Math.round(l.ok_threshold * 100)}\u202f%</b>`;
   return `Apprentissage : ${plural(l.labels, 'pastille')} notée${l.labels > 1 ? 's' : ''} · ${plural(l.corrections, 'correction')} du registre · `
     + `${plural(l.validated_answers, 'réponse')} validée${l.validated_answers > 1 ? 's' : ''} · `
     + (left ? `${thr} (par défaut, recalibré après ${plural(left, 'retour')} de plus)` : `${thr} (appris sur vos retours, défaut ${Math.round(l.default_threshold * 100)}\u202f%)`);

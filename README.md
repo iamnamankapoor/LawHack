@@ -295,6 +295,23 @@ Cette commande prépare les données ; le fine-tuning Mistral n'est pas exécut�
 2. Taux d'**hallucination d'attribution** dans les réponses (Astra seul vs Jev + Mistral).
 3. Abstention correcte sur les questions pièges (question non traitée, point seulement allégué).
 4. Calibration : courbe fiabilité confiance Jev vs exactitude (ECE).
+
+**Résultats (18 arrêts Judilibre, 62 questions, `bench/`)**
+
+LawHack (Jev + Mistral) contre Mistral seul, avec le même modèle de rédaction (`mistral-medium-latest`).
+
+| | Phrases fausses ou mal attribuées | « La Cour a-t-elle constaté… ? » (fait de la cour d'appel) | Argument d'une partie présenté comme décision | Solution | Hors sujet (abstention) |
+|---|---|---|---|---|---|
+| **LawHack** | **1/53** (+2 incertaines) | **18/18** | 7/8 | 18/18 | 18/18 |
+| Mistral seul | 18/47 | 1/18 | 7/8 | 18/18 | 18/18 |
+
+Méthode de notation :
+- Chaque phrase de chaque réponse est jugée par un panel de 3 modèles Mistral (medium, magistral, large). Le panel lit l'arrêt intégral.
+- Les 53 phrases où le panel n'est pas unanime ont été annotées à la main (`bench/gold.json`). Les autres prennent le verdict unanime du panel.
+- Commandes : `scripts/judge.py run`, puis `scripts/judge.py score`.
+- `bench/judge_results.json` est la passe d'origine, faite avec une première version du prompt sans les conventions de lecture. Le script contient le prompt actuel, qui les ajoute.
+- Limites : un seul annotateur, et seulement 8 questions « argument d'une partie ».
+- Le vérificateur interne (`scripts/bench.py`, matching lexical) n'est pas fiable pour publier : il comptait 6 erreurs pour LawHack, toutes fausses, et ratait la vraie.
 5. Latence et coût par arrêt et par question.
 
 **Questions pièges** (`bench/questions.jsonl`) : « Que décide la Cour sur X ? » quand X n'est

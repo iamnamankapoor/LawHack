@@ -386,6 +386,10 @@ python scripts/ask.py data/samples/cass_civ3_2022-12-14_21-24539.pdf "Que décid
 
 Le registre est mis en cache dans `data/cache/<doc_id>.json` (`--no-cache` pour le recalculer).
 
+### Déploiement (Render)
+
+`render.yaml` décrit un service web unique (landing + démo + API) : Render → **New → Blueprint** → choisir ce repo, puis renseigner `TYPESAFE_API_KEY` (clé Codiv) et `MISTRAL_API_KEY`. Démarrage : `uvicorn app.server:app --host 0.0.0.0 --port $PORT`. Pas Vercel : la démo garde les registres en mémoire et écrit dans `data/`, il lui faut un process unique et persistant. Sur le plan gratuit, le disque est éphémère (historique « Déjà analysés » et feedback remis à zéro à chaque redéploiement/mise en veille) et le premier accès après inactivité prend ~1 min.
+
 ## 11. Démo (≈ 3 minutes)
 
 1. Le problème en une phrase + un exemple réel d'erreur d'attribution.

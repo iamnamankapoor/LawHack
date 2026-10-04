@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "lawhack"
 version = "0.1.0"
@@ -7,7 +11,7 @@ dependencies = [
   "pydantic>=2",
   "pymupdf4llm",
   "typesafe-sdk>=0.7",
-  "mistralai",
+  "mistralai>=2",
   "python-dotenv",
 ]
 

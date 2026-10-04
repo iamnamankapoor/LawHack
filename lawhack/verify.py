@@ -44,7 +44,7 @@ def speakers_of(entry: RegistryEntry) -> set[str]:
     return {entry.speaker.value, *(s.value for s in entry.chain[1:])}
 
 
-def _strip_cues(sentence: str) -> str:
+def strip_cues(sentence: str) -> str:
     for pattern, _ in _CLAIM_CUES:
         sentence = pattern.sub(" ", sentence)
     return sentence
@@ -59,7 +59,7 @@ def check(registry: Registry, text: str, threshold: float = 0.8) -> list[dict]:
         if not sentence:
             continue
         claim = claimed_speaker(sentence)
-        query = _strip_cues(sentence)
+        query = strip_cues(sentence)
         hits = index.top(query, k=3)
         best = max(hits, key=lambda h: coverage(query, entries[h[0]].text), default=None)
         support = coverage(query, entries[best[0]].text) if best else 0.0

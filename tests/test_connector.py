@@ -5,7 +5,7 @@ import pytest
 from fastapi.testclient import TestClient
 from fastmcp import Client
 
-from lawhack import service
+from lawhack import pipeline, service
 from server.mcp_server import mcp
 
 SAMPLE = "cass_civ3_2022-12-14_21-24539"
@@ -20,7 +20,8 @@ TRAP = (
 @pytest.fixture(autouse=True)
 def offline(monkeypatch, tmp_path):
     monkeypatch.delenv("TYPESAFE_API_KEY", raising=False)
-    monkeypatch.setattr(service, "CACHE_DIR", tmp_path, raising=False)
+    monkeypatch.setattr(service, "CACHE_DIR", tmp_path)
+    monkeypatch.setattr(pipeline, "CACHE_DIR", tmp_path)
     service._STORE.clear()
 
 
@@ -96,3 +97,7 @@ def test_rest_and_auth(monkeypatch):
         assert http.get("/api/samples").status_code == 401
         assert http.get("/api/samples", headers={"Authorization": "Bearer secret"}).status_code == 200
         assert http.get("/api/samples?key=secret").status_code == 200
+
+
+def test_who_said_not_in_decision(decision_id):
+    assert service.who_said(decision_id, "Quel est le régime fiscal des cryptomonnaies ?").answer_status == "not_in_decision"

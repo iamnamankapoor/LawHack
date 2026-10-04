@@ -17,8 +17,9 @@ from pydantic import BaseModel, Field
 
 from lawhack import verify as verifier
 from lawhack.ingest import load_pdf, load_text
-from lawhack.pipeline import CACHE_DIR, analyse_async
-from lawhack.retrieval import BM25
+from lawhack.heuristic import HeuristicSystemOne
+from lawhack.pipeline import CACHE_DIR, analyse_async, default_client
+from lawhack.retrieval import BM25, coverage
 from lawhack.schema import Document, Registry, RegistryEntry, Speaker, Status, Zone
 from lawhack.solution import Solution
 
@@ -68,7 +69,7 @@ class DecisionSummary(BaseModel):
 class WhoSaidResult(BaseModel):
     decision_id: str
     question: str
-    answer_status: str = Field(description="answered · only_alleged (only the parties' arguments mention it) · not_in_decision")
+    answer_status: str = Field(description="answered · only_alleged (only the parties argue it) · not_decided_by_court · not_in_decision")
     guidance: str
     passages: list[Passage]
 
@@ -201,7 +202,11 @@ def read_document(text: str | None = None, url: str | None = None, pdf_base64: s
 
 async def load_decision(text: str | None = None, url: str | None = None, pdf_base64: str | None = None, sample: str | None = None) -> DecisionSummary:
     doc = read_document(text, url, pdf_base64, sample)
-    if doc.id not in _STORE and not _record_path(doc.id).exists():
+    try:
+        stale = _get(doc.id).registry.model == HeuristicSystemOne.model and not isinstance(default_client(), HeuristicSystemOne)
+    except KeyError:
+        stale = True
+    if stale:
         registry, solution = await analyse_async(doc)
         record = _Record(document=doc, registry=registry, solution=solution)
         CACHE_DIR.mkdir(parents=True, exist_ok=True)
@@ -225,22 +230,33 @@ def _searchable(record: _Record) -> list[RegistryEntry]:
     return [e for e in record.registry.entries if e.zone not in (Zone.METADONNEES, Zone.INTRODUCTION)]
 
 
+RELEVANT_MIN = 0.3  # share of the question's content words a passage must contain
+DECIDES_MIN = 0.5
+
+
 def who_said(decision_id: str, question: str, k: int = 6) -> WhoSaidResult:
     record = _get(decision_id)
     entries = _searchable(record)
-    hits = [entries[i] for i, _ in BM25([e.text for e in entries]).top(question, k=k)]
+    query = verifier.strip_cues(question)
+    scored = [(entries[i], coverage(query, entries[i].text)) for i, _ in BM25([e.text for e in entries]).top(query, k=k)]
+    hits = [(e, c) for e, c in scored if c >= RELEVANT_MIN]
     if not hits:
         status, guidance = "not_in_decision", "Aucun passage de l'arrêt ne traite cette question : dites-le, sans répondre de mémoire."
-    elif all(e.status.value == Status.ALLEGUE.value or e.speaker.value in (Speaker.DEMANDEUR.value, Speaker.DEFENDEUR.value) for e in hits):
-        status = "only_alleged"
-        guidance = "Seuls les arguments des parties évoquent ce point : précisez que la Cour ne le tranche pas et citez le moyen."
-    else:
+    elif any(e.speaker.value == Speaker.COUR_CASSATION.value and e.status.value == Status.DECIDE.value and c >= DECIDES_MIN
+             for e, c in hits):
         status = "answered"
         guidance = ("Répondez uniquement à partir de ces passages, en distinguant les voix (la Cour décide / la cour d'appel "
                     "avait retenu / le demandeur soutient), en citant `citation` et en ajoutant `badge`. Signalez les "
                     "passages `a_verifier` ou `incertain`.")
+    elif all(e.status.value == Status.ALLEGUE.value for e, _ in hits):
+        status = "only_alleged"
+        guidance = "Seules les parties évoquent ce point : précisez que la Cour ne le tranche pas et attribuez l'argument à la partie."
+    else:
+        status = "not_decided_by_court"
+        guidance = ("La Cour de cassation ne tranche pas ce point : il n'apparaît que dans les constatations de la cour d'appel "
+                    "ou les arguments des parties. Attribuez chaque élément à sa voix réelle.")
     return WhoSaidResult(decision_id=decision_id, question=question, answer_status=status, guidance=guidance,
-                         passages=[passage(e) for e in hits])
+                         passages=[passage(e) for e, _ in hits])
 
 
 def get_passage(decision_id: str, segment_id: str, context: int = 1) -> list[Passage]:

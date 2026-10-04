@@ -65,6 +65,65 @@ PAR CES MOTIFS, la Cour :
     assert next(b for b in blocks if b.text.startswith("PAR CES MOTIFS")).zone is Zone.DISPOSITIF
 
 
+def test_grief_headings_land_in_expected_zones():
+    doc = load_text(
+        """Exposé du grief
+
+Le demandeur expose son grief.
+
+Exposé des griefs
+
+Les demandeurs exposent leurs griefs.
+
+Examen des griefs
+
+La Cour examine les griefs.
+
+Sur le premier grief
+
+Le premier grief est examiné.
+
+Sur le deuxième grief
+
+Le deuxième grief est examiné.
+"""
+    )
+    blocks = zone_blocks(doc)
+
+    assert next(b for b in blocks if b.text.startswith("Le demandeur")).zone is Zone.MOYENS
+    assert next(b for b in blocks if b.text.startswith("Les demandeurs")).zone is Zone.MOYENS
+    assert next(b for b in blocks if b.text.startswith("La Cour")).zone is Zone.MOTIVATIONS
+    assert next(b for b in blocks if b.text.startswith("Le premier grief")).zone is Zone.MOTIVATIONS
+    assert next(b for b in blocks if b.text.startswith("Le deuxième grief")).zone is Zone.MOTIVATIONS
+
+
+def test_fait_grief_opener_changes_numbered_body_to_moyens():
+    doc = load_text(
+        """Sur le second moyen du pourvoi principal
+
+6. La caution fait grief à l'arrêt de rejeter sa demande.
+
+Les cautions font grief à l'arrêt d'avoir rejeté leurs demandes.
+"""
+    )
+    blocks = zone_blocks(doc)
+
+    assert next(b for b in blocks if b.text.startswith("6.")).zone is Zone.MOYENS
+    assert next(b for b in blocks if b.text.startswith("Les cautions")).zone is Zone.MOYENS
+
+
+def test_qui_fait_grief_reasoning_is_not_an_opener():
+    doc = load_text(
+        """Examen des moyens
+
+Le moyen, qui fait grief à l'arrêt d'avoir rejeté la demande, n'est pas fondé.
+"""
+    )
+    block = next(b for b in zone_blocks(doc) if b.text.startswith("Le moyen"))
+
+    assert block.zone is Zone.MOTIVATIONS
+
+
 def test_rnsm_dispositif_without_par_ces_motifs():
     doc = load_text(
         """Vu l'article 1014 du code de procédure civile ;
@@ -88,6 +147,21 @@ Condamne X aux dépens ;
         Zone.DISPOSITIF,
         Zone.DISPOSITIF,
     ]
+
+
+def test_dispositif_accepts_lowercase_et_without_matching_prose():
+    doc = load_text(
+        """Examen des moyens
+
+La Cour casse et annule la décision évoquée dans l'argumentation.
+
+CASSE et ANNULE, en toutes ses dispositions, l'arrêt attaqué.
+"""
+    )
+    blocks = zone_blocks(doc)
+
+    assert next(b for b in blocks if b.text.startswith("La Cour")).zone is Zone.MOTIVATIONS
+    assert next(b for b in blocks if b.text.startswith("CASSE et ANNULE")).zone is Zone.DISPOSITIF
 
 
 ATTENDU_STYLE = """LA COUR DE CASSATION, DEUXIÈME CHAMBRE CIVILE, a rendu l'arrêt suivant :

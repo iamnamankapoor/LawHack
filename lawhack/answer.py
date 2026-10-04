@@ -23,10 +23,10 @@ MIN_PARAGRAPH_P = 0.05
 COVER = 0.9
 PARAGRAPH_CHARS = 1500
 NONE = "NONE"
-LEXICAL_RESCUE = 0.6
 TARGET_ANY = "ANY"
 TARGET_MIN = 0.6
 MAX_PINNED = 3
+LEXICAL_RESCUE = 0.6
 
 log = logging.getLogger(__name__)
 
@@ -137,15 +137,10 @@ async def retrieve(registry: Registry, question: str, client: SystemOneClient) -
         client.decide({"question": question}, {"target": _target_choice()}),
         _vote(state, keys, client),
     )
-    if all(max(v, key=v.get) == NONE for v in votes):
-        # A question naming the wrong speaker (« la Cour a-t-elle constaté… ») can hide the passage: retry on its substance.
-        state = {**state, "question": strip_cues(question)}
-        votes = await _vote(state, keys, client)
     target_probabilities = target_result.decisions["target"].probabilities
     top_target = max(target_probabilities, key=target_probabilities.get)
-    target_probability = target_probabilities[top_target]
     pinned: list[RegistryEntry] = []
-    if top_target in _PARTIES and target_probability >= TARGET_MIN:
+    if top_target in _PARTIES and target_probabilities[top_target] >= TARGET_MIN:
         target_blocks = [
             group for group in paragraphs.values()
             if any(e.zone is Zone.MOYENS and e.speaker.value == top_target for e in group)
@@ -154,17 +149,20 @@ async def retrieve(registry: Registry, question: str, client: SystemOneClient) -
         for group in (non_annexed or target_blocks)[:MAX_PINNED]:
             pinned.extend(group)
 
-    abstained = all(max(v, key=v.get) == NONE for v in votes)
-    if abstained:
+    def none_everywhere() -> bool:
+        return all(max(v, key=v.get) == NONE for v in votes)
+
+    if none_everywhere() and not pinned:
+        # A question naming the wrong speaker (« la Cour a-t-elle constaté… ») can hide the passage: retry on its substance.
+        state = {**state, "question": strip_cues(question)}
+        votes = await _vote(state, keys, client)
+    if none_everywhere() and not pinned:
         rescued = _lexical_match(paragraphs, strip_cues(question))
         if rescued is None:
-            if not pinned:
-                return []
-        else:
-            votes = [{rescued: 1.0}]
-            abstained = False
+            return []
+        votes = [{rescued: 1.0}]
     picked: dict[str, RegistryEntry] = {e.id: e for e in pinned}
-    if not abstained:
+    if not none_everywhere():
         averaged = {k: sum(v.get(k, 0.0) for v in votes) / len(votes) for k in keys if k != NONE}
         ranked = sorted(averaged.items(), key=lambda t: -t[1])
         cumulative = 0.0

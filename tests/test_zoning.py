@@ -213,3 +213,14 @@ def test_pdf_without_text_layer_falls_back_to_ocr(tmp_path, monkeypatch):
     pdf.save(path)
     monkeypatch.setattr(ingest, "ocr_pdf", lambda p: ["10/4/26, 3:44 PM\nREJETTE le pourvoi ;\nhttps://www.legifrance.gouv.fr/x 1/1\n"])
     assert ingest.load_pdf(path).text.strip() == "REJETTE le pourvoi ;"
+
+
+def test_corrupt_pdf_raises_no_text_error(tmp_path):
+    import pytest
+
+    from lawhack import ingest
+
+    path = tmp_path / "x.pdf"
+    path.write_text("hello")
+    with pytest.raises(ingest.NoTextError):
+        ingest.load_pdf(path)

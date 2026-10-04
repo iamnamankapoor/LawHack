@@ -8,7 +8,7 @@ import time
 from pydantic import BaseModel
 from typesafe_sdk import Choice, Noul
 
-from lawhack.schema import Registry, RegistryEntry, Speaker, Zone
+from lawhack.schema import Registry, RegistryEntry, Zone
 from lawhack.segmenter import split_sentences
 from lawhack.system_one import SystemOneClient
 
@@ -209,20 +209,19 @@ async def verify(draft_text: str, registry: Registry, client: SystemOneClient) -
         cited = [registry.by_id(i) for i in dict.fromkeys(_CITE.findall(span))]
         sentences.append((re.sub(r"\s+([.,;:!?])", r"\1", _CITE.sub("", span)).strip(), [c for c in cited if c]))
 
-    state = {
-        f"claim_{i}": {"claim": text, "cited_sentences": {c.id: {"speaker": c.speaker.value, "text": c.text} for c in cited}}
-        for i, (text, cited) in enumerate(sentences) if cited
-    }
-    questions = {
-        f"ok:{i}": Noul(
+    # One Jev call per claim: batched questions influence each other and drag correct claims down.
+    async def check(i: int, text: str, cited: list[RegistryEntry]) -> tuple[str, object]:
+        state = {"claim": text, "cited_sentences": {c.id: {"speaker": c.speaker.value, "text": c.text} for c in cited}}
+        question = Noul(
             instructions=(
-                f"Is `claim_{i}.claim` fully supported by `claim_{i}.cited_sentences`, AND does it attribute each "
-                "statement to the same speaker as the cited sentences (court of cassation vs lower court vs party)?"
+                "Is `claim` fully supported by `cited_sentences`, AND does it attribute each statement to the same "
+                "speaker as the cited sentences (court of cassation vs lower court vs party)?"
             )
         )
-        for i, (_, cited) in enumerate(sentences) if cited
-    }
-    decisions = (await client.decide(state, questions)).decisions if questions else {}
+        return f"ok:{i}", (await client.decide(state, {"ok": question})).decisions["ok"]
+
+    checks = [check(i, text, cited) for i, (text, cited) in enumerate(sentences) if cited]
+    decisions = dict(await asyncio.gather(*checks))
 
     out: list[AnswerSentence] = []
     for i, (text, cited) in enumerate(sentences):

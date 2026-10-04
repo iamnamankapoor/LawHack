@@ -26,7 +26,7 @@ class FakeRetrieval(FakeSystemOne):
             probs["NONE"] = 0.0 if hits else 1.0
             best = max(probs, key=probs.get)
             return SystemOneResult(decisions={"best": Decision(value=best, probabilities=probs, confidence=1.0)}, model="fake")
-        if not any(k.startswith("ok:") for k in questions):
+        if not any(k == "ok" or k.startswith("ok:") for k in questions):
             return await super().decide(state, questions)
         p = self.supported
         out = {k: Decision(value="yes" if p >= 0.5 else "no", probabilities={"yes": p, "no": 1 - p}, confidence=max(p, 1 - p)) for k in questions}

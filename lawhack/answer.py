@@ -10,9 +10,10 @@ import tempfile
 import time
 from pathlib import Path
 
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel, Field, ValidationError
 from typesafe_sdk import Choice, Noul
 
+from lawhack import feedback
 from lawhack.retrieval import BM25, coverage
 from lawhack.schema import Registry, RegistryEntry, Speaker, Zone
 from lawhack.segmenter import split_sentences
@@ -90,6 +91,7 @@ class Answer(BaseModel):
     question: str
     sentences: list[AnswerSentence]
     abstained: bool = False
+    context: list[str] = Field(default_factory=list)
 
     def render(self) -> str:
         if self.abstained:
@@ -124,6 +126,11 @@ def _describe(e: RegistryEntry) -> str:
     para = f"§{e.paragraph}" if e.paragraph else "sans numéro"
     return (f"[{e.id}] locuteur={speaker_label(e)} ({e.speaker.confidence:.0%}) · "
             f"rubrique={ZONE_LABELS[e.zone]} · {para} · statut={e.status.value}\n{e.text}")
+
+
+def draft_user_message(question: str, context: list[RegistryEntry]) -> str:
+    excerpts = "\n\n".join(_describe(e) for e in sorted(context, key=lambda e: e.id))
+    return f"Extraits :\n\n{excerpts}\n\nQuestion : {question}"
 
 
 async def retrieve(registry: Registry, question: str, client: SystemOneClient) -> list[RegistryEntry]:
@@ -273,10 +280,9 @@ Règles impératives :
 
 
 def draft(question: str, context: list[RegistryEntry], model: str | None = None) -> str:
-    excerpts = "\n\n".join(_describe(e) for e in sorted(context, key=lambda e: e.id))
     return _complete([
         {"role": "system", "content": SYSTEM_PROMPT},
-        {"role": "user", "content": f"Extraits :\n\n{excerpts}\n\nQuestion : {question}"},
+        {"role": "user", "content": draft_user_message(question, context)},
     ], _draft_model(model))
 
 
@@ -323,6 +329,7 @@ def _complete(messages: list[dict], model: str) -> str:
 
 
 async def verify(draft_text: str, registry: Registry, client: SystemOneClient) -> list[AnswerSentence]:
+    ok_threshold = feedback.ok_threshold()
     spans = [draft_text[s:e].strip() for s, e in split_sentences(draft_text)]
     sentences: list[tuple[str, list[RegistryEntry]]] = []
     for span in spans:
@@ -353,7 +360,7 @@ async def verify(draft_text: str, registry: Registry, client: SystemOneClient) -
         pills = []
         for c in cited:
             confidence = min(c.speaker.confidence, supported)
-            level = "ok" if confidence >= ANSWER_ABOVE else "warn" if confidence >= WARN_ABOVE else "unsupported"
+            level = "ok" if confidence >= ok_threshold else "warn" if confidence >= WARN_ABOVE else "unsupported"
             note = None
             if about_lower_court and _reports_lower_court(text, c):
                 # The party's moyen paraphrases the arrêt attaqué: a real source, but second-hand.
@@ -410,6 +417,7 @@ def _answer_cache_key(
             _draft_model(model),
             _revise_model(model),
             solution.value if solution else None,
+            feedback.ok_threshold(),
         ],
         ensure_ascii=False,
         separators=(",", ":"),
@@ -455,17 +463,18 @@ async def _ask(
     context = await retrieve(registry, question, client)
     if not context:
         return Answer(question=question, sentences=[], abstained=True)
+    context_ids = sorted(e.id for e in context)
     text = await asyncio.to_thread(draft, question, context, model)
     if text.strip().startswith(NOT_ADDRESSED):
-        return Answer(question=question, sentences=[], abstained=True)
+        return Answer(question=question, sentences=[], abstained=True, context=context_ids)
     sentences = await _repair(await verify(text, registry, client), registry, client, model, solution)
     sentences = [
         sentence for sentence in sentences
         if contradiction(sentence.text, claimed_speaker(sentence.text), solution) is None
     ]
     if not sentences:
-        return Answer(question=question, sentences=[], abstained=True)
-    return Answer(question=question, sentences=sentences)
+        return Answer(question=question, sentences=[], abstained=True, context=context_ids)
+    return Answer(question=question, sentences=sentences, context=context_ids)
 
 
 def _flagged(s: AnswerSentence) -> bool:

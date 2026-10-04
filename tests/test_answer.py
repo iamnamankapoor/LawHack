@@ -170,6 +170,21 @@ def test_answer_cache_misses_when_solution_changes(legifrance_doc, monkeypatch, 
     assert client.decide_calls > calls_after_first
 
 
+def test_answer_cache_key_includes_threshold_and_registry_overrides(legifrance_doc, monkeypatch):
+    registry = _registry(legifrance_doc)
+    monkeypatch.setattr(answer_module.feedback, "ok_threshold", lambda: 0.8)
+    original_key = answer_module._answer_cache_key(registry, "Question ?", None)
+
+    monkeypatch.setattr(answer_module.feedback, "ok_threshold", lambda: 0.7)
+    threshold_key = answer_module._answer_cache_key(registry, "Question ?", None)
+    answer_module.feedback.set_override("doc", registry.entries[0].id, answer_module.Speaker.COUR_CASSATION)
+    overridden = answer_module.feedback.apply_overrides(registry)
+    override_key = answer_module._answer_cache_key(overridden, "Question ?", None)
+
+    assert original_key != threshold_key
+    assert threshold_key != override_key
+
+
 def test_answer_cache_can_be_disabled(legifrance_doc, monkeypatch, tmp_path):
     _enable_answer_cache(monkeypatch, tmp_path)
     monkeypatch.setenv("ANSWER_CACHE", "0")
@@ -246,6 +261,36 @@ def test_revise_model_defaults_to_revise_env_while_draft_uses_answer_env(monkeyp
     answer_revise("Phrase à corriger.", [], model="explicit-model")
 
     assert fake.models == ["draft-model", "revise-model", "explicit-model"]
+
+
+def test_verify_uses_learned_ok_threshold(legifrance_doc, monkeypatch):
+    registry = _registry(legifrance_doc)
+    s9 = _para(registry, 9).id
+    calls = []
+
+    def learned_threshold():
+        calls.append(None)
+        return 0.7
+
+    monkeypatch.setattr(answer_module.feedback, "ok_threshold", learned_threshold)
+    result = asyncio.run(
+        answer_module.verify(f"La Cour confirme l'arrêt [{s9}].", registry, _fake(registry, supported=0.75))
+    )
+
+    assert calls == [None]
+    assert result[0].pills[0].level == "ok"
+
+
+def test_answer_context_contains_sorted_retrieved_ids(legifrance_doc, monkeypatch):
+    registry = _registry(legifrance_doc)
+    selected = registry.entries[:2]
+    monkeypatch.setattr(answer_module, "retrieve", lambda *args: asyncio.sleep(0, result=list(reversed(selected))))
+    monkeypatch.setattr(answer_module, "draft", lambda *args: answer_module.NOT_ADDRESSED)
+
+    result = asyncio.run(ask(registry, "Question ?", _fake(registry)))
+
+    assert result.abstained
+    assert result.context == sorted(entry.id for entry in selected)
 
 
 def test_pills_carry_speaker_paragraph_and_confidence(legifrance_doc, monkeypatch):

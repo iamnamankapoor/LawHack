@@ -21,7 +21,8 @@ def legifrance_doc():
 
 @pytest.fixture(autouse=True)
 def _isolate_answer_cache(tmp_path, monkeypatch):
-    from lawhack import answer
+    from lawhack import answer, feedback
 
     monkeypatch.setattr(answer, "ANSWER_CACHE_DIR", tmp_path / "answers")
     monkeypatch.setenv("ANSWER_CACHE", "0")
+    monkeypatch.setattr(feedback, "FEEDBACK_DIR", tmp_path / "feedback")

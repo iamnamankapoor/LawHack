@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 
 from lawhack.attributor import VERSION, build_registry
+from lawhack import feedback
 from lawhack.heuristic import HeuristicSystemOne
 from lawhack.ingest import load_pdf, read_text_file
 from lawhack.schema import Document, Registry, Zone
@@ -48,7 +49,7 @@ async def analyse_async(doc: Document, client: SystemOneClient | None = None, us
     if use_cache and cached.exists():
         registry = Registry.model_validate_json(cached.read_text())
         if is_current(registry, client):
-            return registry, solution
+            return feedback.apply_overrides(registry), solution
     try:
         registry = await build_registry(doc.id, segment(blocks), client)
     except Exception as error:
@@ -59,4 +60,4 @@ async def analyse_async(doc: Document, client: SystemOneClient | None = None, us
         registry = await build_registry(doc.id, segment(blocks), HeuristicSystemOne())
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     cached.write_text(registry.model_dump_json(indent=2))
-    return registry, solution
+    return feedback.apply_overrides(registry), solution

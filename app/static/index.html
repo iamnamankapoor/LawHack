@@ -145,6 +145,16 @@ h1 .dot { color:var(--v-cour) }
 .think i { display:block; height:10px; margin:10px 0 }
 .think span { font-size:12.5px; color:var(--grey) }
 .err { margin-top:12px; font-size:14px; color:var(--bad); border-left:2px solid var(--bad); padding-left:10px }
+.learn { padding:8px 16px; border-bottom:1px solid var(--hair); font-size:12px; line-height:1.45; color:var(--grey) }
+.learn:empty { display:none } .learn b { color:var(--ink); font-weight:600 }
+.fb { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-top:10px; padding-top:10px; border-top:1px solid var(--hair); font-size:12.5px; line-height:1.5; color:var(--grey); animation:in .4s var(--ease) both; animation-delay:calc(var(--i) * 140ms + 500ms) }
+.fb[hidden] { display:none }
+.fb .o { border:1px solid var(--ink); padding:0 9px; font-size:12px; font-weight:600; line-height:20px; color:var(--ink); transition:background .15s, transform .15s var(--ease) }
+.fb .o:hover { background:var(--wash) } .fb .o:active, .fb .chip:active { transform:scale(.95) }
+.fb .chip { animation:none }
+.fb .done { color:var(--ok); font-weight:500; animation:in .3s var(--ease) both }
+.fb .err { margin:0; border:0; padding:0; font-size:12.5px }
+.cite.picked { border-color:var(--ink); box-shadow:inset 0 0 0 1px var(--ink) }
 #ask { display:flex; border-top:1px solid var(--ink); transition:background .2s }
 #ask:focus-within { background:color-mix(in srgb,var(--v-cour) 3%,var(--paper)) }
 #q { flex:1; min-width:0; padding:16px; font-size:15px; outline:none }
@@ -245,6 +255,7 @@ h1 .dot { color:var(--v-cour) }
     </div>
     <div class="panel" id="chatp">
       <div class="ph"><span>Questions</span><span class="meta" id="stage"></span></div>
+      <div class="learn" id="learning"></div>
       <div id="thread"></div>
       <form id="ask" autocomplete="off"><input id="q" placeholder="Posez une question sur l'arrêt…" disabled><button id="send" disabled>Envoyer</button></form>
     </div>
@@ -341,15 +352,19 @@ async function animate(data, id) {
   $('counter').textContent = `${n} segments · ${fr(data.seconds)} s · ${fr(data.input_tokens)} tokens${data.model ? ' · ' + data.model : ''}`;
   $('docname').textContent = docName; $('docmeta').textContent = `${solution} · ${n} segments`; $('docbar').classList.add('on');
   box.scrollTo({top:0, behavior:'smooth'});
-  const counts = {};
-  data.entries.forEach(e => counts[e.speaker] = (counts[e.speaker] || 0) + 1);
-  $('legend').innerHTML = Object.entries(counts).sort((a, b) => b[1] - a[1])
-    .map(([s, c], i) => `<button class="chip" data-sp="${s}" aria-pressed="false" style="--v:${color(s)};--i:${i}">${pic(s)}${esc(voice(s)[1])}<em class="num">${c}</em></button>`).join('');
+  renderLegend(); refreshLearning();
   $('stage').textContent = 'Système 1 · Système 2';
   $('thread').innerHTML = `<div class="empty" id="empty"><p>Solution détectée : <b>${esc(solution)}</b>. Commencez par une question.</p>
     ${SUGGESTIONS.map((s, i) => `<button class="sugg" style="--i:${i}"><span>${esc(s)}</span><i>→</i></button>`).join('')}</div>`;
   $('thread').querySelectorAll('.sugg').forEach(c => c.onclick = () => send(c.firstElementChild.textContent));
   $('q').disabled = false; $('send').disabled = !$('q').value.trim(); $('q').focus();
+}
+
+function renderLegend() {
+  const counts = {};
+  doc.entries.forEach(e => counts[e.speaker] = (counts[e.speaker] || 0) + 1);
+  $('legend').innerHTML = Object.entries(counts).sort((a, b) => b[1] - a[1])
+    .map(([s, c], i) => `<button class="chip" data-sp="${s}" aria-pressed="${s === focus}" style="--v:${color(s)};--i:${i}">${pic(s)}${esc(voice(s)[1])}<em class="num">${c}</em></button>`).join('');
 }
 
 /* Speaker focus */
@@ -368,7 +383,7 @@ $('mini').onclick = e => { const r = $('mini').getBoundingClientRect(), box = $(
 function cite(p, i) {
   const k = pills.push({kind:'source', ...p}) - 1;
   const where = p.paragraph ? '§' + p.paragraph : p.zone_label;
-  return `<button type="button" class="cite ${p.level}" data-k="${k}" data-sp="${p.speaker}" style="--v:${color(p.speaker)};--i:${i}">${pic(p.speaker)}${esc(p.label)}<em>${esc(where)}</em><b class="num">${pct(p.confidence)}</b></button>`;
+  return `<button type="button" class="cite ${p.level}" data-k="${k}" data-s="${i}" data-seg="${esc(p.segment_id)}" data-sp="${p.speaker}" style="--v:${color(p.speaker)};--i:${i}">${pic(p.speaker)}${esc(p.label)}<em>${esc(where)}</em><b class="num">${pct(p.confidence)}</b></button>`;
 }
 
 function render(a) {
@@ -387,7 +402,9 @@ function render(a) {
   }).join(' ');
   const n = a.sentences.length;
   const verdict = flagged ? `<span class="stamp warn" style="--i:${n}">${flagged} À REVOIR</span>` : `<span class="stamp pass" style="--i:${n}">SOURCÉ</span>`;
-  return body + `<div class="foot num" style="--i:${n}">${verdict}<span>${n} phrase${n > 1 ? 's' : ''}${a.seconds ? ' · ' + fr(a.seconds) + ' s' : ''}</span></div>`;
+  return body + `<div class="foot num" style="--i:${n}">${verdict}<span>${n} phrase${n > 1 ? 's' : ''}${a.seconds ? ' · ' + fr(a.seconds) + ' s' : ''}</span></div>`
+    + `<div class="fb" data-role="answer" style="--i:${n}">Réponse juste ?<button type="button" class="o" data-v="up">Oui</button><button type="button" class="o" data-v="down">Non</button><span>· cliquez une pastille pour corriger son locuteur</span></div>`
+    + `<div class="fb" data-role="pill" style="--i:0" hidden></div>`;
 }
 
 $('q').oninput = () => $('send').disabled = !$('q').value.trim() || !doc;
@@ -407,11 +424,71 @@ async function send(text) {
     const data = await res.json();
     if (id !== run) return;
     box.innerHTML = res.ok ? render(data) : `<div class="err">${esc(data.detail || 'Erreur')}</div>`;
+    if (res.ok && !data.abstained) { box.dataset.answer = data.answer_id; wireFeedback(box); }
   } catch { if (id === run) box.innerHTML = '<div class="err">Connexion au serveur impossible.</div>'; }
   if (id !== run) return;
   busy = false; $('docp').classList.remove('busy'); $('stage').textContent = 'Système 1 · Système 2';
   if (focus) setFocus(focus);
   box.scrollIntoView({behavior:'smooth', block:'end'}); $('q').focus();
+}
+
+/* Lawyer feedback */
+const plural = (n, w) => `${n} ${w}${n > 1 ? 's' : ''}`;
+function learningLine(l) {
+  const left = Math.max(0, l.min_labels - l.labels), thr = `seuil « vérifié » <b>${Math.round(l.ok_threshold * 100)}\u202f%</b>`;
+  return `Apprentissage : ${plural(l.labels, 'pastille')} notée${l.labels > 1 ? 's' : ''} · ${plural(l.corrections, 'correction')} du registre · `
+    + `${plural(l.validated_answers, 'réponse')} validée${l.validated_answers > 1 ? 's' : ''} · `
+    + (left ? `${thr} (par défaut, recalibré après ${plural(left, 'retour')} de plus)` : `${thr} (appris sur vos retours, défaut ${Math.round(l.default_threshold * 100)}\u202f%)`);
+}
+async function refreshLearning() { try { const r = await fetch('/api/learning'); if (r.ok) $('learning').innerHTML = learningLine(await r.json()); } catch {} }
+
+function applyEntry(entry) {
+  const k = doc.entries.findIndex(e => e.id === entry.id); if (k < 0) return;
+  doc.entries[k] = entry;
+  const el = $('r-' + entry.id), m = $('m-' + entry.id);
+  if (el) { el.dataset.sp = entry.speaker; el.removeAttribute('data-d'); el.style.setProperty('--v', color(entry.speaker));
+    el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse'); }
+  if (m) m.style.setProperty('--v', color(entry.speaker));
+  renderLegend(); if (focus) setFocus(focus);
+}
+
+async function sendFeedback(box, body) {
+  const res = await fetch('/api/feedback', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({answer_id:box.dataset.answer, ...body})});
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.detail || 'Erreur');
+  $('learning').innerHTML = learningLine(data.learning);
+  if (data.entry && doc) applyEntry(data.entry);
+  return data;
+}
+const failed = (bar, err) => { bar.querySelector('.err')?.remove(); bar.insertAdjacentHTML('beforeend', `<span class="err">${esc(err.message)}</span>`); };
+
+function wireFeedback(box) {
+  const answerBar = box.querySelector('[data-role=answer]'), pillBar = box.querySelector('[data-role=pill]');
+  answerBar.onclick = async e => {
+    const v = e.target.closest('[data-v]')?.dataset.v; if (!v) return;
+    try { await sendFeedback(box, {verdict:v});
+      answerBar.innerHTML = `<span class="done">${v === 'up' ? "Réponse validée : ajoutée aux exemples d'entraînement." : 'Noté : réponse écartée des exemples.'}</span>`; }
+    catch (err) { failed(answerBar, err); }
+  };
+  box.querySelectorAll('.cite[data-seg]').forEach(el => el.addEventListener('click', () => {
+    box.querySelectorAll('.cite.picked').forEach(x => x.classList.remove('picked')); el.classList.add('picked');
+    const s = +el.dataset.s, seg = el.dataset.seg;
+    const others = Object.keys(VOICES).filter(k => k !== 'INDETERMINE' && k !== el.dataset.sp);
+    pillBar.hidden = false;
+    pillBar.innerHTML = `<b style="color:var(--ink)" class="num">${esc(seg)}</b><button type="button" class="o" data-v="correct">Juste</button><button type="button" class="o" data-v="unsupported">Non soutenu</button>
+      <span>· mauvais locuteur, c'est :</span>${others.map(k => `<button type="button" class="chip" data-v="wrong_speaker" data-to="${k}" style="--v:${color(k)}">${pic(k)}${esc(voice(k)[1])}</button>`).join('')}`;
+    pillBar.style.animation = 'none'; void pillBar.offsetWidth; pillBar.style.animation = 'in .3s var(--ease) both';
+    pillBar.onclick = async e => {
+      const b = e.target.closest('[data-v]'); if (!b) return;
+      const v = b.dataset.v, to = b.dataset.to || null;
+      try {
+        const data = await sendFeedback(box, {verdict:v, sentence_index:s, segment_id:seg, speaker:to});
+        const msg = v === 'wrong_speaker' ? `Registre corrigé : ${seg} → ${voice(to)[1]} (100 %). Reposez la question pour une réponse recalculée.`
+          : v === 'correct' ? `Confirmé : ${seg} attribué à ${data.entry ? data.entry.label : 'ce locuteur'} à 100 %.` : 'Noté : cette pastille sert au recalibrage du seuil.';
+        pillBar.innerHTML = `<span class="done">${esc(msg)}</span>`;
+      } catch (err) { failed(pillBar, err); }
+    };
+  }));
 }
 
 /* Popover + link to the decision */

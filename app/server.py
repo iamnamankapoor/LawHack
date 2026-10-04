@@ -10,13 +10,13 @@ from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
-from lawhack.answer import SPEAKER_LABELS, ZONE_LABELS, ask
+from lawhack import feedback
+from lawhack.answer import Answer, ZONE_LABELS, ask, speaker_label
 from lawhack.ingest import NoTextError
 from lawhack.pipeline import analyse, load
-from lawhack.schema import Registry
+from lawhack.schema import Registry, Speaker
 from lawhack.solution import Solution
 from lawhack.system_one import TypeSafeSystemOne
-from lawhack.answer import speaker_label
 
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
@@ -27,10 +27,31 @@ STATIC = Path(__file__).resolve().parent / "static"
 
 app = FastAPI(title="LawHack")
 _registries: dict[str, tuple[Registry, Solution]] = {}
+_answers: dict[str, tuple[str, Answer]] = {}
 
 
 class Question(BaseModel):
     question: str
+
+
+class FeedbackRequest(BaseModel):
+    answer_id: str
+    verdict: str
+    sentence_index: int | None = None
+    segment_id: str | None = None
+    speaker: str | None = None
+
+
+def _entry_dict(entry) -> dict:
+    return {
+        "id": entry.id,
+        "paragraph": entry.paragraph,
+        "zone": ZONE_LABELS[entry.zone],
+        "speaker": entry.speaker.value,
+        "label": speaker_label(entry),
+        "confidence": round(entry.speaker.confidence, 3),
+        "text": entry.text,
+    }
 
 
 def _analyse(path: Path) -> dict:
@@ -51,18 +72,7 @@ def _analyse(path: Path) -> dict:
         "model": registry.model,
         "seconds": round(registry.seconds or time.perf_counter() - started, 2),
         "input_tokens": registry.input_tokens,
-        "entries": [
-            {
-                "id": e.id,
-                "paragraph": e.paragraph,
-                "zone": ZONE_LABELS[e.zone],
-                "speaker": e.speaker.value,
-                "label": speaker_label(e),
-                "confidence": round(e.speaker.confidence, 3),
-                "text": e.text,
-            }
-            for e in registry.entries
-        ],
+        "entries": [_entry_dict(entry) for entry in registry.entries],
     }
 
 
@@ -99,4 +109,80 @@ async def question(document_id: str, body: Question) -> dict:
         status = getattr(error, "status_code", None)
         detail = "Mistral a refusé la requête (quota ou limite de débit atteint)." if status == 429 else f"Erreur : {error}"
         raise HTTPException(502, detail) from error
-    return {**answer.model_dump(), "seconds": round(time.perf_counter() - started, 2)}
+    answer_id = uuid.uuid4().hex[:12]
+    _answers[answer_id] = (document_id, answer)
+    return {**answer.model_dump(), "answer_id": answer_id, "seconds": round(time.perf_counter() - started, 2)}
+
+
+@app.post("/api/feedback")
+def submit_feedback(body: FeedbackRequest) -> dict:
+    stored = _answers.get(body.answer_id)
+    if stored is None:
+        raise HTTPException(404, "Réponse inconnue.")
+    document_id, answer = stored
+
+    if body.verdict in ("correct", "wrong_speaker", "unsupported"):
+        if body.sentence_index is None or body.segment_id is None:
+            raise HTTPException(422, "sentence_index et segment_id sont requis pour une pastille.")
+        if body.sentence_index < 0 or body.sentence_index >= len(answer.sentences):
+            raise HTTPException(422, "Phrase inconnue dans cette réponse.")
+        sentence = answer.sentences[body.sentence_index]
+        pill = next((item for item in sentence.pills if item.segment_id == body.segment_id), None)
+        if pill is None:
+            raise HTTPException(422, "Pastille inconnue dans cette phrase.")
+
+        corrected: Speaker | None = None
+        if body.verdict == "wrong_speaker":
+            try:
+                corrected = Speaker(body.speaker)
+            except (TypeError, ValueError) as error:
+                raise HTTPException(422, "Locuteur corrigé invalide.") from error
+        elif body.verdict == "correct":
+            try:
+                corrected = Speaker(pill.speaker)
+            except ValueError as error:
+                raise HTTPException(422, "Locuteur de la pastille invalide.") from error
+
+        feedback.record(feedback.FeedbackEvent(
+            ts=time.time(),
+            document_id=document_id,
+            question=answer.question,
+            verdict=body.verdict,
+            sentence_index=body.sentence_index,
+            sentence=sentence.text,
+            segment_id=body.segment_id,
+            shown_speaker=pill.speaker,
+            corrected_speaker=corrected.value if corrected else None,
+            confidence=pill.confidence,
+            level=pill.level,
+            supported=sentence.supported,
+        ))
+
+        entry = None
+        if corrected is not None:
+            feedback.set_override(document_id, body.segment_id, corrected)
+            analyzed = _registries.get(document_id)
+            if analyzed is not None:
+                registry, solution = analyzed
+                registry = feedback.apply_overrides(registry)
+                _registries[document_id] = (registry, solution)
+                updated_entry = registry.by_id(body.segment_id)
+                entry = _entry_dict(updated_entry) if updated_entry is not None else None
+        return {"learning": feedback.stats(), "entry": entry}
+
+    if body.verdict in ("up", "down"):
+        feedback.record(feedback.FeedbackEvent(
+            ts=time.time(),
+            document_id=document_id,
+            question=answer.question,
+            verdict=body.verdict,
+            answer=answer.model_dump(),
+        ))
+        return {"learning": feedback.stats(), "entry": None}
+
+    raise HTTPException(422, "Verdict invalide.")
+
+
+@app.get("/api/learning")
+def learning_stats() -> dict:
+    return feedback.stats()

@@ -271,6 +271,14 @@ est inutilisable, mais une erreur d'auteur non signalée est pire qu'un doute af
 
 ## 8. Données et benchmark
 
+### Apprentissage par retours
+
+Les retours de l'avocat corrigent les locuteurs du registre et recalibrent localement le seuil
+« ok » ; ils accumulent aussi des réponses validées pour constituer des jeux SFT/préférences et
+d'attribution. Aucun réglage de modèle ni variable d'environnement supplémentaire n'est requis.
+Exporter les jeux avec `python scripts/export_training.py --out data/feedback/export`.
+Cette commande prépare les données ; le fine-tuning Mistral n'est pas exécuté.
+
 **Données**
 
 - [`antoinejeannot/jurisprudence`](https://huggingface.co/datasets/antoinejeannot/jurisprudence)

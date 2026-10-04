@@ -4,7 +4,7 @@ from pathlib import Path
 
 from lawhack.attributor import VERSION, build_registry
 from lawhack.heuristic import HeuristicSystemOne
-from lawhack.ingest import load_pdf, load_text
+from lawhack.ingest import load_pdf, read_text_file
 from lawhack.schema import Document, Registry, Zone
 from lawhack.segmenter import segment
 from lawhack.solution import Solution, detect_solution
@@ -18,7 +18,7 @@ def load(path: str | Path) -> Document:
     path = Path(path)
     if path.suffix.lower() == ".pdf":
         return load_pdf(path)
-    return load_text(path.read_text())
+    return read_text_file(path)
 
 
 def default_client() -> SystemOneClient:

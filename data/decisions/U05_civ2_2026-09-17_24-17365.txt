@@ -1,0 +1,115 @@
+Cour de cassation, civile, Chambre civile 2, 17 septembre 2026, 24-17.365 24-18.000, Publié au bulletin
+Texte intégral
+
+Cour de cassation - Chambre civile 2
+
+N° de pourvoi : 24-17.365, 24-18.000
+
+ECLI : FR:CCASS:2026:C200865
+
+Publié au bulletin
+
+Solution : Cassation partielle
+
+Audience publique du jeudi 17 septembre 2026
+
+Décision attaquée : Cour d'appel de Rennes, du 15 mai 2024
+
+[En-tête (parties, avocats, composition) omis.]
+
+la deuxième chambre civile de la Cour de cassation, composée de la présidente et des conseillers précités, après en avoir délibéré conformément à la loi, a rendu le présent arrêt ;
+
+Jonction
+
+1. En raison de leur connexité, les pourvois n° W 24-17.365 et M 24-18.000 sont joints.
+
+Faits et procédure
+
+2. Selon l'arrêt attaqué (Rennes, 15 mai 2024) et les productions, la société Jean-Pierre Tallec (la société Tallec) s'est assurée pour le risque incendie de ses locaux auprès de la société Covea risks, aux droits de laquelle se trouvent les sociétés MMA IARD et MMA IARD assurances mutuelles (les sociétés MMA).
+
+3. Le 4 septembre 2013, un incendie a détruit totalement une extension réalisée en 2012 et partiellement enfumé un bâtiment mitoyen construit antérieurement.
+
+4. Un premier expert, désigné sur requête de la société Tallec, a, d'une part, imputé l'origine de l'incendie à un désinsectiseur qui serait resté sous tension dans l'extension et aurait présenté un défaut d'isolement, le feu s'étant ensuite propagé au bâtiment mitoyen par les chemins de câbles, d'autre part, retenu l'existence d'un facteur d'aggravation du risque en raison de l'absence de déclenchement du système de détection incendie d'une armoire électrique et du système d'extinction automatique par CO2 dont elle était équipée.
+
+5. Deux experts, désignés ultérieurement en référé, ont déposé leur rapport d'expertise sur l'origine du sinistre et ses facteurs d'aggravation, mais n'ont pas donné leur avis sur l'évaluation des dommages causés par l'incendie.
+
+6. Les sociétés MMA, se prévalant d'une subrogation dans les droits de leur assurée, la société Tallec, et cette dernière ont assigné devant un tribunal de grande instance, d'une part, la société Axa France IARD, en qualité d'assureur de la société Toutelec ayant réalisé, lors de la construction de l'extension, l'armoire électrique où aurait pris naissance l'incendie, d'autre part, la société Cidel sécurité, aux droits de laquelle se trouve la société Onet sécurité systèmes Bretagne (la société Onet), en charge de la maintenance de la bouteille de CO2 installée dans cette armoire électrique afin de limiter les conséquences d'un incendie qui y prendrait naissance, et son assureur, la société Axa France IARD.
+
+7. La société Axa France IARD est intervenue volontairement à l'instance, en qualité d'assureur de la société Arkea crédit bail, propriétaire des locaux exploités par la société Tallec.
+
+8. La société Axa France IARD, en qualité d'assureur de la société Cidel, a assigné en intervention forcée la société Vulcain prévention incendie, aux droits de laquelle se trouve la société Chubb France (la société Chubb), et son assureur la société Allianz IARD (la société Allianz).
+
+Examen des moyens
+
+Sur le premier moyen du pourvoi principal n° W 24-17.365 de la société Axa France IARD, en qualité d'assureur de la société Cidel et le premier moyen du pourvoi incident de la société Onet, et sur le moyen, pris en sa première branche, du pourvoi principal n° M 24-18.000 de la société Axa France IARD, en qualité d'assureur de la société Toutelec
+
+9. En application de l'article 1014, alinéa 2, du code de procédure civile, il n'y a pas lieu de statuer par une décision spécialement motivée sur ces griefs qui ne sont manifestement pas de nature à entraîner la cassation.
+
+Mais sur le second moyen, pris en sa première branche, du pourvoi principal n° W 24-17.365 de la société Axa France IARD, en qualité d'assureur de la société Cidel et le second moyen, pris en sa deuxième branche du pourvoi incident de la société Onet, et sur le moyen, pris en sa deuxième branche, du pourvoi n° M 24-18.000 de la société Axa France IARD, en qualité d'assureur de la société Toutelec, qui sont similaires
+
+Enoncé des moyens
+
+10. La société Axa France IARD, en qualité d'assureur de la société Cidel, fait grief à l'arrêt d'infirmer le jugement déféré en ce qu'il a rejeté la demande en payement des sociétés MMA et, statuant à nouveau, de la condamner in solidum avec la société Cidel à payer aux sociétés MMA 25 % du préjudice de ces dernières arrêté à la somme de 6 019 030 euros avec intérêts au taux légal à compter de la date de l'arrêt et capitalisation des intérêts conformément à l'article 1343-2 du code civil et de la condamner in solidum avec la société Cidel à payer à la société Tallec et aux sociétés MMA une somme de 4 000 euros sur le fondement de l'article 700 du code de procédure civile et de dire que les dépens de première instance, en ce compris les frais d'expertise judiciaire de MM. [R] et [N] et les dépens d'appel seront supportés à hauteur de 25 % par la société Axa France IARD, prise en qualité d'assureur de la société Cidel, et la société Cidel, alors « que la victime d'un dommage doit rapporter la preuve de celui-ci et que le subrogé n'a pas plus de droit que le subrogeant n'en avait à l'égard du responsable ; qu'en condamnant la société Axa France Iard, prise en sa qualité d'assureur de la société Cidel, déclarée responsable du préjudice de perte de chance subi par la société Tallec et les MMA subrogées, du fait des négligences fautives de la société Cidel, à hauteur de 25 % du préjudice total subi, au payement de la somme de 25 % du préjudice arrêté à la somme de 6 019 030 euros au profit des sociétés MMA, subrogées dans les droits de la victime (Tallec), pour le seul motif que les assureurs faisaient la preuve de subrogations régulières dans les droits de la victime à concurrence des quittances subrogatives admises, quand il appartenait à la cour d'appel de statuer sur la créance indemnitaire du subrogeant (Tallec) à l'égard du responsable (Cidel), la cour d'appel s'est prononcée par un motif inopérant et a privé son arrêt de base légale au regard des articles 1315 et 1252 du code civil, dans leur rédaction antérieure à l'ordonnance du 10 février 2016, applicable au litige. »
+
+11. La société Onet fait grief à l'arrêt de dire et juger que sa responsabilité se trouve engagée partiellement dans l'aggravation du sinistre subi par la société Tallec le 4 septembre 2013, de dire et juger que le préjudice de perte de chance subi par la société Tallec et les MMA subrogées du fait des négligences fautives de la société Cidel, doit être évalué à 25 % du préjudice total subi, de condamner la société Cidel, in solidum avec son assureur la société Axa France IARD, à payer aux sociétés MMA, 25 % du préjudice de ces dernières arrêté à la somme de 6 919 030 euros, représentant une somme de 2 243 311 euros au titre des dommages directs et une somme de 4 675 719 euros au titre des pertes d'exploitation, dans les limites de plafonds de garantie et de franchise ci-avant rappelées et de dire ces condamnations emporteront intérêts au taux légal à compter du jour de son arrêt et capitalisation des intérêts conformément à l'article 1343-2 du code civil, alors « que le subrogé ne peut avoir plus de droit que le subrogeant ; que la subrogation a lieu dans la mesure de ce qui a été payé et dans la limite de la créance détenue par l'assuré contre le responsable ; qu'en se bornant à retenir, pour condamner la société Cidel, déclarée responsable du préjudice de perte de chance subi par la société Tallec à hauteur 25 % du préjudice total, à verser aux sociétés MMA subrogées 25 % de la somme de 6 019 030 euros, que ces dernières apportaient la preuve de subrogations régulières dans les droits de la victime à concurrence de cette somme par des quittances subrogatives, sans rechercher, comme elle y était invitée, s'il était justifiée par les sociétés MMA subrogées de l'étendue du préjudice subi par leur assuré subrogeant, la société Tallec, et, donc, sans s'interroger sur l'étendue du préjudice subi par cette dernière, la cour d'appel a privé sa décision de base légale au regard des articles 1251, 3°, et 1252 du code civil, dans leur rédaction antérieure à celle issue de l'ordonnance n° 2016-131 du 10 février 2016. »
+
+12. La société Axa France IARD, en qualité d'assureur de la société Toutelec, fait le même grief à l'arrêt, alors « que le subrogé ne peut avoir plus de droits que le subrogeant ; qu'en se fondant exclusivement, pour juger que devait être admis le recours subrogatoire des MMA à l'encontre des sociétés Cidel et Toutelec pour "un total de 6 919 030 euros, représentant une somme de 2 243 311 euros au titre des dommages directs et une somme de 4 675 719 euros au titre des pertes d'exploitation", sur la démonstration, par l'assureur de versements d'indemnités concomitamment ou postérieurement à l'expression de la volonté de son cocontractant de le subroger dans ses droits, sans rechercher si ces versements correspondaient à un préjudice réellement subi par l'assuré subrogeant, quand les droits de l'assureur conventionnellement subrogé à l'encontre du tiers responsable ne peuvent excéder ceux du subrogeant, la cour d'appel a privé sa décision de base légale au regard des articles 1250 et 1252 anciens du code civil, ensemble l'article 1147 ancien du même code. »
+
+Réponse de la Cour
+
+Vu les articles 1249, 1251, 3°, 1252 et 1315 du code civil, dans leur rédaction antérieure à celle issue de l'ordonnance n° 2016-131 du 10 février 2016 :
+
+13. Aux termes du premier de ces textes, la subrogation dans les droits du créancier au profit d'une tierce personne qui le paye, est ou conventionnelle ou légale.
+
+14. Il résulte des deuxième et troisième que le subrogé ne peut avoir plus de droits que le subrogeant.
+
+15. Selon le dernier, celui qui réclame l'exécution d'une obligation doit la prouver.
+
+16. Pour condamner, d'une part, in solidum la société Cidel et la société Axa France IARD, son assureur, à payer aux sociétés MMA 25 % du préjudice de ces dernières arrêté à la somme de 6 019 030 euros, d'autre part, la société Axa France IARD, en qualité d'assureur de la société Toutelec, à payer aux sociétés MMA 25 % du préjudice de ces dernières arrêté à la somme de 6 919 030 euros, représentant une somme de 2 243 311 euros au titre des dommages directs et une somme de 4 675 719 euros au titre des pertes d'exploitation, dans les limites de plafonds de garantie et de franchise prévues au contrat, après avoir examiné les quittances subrogatives signées par la société Tallec au profit de la société Covea risks et le relevé de compte de la société Tallec produit par les sociétés MMA, l'arrêt relève, d'abord, que trois quittances sont postérieures au paiement et en déduit que les sociétés MMA ne sont pas recevables à exercer un recours subrogatoire pour les sommes constatées par ces quittances.
+
+17. Après avoir constaté, ensuite, que pour les autres quittances, la subrogation est antérieure ou concomitante au paiement, l'arrêt énonce que le recours subrogatoire des sociétés MMA est admis à hauteur de la somme totale de 6 919 030 euros représentant les sommes de 2 243 311 euros au titre des dommages directs et de 4 675 719 euros au titre des pertes d'exploitation, et en déduit qu'il y a lieu de condamner, d'une part, la société Cidel et son assureur Axa France IARD in solidum à payer aux sociétés MMA 25 % de leur préjudice arrêté à la somme de 6 019 030 euros, d'autre part, la société Axa France IARD, en qualité d'assureur de la société Toutelec à payer aux sociétés MMA 25 % du préjudice de ces dernières arrêté à la somme de 6 919 030 euros, représentant une somme de 2 243 311 euros au titre des dommages directs et une somme de 4 675 719 euros au titre des pertes d'exploitation, dans les limites de plafonds de garantie et de franchise prévues au contrat.
+
+18. En se déterminant ainsi, sans s'expliquer, ainsi qu'elle y était invitée, sur l'absence de chiffrage contradictoire des dommages subis par la société Tallec pris en charge par les sociétés MMA, ni vérifier la réalité et l'étendue du préjudice subi par la société Tallec qu'elles avaient indemnisé, la cour d'appel n'a pas donné de base légale à sa décision.
+
+Et sur le moyen, pris en sa première branche, du pourvoi n° M 24-18.000 de la société Axa France IARD, en qualité d'assureur de la société Toutelec
+
+Enoncé du moyen
+
+19. La société Axa France IARD, en qualité d'assureur de la société Toutelec, fait grief à l'arrêt d'infirmer la décision du tribunal de grande instance en ce qu'il avait dit que le préjudice de perte de chance subi du fait des négligences fautives de la société Toutelec devait être évalué à 10 % du préjudice total subi, de dire que le préjudice de perte de chance subi du fait des négligences fautives de la société Toutelec devait être évalué à 25 % du préjudice total subi, de condamner la société Axa France IARD en qualité d'assureur de la société Toutelec à payer aux sociétés MMA, 25 % du préjudice de ces dernières arrêté à la somme de 6 919 030 euros, représentant une somme de 2 243 311 euros au titre des dommages directs et une somme de 4 675 719 euros au titre des pertes d'exploitation, dans les limites de plafonds de garantie et de franchise et de dire que ces condamnations emporteront intérêts aux taux légal à compter du jour de l'arrêt et capitalisation des intérêts conformément à l'article 1343-2 du code civil, alors « que ne tire pas les conséquences légales de ses propres constatations, en violation de l'article 1147 du code civil, en sa rédaction applicable au litige la Cour qui évalue la perte de chance résultant de la faute de la société Toutelec, consistant à ne pas avoir assuré l'étanchéité de l'armoire électrique, sur la base de l'entier préjudice subi par la société Tallec et indemnisé par les sociétés MMA, tout en constatant que ce préjudice avait pour origine, au moins pour partie, des éléments étrangers à cette armoire électrique, ce dont il résultait que, même sans la faute de la société Toutelec, au moins une partie du préjudice se serait néanmoins réalisée, et qu'en conséquence l'assiette de la perte de chance imputable à la société Toutelec ne pouvait être étendue à la totalité du dommage subi par la société Tallec. »
+
+Réponse de la Cour
+
+Vu l'article 1147 du code civil, dans sa rédaction antérieure à celle issue de l'ordonnance n° 2016-131 du 10 février 2016 :
+
+20. Il résulte de ce texte que le débiteur d'une obligation contractuelle est tenu de réparer le préjudice causé à son cocontractant en raison de l'inexécution fautive de cette obligation.
+
+21. Pour évaluer à 25 % du préjudice total la perte de chance subie par la société Tallec du fait des négligences fautives de la société Toutelec, l'arrêt retient que les manquements de la société Toutelec portant sur les défauts d'étanchéité de l'armoire électrique ont fait perdre à la société Tallec une chance d'éviter une aggravation du sinistre qui doit être fixée à 25 % du dommage.
+
+22. En se déterminant ainsi, sans avoir évalué au préalable le préjudice résultant de la seule aggravation du sinistre en lien avec la faute de la société Toutelec, la cour d'appel n'a pas donné de base légale à sa décision.
+
+Mise hors de cause
+
+23. En application de l'article 625 du code de procédure civile, il y a lieu de mettre hors de cause la société Chubb France et la société Allianz, dont la présence n'est pas nécessaire devant la cour d'appel de renvoi.
+
+PAR CES MOTIFS, et sans qu'il y ait lieu de statuer sur les autres griefs des pourvois, la Cour :
+
+CASSE ET ANNULE, mais seulement en ce qu'il :
+
+- dit que le préjudice de perte de chance subi du fait des négligences fautives de la société Toutelec doit être évalué à 25 % du préjudice total subi ;
+- condamne in solidum la société Cidel et son assureur la société Axa France IARD à payer aux sociétés MMA IARD SA et MMA IARD assurances mutuelles 25 % du préjudice de ces dernières arrêté à la somme de 6 019 030 euros ;
+- condamne la société Axa France IARD en qualité d'assureur de la société Toutelec à payer aux sociétés MMA IARD SA et MMA IARD assurances mutuelles, 25 % du préjudice de ces dernières arrêté à la somme de 6 919 030 euros, représentant une somme de 2 243 311 euros au titre des dommages directs et une somme de 4 675 719 euros au titre des pertes d'exploitation, dans les limites de plafonds de garantie et de franchise ci-avant rappelées ;
+- dit que ces condamnations emporteront intérêts au taux légal à compter de ce jour et capitalisation des intérêts conformément à l'article 1343-2 du code civil ;
+
+et en ce qu'il statue sur les dépens et l'application de l'article 700 du code de procédure civile, l'arrêt rendu le 15 mai 2024, entre les parties, par la cour d'appel de Rennes ;
+
+Remet, sur ces points, l'affaire et les parties dans l'état où elles se trouvaient avant cet arrêt et les renvoie devant la cour d'appel de Rennes autrement composée ;
+
+Met hors de cause la société Chubb France et la société Allianz IARD ;
+
+Condamne les sociétés Jean-Pierre Tallec - L'héritage du goût, MMA IARD et MMA IARD assurances mutuelles aux dépens ;
+
+En application de l'article 700 du code de procédure civile, rejette les demandes ;
+
+Dit que sur les diligences du procureur général près la Cour de cassation, le présent arrêt sera transmis pour être transcrit en marge ou à la suite de l'arrêt partiellement cassé ;
+
+Ainsi fait et jugé par la Cour de cassation, deuxième chambre civile, et prononcé publiquement le dix-sept septembre deux mille vingt-six par mise à disposition de l'arrêt au greffe de la Cour. ECLI:FR:CCASS:2026:C200865

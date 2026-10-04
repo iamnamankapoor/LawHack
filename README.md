@@ -319,14 +319,20 @@ Corpus : 25 arrêts récents de 6 chambres (civ. 1/2/3, com., soc., crim.) couvr
 | **LawHack** | **0,86–0,87** | **11/224** | **47/50** | 27/50 | 49/50 | 45/50 |
 | Mistral seul | 0,76 | 44/224 | 0/50 | **39/50** | 49/50 | **49/50** |
 
-- Écart apparié LawHack − Mistral seul : +0,11 [+0,02 ; +0,20] sur le texte brut et +0,10 [+0,01 ; +0,19] sur le PDF (IC 95 % bootstrap).
-- Système 1 : fidélité d'ingestion PDF ≥ 0,986, zonage 98,5 %, locuteurs 259/259 sur les segments ancrés, solution 24/25.
-- L'erreur sur la solution est un bug : `_REJECT` ne reconnaît pas « REJETTE le recours ».
-- Faiblesses mesurées :
-  - absence de contrôle de **polarité** : un moyen rejeté ou un raisonnement censuré est repris comme « la Cour juge » (7 cas) ;
-  - abstentions à tort sur ces mêmes pièges (4 cas) ;
-  - filtre hors sujet trop permissif (5 cas) ;
-  - latence de 2 à 5 fois celle de Mistral seul.
+| Indicateur | Valeur |
+|---|---|
+| Écart apparié LawHack − Mistral seul (IC 95 % bootstrap) | +0,11 [+0,02 ; +0,20] texte brut · +0,10 [+0,01 ; +0,19] PDF |
+| Ingestion PDF (similarité avec le .txt Légifrance) | ≥ 0,986 |
+| Zonage (précision au caractère) | 98,5 % |
+| Locuteurs (segments ancrés) | 259/259 |
+| Solution détectée | 24/25 — bug : `_REJECT` ne reconnaît pas « REJETTE le recours » |
+| Latence médiane / réponse | LawHack 2,4 s (texte) · 5,9 s (PDF) — Mistral seul 1,1–1,2 s |
+
+| Faiblesse mesurée de LawHack | Cas |
+|---|---|
+| Pas de contrôle de **polarité** : moyen rejeté ou raisonnement censuré repris comme « la Cour juge » | 7 |
+| Abstention à tort sur ces mêmes pièges | 4 |
+| Filtre hors sujet trop permissif | 5 |
 
 ### Résultats — Judilibre (zonage, QA dev et held-out)
 

@@ -74,6 +74,10 @@ body[data-view=upload] nav.top { background:color-mix(in srgb,#efefef 90%,transp
 .wbar.bad i { background:linear-gradient(var(--bad),var(--bad)) 0 0/var(--w) 100% no-repeat, var(--wash) }
 .wr.us .wbar i { background-color:#fff }
 .wbar b { font-size:20px; color:var(--ink) } .wbar small { grid-column:2; text-align:right }
+.wkv { margin-top:40px; border-top:1px solid var(--ink) }
+.wkv > div { display:grid; grid-template-columns:calc(25% - 18px) 1fr; gap:24px; padding:12px 0 12px 12px; border-bottom:1px solid var(--hair); font-size:14px; line-height:1.5 }
+.wkv > div > span:first-child { font:400 11px/2 var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--grey) }
+.wkv b { font-weight:600 } .wkv code { font:400 13px var(--mono) }
 .wbnote { margin:16px 0 0; max-width:720px; color:var(--grey); font-size:13px; line-height:1.5 }
 .shcta { width:calc(100% - 80px); max-width:1200px; padding-inline:0; display:flex; align-items:center; justify-content:space-between; gap:24px; padding-block:40px 112px; border-top:1px solid var(--hair) }
 .shcta p { margin:0; font-size:clamp(22px,2.4vw,32px); letter-spacing:-.03em }
@@ -271,7 +275,7 @@ body[data-view=upload] nav.top { background:color-mix(in srgb,#efefef 90%,transp
   .links { display:none }
   .hcta { flex-direction:column; align-items:flex-start; gap:12px }
   .dtitle p, .dtitle h2, .tryh .mono, .tryh h2, .card, #drop, #demo, .shnote p { grid-column:span 12 }
-  .wr { grid-template-columns:1fr 1fr; row-gap:14px } .wr > span:first-child { grid-column:1 / -1 } .wr > .wbar { grid-column:1 / -1 } .wr > span { padding-inline:12px } .wr [data-l]::before { grid-column:1 / -1; content:attr(data-l); display:block; font-size:11px; font-weight:500; color:var(--grey); margin-bottom:2px } .wr.wh { display:none } .wbh .mono, .wbh h2 { grid-column:span 12 } .wbsub { padding-left:0 }
+  .wr { grid-template-columns:1fr 1fr; row-gap:14px } .wr > span:first-child { grid-column:1 / -1 } .wr > .wbar { grid-column:1 / -1 } .wr > span { padding-inline:12px } .wr [data-l]::before { grid-column:1 / -1; content:attr(data-l); display:block; font-size:11px; font-weight:500; color:var(--grey); margin-bottom:2px } .wr.wh { display:none } .wbh .mono, .wbh h2 { grid-column:span 12 } .wbsub { padding-left:0 } .wkv > div { grid-template-columns:1fr; gap:2px; padding-inline:12px }
   .showcase { padding-top:64px } .shcta { flex-direction:column; align-items:flex-start; padding-block:32px 64px }
   .dtitle { padding-top:64px; row-gap:16px } .tryh { row-gap:16px } .cards { margin-top:56px }
   .card { min-height:340px }
@@ -354,13 +358,13 @@ body[data-view=upload] nav.top { background:color-mix(in srgb,#efefef 90%,transp
     </div>
     <div class="wrap wbench" id="wide25">
       <div class="grid wbh"><span class="mono">Légifrance benchmark</span><h2>25 rulings, 112 questions: 4× fewer misattributions than Mistral alone.</h2></div>
-      <p class="wbsub">25 recent Cour de cassation rulings from Légifrance, six chambers, every outcome. Each question was asked on the uploaded PDF and on the plain text: 224 answers per system, scored blind by <code>mistral-large</code>. Overall score: Legible 0.86–0.87, Mistral alone 0.76.</p>
+      <p class="wbsub">Legible (Jev + Mistral) against Mistral alone, same drafting model (<code>mistral-medium-latest</code>), on 25 Légifrance rulings of the Cour de cassation.</p>
       <div class="wbt" role="table" aria-label="Legible against Mistral alone, 25 Légifrance rulings">
         <div class="wr wh" role="row"><span role="columnheader">System</span><span role="columnheader">Answers with a misattribution</span><span role="columnheader">“Did the Court find…?” (a lower-court finding)</span><span role="columnheader">Party argument or censured reasoning passed off as the ruling</span><span role="columnheader">Outcome</span><span role="columnheader">Off-topic (abstains)</span></div>
         <div class="wr us" role="row"><span role="cell"><b>Legible</b><small>Jev + Mistral</small></span><span role="cell" data-l="Misattributed answers" class="wbar"><i style="--w:4.9%"></i><b>11 / 224</b></span><span role="cell" data-l="“Did the Court find…?”" class="ok">47 / 50</span><span role="cell" data-l="Party argument as ruling">27 / 50</span><span role="cell" data-l="Outcome">49 / 50</span><span role="cell" data-l="Off-topic">45 / 50</span></div>
         <div class="wr" role="row"><span role="cell"><b>Mistral alone</b><small>mistral-medium-latest</small></span><span role="cell" data-l="Misattributed answers" class="wbar bad"><i style="--w:19.6%"></i><b>44 / 224</b></span><span role="cell" data-l="“Did the Court find…?”" class="bad">0 / 50</span><span role="cell" data-l="Party argument as ruling">39 / 50</span><span role="cell" data-l="Outcome">49 / 50</span><span role="cell" data-l="Off-topic">49 / 50</span></div>
       </div>
-      <p class="wbnote">Gold answers come from Légifrance metadata, the ruling's own structure and the official summary, not from a model. Paired gap +0.10 to +0.11 (95% bootstrap CI excludes 0). Legible is weaker where a rejected argument is restated as the Court's view (no polarity check yet) and is 2–5× slower. Full report: <code>bench/legifrance25/BENCHMARK.md</code>.</p>
+      <div class="wkv" role="table" aria-label="Benchmark protocol and results"><div role="row"><span role="rowheader">Corpus</span><span role="cell">25 recent Cour de cassation rulings (Légifrance) · 6 chambers · every outcome</span></div><div role="row"><span role="rowheader">Questions</span><span role="cell">112 frozen questions × 2 inputs (uploaded PDF, plain text) = 224 answers per system</span></div><div role="row"><span role="rowheader">Gold answers</span><span role="cell">Légifrance metadata, the ruling's own structure, the official summary — not a model</span></div><div role="row"><span role="rowheader">Scoring</span><span role="cell">Blind judge <code>mistral-large</code>: sees neither citations nor system name</span></div><div role="row"><span role="rowheader">Overall score</span><span role="cell"><b>Legible 0.86–0.87</b> · Mistral alone 0.76</span></div><div role="row"><span role="rowheader">Paired gap</span><span role="cell">+0.10 to +0.11 · 95% bootstrap CI excludes 0</span></div><div role="row"><span role="rowheader">System 1</span><span role="cell">PDF fidelity ≥ 0.986 · zoning 98.5% · speakers 259 / 259 · outcome 24 / 25</span></div><div role="row"><span role="rowheader">Known limits</span><span role="cell">No polarity check yet (a rejected argument can be restated as the Court's view) · 2–5× slower</span></div><div role="row"><span role="rowheader">Full report</span><span role="cell"><code>bench/legifrance25/BENCHMARK.md</code></span></div></div>
     </div>
     <div class="wrap shcta"><p>Now run Legible on your own ruling.</p><a class="cta" href="#try" data-goto-drop><span>Test it yourself</span><i>»</i></a></div>
   </div>

@@ -46,7 +46,7 @@ Réponse en français, concise (au plus 5 phrases)."""
 _ABSTAIN = re.compile(r"ne traite pas|n'aborde pas|ne mentionne pas|ne contient aucune|ne permet pas de répondre|aucune information", re.I)
 _CASSE = re.compile(r"\bcass(e|é|ée|ent|ation)\b|\bannul", re.I)
 _REJET = re.compile(r"\brejet(te|é|ée|ant)?\b", re.I)
-_BADGE = re.compile(r"\s*\[[^\]]*\]")
+_BADGE = re.compile(r"\s*\[[^\]]*·[^\]]*\]|\s*\[non sourcé ⚠\]")  # LawHack badges only, not « M. [X] »
 
 
 def openrouter(model: str, messages: list[dict]) -> str:
@@ -97,7 +97,7 @@ async def main() -> None:
                 started = time.perf_counter()
                 try:
                     if spec is None:
-                        answer = (await ask(registry, q["question"], client)).render()
+                        answer = (await ask(registry, q["question"], client, solution=solution)).render()
                     else:
                         answer = await asyncio.to_thread(alone, data["text"], q["question"], *spec)
                 except Exception as error:  # one failed call must not sink the run

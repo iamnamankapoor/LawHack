@@ -12,8 +12,9 @@ from typesafe_sdk import Choice, Noul
 from lawhack.retrieval import BM25, coverage
 from lawhack.schema import Registry, RegistryEntry, Speaker, Zone
 from lawhack.segmenter import split_sentences
+from lawhack.solution import Solution
 from lawhack.system_one import SystemOneClient
-from lawhack.verify import strip_cues
+from lawhack.verify import claimed_speaker, contradiction, strip_cues
 
 ANSWER_ABOVE = 0.8
 WARN_ABOVE = 0.5
@@ -356,14 +357,25 @@ def _reports_lower_court(claim: str, cited: RegistryEntry) -> bool:
     return cited.zone is Zone.MOYENS and cited.speaker.value in _PARTIES and not _PARTY_CLAIM.search(claim)
 
 
-async def ask(registry: Registry, question: str, client: SystemOneClient, model: str | None = None) -> Answer:
+async def ask(
+    registry: Registry,
+    question: str,
+    client: SystemOneClient,
+    model: str | None = None,
+    *,
+    solution: Solution | None = None,
+) -> Answer:
     context = await retrieve(registry, question, client)
     if not context:
         return Answer(question=question, sentences=[], abstained=True)
     text = await asyncio.to_thread(draft, question, context, model)
     if text.strip().startswith(NOT_ADDRESSED):
         return Answer(question=question, sentences=[], abstained=True)
-    sentences = await _repair(await verify(text, registry, client), registry, client, model)
+    sentences = await _repair(await verify(text, registry, client), registry, client, model, solution)
+    sentences = [
+        sentence for sentence in sentences
+        if contradiction(sentence.text, claimed_speaker(sentence.text), solution) is None
+    ]
     if not sentences:
         return Answer(question=question, sentences=[], abstained=True)
     return Answer(question=question, sentences=sentences)
@@ -374,10 +386,17 @@ def _flagged(s: AnswerSentence) -> bool:
 
 
 async def _repair(
-    sentences: list[AnswerSentence], registry: Registry, client: SystemOneClient, model: str | None
+    sentences: list[AnswerSentence],
+    registry: Registry,
+    client: SystemOneClient,
+    model: str | None,
+    solution: Solution | None = None,
 ) -> list[AnswerSentence]:
     """Rewrite flagged sentences from their cited passages only; keep a rewrite only if Jev supports it better."""
-    targets = [i for i, s in enumerate(sentences) if _flagged(s)][:MAX_REVISIONS]
+    reasons = [contradiction(s.text, claimed_speaker(s.text), solution) for s in sentences]
+    targets = [
+        i for i, s in enumerate(sentences) if _flagged(s) or reasons[i]
+    ][:MAX_REVISIONS]
     if not targets:
         return sentences
 
@@ -386,8 +405,11 @@ async def _repair(
         cited = [registry.by_id(p.segment_id) for p in s.pills]
         allowed = {c.id for c in cited}
         tags = " ".join(f"[{c.id}]" for c in cited)
+        prompt = f"{s.text} {tags}"
+        if reasons[i]:
+            prompt = f"{s.text}\nProblème : {reasons[i]} {tags}"
         try:  # a failed rewrite or re-check must not lose the verified draft
-            rewritten = (await asyncio.to_thread(revise, f"{s.text} {tags}", cited, model)).strip()
+            rewritten = (await asyncio.to_thread(revise, prompt, cited, model)).strip()
             if rewritten.startswith(DROP):
                 return None
             ids = set(_CITE.findall(rewritten))

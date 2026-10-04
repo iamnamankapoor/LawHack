@@ -14,6 +14,7 @@ from lawhack.answer import SPEAKER_LABELS, ZONE_LABELS, ask
 from lawhack.ingest import NoTextError
 from lawhack.pipeline import analyse, load
 from lawhack.schema import Registry
+from lawhack.solution import Solution
 from lawhack.system_one import TypeSafeSystemOne
 from lawhack.answer import speaker_label
 
@@ -25,7 +26,7 @@ DEMO_PDF = ROOT / "data" / "samples" / "cass_civ3_2022-12-14_21-24539.pdf"
 STATIC = Path(__file__).resolve().parent / "static"
 
 app = FastAPI(title="LawHack")
-_registries: dict[str, Registry] = {}
+_registries: dict[str, tuple[Registry, Solution]] = {}
 
 
 class Question(BaseModel):
@@ -43,7 +44,7 @@ def _analyse(path: Path) -> dict:
     registry, solution = analyse(doc)
     if not registry.entries:
         raise HTTPException(422, "Aucun paragraphe d'arrêt reconnu dans ce document.")
-    _registries[registry.document_id] = registry
+    _registries[registry.document_id] = (registry, solution)
     return {
         "document_id": registry.document_id,
         "solution": solution.value,
@@ -87,12 +88,13 @@ async def demo() -> dict:
 
 @app.post("/api/documents/{document_id}/ask")
 async def question(document_id: str, body: Question) -> dict:
-    registry = _registries.get(document_id)
-    if registry is None:
+    analyzed = _registries.get(document_id)
+    if analyzed is None:
         raise HTTPException(404, "Document inconnu : déposez-le à nouveau.")
+    registry, solution = analyzed
     started = time.perf_counter()
     try:
-        answer = await ask(registry, body.question, TypeSafeSystemOne())
+        answer = await ask(registry, body.question, TypeSafeSystemOne(), solution=solution)
     except Exception as error:  # surfaced in the chat instead of a blank failure
         status = getattr(error, "status_code", None)
         detail = "Mistral a refusé la requête (quota ou limite de débit atteint)." if status == 429 else f"Erreur : {error}"

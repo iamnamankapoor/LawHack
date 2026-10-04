@@ -19,6 +19,8 @@ _CLAIM_CUES: list[tuple[re.Pattern[str], Speaker]] = [
     (re.compile(r"\b(la )?cour de cassation\b|\bla (haute )?(cour|juridiction)\b(?! d['’ ]\s?appel)|\bla chambre\b", re.I), Speaker.COUR_CASSATION),
     (re.compile(r"\b(l['’]article|le code|la loi|ce texte)\b", re.I), Speaker.LOI),
 ]
+_REASSIGNED_SUBJECT = re.compile(r"\bc['’]est\s+(?P<subject>(?:la|le|les)\s+[^:;,.!?]{1,120}?)\s+qui\b", re.I)
+_NEGATED_AFTER_CUE = re.compile(r"\b(?:ne|n['’])\s?\w+(?: \w+)? (?:pas|point|jamais)\b", re.I)
 
 
 class Verdict(str, Enum):
@@ -50,9 +52,36 @@ def contradiction(sentence: str, claim: Speaker | None, solution: Solution | Non
 
 
 def claimed_speaker(sentence: str) -> Speaker | None:
-    """First speaker explicitly named in the sentence (the grammatical subject in practice)."""
-    found = [(m.start(), speaker) for pattern, speaker in _CLAIM_CUES if (m := pattern.search(sentence))]
-    return min(found, key=lambda x: x[0])[1] if found else None
+    """Return the attributed speaker, skipping denied subjects and following « c'est … qui »."""
+    matches = _speaker_matches(sentence)
+    for reassigned in _REASSIGNED_SUBJECT.finditer(sentence):
+        speaker = _first_speaker(reassigned.group("subject"))
+        if speaker is not None:
+            return speaker
+    if not matches:
+        return None
+
+    start, end, speaker = matches[0]
+    following = re.split(r"[:;]", sentence[end : end + 60], maxsplit=1)[0]
+    if _NEGATED_AFTER_CUE.search(following):
+        return matches[1][2] if len(matches) > 1 else None
+    return speaker
+
+
+def _speaker_matches(sentence: str) -> list[tuple[int, int, Speaker]]:
+    return sorted(
+        (
+            (match.start(), match.end(), speaker)
+            for pattern, speaker in _CLAIM_CUES
+            for match in pattern.finditer(sentence)
+        ),
+        key=lambda match: match[0],
+    )
+
+
+def _first_speaker(text: str) -> Speaker | None:
+    matches = _speaker_matches(text)
+    return matches[0][2] if matches else None
 
 
 def speakers_of(entry: RegistryEntry) -> set[str]:

@@ -3,27 +3,22 @@ requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "lawhack"
-version = "0.1.0"
-description = "Harness Système 1 → Système 2 pour l'attribution énonciative dans les décisions de justice"
+name = "legible"
+version = "0.2.0"
+description = "Qui parle dans cette décision ? Speaker and stance attribution for Cour de cassation decisions."
 requires-python = ">=3.10"
-dependencies = [
-  "pydantic>=2",
-  "pymupdf4llm",
-  "typesafe-sdk>=0.7",
-  "mistralai>=2",
-  "python-dotenv",
-  "fastapi",
-  "uvicorn",
-  "python-multipart",
-]
+dependencies = ["fastapi", "uvicorn", "python-multipart", "pydantic>=2"]
 
 [project.optional-dependencies]
-server = ["fastmcp>=2.12", "fastapi", "uvicorn[standard]"]
-dev = ["pytest", "lawhack[server]"]
+pdf = ["pymupdf"]
+mcp = ["fastmcp>=2.12"]
+dev = ["pytest", "httpx", "legible[pdf]"]
 
-[tool.setuptools.packages.find]
-include = ["lawhack*", "server*", "app*"]
+[tool.setuptools]
+packages = ["legible"]
+
+[tool.setuptools.package-data]
+legible = ["web/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

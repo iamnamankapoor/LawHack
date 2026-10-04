@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Legible design</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root { --page:#fbfaf8; --surface:#fff; --sunken:#f4f3f0; --border:#e6e4df; --line:#d0cec7; --ink:#1c1b19; --text-2:#5c5a54; --text-3:#8b8982;
+  --court:#3e63dd; --court-tint:#edf2fe; --ca:#ef5f00; --ca-tint:#fff1e7; --party:#6e56cf; --party-tint:#f4f0fe; --prior:#12a594; --prior-tint:#e0f8f3; --facts:#b5b3ad;
+  --ok:#218358; --ok-tint:#e9f6e9; --no:#ce2c31; --no-tint:#feebec; --open:#ab6400; --open-tint:#fff7c2;
+  --sans:"Instrument Sans","Helvetica Neue",Arial,sans-serif; --serif:"Source Serif 4",Georgia,serif; color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--page); color:var(--ink); font:15px/1.55 var(--sans); }
+main { max-width: 860px; margin: 0 auto; padding-inline: 24px; padding-block: 56px 80px; display: grid; gap: 56px; }
+h1 { font: 600 2.5rem/1.1 var(--serif); letter-spacing: -.02em; margin: 0; }
+h2 { font: 600 1.375rem/1.3 var(--serif); margin: 0 0 16px; }
+p { margin: 0 0 12px; max-width: 64ch; color: var(--text-2); }
+.lead { font-size: 1.125rem; }
+.brand { display:flex; align-items:center; gap:14px; }
+.brand svg { width:64px; height:64px; }
+.brand span { font: 600 3rem/1 var(--serif); letter-spacing: -.015em; }
+.marks { display:flex; flex-wrap:wrap; gap:16px; }
+.marks div { display:grid; place-items:center; width:120px; height:120px; border:1px solid var(--border); border-radius:12px; background:var(--surface); }
+.marks svg { width:56px; height:56px; }
+.marks .small svg { width:20px; height:20px; }
+.swatches { display:grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.sw { border:1px solid var(--border); border-radius:10px; overflow:hidden; background:var(--surface); font-size:.8125rem; }
+.sw i { display:block; height:56px; }
+.sw div { padding:10px 12px; } .sw b { display:block; font-weight:600; color:var(--ink); } .sw code { color:var(--text-3); }
+.type { display:grid; gap:18px; }
+.type div { padding:18px 20px; border:1px solid var(--border); border-radius:10px; background:var(--surface); }
+.type small { display:block; color:var(--text-3); font-size:.8125rem; margin-bottom:6px; }
+.para { padding:10px 0 10px 20px; border-left:3px solid var(--court); margin:8px 0; }
+.para p { font:400 1.0625rem/1.65 var(--serif); color:var(--ink); margin:0; }
+.para.ca { border-left-color:var(--ca); background:linear-gradient(90deg,var(--ca-tint),transparent 70%); }
+.who { display:flex; gap:6px; align-items:center; font-size:.8125rem; font-weight:500; color:#cc4e00; margin-bottom:6px; }
+.chip { display:inline-flex; align-items:center; padding:1px 8px; border-radius:99px; font-size:.75rem; font-weight:500; }
+.chip.open { background:var(--open-tint); color:var(--open); } .chip.ok { background:var(--ok-tint); color:var(--ok); } .chip.no { background:var(--no-tint); color:var(--no); }
+ul { margin:0; padding-left:20px; color:var(--text-2); max-width:64ch; } li { margin-bottom:8px; } li b { color:var(--ink); }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="7" y="5" width="5" height="7" fill="var(--court)"/><rect x="7" y="12" width="5" height="6" fill="var(--ca)"/><rect x="7" y="18" width="5" height="6" fill="var(--party)"/><rect x="7" y="24" width="19" height="4" rx="1" fill="var(--ink)"/><rect x="15" y="7" width="11" height="2.4" rx="1.2" fill="var(--line)"/><rect x="15" y="13.6" width="8" height="2.4" rx="1.2" fill="var(--line)"/><rect x="15" y="19.8" width="10" height="2.4" rx="1.2" fill="var(--line)"/></svg><span>Legible</span></div>
+  <p class="lead" style="margin-top:20px">A reading tool for lawyers, not a dashboard. The decision text is the product; everything else stays quiet so that who is speaking is the one thing the eye picks up.</p>
+</header>
+
+<section>
+  <h2>Mark and wordmark</h2>
+  <p>The mark is an L made of the reading margin: its stem is the bar Legible draws beside each paragraph, split into the three voices (Court, cour d'appel, parties), standing on an ink baseline next to lines of text. The wordmark is one word, “Legible”, set in Source Serif 4 Semibold, the same face as the decisions.</p>
+  <div class="marks">
+    <div><svg viewBox="0 0 32 32"><rect x="7" y="5" width="5" height="7" fill="var(--court)"/><rect x="7" y="12" width="5" height="6" fill="var(--ca)"/><rect x="7" y="18" width="5" height="6" fill="var(--party)"/><rect x="7" y="24" width="19" height="4" rx="1" fill="var(--ink)"/><rect x="15" y="7" width="11" height="2.4" rx="1.2" fill="var(--line)"/><rect x="15" y="13.6" width="8" height="2.4" rx="1.2" fill="var(--line)"/><rect x="15" y="19.8" width="10" height="2.4" rx="1.2" fill="var(--line)"/></svg></div>
+    <div class="small"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#fff"/><rect x="7" y="5" width="5" height="7" fill="var(--court)"/><rect x="7" y="12" width="5" height="6" fill="var(--ca)"/><rect x="7" y="18" width="5" height="6" fill="var(--party)"/><rect x="7" y="24" width="19" height="4" rx="1" fill="var(--ink)"/></svg></div>
+    <div style="background:var(--ink)"><svg viewBox="0 0 32 32"><rect x="7" y="5" width="5" height="7" fill="var(--court)"/><rect x="7" y="12" width="5" height="6" fill="var(--ca)"/><rect x="7" y="18" width="5" height="6" fill="var(--party)"/><rect x="7" y="24" width="19" height="4" rx="1" fill="#fff"/></svg></div>
+  </div>
+</section>
+
+<section>
+  <h2>Colour: one hue per voice</h2>
+  <p>Radix Colors, light only. Warm sand neutrals; a voice colour is used for the margin bar, a faint tint behind the paragraph and its label. The Court's verdict on a passage uses a separate green / red / amber set, always with an icon and a word, never colour alone.</p>
+  <div class="swatches">
+    <div class="sw"><i style="background:var(--court)"></i><div><b>La Cour</b><code>indigo 9 · #3e63dd</code></div></div>
+    <div class="sw"><i style="background:var(--ca)"></i><div><b>Cour d'appel</b><code>orange 9 · #ef5f00</code></div></div>
+    <div class="sw"><i style="background:var(--party)"></i><div><b>Partie</b><code>violet 9 · #6e56cf</code></div></div>
+    <div class="sw"><i style="background:var(--prior)"></i><div><b>Jurisprudence antérieure</b><code>teal 9 · #12a594</code></div></div>
+    <div class="sw"><i style="background:var(--facts)"></i><div><b>Faits et procédure</b><code>sand 8 · #b5b3ad</code></div></div>
+    <div class="sw"><i style="background:var(--page)"></i><div><b>Page</b><code>sand 1 · #fbfaf8</code></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>Type</h2>
+  <div class="type">
+    <div><small>Source Serif 4, decision text and headings</small><span style="font:400 1.0625rem/1.65 var(--serif)">Il résulte de ce texte que le licenciement pour motif économique d'un salarié ne peut intervenir que lorsque tous les efforts de formation et d'adaptation ont été réalisés.</span></div>
+    <div><small>Instrument Sans, interface, labels and controls</small><span>Toutes les voix · La Cour seulement · Vérifier un texte</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>A paragraph, labelled</h2>
+  <p>Only the paragraphs that are not the Court's carry a label, which says who is speaking and what the Court did with it. The Court's own paragraphs carry no label: they are the default.</p>
+  <div class="para ca"><div class="who">Cour d'appel <span class="chip open">non tranché par la Cour</span></div><p>Il retient, enfin, que le seul fait, non contesté par l'employeur, qu'il s'agit d'un poste sans responsabilité managériale […] ne suffit pas à considérer que cette proposition n'est pas loyale et sérieuse.</p></div>
+  <div class="para"><p>En statuant ainsi, alors que le refus de la salariée du seul poste de reclassement qui lui avait été proposé ne suffisait pas à démontrer l'exécution sérieuse et loyale de l'obligation de reclassement […], la cour d'appel a violé le texte susvisé.</p></div>
+</section>
+
+<section>
+  <h2>Principles</h2>
+  <ul>
+    <li><b>Blank first.</b> The app opens on one box: paste the decision or drop a PDF / .txt. An example is one quiet link away.</li>
+    <li><b>The text stays whole.</b> Legible never rewrites the decision. “La Cour seulement” folds the other voices into one-line placeholders that open in place.</li>
+    <li><b>Quote, don't paraphrase.</b> The synthesis is the Court's own sentences, verbatim, each linked to its paragraph. Interpretation stays with the lawyer.</li>
+    <li><b>Show the check.</b> Every answer says whether its attributions were verified; every flagged sentence names its source paragraph and offers a rewrite.</li>
+    <li><b>French legal citation.</b> Cass. soc., 11 sept. 2026, n° 24-21.242; paragraph numbers as § 8.</li>
+  </ul>
+</section>
+</main>
+</body>
+</html>

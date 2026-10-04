@@ -1,0 +1,124 @@
+{
+  "_readme": "Red-test question bank. Each question targets one attribution trap. 'gold' is what a correct answer must convey; 'fail_if' is the specific misattribution we expect from a baseline LLM. Gold labels drafted by Claude from the text; TO BE VERIFIED by a French lawyer before locking.",
+  "cases": {
+    "C1": {
+      "file": "raw/C1_civ3_2026-09-17_24-20973.txt",
+      "url": "https://www.legifrance.gouv.fr/juri/id/JURITEXT000054929460",
+      "citation": "Cass. 3e civ., 17 sept. 2026, n° 24-20.973, FS-B",
+      "solution": "Cassation partielle",
+      "why_hard": "Cassation on a ground raised by the Court itself (moyen relevé d'office), not on the appellant's grounds. Second ground dismissed without reasons (art. 1014 al. 2), first ground never examined. Lower-court reasoning (§11) contains a rule-like statement that is the exact opposite of the Court's rule (§10)."
+    },
+    "C2": {
+      "file": "raw/C2_soc_2026-09-11_24-21242.txt",
+      "url": "https://www.legifrance.gouv.fr/juri/id/JURITEXT000054929414",
+      "citation": "Cass. soc., 11 sept. 2026, n° 24-21.242, inédit",
+      "solution": "Cassation partielle",
+      "why_hard": "Paragraphs 5-9 and 12-14 sit UNDER the heading 'Réponse de la Cour' but are the cour d'appel's reasoning, introduced once ('l'arrêt relève') and then continued with the pronoun 'Il' ('Il retient', 'Il relève, encore', 'Il en déduit'), where 'Il' = l'arrêt, not the Court. Heading-based segmentation alone gets this wrong. The appellant's grounds (§3) are also phrased as general rules."
+    },
+    "C3": {
+      "file": "raw/C3_soc_2022-11-09_21-17571_NSM.txt",
+      "url": "https://www.legifrance.gouv.fr/juri/id/JURITEXT000046555975",
+      "citation": "Cass. soc., 9 nov. 2022, n° 21-17.571, inédit (rejet non spécialement motivé)",
+      "solution": "Rejet non spécialement motivé",
+      "why_hard": "The Court says nothing of substance (art. 1014 al. 1). The ONLY legal content on the page is the losing employer's annexed ground ('MOYEN ANNEXE'), written as general rules of law ('ALORS QUE ... ne saurait être établi ...'). Those rules were REJECTED."
+    },
+    "C4": {
+      "file": "raw/C4_civ2_2018-05-09_17-16546.txt",
+      "url": "https://www.legifrance.gouv.fr/juri/id/JURITEXT000036930115",
+      "citation": "Cass. 2e civ., 9 mai 2018, n° 17-16.546, inédit",
+      "solution": "Cassation partielle",
+      "why_hard": "Pre-2019 'Attendu que' style, 23k chars. Three voices nested: Court; cour d'appel (endorsed on ground 1 via 'Mais attendu que l'arrêt retient ... a pu déduire ... a légalement justifié', censured on ground 2); URSSAF's annexed grounds, which themselves quote the cour d'appel ('AUX MOTIFS QUE'). Opposite outcomes on the two grounds."
+    }
+  },
+  "questions": [
+    {
+      "id": "C1-Q1",
+      "case": "C1",
+      "type": "attribution_trap",
+      "prompt_fr": "Selon la Cour de cassation dans cette décision, la clause du règlement de copropriété mettant l'entretien d'une partie commune à jouissance exclusive à la charge du copropriétaire exclut-elle la responsabilité du syndicat des copropriétaires ? Justifie en citant la phrase exacte.",
+      "gold": "NON. §10: such a clause cannot exonerate the syndicat from its strict liability (responsabilité de plein droit), subject to recourse actions. The opposite proposition ('ce qui exclut la responsabilité du syndicat') is the cour d'appel's reasoning (§11), censured in §12.",
+      "fail_if": "Answers OUI, or quotes §11 as the Court's position."
+    },
+    {
+      "id": "C1-Q2",
+      "case": "C1",
+      "type": "structure",
+      "prompt_fr": "Sur quel moyen la Cour de cassation a-t-elle prononcé la cassation, et qu'a-t-elle décidé sur chacun des moyens du demandeur ?",
+      "gold": "Cassation on a ground raised by the Court of its own motion (moyen relevé d'office, art. 620 al. 2 CPC, after notice under art. 1015). Second ground: dismissed without specific reasoning (art. 1014 al. 2). First ground: not ruled on ('sans qu'il y ait lieu de statuer sur le premier moyen').",
+      "fail_if": "Says the cassation was granted on the appellant's first (or second) ground, or that the appellant's arguments were accepted."
+    },
+    {
+      "id": "C2-Q1",
+      "case": "C2",
+      "type": "attribution_trap",
+      "prompt_fr": "Selon la Cour de cassation, le seul fait que le poste de reclassement proposé soit dépourvu de responsabilité managériale suffit-il à considérer que la proposition n'est pas loyale et sérieuse ?",
+      "gold": "The Court does NOT rule on this. 'ne suffit pas à considérer que cette proposition n'est pas loyale et sérieuse' is the cour d'appel's reasoning (§8, 'Il retient, enfin' — 'Il' = l'arrêt), and that decision was quashed (§10). The Court's own point (§10) is that the employee's refusal of the single post offered did not prove a serious and loyal search.",
+      "fail_if": "Attributes 'ne suffit pas' to the Cour de cassation (e.g. 'Non, selon la Cour, cela ne suffit pas')."
+    },
+    {
+      "id": "C2-Q2",
+      "case": "C2",
+      "type": "attribution_trap",
+      "prompt_fr": "D'après la Cour de cassation, le refus d'un poste de reclassement au motif qu'il ne correspond pas aux attentes et souhaits d'évolution du salarié constitue-t-il un critère légal de reclassement ?",
+      "gold": "The Court does NOT say this. 'ne constitue pas un critère légal de reclassement' is the cour d'appel's statement (§7, 'Il relève, encore'). The Court quashed that decision.",
+      "fail_if": "Answers 'Non, selon la Cour de cassation ce n'est pas un critère légal' or otherwise presents §7 as the Court's view."
+    },
+    {
+      "id": "C2-Q3",
+      "case": "C2",
+      "type": "attribution_trap",
+      "prompt_fr": "La Cour de cassation affirme-t-elle dans cette décision que l'employeur est tenu d'adresser à chaque salarié des offres de reclassement précises, concrètes et personnalisées ?",
+      "gold": "No, not in its own voice. That sentence appears only in the employee's ground (§3, branches 3° and 4°). The Court's own statement of the rule is §4 (paraphrase of art. L. 1233-4) and §10.",
+      "fail_if": "Answers yes and/or quotes the 'précises, concrètes et personnalisées' passage as the Court's."
+    },
+    {
+      "id": "C2-CHUNK",
+      "case": "C2",
+      "type": "chunk_only",
+      "chunk_lines": [107, 120],
+      "prompt_fr": "Voici un extrait d'une décision de la Cour de cassation. Quelle règle la Cour de cassation pose-t-elle sur l'obligation de reclassement ?\n\n<<CHUNK>>",
+      "gold": "The excerpt is entirely the cour d'appel's reasoning as recited by the Cour de cassation ('l'arrêt relève', 'Il retient'...). It does not contain the Cour de cassation's rule; one cannot infer the Court's position from it (in fact the Court quashed this reasoning).",
+      "fail_if": "States any rule as being the Cour de cassation's (e.g. 'la Cour juge que l'employeur a loyalement rempli son obligation en proposant un poste correspondant aux compétences')."
+    },
+    {
+      "id": "C3-Q1",
+      "case": "C3",
+      "type": "attribution_trap",
+      "prompt_fr": "Selon la Cour de cassation, le lien de causalité entre le comportement de l'employeur et la dégradation de l'état de santé du salarié peut-il être établi sur la seule base des arrêts de travail et d'un avis d'inaptitude ?",
+      "gold": "The Court states no rule on this: it dismissed the appeal without specific reasoning (art. 1014 al. 1). 'ne saurait être établi sur la seule base des arrêts de travail...' is the EMPLOYER's argument in the annexed ground, and it was rejected (the cour d'appel's finding of harassment stands).",
+      "fail_if": "Answers 'Non, selon la Cour de cassation...' i.e. presents the annexed ground as the Court's holding."
+    },
+    {
+      "id": "C3-Q2",
+      "case": "C3",
+      "type": "holding",
+      "prompt_fr": "Résume la solution de cette décision et la règle de droit posée par la Cour de cassation.",
+      "gold": "Appeal by the employer (L'Esprit des fleurs) dismissed by a non-specifically-reasoned decision (art. 1014 al. 1 CPC); the Court lays down no rule of law. The cour d'appel's award (nullity of dismissal, moral harassment damages) stands.",
+      "fail_if": "Presents any proposition from the 'MOYEN ANNEXE' as the Court's rule, or says the Court ruled in the employer's favour."
+    },
+    {
+      "id": "C4-Q1",
+      "case": "C4",
+      "type": "outcome_per_ground",
+      "prompt_fr": "La Cour de cassation a-t-elle approuvé la cour d'appel d'avoir retenu que l'URSSAF avait tacitement accepté la pratique de la société concernant les frais de restauration ?",
+      "gold": "NON. Cassation on that point for manque de base légale: the reasons were insufficient to show the company proved the practices were identical.",
+      "fail_if": "Answers yes, or presents the tacit-agreement reasoning as endorsed."
+    },
+    {
+      "id": "C4-Q2",
+      "case": "C4",
+      "type": "outcome_per_ground",
+      "prompt_fr": "La Cour de cassation a-t-elle validé l'annulation des redressements opérés au titre de la réduction Fillon ?",
+      "gold": "OUI. First ground rejected ('Mais attendu que l'arrêt retient ... la cour d'appel a pu déduire ... a légalement justifié sa décision').",
+      "fail_if": "Answers no / says the whole judgment was quashed."
+    },
+    {
+      "id": "C4-Q3",
+      "case": "C4",
+      "type": "attribution_trap",
+      "prompt_fr": "Selon la Cour de cassation, le fait que certains établissements contrôlés soient créditeurs de réductions Fillon alors que d'autres sont débiteurs justifie-t-il l'annulation de la totalité des redressements ?",
+      "gold": "The Court does not rule on this proposition. 'n'a rien de contradictoire et ne justifie pas l'annulation de la totalité des redressements' is the URSSAF's argument (ground 1, branch 4°), and ground 1 was rejected.",
+      "fail_if": "Answers 'Non, selon la Cour...' i.e. adopts the URSSAF's branch 4° as the Court's view."
+    }
+  ]
+}

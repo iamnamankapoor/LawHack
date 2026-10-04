@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>Legible</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23ffffff'/%3E%3Crect x='7' y='5' width='5' height='7' fill='%233e63dd'/%3E%3Crect x='7' y='12' width='5' height='6' fill='%23ef5f00'/%3E%3Crect x='7' y='18' width='5' height='6' fill='%236e56cf'/%3E%3Crect x='7' y='24' width='19' height='4' rx='1' fill='%231c1b19'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="/" aria-label="Legible, accueil">
+    <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="7" y="5" width="5" height="7" fill="var(--court)"/><rect x="7" y="12" width="5" height="6" fill="var(--ca)"/><rect x="7" y="18" width="5" height="6" fill="var(--party)"/><rect x="7" y="24" width="19" height="4" rx="1" fill="var(--ink)"/><rect x="15" y="7" width="11" height="2.4" rx="1.2" fill="var(--line)"/><rect x="15" y="13.6" width="8" height="2.4" rx="1.2" fill="var(--line)"/><rect x="15" y="19.8" width="10" height="2.4" rx="1.2" fill="var(--line)"/></svg>
+    <span class="wordmark">Legible</span>
+  </a>
+  <div class="case" id="case" hidden><span class="cite" id="cite"></span><span class="pill" id="solution"></span></div>
+  <button class="link-btn" id="new" type="button" hidden>Nouvelle décision</button>
+</header>
+
+<main id="landing" class="landing">
+  <h1>Lisez une décision en sachant qui parle.</h1>
+  <p class="lede">Legible distingue, paragraphe par paragraphe, la voix de la Cour de cassation de celles de la cour d'appel et des parties, et indique ce que la Cour en a fait.</p>
+  <div class="intake" id="intake">
+    <textarea id="paste" aria-label="Texte de la décision" placeholder="Collez le texte intégral de l'arrêt (Légifrance ou Judilibre)…"></textarea>
+    <div class="intake-bar">
+      <label class="btn ghost" for="file"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 11V2.5M4.5 6L8 2.5 11.5 6M2.5 10.5v3h11v-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Importer un PDF ou un .txt</label>
+      <input type="file" id="file" accept=".pdf,.txt,text/plain,application/pdf" hidden>
+      <span class="hint" id="drophint">ou déposez le fichier ici</span>
+      <button class="btn primary" id="go" type="button" disabled>Analyser</button>
+    </div>
+  </div>
+  <p class="error" id="err" role="alert" hidden></p>
+  <p class="foot">Le texte n'est utilisé que pour cette analyse. <button class="link-btn quiet" id="example" type="button">Voir un exemple</button></p>
+</main>
+
+<div id="loading" class="loading" hidden>
+  <div class="pulse"><span></span><span></span><span></span></div>
+  <p>Analyse de la décision…</p>
+  <p class="hint">Repérage des voix et du sort de chaque moyen</p>
+</div>
+
+<div id="work" class="work" hidden>
+  <section class="reader" aria-label="Décision">
+    <div class="reader-bar">
+      <div class="seg" role="group" aria-label="Affichage">
+        <button type="button" id="v-all" aria-pressed="true">Toutes les voix</button>
+        <button type="button" id="v-court" aria-pressed="false">La Cour seulement</button>
+      </div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <article class="doc" id="doc"></article>
+    <p class="provenance">Voix et sort de chaque paragraphe déterminés par Jev (TypeSafe), un modèle de décision calibré. <span id="timing"></span></p>
+  </section>
+
+  <aside class="panel" aria-label="Analyse">
+    <div class="seg wide" role="tablist" aria-label="Mode">
+      <button type="button" role="tab" id="m-summary" aria-selected="true" aria-controls="summary">Synthèse</button>
+      <button type="button" role="tab" id="m-check" aria-selected="false" aria-controls="checker">Vérifier un texte</button>
+    </div>
+
+    <div id="summary" class="mode" role="tabpanel" aria-labelledby="m-summary">
+      <div id="held"></div>
+      <div id="thread" class="thread" aria-live="polite"></div>
+      <form class="ask" id="askform">
+        <input id="q" autocomplete="off" placeholder="Posez une question sur cette décision" aria-label="Votre question">
+        <button class="btn primary icon" type="submit" aria-label="Envoyer"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </form>
+    </div>
+
+    <div id="checker" class="mode" role="tabpanel" aria-labelledby="m-check" hidden>
+      <p class="hint">Collez une note, un mémo ou la réponse d'un outil d'IA. Chaque phrase est confrontée à la décision.</p>
+      <textarea id="draft" class="field" aria-label="Texte à vérifier"></textarea>
+      <div class="row"><button class="btn primary" id="checkb" type="button">Vérifier</button><span class="hint" id="checksum"></span></div>
+      <div id="results" class="results"></div>
+    </div>
+  </aside>
+</div>
+<script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+Cour de cassation, civile, Chambre civile 2, 17 septembre 2026, 25-12.441, Publié au bulletin
+Texte intégral
+
+Cour de cassation - Chambre civile 2
+
+N° de pourvoi : 25-12.441
+
+ECLI : FR:CCASS:2026:C200841
+
+Solution : Rejet
+
+Décision attaquée : Cour d'appel de Paris, du 08 janvier 2025
+
+Publié au bulletin
+
+[En-tête (parties, avocats, composition) omis.]
+
+la deuxième chambre civile de la Cour de cassation, composée, en application de l'article R. 431-5 du code de l'organisation judiciaire, de la présidente et des conseillers précités, après en avoir délibéré conformément à la loi, a rendu le présent arrêt ;
+
+Faits et procédure
+
+1. Selon l'arrêt attaqué (Paris, 8 janvier 2025), la société Omaj (l'assurée), exploitante d'un fonds de commerce de brasserie-restauration, a souscrit auprès de la société Allianz IARD (l'assureur) un contrat d'assurance multirisque professionnelle constitué notamment d'une annexe « Complément plus » garantissant les pertes d'exploitation.
+
+2. A la suite d'un arrêté publié au Journal officiel le 15 mars 2020 portant diverses mesures relatives à la lutte contre la propagation du virus Covid-19, qui a édicté notamment l'interdiction pour les restaurants d'accueillir du public du 15 mars 2020 au 15 avril 2020, prorogée jusqu'au 2 juin 2020 par décret du 14 avril 2020, l'assurée a effectué une déclaration de sinistre auprès de l'assureur, qui a refusé sa garantie.
+
+3. L'assurée a assigné l'assureur en indemnisation de ses pertes d'exploitation devant un tribunal de commerce.
+
+Examen des moyens
+
+Sur le premier moyen et sur le second moyen, pris en sa première branche
+
+4. En application de l'article 1014, alinéa 2, du code de procédure civile, il n'y a pas lieu de statuer par une décision spécialement motivée sur ces griefs qui ne sont manifestement pas de nature à entraîner la cassation.
+
+Sur le second moyen, pris en sa seconde branche
+
+Enoncé du moyen
+
+5. L'assurée fait grief à l'arrêt de dire que la clause d'exclusion de garantie invoquée par l'assureur est valide et lui est opposable, en ce qu'elle est formelle et limitée et, en conséquence, de la débouter de l'ensemble de ses demandes, alors « que la clause d'exclusion de garantie qui vise des hypothèses distinctes d'exclusion, dont l'une d'elles n'est pas formelle et limitée, ne peut recevoir application, peu important que l'événement dommageable corresponde à l'une des hypothèses qu'elle mentionne ; que, pour décider que la clause d'exclusion de garantie litigieuse était limitée, la cour d'appel, après avoir relevé que l'assurée "fait (?) valoir que la clause d'exclusion de garantie n'est pas limitée puisqu'elle exclue toute "violation délibérée (?) du code du travail et de la réglementation régissant les conditions d'exercice de votre profession, y compris sur l'hygiène et la sécurité des personnes" ce qui apparaît à tout le moins général, imprécis et vague, la rendant ainsi inapplicable pour le tout", a énoncé qu' "en présence de deux situations distinctes, l'exclusion afférente au "contexte épidémique ou pandémique" qui est seule applicable au cas d'espèce, est parfaitement formelle et limitée et ne tend pas à vider la garantie de sa substance, de telle sorte que sa validité ne saurait être remise en cause" ; qu'en statuant ainsi, cependant que, dès lors que la clause d'exclusion était pour partie non limitée, elle ne pouvait recevoir application, la cour d'appel a violé l'article L. 113-1 du code des assurances. »
+
+Réponse de la Cour
+
+6. Il résulte de l'article L. 113-1 du code des assurances que les exclusions de garantie doivent être formelles et limitées.
+
+7. Une clause d'exclusion n'est pas formelle au sens de ce texte lorsqu'elle ne se réfère pas à des critères précis et nécessite interprétation.
+
+8. La Cour de cassation a décidé qu'une clause d'exclusion de garantie, dès lors qu'elle contient des causes d'exclusion non formelles, est nulle dans sa globalité, peu important que l'exclusion opposée à l'assuré soit précisément énoncée à la clause (2e Civ., 17 juin 2021, pourvoi n° 19-24.467, publié).
+
+9. Toutefois, cette jurisprudence a suscité des controverses doctrinales et des divergences de jurisprudence entre des cours d'appel qui justifient un nouvel examen de l'étendue de la sanction d'une clause d'exclusion de garantie partiellement non formelle.
+
+10. Il apparaît, dès lors, nécessaire de reconsidérer cette interprétation.
+
+11. L'exigence de clarté des exclusions de garantie posée par l'article L. 113-1 du code des assurances a pour objectif l'information de l'assuré afin qu'il sache exactement dans quels cas et dans quelles conditions il n'est pas garanti.
+
+12. La sanction consistant à écarter, au sein d'une même clause, les seules exclusions qui ne sont pas formelles, sans annuler celles qui le sont, opère un équilibre entre, d'une part, l'objectif de protection de l'assuré, d'autre part, les prévisions économiques de l'assureur et les intérêts de la collectivité des assurés.
+
+13. Une telle interprétation ne porte pas atteinte aux intérêts de l'assuré, qui est en mesure de comprendre et d'apprécier la portée d'une exclusion formelle stipulée dans une clause, quand bien même une autre exclusion, figurant dans la même clause, ne serait pas formelle.
+
+14. En outre, elle préserve l'équilibre économique du contrat d'assurance, dont l'objet est de garantir un risque en contrepartie du paiement d'une prime, en réservant l'obligation pour l'assureur de garantir un sinistre pour lequel il n'a pas perçu de prime à l'hypothèse de l'exclusion de garantie non formelle et limitée.
+
+15. L'ensemble de ces considérations conduit la Cour de cassation à juger désormais que lorsqu'une clause d'un contrat d'assurance énumère plusieurs cas d'exclusion de garantie, leur caractère formel s'apprécie en considération de chacun d'entre eux, et non au regard de l'ensemble des exclusions visées par la clause. Il en résulte que la nullité d'une exclusion non formelle n'entraîne pas celle de l'ensemble de la clause, sauf lorsqu'elle en affecte la compréhension.
+
+16. En l'espèce, l'arrêt relève que la clause d'exclusion dont se prévaut l'assureur prévoit deux cas d'exclusion, à savoir, d'une part, un « contexte épidémique ou pandémique », d'autre part, « la violation délibérée du code du travail et de la réglementation régissant les conditions d'exercice de la profession, y compris sur l'hygiène et la sécurité des personnes ».
+
+17. Il énonce que la clause d'exclusion relative à l'épidémie et à la pandémie est dénuée d'ambiguïté et ne nécessite aucune interprétation.
+
+18. Il en conclut que l'exclusion afférente au « contexte épidémique ou pandémique » qui est seule applicable au cas d'espèce, est formelle et limitée, de telle sorte que sa validité ne saurait être remise en cause.
+
+19. De ces constatations et énonciations, la cour d'appel a exactement déduit que la garantie n'était pas due à l'assurée.
+
+20. Le moyen n'est, dès lors, pas fondé.
+
+PAR CES MOTIFS, la Cour :
+
+REJETTE le pourvoi ;
+
+Condamne la société Omaj aux dépens ;
+
+En application de l'article 700 du code de procédure civile, rejette les demandes ;
+
+Ainsi fait et jugé par la Cour de cassation, deuxième chambre civile, et prononcé publiquement le dix-sept septembre deux mille vingt-six par mise à disposition de l'arrêt au greffe de la Cour, les parties ayant été préalablement avisées dans les conditions prévues au deuxième alinéa de l'article 450 du code de procédure civile. ECLI:FR:CCASS:2026:C200841

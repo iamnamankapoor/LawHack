@@ -326,11 +326,12 @@ LawHack/
 │   └── questions.jsonl
 ├── server/
 │   ├── api.py           # FastAPI : /load, /ask, /verify
-│   └── mcp_server.py    # outils MCP (phase 2)
+│   ├── mcp_server.py    # outils MCP (stdio + Streamable HTTP)
+│   └── app.py           # /mcp + /api + /health, jeton LAWHACK_TOKEN
 └── ui/                  # chat + pastilles + écran partagé démo
 ```
 
-Outils MCP prévus (phase 2) : `lawhack_load_decision`, `lawhack_ask`, `lawhack_who_said`, `lawhack_verify`.
+Outils MCP : `lawhack_load_decision`, `lawhack_who_said`, `lawhack_verify`, `lawhack_get_passage` (voir [docs/connecteur.md](docs/connecteur.md)).
 
 ## 10. Configuration et clés
 

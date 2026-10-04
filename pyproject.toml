@@ -12,10 +12,11 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest"]
+server = ["fastmcp>=2.12", "fastapi", "uvicorn[standard]"]
+dev = ["pytest", "lawhack[server]"]
 
 [tool.setuptools.packages.find]
-include = ["lawhack*"]
+include = ["lawhack*", "server*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -10,12 +10,16 @@ _NUMBERED = re.compile(r"^(\d{1,3})\.\s+\S")
 # Heading pattern → zone that starts at this heading. Order matters (first match wins).
 _HEADINGS: list[tuple[re.Pattern[str], Zone]] = [
     (re.compile(r"^faits et proc[ée]dure\b", re.I), Zone.EXPOSE),
+    (re.compile(r"^expos[ée] (du|des) griefs?\b", re.I), Zone.MOYENS),
     (re.compile(r"^[ée]nonc[ée] d(u|es) moyens?\b", re.I), Zone.MOYENS),
     (re.compile(r"^r[ée]ponse de la cour\b", re.I), Zone.MOTIVATIONS),
     (re.compile(r"^port[ée]e et cons[ée]quences de la cassation\b", re.I), Zone.MOTIVATIONS),
     (re.compile(r"^recevabilit[ée]\b", re.I), Zone.MOTIVATIONS),
-    (re.compile(r"^examen d(u|es) moyens?\b", re.I), Zone.MOTIVATIONS),
-    (re.compile(r"^(mais )?sur (le|les|la) (premier |deuxi[eè]me |troisi[eè]me |second )?(moyens?|branches?|pourvoi)\b", re.I), Zone.MOTIVATIONS),
+    (re.compile(r"^examen d(u|es) (moyens?|griefs?)\b", re.I), Zone.MOTIVATIONS),
+    (re.compile(r"^(mais )?sur (le|les|la) (premier |deuxi[eè]me |troisi[eè]me |second )?(moyens?|branches?|pourvoi|griefs?)\b", re.I), Zone.MOTIVATIONS),
+    (re.compile(r"^[ée]nonc[ée] de la question prioritaire\b", re.I), Zone.MOYENS),
+    (re.compile(r"^examen de la question prioritaire\b", re.I), Zone.MOTIVATIONS),
+    (re.compile(r"^en cons[ée]quence\s*:?$", re.I), Zone.DISPOSITIF),
     (re.compile(r"^(par|pour) ces motifs\b", re.I), Zone.DISPOSITIF),
     (re.compile(r"^moyens? annexes?\b", re.I), Zone.MOYENS),
     (re.compile(r"^ECLI\s*:", re.I), Zone.METADONNEES),
@@ -27,8 +31,10 @@ _OPENERS: list[tuple[re.Pattern[str], Zone]] = [
     (re.compile(r"^moyens? produits? par\b", re.I), Zone.MOYENS),
     (re.compile(r"^attendu,? selon (l'arr[êe]t attaqu[ée]|le jugement attaqu[ée])", re.I), Zone.EXPOSE),
     (re.compile(r"^attendu que .{0,200}?\bfai(t|sait) grief\b", re.I), Zone.MOYENS),
+    (re.compile(r"^(?:\d{1,3}\.\s+)?(?=[^.]{1,120}\b(?:fait|font) grief à l'arr[êe]t\b)[^.]{1,120}?\b(?<!qui )(?:fait|font) grief à l'arr[êe]t\b", re.I), Zone.MOYENS),
     (re.compile(r"^mais attendu\b", re.I), Zone.MOTIVATIONS),
     (re.compile(r"^vu (l'article|les articles)\b", re.I), Zone.MOTIVATIONS),
+    (re.compile(r"^(REJETTE|CASSE (ET|et) ANNULE|DÉCLARE|DECLARE|DIT N'Y AVOIR LIEU|RENVOIE)\b"), Zone.DISPOSITIF),
 ]
 
 

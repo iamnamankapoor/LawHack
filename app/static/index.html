@@ -35,8 +35,8 @@
 <header><b>LawHack</b><span>Les IA juridiques savent ce qui a été dit. LawHack vérifie qui l'a dit.</span></header>
 <main>
   <section id="upload">
-    <div id="drop"><p><b>Déposez un arrêt (PDF Légifrance ou Judilibre)</b></p><p style="color:var(--muted)">ou cliquez pour choisir un fichier</p>
-      <input type="file" id="file" accept="application/pdf" hidden></div>
+    <div id="drop"><p><b>Déposez un arrêt (PDF ou .txt, Légifrance ou Judilibre)</b></p><p style="color:var(--muted)">ou cliquez pour choisir un fichier</p>
+      <input type="file" id="file" accept="application/pdf,.pdf,text/plain,.txt" hidden></div>
     <p style="text-align:center;margin-top:14px"><button class="ghost" id="demo">Utiliser l'arrêt de démo (Civ. 3, 14 déc. 2022, n° 21-24.539)</button></p>
     <p id="uperr" class="err"></p>
   </section>
@@ -95,12 +95,12 @@ function pill(p) {
   const warn = p.level === 'ok' ? '' : ' ⚠';
   return `<span class="pill ${p.level}" style="background:${color(p.speaker)}">${p.label} · ${where} · ${Math.round(p.confidence*100)} %${warn}
     <span class="tip"><b>${esc(p.zone_label)}${p.paragraph ? ', §'+p.paragraph : ''}</b> — ${p.segment_id}<br>« ${esc(p.source_text)} »<br><i>${probs}</i>
-    ${p.level === 'warn' ? '<br><b style="color:#f59e0b">À vérifier dans le texte.</b>' : ''}${p.level === 'unsupported' ? '<br><b style="color:#ef4444">Non soutenu par le passage cité.</b>' : ''}</span></span>`;
+    ${p.level === 'warn' ? '<br><b style="color:#f59e0b">' + esc(p.note || 'À vérifier dans le texte.') + '</b>' : ''}${p.level === 'unsupported' ? '<br><b style="color:#ef4444">Non soutenu par le passage cité.</b>' : ''}</span></span>`;
 }
 
 function render(a) {
   if (a.abstained) return `<span class="abstain">L'arrêt ne traite pas cette question.</span> <span class="pill none">Abstention</span>`;
-  return a.sentences.map(s => esc(s.text) + (s.pills.length ? s.pills.map(pill).join('') : '<span class="pill unsupported none">non sourcé ⚠</span>')).join(' ')
+  return a.sentences.map(s => esc(s.text) + (s.revised_from ? `<span class="pill none revised" title="Reformulé après vérification. Version initiale : ${esc(s.revised_from)}">corrigé</span>` : '') + (s.pills.length ? s.pills.map(pill).join('') : '<span class="pill unsupported none">non sourcé ⚠</span>')).join(' ')
     + `<div style="color:var(--muted);font-size:12px;margin-top:8px">${a.seconds}s</div>`;
 }
 

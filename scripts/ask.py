@@ -18,7 +18,7 @@ def main() -> None:
     async def run() -> None:
         client = TypeSafeSystemOne()
         for question in sys.argv[2:]:
-            answer = await ask(registry, question, client)
+            answer = await ask(registry, question, client, solution=solution)
             print(f"\nQ: {question}\nR: {answer.render()}")
 
     asyncio.run(run())

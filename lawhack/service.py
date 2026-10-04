@@ -22,6 +22,7 @@ from pathlib import Path
 from pydantic import BaseModel, Field
 
 from lawhack import verify as verifier
+from lawhack.answer import speaker_label
 from lawhack.ingest import load_pdf, load_text
 from lawhack import pipeline
 from lawhack.pipeline import analyse_async, default_client, is_current
@@ -85,7 +86,7 @@ class WhoSaidResult(BaseModel):
 class VerifiedSentence(BaseModel):
     sentence: str
     claimed_speaker: str | None
-    verdict: str = Field(description="OK · A_VERIFIER · MAL_ATTRIBUE · NON_SOURCE · SANS_ATTRIBUTION")
+    verdict: str = Field(description="OK · A_VERIFIER · MAL_ATTRIBUE · CONTREDIT (contradicts the outcome) · NON_SOURCE · SANS_ATTRIBUTION")
     explanation: str
     source: Passage | None
 
@@ -137,7 +138,7 @@ def _flag(confidence: float) -> str:
 def passage(entry: RegistryEntry) -> Passage:
     zone = ZONE_LABELS[entry.zone.value]
     para = f"§{entry.paragraph}" if entry.paragraph else entry.id
-    label = SPEAKER_LABELS[entry.speaker.value]
+    label = speaker_label(entry, SPEAKER_LABELS)
     flag = _flag(entry.speaker.confidence)
     warn = " ⚠" if flag != "ok" else ""
     top = dict(sorted(entry.speaker.probabilities.items(), key=lambda kv: kv[1], reverse=True)[:3])
@@ -345,9 +346,11 @@ _EXPLAIN = {
 def verify_text(decision_id: str, text: str) -> VerifyResult:
     record = _get(decision_id)
     sentences = []
-    for r in verifier.check(record.registry, text, threshold=CONFIDENCE_OK):
+    for r in verifier.check(record.registry, text, threshold=CONFIDENCE_OK, solution=record.solution):
         entry = r["entry"]
-        if r["verdict"] == "MAL_ATTRIBUE":
+        if r["verdict"] == "CONTREDIT":
+            explanation = r["contradiction"]
+        elif r["verdict"] == "MAL_ATTRIBUE":
             actual = SPEAKER_LABELS[entry.speaker.value]
             claimed = SPEAKER_LABELS[r["claimed_speaker"]]
             para = f"§{entry.paragraph}" if entry.paragraph else entry.id

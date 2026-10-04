@@ -1,4 +1,4 @@
-"""Demo web app: upload a decision PDF, watch the System 1 reading, then chat with cited answers."""
+"""Demo web app: upload a decision (PDF or .txt), watch the System 1 reading, then chat with cited answers."""
 
 import time
 import uuid
@@ -39,7 +39,7 @@ def _analyse(path: Path) -> dict:
     except NoTextError as error:
         raise HTTPException(422, str(error)) from error
     if not doc.text.strip():
-        raise HTTPException(422, "Aucun texte lisible dans ce PDF.")
+        raise HTTPException(422, "Aucun texte lisible dans ce document.")
     registry, solution = analyse(doc)
     if not registry.entries:
         raise HTTPException(422, "Aucun paragraphe d'arrêt reconnu dans ce document.")
@@ -72,8 +72,8 @@ def index() -> FileResponse:
 
 @app.post("/api/documents")
 async def upload(file: UploadFile) -> dict:
-    if not (file.filename or "").lower().endswith(".pdf"):
-        raise HTTPException(400, "Déposez un PDF d'arrêt (Légifrance ou Judilibre).")
+    if Path(file.filename or "").suffix.lower() not in {".pdf", ".txt"}:
+        raise HTTPException(400, "Déposez un arrêt en PDF ou en .txt (Légifrance ou Judilibre).")
     UPLOADS.mkdir(parents=True, exist_ok=True)
     path = UPLOADS / f"{uuid.uuid4().hex[:8]}_{Path(file.filename).name}"
     path.write_bytes(await file.read())

@@ -1,0 +1,11 @@
+A1   run0 gpt-6-astra            INEXACTE  OK   'INEXACTE. La phrase reprend la jurisprudence antérieure rappelée au paragraphe 6, que la Cour abandonne dans c'
+A2   run0 gpt-6-astra            INEXACTE  OK   'INEXACTE. La phrase reprend le raisonnement de la cour d’appel, précisément censuré par la Cour de cassation :'
+A3   run0 gpt-6-astra            INEXACTE  OK   'INEXACTE. Cette phrase reprend partiellement l’argumentation de l’employeur, et non la solution de la Cour : u'
+A4   run0 gpt-6-astra            INEXACTE  OK   'INEXACTE. Cette affirmation correspond au raisonnement de la cour d’appel, censuré par la Cour de cassation : '
+A5   run0 gpt-6-astra            INEXACTE  OK   'INEXACTE. La formule citée concerne le juge répressif et les preuves produites par des particuliers en matière'
+A6   run0 gpt-6-astra            EXACTE    OK   'EXACTE. Cette phrase restitue le principe énoncé au paragraphe 12, mais doit être précisée : le juge procède à'
+A7   run0 gpt-6-astra            EXACTE    OK   'EXACTE. La Cour casse bien le chef déclarant irrecevables les preuves issues des enregistrements clandestins e'
+A8   run0 gpt-6-astra            EXACTE    OK   'EXACTE. Au paragraphe 14, la Cour reproche expressément à la cour d’appel de ne pas avoir procédé au contrôle '
+A9   run0 gpt-6-astra            EXACTE    OK   'EXACTE. Au paragraphe 20, la Cour de cassation reproche expressément à la cour d’appel d’avoir « fait peser la'
+
+gpt-6-astra: 0/9 wrong

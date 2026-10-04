@@ -1,0 +1,8 @@
+{
+  "name": "legible-video",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts Legible out/legible-30s.mp4 --codec=h264 --crf=18"
+  }
+}

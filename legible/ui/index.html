@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Garde-fou du contentieux</title>
+<style>
+:root {
+  --bg: #f6f5f1; --panel: #ffffff; --ink: #1b1d22; --muted: #6b6a65; --line: #e3e1da; --navy: #151b2b;
+  --p1: #2457c5; --p1-bg: #e9effb; --p2: #c0581a; --p2-bg: #fbefe5; --fin: #6b46c1; --fin-bg: #f0eafb;
+  --ok: #23804f; --ok-bg: #e4f3ea; --warn: #b7791f; --warn-bg: #fdf3dd; --bad: #c53030; --bad-bg: #fdeaea; --hl: #fff1a8;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.45 -apple-system, "Segoe UI", Inter, Roboto, sans-serif; }
+header.top { padding: 16px 28px 0; background: var(--panel); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; }
+.brand { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: var(--p2); text-transform: uppercase; }
+h1 { font: 600 21px/1.2 Georgia, "Times New Roman", serif; margin: 4px 0 2px; }
+.sub { color: var(--muted); font-size: 13px; }
+.stats { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.stat { background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; font-size: 12px; color: var(--muted); }
+.stat b { color: var(--ink); }
+nav { display: flex; gap: 2px; margin-top: 10px; }
+nav button { border: 0; background: none; padding: 9px 13px; font: inherit; color: var(--muted); border-bottom: 2px solid transparent; cursor: pointer; }
+nav button.on { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+main { padding: 18px 28px 60px; }
+.hidden { display: none !important; }
+.muted { color: var(--muted); }
+.toolbar { display: flex; gap: 14px; align-items: center; margin-bottom: 10px; color: var(--muted); font-size: 13px; flex-wrap: wrap; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); padding: 9px 10px; border-bottom: 1px solid var(--line); background: #fbfaf7; }
+td { padding: 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+tr.alert td:first-child { box-shadow: inset 3px 0 0 var(--bad); }
+.date { white-space: nowrap; color: var(--muted); font-size: 12px; }
+.fid { color: var(--muted); font-size: 11px; margin-right: 4px; }
+.fact { font-weight: 600; }
+.q { display: block; font: 13px/1.4 Georgia, serif; color: #33343a; margin-bottom: 2px; }
+.q::before { content: "« "; } .q::after { content: " »"; }
+.say { margin-bottom: 7px; }
+.chip { display: inline-block; border-radius: 5px; padding: 0 6px; font-size: 11px; font-weight: 700; margin-right: 5px; text-transform: uppercase; letter-spacing: .02em; }
+.c-pos { background: var(--ok-bg); color: var(--ok); } .c-adm { background: var(--p1-bg); color: var(--p1); } .c-neg { background: var(--bad-bg); color: var(--bad); }
+.src { font-size: 11.5px; color: var(--muted); border-bottom: 1px dotted var(--muted); cursor: pointer; }
+.src:hover { color: var(--ink); }
+.none { color: #b4b2aa; font-size: 12.5px; }
+.rep { font-size: 11.5px; color: var(--muted); font-style: italic; }
+.st { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 13px; white-space: nowrap; }
+.st::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: currentColor; }
+.st-constant { color: var(--ok); } .st-disputed, .st-version_change { color: var(--bad); }
+.st-alleged, .st-denied, .st-unclear, .st-evidence_only { color: var(--warn); } .st-found_by_expert { color: var(--fin); }
+.stl { font-size: 12px; color: var(--muted); margin-top: 3px; }
+.flag { display: block; font-size: 12px; margin-top: 5px; color: var(--bad); }
+.flag.soft { color: var(--fin); } .flag.unc { color: var(--warn); }
+/* garde-fou */
+.guard { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 18px; align-items: start; }
+.paper { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+.gbar { display: flex; gap: 8px; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+button.b { border: 1px solid var(--line); background: var(--panel); border-radius: 7px; padding: 7px 12px; font: inherit; cursor: pointer; }
+button.b:hover { border-color: #c9c6bc; }
+button.primary { background: var(--navy); color: #fff; border-color: var(--navy); font-weight: 600; }
+button.danger { color: var(--bad); }
+button.b:disabled { opacity: .45; cursor: not-allowed; }
+.counts { margin-left: auto; font-size: 12.5px; display: flex; gap: 10px; }
+.counts span::before { content: "● "; }
+.n-pass { color: var(--ok); } .n-review { color: var(--warn); } .n-block { color: var(--bad); }
+#editor { min-height: 460px; padding: 34px 46px; font: 16px/1.75 Georgia, "Times New Roman", serif; outline: none; white-space: pre-wrap; }
+#editor:empty::before { content: "Collez ou rédigez ici l'exposé des faits, puis cliquez sur « Vérifier »."; color: #aaa; }
+.v { border-radius: 3px; cursor: pointer; transition: background .2s; padding: 1px 0; }
+.v-pass { background: #e9f6ee; } .v-review { background: var(--warn-bg); box-shadow: inset 0 -2px 0 var(--warn); }
+.v-block { background: var(--bad-bg); box-shadow: inset 0 -2px 0 var(--bad); } .v-pending { background: #eee; }
+.v.sel { outline: 2px solid var(--navy); outline-offset: 1px; }
+.gpanel { position: sticky; top: 150px; }
+.verdict { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.vh { padding: 10px 14px; font: 700 12px/1.3 ui-monospace, Consolas, monospace; letter-spacing: .04em; color: #fff; }
+.vh.block { background: var(--bad); } .vh.review { background: var(--warn); } .vh.pass { background: var(--ok); }
+.vb { padding: 12px 14px; font-size: 13.5px; }
+.vb .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-top: 10px; }
+.vb .lbl:first-child { margin-top: 0; }
+.vb .txt { font: 14px/1.5 Georgia, serif; }
+.vb .acts { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+.rw { margin-top: 12px; padding: 10px 12px; background: var(--ok-bg); border-radius: 8px; font: 14px/1.5 Georgia, serif; }
+.toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); background: var(--navy); color: #fff; padding: 10px 16px; border-radius: 8px; font-size: 13px; z-index: 20; }
+/* compare / eval */
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+.card h2 { font: 600 15px/1.3 Georgia, serif; margin: 0 0 2px; }
+.card .note { color: var(--muted); font-size: 12.5px; margin-bottom: 10px; }
+.sent.err { background: var(--bad-bg); box-shadow: inset 0 -2px 0 var(--bad); cursor: help; }
+.why { display: inline-block; font-size: 11px; font-weight: 700; color: var(--bad); margin: 0 4px; }
+.cite { font-size: 10.5px; color: var(--muted); vertical-align: super; cursor: pointer; margin-left: 1px; }
+.big { font: 600 32px/1.1 Georgia, serif; margin: 4px 0; }
+.score { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 14px; }
+/* source drawer */
+#drawer { position: fixed; top: 0; right: 0; width: min(560px, 100%); height: 100vh; background: var(--panel); border-left: 1px solid var(--line); box-shadow: -12px 0 30px rgba(0,0,0,.08); transform: translateX(100%); transition: transform .2s; z-index: 10; display: flex; flex-direction: column; }
+#drawer.open { transform: none; }
+#drawer .dh { padding: 16px 22px 10px; border-bottom: 1px solid var(--line); }
+#drawer .body { overflow: auto; padding: 14px 22px 40px; font: 14.5px/1.6 Georgia, serif; }
+#drawer .body h3 { font: 600 11.5px/1.3 -apple-system, "Segoe UI", sans-serif; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 16px 0 6px; }
+#drawer p { margin: 0 0 8px; }
+#drawer .s.hit { background: var(--hl); box-shadow: 0 0 0 2px var(--hl); border-radius: 2px; }
+#drawer .lab { font: 12px/1.45 -apple-system, sans-serif; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin: 4px 0 10px; }
+.close { float: right; border: 0; background: none; font-size: 22px; cursor: pointer; color: var(--muted); }
+@media (max-width: 1000px) { .guard, .cols, .score { grid-template-columns: 1fr; } .gpanel { position: static; } main, header.top { padding-left: 16px; padding-right: 16px; } #editor { padding: 20px; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">Le garde-fou du contentieux</div>
+  <h1 id="title">Chargement…</h1>
+  <div class="sub" id="subtitle"></div>
+  <div class="stats" id="stats"></div>
+  <nav>
+    <button data-tab="map" class="on">1 · Carte des faits</button>
+    <button data-tab="guard">2 · Garde-fou</button>
+    <button data-tab="compare">LLM seul vs notre couche</button>
+    <button data-tab="eval">Évaluation</button>
+  </nav>
+</header>
+<main>
+  <section id="tab-map">
+    <div class="toolbar"><label><input type="checkbox" id="onlyFlags"> Seulement les alertes</label><span id="mapCount"></span></div>
+    <table><thead id="mapHead"></thead><tbody id="rows"></tbody></table>
+  </section>
+
+  <section id="tab-guard" class="hidden">
+    <div class="guard">
+      <div class="paper">
+        <div class="gbar">
+          <button class="b" id="loadAI">Brouillon généré par IA</button>
+          <button class="b primary" id="verify">Vérifier</button>
+          <button class="b" id="export" disabled>Exporter vers les conclusions</button>
+          <div class="counts" id="gcounts"></div>
+        </div>
+        <div id="editor" contenteditable="true" spellcheck="false"></div>
+      </div>
+      <div class="gpanel" id="gpanel"><div class="card muted">Rédigez ou chargez un brouillon, puis « Vérifier ». Chaque phrase est confrontée à la Carte des faits : <b class="n-pass">passe</b>, <b class="n-review">à relire</b> ou <b class="n-block">bloquée</b>, avec la preuve.</div></div>
+    </div>
+  </section>
+
+  <section id="tab-compare" class="hidden">
+    <div class="cols">
+      <div class="card"><h2>LLM seul</h2><div class="note" id="baseNote"></div><div id="base"></div></div>
+      <div class="card"><h2>Notre couche</h2><div class="note" id="synthNote"></div><div id="synth"></div></div>
+    </div>
+  </section>
+
+  <section id="tab-eval" class="hidden"><div id="eval" class="muted">Pas encore d'évaluation : lancer <code>eval.py</code>.</div></section>
+</main>
+<aside id="drawer"><div class="dh"><button class="close" onclick="closeDrawer()">×</button><h1 id="dTitle" style="font-size:17px"></h1><div class="sub" id="dSub"></div></div><div class="body" id="dBody"></div></aside>
+<script>
+const STANCE = { affirms: ["affirme", "c-pos"], admits: ["reconnaît", "c-adm"], denies: ["conteste", "c-neg"] };
+const ST_SHORT = { constant: "Constant", disputed: "Contesté", version_change: "Changement de version", alleged: "Allégué",
+  denied: "Nié", found_by_expert: "Constaté", evidence_only: "À vérifier", unclear: "À vérifier" };
+let R, SENT = {}, DOC = {}, LAB = {}, SHORT = {}, P = [], CHECK = [];
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const frDate = d => d && d.length === 10 ? d.split("-").reverse().join("/") : (d || "");
+const cut = (s, n = 150) => s.length > n ? s.slice(0, n - 1).trimEnd() + "…" : s;
+
+function docShort(id) {
+  const m = DOC[id].meta, who = SHORT[m.author] || m.author;
+  if (m.type === "conclusions" || m.type === "memoire") return `${m.type === "memoire" ? "Mém." : "Concl."} ${who}${m.version ? " n°" + m.version : ""}`;
+  if (m.type === "assignation" || m.type === "requete") return `${m.type === "requete" ? "Requête" : "Assignation"} (${who})`;
+  if (m.type === "rapport") return "Rapport d'expertise";
+  if (m.type === "jugement") return `Jugement ${frDate(m.date)}`;
+  return m.title;
+}
+function where(sid) { const s = SENT[sid]; return `${docShort(s.doc)}, p. ${s.page}${s.para != null ? ", § " + s.para : ""}`; }
+function srcLink(sid) { return SENT[sid] ? `<span class="src" onclick="openSentence('${sid}')">${esc(where(sid))}</span>` : ""; }
+function chip(st) { const x = STANCE[st]; return x ? `<span class="chip ${x[1]}">${x[0]}</span>` : ""; }
+function says(e, extra = "") { return `<div class="say"><span class="q">${esc(cut(SENT[e.sid].text))}</span>${chip(e.stance)}${extra}${srcLink(e.sid)}</div>`; }
+
+function partyCell(info) {
+  if (info.history.length) return says(info.history[info.history.length - 1]) +
+    (info.history.length > 1 ? `<div class="rep">avant : ${info.history.slice(0, -1).map(e => chip(e.stance) + srcLink(e.sid)).join(" ")}</div>` : "");
+  if (info.reported.length) { const e = info.reported[info.reported.length - 1]; return says(e, `<span class="rep">selon ${esc(SHORT[e.by] || e.by)} · </span>`); }
+  return `<span class="none">Aucune réponse dans les écritures</span>`;
+}
+function evidenceCell(r) {
+  const items = [...r.expert, ...r.witnesses];
+  if (!items.length) return `<span class="none">—</span>`;
+  return items.map(e => `<div class="say"><b style="font-size:12px">${esc(SHORT[e.who] || e.who)}</b> ${says(e)}</div>`).join("");
+}
+function flagsHtml(r) {
+  return r.flags.map(f => {
+    if (f.type === "version_change") return `<span class="flag">⚠ ${esc(SHORT[f.party])} a changé de version : ${srcLink(f.from.sid)} → ${srcLink(f.to.sid)}</span>`;
+    if (f.type === "expert_contradicts") return `<span class="flag soft">◆ ${esc(SHORT[f.expert.who] || "L'expert")} contredit ${esc(SHORT[f.party])}</span>`;
+    if (f.type === "witnesses_disagree") return `<span class="flag soft">◆ Témoins en désaccord</span>`;
+    if (f.type === "not_restated") return `<span class="flag soft">◆ Non repris par ${esc(SHORT[f.party])} dans ses dernières écritures (${esc(docShort(f.latest_doc))}) : abandonné ? (art. 768 / 954 CPC)</span>`;
+    if (f.type === "uncertain") return `<span class="flag unc">? L'outil doute : à vérifier</span>`;
+    return "";
+  }).join("");
+}
+const isAlert = r => ["version_change", "disputed"].includes(r.status) || r.flags.some(f => !["expert_confirms", "not_restated"].includes(f.type));
+
+function renderMap() {
+  $("mapHead").innerHTML = `<tr><th>Date</th><th style="width:22%">Fait</th>${P.map(p => `<th>${esc(SHORT[p])} <span style="text-transform:none">(${esc(R.case.parties[p])})</span></th>`).join("")}<th>Pièces, expert, juge</th><th>Statut</th></tr>`;
+  const only = $("onlyFlags").checked;
+  const rows = R.facts.filter(r => r.mentions.length).filter(r => !only || isAlert(r))
+    .sort((a, b) => (a.date || "9999").localeCompare(b.date || "9999") || a.id.localeCompare(b.id));
+  $("mapCount").textContent = `${rows.length} faits`;
+  $("rows").innerHTML = rows.map(r => `<tr class="${isAlert(r) ? "alert" : ""}" id="row-${r.id}">
+    <td class="date">${frDate(r.date)}</td>
+    <td><span class="fid">${r.id}</span><span class="fact">${esc(r.statement)}</span></td>
+    ${P.map(p => `<td>${partyCell(r.by_party[p])}</td>`).join("")}
+    <td>${evidenceCell(r)}</td>
+    <td><span class="st st-${r.status}">${ST_SHORT[r.status] || r.status}</span><div class="stl">${esc(r.status_label)}</div>${flagsHtml(r)}</td></tr>`).join("");
+}
+
+/* ---------- garde-fou ---------- */
+function toast(t) { const d = document.createElement("div"); d.className = "toast"; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 2600); }
+function setCounts() {
+  const c = { pass: 0, review: 0, block: 0 }; CHECK.forEach(x => c[x.verdict]++);
+  $("gcounts").innerHTML = CHECK.length ? `<span class="n-pass">${c.pass} passe</span><span class="n-review">${c.review} à relire</span><span class="n-block">${c.block} bloquée${c.block > 1 ? "s" : ""}</span>` : "";
+  $("export").disabled = !CHECK.length || c.block > 0;
+  $("export").title = c.block ? "Bloqué : des faits sont mal attribués" : "";
+}
+function renderEditor() {
+  $("editor").innerHTML = CHECK.map((x, i) => `<span class="v v-${x.verdict}" data-i="${i}">${esc(x.text)}</span>`).join(" ");
+  setCounts();
+}
+async function verify() {
+  const text = $("editor").innerText.trim(); if (!text) return;
+  $("verify").disabled = true; $("verify").textContent = "Vérification…";
+  try {
+    const r = await (await fetch("/api/check", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) })).json();
+    CHECK = r.sentences; renderEditor();
+    const first = CHECK.findIndex(x => x.verdict === "block"); if (first >= 0) showVerdict(first);
+  } catch (e) { toast("Erreur de vérification : " + e); }
+  $("verify").disabled = false; $("verify").textContent = "Vérifier";
+}
+function showVerdict(i) {
+  document.querySelectorAll(".v").forEach(el => el.classList.toggle("sel", +el.dataset.i === i));
+  const x = CHECK[i], head = { block: "BLOQUÉ", review: "À RELIRE", pass: "PASSE" }[x.verdict];
+  let h = `<div class="verdict"><div class="vh ${x.verdict}">${head} · ${esc(x.reason)}</div><div class="vb">
+    <div class="lbl">Affirmation</div><div class="txt">« ${esc(x.text)} »</div>`;
+  if (x.fact) {
+    h += `<div class="lbl">Dossier</div><div>${esc(x.status_label)}<br><span class="muted">${x.fact} · ${esc(x.statement)}</span></div>
+      <div class="lbl">Preuve</div><div>${x.sources.map(s => `<div>${srcLink(s)}</div><div class="muted" style="font:13px/1.45 Georgia,serif">« ${esc(cut(SENT[s].text, 220))} »</div>`).join("")}</div>`;
+  }
+  if (x.verdict !== "pass" && x.fact) h += `<div class="acts"><button class="b primary" onclick="doRewrite(${i})">Réécrire selon le dossier</button><button class="b" onclick="toast('Envoyé à l’associé pour relecture')">Envoyer à l'associé</button></div><div id="rw"></div>`;
+  h += `</div></div>`;
+  $("gpanel").innerHTML = h;
+}
+async function doRewrite(i) {
+  const x = CHECK[i]; $("rw").innerHTML = `<div class="rw muted">Réécriture en cours…</div>`;
+  try {
+    const r = await (await fetch("/api/rewrite", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sentence: x.text, fact: x.fact }) })).json();
+    $("rw").innerHTML = `<div class="lbl">Réécriture proposée</div><div class="rw">« ${esc(r.rewrite)} »</div><div class="acts"><button class="b primary" id="apply">Remplacer dans le brouillon</button></div>`;
+    $("apply").onclick = () => applyRewrite(i, r.rewrite);
+  } catch (e) { $("rw").innerHTML = `<div class="rw">Erreur : ${esc(e)}</div>`; }
+}
+async function applyRewrite(i, text) {
+  CHECK[i] = { ...CHECK[i], text, verdict: "pending" }; renderEditor();
+  const r = await (await fetch("/api/check", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) })).json();
+  CHECK[i] = r.sentences.length === 1 ? r.sentences[0] : { ...CHECK[i], verdict: "review", reason: "Réécriture à relire" };
+  renderEditor(); showVerdict(i);
+}
+$("editor").addEventListener("click", e => { const el = e.target.closest(".v"); if (el) showVerdict(+el.dataset.i); });
+$("editor").addEventListener("input", () => { if (CHECK.length) { CHECK = []; setCounts(); } });
+$("verify").onclick = verify;
+$("loadAI").onclick = () => { CHECK = []; setCounts(); $("editor").innerText = R.baseline.text.trim(); };
+$("export").onclick = () => toast("Exporté : chaque fait est attribué à la bonne partie, avec la preuve");
+
+/* ---------- compare & eval ---------- */
+function summaryHtml(list) {
+  return list.map(s => {
+    const err = s.verdicts.find(v => v.error), cites = s.facts.map(f => `<span class="cite" onclick="jumpFact('${f}')">${f}</span>`).join("");
+    if (!err) return `<span>${esc(s.text)}</span>${cites} `;
+    const row = R.facts.find(r => r.id === err.fact);
+    return `<span class="sent err" title="${esc(row ? row.statement + " : " + row.status_label : "")}">${esc(s.text)}</span><span class="why">✗ ${esc(err.why)}</span>${cites} `;
+  }).join("");
+}
+function renderCompare() {
+  const b = R.baseline.sentences, s = R.synthesis, be = b.filter(x => x.error).length, se = s.filter(x => x.error).length;
+  $("baseNote").textContent = `Même modèle, tout le dossier en entrée : ${be} phrase(s) sur ${b.length} contredisent le dossier.`;
+  $("synthNote").textContent = `Rédigé depuis la Carte des faits : ${se} phrase(s) sur ${s.length} signalée(s). Chaque phrase renvoie à ses faits.`;
+  $("base").innerHTML = summaryHtml(b); $("synth").innerHTML = summaryHtml(s);
+}
+function jumpFact(fid) {
+  const r = R.facts.find(x => x.id === fid); if (!r) return;
+  const sid = [...P.flatMap(p => r.by_party[p].history), ...r.expert, ...r.witnesses].map(e => e.sid)[0] || r.mentions[0];
+  if (sid) openSentence(sid);
+}
+async function renderEval() {
+  try {
+    const E = await (await fetch("../out/eval.json", { cache: "no-store" })).json(), pct = (a, b) => b ? Math.round(100 * a / b) + " %" : "—";
+    const M = E.match;
+    $("eval").innerHTML = (M ? `<div class="score">
+      <div class="card"><div class="muted">Erreurs d'attribution · LLM seul</div><div class="big" style="color:var(--bad)">${M.llm.error_rate} %</div><div class="muted">${M.llm.wrong} / ${M.total} positions fausses, dossier complet en entrée</div></div>
+      <div class="card"><div class="muted">Erreurs d'attribution · notre couche</div><div class="big" style="color:var(--ok)">${M.ours.error_rate} %</div><div class="muted">${M.ours.wrong} / ${M.total} positions fausses</div></div>
+      <div class="card"><div class="muted">« À vérifier » plutôt que deviner</div><div class="big">${M.ours.abstain}</div><div class="muted">cas où l'outil renvoie à l'avocat</div></div></div>` : "") + `<div class="score">
+      <div class="card"><div class="muted">Pièges attrapés par notre couche</div><div class="big">${E.ours.caught} / ${E.total}</div><div class="muted">${pct(E.ours.caught, E.total)} · fausses alertes : ${E.ours.false_alarms}</div></div>
+      <div class="card"><div class="muted">Pièges ratés par le LLM seul</div><div class="big">${E.baseline.missed} / ${E.total}</div><div class="muted">${pct(E.baseline.missed, E.total)} restitués de travers ou passés sous silence</div></div>
+      <div class="card"><div class="muted">À relire par l'associé</div><div class="big">${E.review} / ${E.facts}</div><div class="muted">faits avec alerte, au lieu de tout le dossier</div></div></div>
+      <table><thead><tr><th>Piège</th><th>Type</th><th>Fait</th><th>Notre couche</th><th>LLM seul</th></tr></thead><tbody>
+      ${E.traps.map(t => `<tr><td>${t.id}</td><td>${esc(t.type)}</td><td>${esc(t.fact)}</td>
+        <td>${t.ours ? '<span class="chip c-pos">attrapé</span>' : '<span class="chip c-neg">raté</span>'}<div class="muted" style="font-size:12px">${esc(t.ours_detail || "")}</div></td>
+        <td>${t.baseline_ok ? '<span class="chip c-pos">correct</span>' : '<span class="chip c-neg">erreur</span>'}<div class="muted" style="font-size:12px">${esc(t.baseline_detail || "")}</div></td></tr>`).join("")}
+      </tbody></table>`;
+  } catch (e) { /* eval not run yet */ }
+}
+
+/* ---------- source drawer ---------- */
+function openSentence(sid) {
+  const s = SENT[sid], d = DOC[s.doc], m = d.meta;
+  $("dTitle").textContent = m.title;
+  $("dSub").innerHTML = `Écrit par <b>${esc(R.case.speakers[m.author] || m.author)}</b> · ${frDate(m.date)} · page ${s.page}`;
+  let html = (LAB[sid] || []).map(l => {
+    const f = R.facts.find(x => x.id === l.fact);
+    const rep = l.reported_speaker !== "none" ? ` · version rapportée : <b>${esc(SHORT[l.reported_speaker] || l.reported_speaker)}</b> (${Math.round(100 * (l.reported_position_conf || 0))} %)` : "";
+    return `<div class="lab"><b>${l.fact}</b> ${esc(f ? f.statement : "")}<br>Position de l'auteur : <b>${esc((STANCE[l.position] || [l.position])[0])}</b> (${Math.round(100 * (l.position_conf || 0))} %)${rep}</div>`;
+  }).join("");
+  let section = null, para = null;
+  for (const x of d.sentences.filter(x => x.page === s.page)) {
+    if (x.section !== section) { if (para !== null) html += "</p>"; html += `<h3>${esc(x.section || "")}</h3>`; section = x.section; para = null; }
+    const pk = x.para ?? x.id.split(".")[2];
+    if (pk !== para) { if (para !== null) html += "</p>"; html += `<p>${x.para != null ? `<b>${x.para}.</b> ` : ""}`; para = pk; }
+    html += `<span class="s ${x.id === sid ? "hit" : ""}" id="s-${x.id}">${esc(x.text)}</span> `;
+  }
+  $("dBody").innerHTML = html + "</p>";
+  $("drawer").classList.add("open");
+  const el = $("s-" + sid); if (el) el.scrollIntoView({ block: "center" });
+}
+function closeDrawer() { $("drawer").classList.remove("open"); }
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeDrawer(); });
+
+document.querySelectorAll("nav button").forEach(b => b.onclick = () => {
+  document.querySelectorAll("nav button").forEach(x => x.classList.toggle("on", x === b));
+  ["map", "guard", "compare", "eval"].forEach(t => $("tab-" + t).classList.toggle("hidden", t !== b.dataset.tab));
+});
+$("onlyFlags").onchange = renderMap;
+
+(async () => {
+  R = await (await fetch("../out/result.json", { cache: "no-store" })).json();
+  R.docs.forEach(d => { DOC[d.meta.id] = d; d.sentences.forEach(s => SENT[s.id] = s); });
+  R.labels.forEach(l => (LAB[l.sid] = LAB[l.sid] || []).push(l));
+  P = Object.keys(R.case.parties);
+  for (const [k, v] of Object.entries(R.case.speakers)) SHORT[k] = (R.case.short || {})[k] || v.split(" (")[0].split(",")[0].trim();
+  $("title").textContent = R.case.case;
+  $("subtitle").textContent = `${R.case.court}${R.case.rg ? " · RG " + R.case.rg : ""}`;
+  const pages = R.docs.reduce((n, d) => n + d.pages.length, 0), shown = R.facts.filter(r => r.mentions.length), u = R.usage.jev;
+  $("stats").innerHTML = [`<b>${R.docs.length}</b> actes`, `<b>${pages}</b> pages`, `<b>${Object.keys(SENT).length}</b> phrases lues`,
+    `<b>${shown.length}</b> faits`, `<b>${shown.filter(isAlert).length}</b> alertes`, `Jev : ${u.requests} requêtes · ${u.seconds} s · ${u.usd} $`]
+    .map(x => `<span class="stat">${x}</span>`).join("");
+  renderMap(); renderCompare(); renderEval();
+})();
+</script>
+</body>
+</html>

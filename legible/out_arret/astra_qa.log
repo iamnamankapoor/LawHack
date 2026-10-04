@@ -1,0 +1,24 @@
+
+Q1 run0 [gpt-6-astra] Que décide la Cour de cassation sur la recevabilité d'une preuve recueillie à l'insu de la personne ?
+  -> La Cour de cassation décide qu’en matière civile, une preuve recueillie à l’insu d’une personne ne doit plus être écartée du seul fait de sa déloyauté (§§ 6 et 12). Lorsque cela lui est demandé, le juge doit apprécier l’équité de la procédure dans son ensemble et mettre en balance le droit à la preuve et les droits antinomiques, la production devant être indispensable à l’exercice du droit à la preuve et l’atteinte strictement proportionnée au but poursuivi (§ 12). Elle censure donc l’exclusion des enregistrements clandestins sans ce contrôle, sans pour autant les déclarer elle-même recevables (§§ 13-14).
+  attendu: Elle n'est pas nécessairement écartée : le juge met en balance le droit à la preuve et les droits antinomiques (§ 12).
+
+Q2 run0 [gpt-6-astra] Selon la Cour de cassation, les transcriptions des enregistrements clandestins devaient-elles être écartées des débats ?
+  -> Non, les transcriptions ne devaient pas être écartées des débats au seul motif que les enregistrements avaient été obtenus par un procédé déloyal (§§ 12 à 14). Le juge devait, lorsque cela lui était demandé, mettre en balance le droit à la preuve et les droits antinomiques, en vérifiant que leur production était indispensable et l’atteinte strictement proportionnée au but poursuivi (§ 12). La Cour de cassation sanctionne l’absence de ce contrôle, sans déclarer elle-même ces preuves recevables (§§ 13 et 14).
+  attendu: Non : la cour d'appel devait procéder au contrôle de proportionnalité du § 12 (§ 14).
+
+Q3 run0 [gpt-6-astra] La Cour de cassation juge-t-elle qu'un enregistrement audio obtenu à l'insu d'un salarié est recevable dès lors qu'il ne porte pas atteinte aux droits du salarié et qu'il a pu être discuté dans le cadre d'un procès équitable ?
+  -> Non : cette formulation correspond à l’argumentation de l’employeur (§ 4), et non à la règle énoncée par la Cour. Celle-ci juge que la déloyauté n’entraîne pas nécessairement l’exclusion de la preuve : le juge doit, lorsque cela lui est demandé, apprécier l’équité de la procédure dans son ensemble et mettre en balance les droits en présence, la production devant être indispensable à l’exercice du droit à la preuve et l’atteinte aux autres droits strictement proportionnée au but poursuivi (§ 12). Elle censure donc l’exclusion des enregistrements pour leur seule déloyauté, sans les déclarer elle-même recevables (§§ 13-14).
+  attendu: Non, ce sont les termes du moyen de l'employeur (§ 4) ; la Cour exige une production indispensable et une atteinte strictement proportionnée (§ 12).
+
+Q4 run0 [gpt-6-astra] La Cour de cassation retient-elle la faute grave du salarié ?
+  -> Non, la Cour de cassation ne retient pas la faute grave du salarié : elle reproche à la cour d’appel d’avoir écarté les enregistrements clandestins sans procéder au contrôle de proportionnalité requis (§§ 12 à 14). La cassation du chef déclarant le licenciement sans cause réelle et sérieuse intervient par voie de conséquence (§ 21), sans trancher son bien-fondé, qui devra être réexaminé par la cour d’appel de renvoi.
+  attendu: Non, elle ne se prononce pas sur la faute grave : elle casse et renvoie devant la cour d'appel de Paris.
+
+Q5 run0 [gpt-6-astra] Quel montant de dommages-intérêts pour licenciement sans cause réelle et sérieuse la Cour de cassation accorde-t-elle à M. B. ?
+  -> La Cour de cassation n’accorde aucun montant de dommages-intérêts à M. B. : elle casse la condamnation de l’employeur à lui verser **15 000 euros** pour licenciement sans cause réelle et sérieuse, prononcée par la cour d’appel (§ 21 et dispositif). L’affaire est renvoyée sur ce point devant la cour d’appel de Paris (dispositif).
+  attendu: Aucun : les 15 000 euros avaient été alloués par la cour d'appel, et ce chef est cassé.
+
+Q6 run0 [gpt-6-astra] La Cour de cassation considère-t-elle que des relevés d'heures établis par ordinateur, non corroborés, ne suffisent pas à étayer une demande d'heures supplémentaires ?
+  -> Non : la Cour de cassation censure précisément ce raisonnement de la cour d’appel, qui avait écarté les relevés d’heures établis par ordinateur faute de corroboration (§§ 19-20). Elle considère qu’en l’espèce ces relevés constituaient des éléments suffisamment précis pour permettre à l’employeur de répondre en produisant ses propres éléments, conformément à l’article L. 3171-4 du code du travail (§§ 18 et 20). Exiger davantage du salarié dans ces circonstances revenait à faire peser sur lui seul la charge de la preuve (§ 20).
+  attendu: Non, c'est le raisonnement de la cour d'appel, censuré (§ 20).

@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+python-multipart
+pydantic>=2
+pypdf
+certifi
+typesafe-sdk>=0.7
+anthropic

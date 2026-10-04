@@ -1,0 +1,74 @@
+[
+ {
+  "id": "A1",
+  "run": 0,
+  "model": "gpt-6-astra",
+  "verdict": "INEXACTE",
+  "ok": true,
+  "answer": "INEXACTE. La phrase reprend la jurisprudence antérieure rappelée au paragraphe 6, que la Cour abandonne dans cet arrêt : la déloyauté d’une preuve ne conduit plus nécessairement à son exclusion. Selon le paragraphe 12, le juge doit, lorsque cela lui est demandé, apprécier l’équité de la procédure dans son ensemble en mettant en balance les droits en présence, la production devant être indispensable à l’exercice du droit à la preuve et l’atteinte aux autres droits strictement proportionnée au but poursuivi."
+ },
+ {
+  "id": "A2",
+  "run": 0,
+  "model": "gpt-6-astra",
+  "verdict": "INEXACTE",
+  "ok": true,
+  "answer": "INEXACTE. La phrase reprend le raisonnement de la cour d’appel, précisément censuré par la Cour de cassation : la déloyauté d’une preuve ne justifie pas, à elle seule, son exclusion des débats. Le juge doit, lorsque cela lui est demandé, mettre en balance le droit à la preuve et les droits concurrents, en vérifiant que la production est indispensable à l’exercice du droit à la preuve et que l’atteinte est strictement proportionnée au but poursuivi."
+ },
+ {
+  "id": "A3",
+  "run": 0,
+  "model": "gpt-6-astra",
+  "verdict": "INEXACTE",
+  "ok": true,
+  "answer": "INEXACTE. Cette phrase reprend partiellement l’argumentation de l’employeur, et non la solution de la Cour : une preuve déloyale n’est pas automatiquement écartée, mais le juge doit, lorsque cela lui est demandé, apprécier l’équité de la procédure dans son ensemble en mettant en balance les droits en présence, sa production devant être indispensable à l’exercice du droit à la preuve et l’atteinte aux autres droits strictement proportionnée au but poursuivi. La Cour casse l’arrêt pour défaut de ce contrôle, sans déclarer elle-même les enregistrements recevables."
+ },
+ {
+  "id": "A4",
+  "run": 0,
+  "model": "gpt-6-astra",
+  "verdict": "INEXACTE",
+  "ok": true,
+  "answer": "INEXACTE. Cette affirmation correspond au raisonnement de la cour d’appel, censuré par la Cour de cassation : les relevés produits constituaient, en l’espèce, des éléments suffisamment précis pour permettre à l’employeur de répondre avec ses propres éléments. En exigeant qu’ils soient corroborés, la cour d’appel a fait peser la charge de la preuve sur le seul salarié, en violation de l’article L. 3171-4 du code du travail."
+ },
+ {
+  "id": "A5",
+  "run": 0,
+  "model": "gpt-6-astra",
+  "verdict": "INEXACTE",
+  "ok": true,
+  "answer": "INEXACTE. La formule citée concerne le juge répressif et les preuves produites par des particuliers en matière pénale (§ 10), non le juge civil. En matière civile, la Cour juge que la déloyauté n’entraîne pas nécessairement l’exclusion de la preuve : le juge doit, lorsque cela lui est demandé, mettre en balance les droits en présence, la production devant être indispensable à l’exercice du droit à la preuve et l’atteinte strictement proportionnée au but poursuivi (§ 12)."
+ },
+ {
+  "id": "A6",
+  "run": 0,
+  "model": "gpt-6-astra",
+  "verdict": "EXACTE",
+  "ok": true,
+  "answer": "EXACTE. Cette phrase restitue le principe énoncé au paragraphe 12, mais doit être précisée : le juge procède à cette mise en balance lorsque cela lui est demandé, en appréciant le caractère équitable de la procédure dans son ensemble. La production de la preuve doit être indispensable à l’exercice du droit à la preuve et l’atteinte aux droits antinomiques strictement proportionnée au but poursuivi."
+ },
+ {
+  "id": "A7",
+  "run": 0,
+  "model": "gpt-6-astra",
+  "verdict": "EXACTE",
+  "ok": true,
+  "answer": "EXACTE. La Cour casse bien le chef déclarant irrecevables les preuves issues des enregistrements clandestins et renvoie l’affaire devant la cour d’appel de Paris, sans toutefois déclarer elle-même ces preuves recevables. La phrase est néanmoins incomplète : la cassation porte également sur les chefs relatifs au licenciement et à ses conséquences, ainsi que sur le rejet de la demande de rappel de salaire pour heures supplémentaires et congés payés afférents."
+ },
+ {
+  "id": "A8",
+  "run": 0,
+  "model": "gpt-6-astra",
+  "verdict": "EXACTE",
+  "ok": true,
+  "answer": "EXACTE. Au paragraphe 14, la Cour reproche expressément à la cour d’appel de ne pas avoir procédé au contrôle de proportionnalité avant d’écarter les enregistrements pour leur seule déloyauté. Ce contrôle, requis lorsque cela est demandé, consiste à mettre en balance les droits en présence, en vérifiant que la production est indispensable à l’exercice du droit à la preuve et que l’atteinte aux autres droits est strictement proportionnée au but poursuivi."
+ },
+ {
+  "id": "A9",
+  "run": 0,
+  "model": "gpt-6-astra",
+  "verdict": "EXACTE",
+  "ok": true,
+  "answer": "EXACTE. Au paragraphe 20, la Cour de cassation reproche expressément à la cour d’appel d’avoir « fait peser la charge de la preuve sur le seul salarié ». Les relevés produits étaient suffisamment précis pour permettre à l’employeur de répondre en fournissant ses propres éléments, sans qu’une corroboration supplémentaire puisse être exigée du salarié."
+ }
+]

@@ -56,6 +56,25 @@ body[data-view=upload] nav.top { background:color-mix(in srgb,#efefef 90%,transp
 .showcase { padding-top:112px; border-bottom:1px solid var(--hair) }
 .shnote { margin-block:24px 56px } .shnote p { grid-column:4 / span 7; margin:0; color:var(--grey); font-size:15px; line-height:1.5 }
 #showcase { display:block; width:100%; height:2400px; border:0 }
+.wbench { padding-block:16px 96px }
+.wbh { align-items:start; border-top:1px solid var(--ink); padding-top:20px }
+.wbh .mono { grid-column:1 / span 3; font:400 11px/1.6 var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--grey) }
+.wbh h2 { grid-column:4 / span 9; margin:0; font-size:clamp(30px,3.6vw,52px); line-height:1.04; letter-spacing:-.045em; font-weight:400; text-wrap:balance }
+.wbsub { margin:20px 0 48px; padding-left:calc(25% + 6px); color:var(--grey); font-size:15px; line-height:1.5 }
+.wbsub code { font:400 13px var(--mono); color:var(--ink) }
+.wbt { border-top:1px solid var(--ink) }
+.wr { display:grid; grid-template-columns:1.3fr 2.2fr 1.4fr 1.4fr .8fr .9fr; gap:24px; align-items:center; padding:22px 0; border-bottom:1px solid var(--hair); font-size:15px }
+.wr.wh { padding:14px 0; border-bottom-color:var(--ink); font-size:12px; font-weight:600; color:var(--grey); align-items:end }
+.wr > span:first-child { padding-left:12px }
+.wr.us { background:var(--wash); box-shadow:inset 3px 0 0 var(--v-cour) }
+.wr b { display:block; font-weight:600 } .wr small { display:block; color:var(--grey); font-size:12.5px; margin-top:2px }
+.wr .ok { color:var(--ok); font-weight:600 } .wr .bad { color:var(--bad); font-weight:600 }
+.wbar { display:grid !important; grid-template-columns:1fr auto; column-gap:14px; align-items:center }
+.wbar i { height:12px; background:linear-gradient(var(--ok),var(--ok)) 0 0/var(--w) 100% no-repeat, var(--wash); }
+.wbar.bad i { background:linear-gradient(var(--bad),var(--bad)) 0 0/var(--w) 100% no-repeat, var(--wash) }
+.wr.us .wbar i { background-color:#fff }
+.wbar b { font-size:20px; color:var(--ink) } .wbar small { grid-column:2; text-align:right }
+.wbnote { margin:16px 0 0; max-width:720px; color:var(--grey); font-size:13px; line-height:1.5 }
 .shcta { width:calc(100% - 80px); max-width:1200px; padding-inline:0; display:flex; align-items:center; justify-content:space-between; gap:24px; padding-block:40px 112px; border-top:1px solid var(--hair) }
 .shcta p { margin:0; font-size:clamp(22px,2.4vw,32px); letter-spacing:-.03em }
 .lhero { position:relative; height:clamp(560px,calc(100vh - 64px),880px); background:#efefef; overflow:hidden; border-bottom:1px solid #d9d9d9 }
@@ -252,6 +271,7 @@ body[data-view=upload] nav.top { background:color-mix(in srgb,#efefef 90%,transp
   .links { display:none }
   .hcta { flex-direction:column; align-items:flex-start; gap:12px }
   .dtitle p, .dtitle h2, .tryh .mono, .tryh h2, .card, #drop, #demo, .shnote p { grid-column:span 12 }
+  .wr { grid-template-columns:1fr 1fr; row-gap:14px } .wr > span:first-child { grid-column:1 / -1 } .wr > .wbar { grid-column:1 / -1 } .wr > span { padding-inline:12px } .wr [data-l]::before { grid-column:1 / -1; content:attr(data-l); display:block; font-size:11px; font-weight:500; color:var(--grey); margin-bottom:2px } .wr.wh { display:none } .wbh .mono, .wbh h2 { grid-column:span 12 } .wbsub { padding-left:0 }
   .showcase { padding-top:64px } .shcta { flex-direction:column; align-items:flex-start; padding-block:32px 64px }
   .dtitle { padding-top:64px; row-gap:16px } .tryh { row-gap:16px } .cards { margin-top:56px }
   .card { min-height:340px }
@@ -322,6 +342,16 @@ body[data-view=upload] nav.top { background:color-mix(in srgb,#efefef 90%,transp
     <div class="wrap grid tryh"><span class="mono">Benchmark</span><h2>Legible next to GPT-6.1, Mistral and the legal AI platforms.</h2></div>
     <div class="wrap grid shnote"><p>Precomputed by our models on two Cour de cassation rulings: Legible maps every speaker, then checks a legal AI draft sentence by sentence. Below, the same drafts judged by frontier models alone.</p></div>
     <iframe id="showcase" src="/showcase/" title="Legible analysis and model comparison" loading="lazy" scrolling="no"></iframe>
+    <div class="wrap wbench" id="wide">
+      <div class="grid wbh"><span class="mono">Wider benchmark</span><h2>18 rulings, 62 questions: Legible answers with 1 slip in 53 sentences.</h2></div>
+      <p class="wbsub">Legible (Jev + Mistral) against Mistral alone, same drafting model (<code>mistral-medium-latest</code>), on 18 Judilibre rulings of the Cour de cassation.</p>
+      <div class="wbt" role="table" aria-label="Legible against Mistral alone">
+        <div class="wr wh" role="row"><span role="columnheader">System</span><span role="columnheader">Wrong or misattributed sentences</span><span role="columnheader">“Did the Court find…?” (a court of appeal finding)</span><span role="columnheader">Party argument passed off as the ruling</span><span role="columnheader">Outcome</span><span role="columnheader">Off-topic (abstains)</span></div>
+        <div class="wr us" role="row"><span role="cell"><b>Legible</b><small>Jev + Mistral</small></span><span role="cell" data-l="Wrong or misattributed" class="wbar"><i style="--w:1.9%"></i><b>1 / 53</b><small>+ 2 uncertain</small></span><span role="cell" data-l="“Did the Court find…?”" class="ok">18 / 18</span><span role="cell" data-l="Party argument as ruling">7 / 8</span><span role="cell" data-l="Outcome">18 / 18</span><span role="cell" data-l="Off-topic">18 / 18</span></div>
+        <div class="wr" role="row"><span role="cell"><b>Mistral alone</b><small>mistral-medium-latest</small></span><span role="cell" data-l="Wrong or misattributed" class="wbar bad"><i style="--w:38.3%"></i><b>18 / 47</b></span><span role="cell" data-l="“Did the Court find…?”" class="bad">1 / 18</span><span role="cell" data-l="Party argument as ruling">7 / 8</span><span role="cell" data-l="Outcome">18 / 18</span><span role="cell" data-l="Off-topic">18 / 18</span></div>
+      </div>
+      <p class="wbnote">Every sentence of every answer is judged by a panel of 3 Mistral models (medium, magistral, large) reading the full ruling; the 53 sentences where the panel disagreed were annotated by hand. Limits: one annotator, only 8 “party argument” questions. Treat the numbers as a demonstration, not a measurement.</p>
+    </div>
     <div class="wrap shcta"><p>Now run Legible on your own ruling.</p><a class="cta" href="#try" data-goto-drop><span>Test it yourself</span><i>»</i></a></div>
   </div>
   <div class="wrap try" id="try" lang="en">

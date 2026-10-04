@@ -28,6 +28,9 @@
   .pill:hover .tip { display:block } .tip i { color:var(--muted) }
   .abstain { color:var(--muted); font-style:italic } .err { color:#f87171 }
   form { display:flex; gap:8px; margin-top:16px } input { flex:1; background:var(--panel); border:1px solid var(--line); color:var(--text); border-radius:8px; padding:10px 12px; font-size:15px }
+  .fb { margin-top:10px; padding-top:8px; border-top:1px solid var(--line); font-size:12.5px; color:var(--muted); display:flex; flex-wrap:wrap; gap:6px; align-items:center }
+  .fb button { padding:3px 9px; font-size:12px; font-weight:600; border-radius:6px } .fb button.ghost:hover { color:var(--text); border-color:var(--muted) }
+  .fb .done { color:#3fb950 } .pill.picked { box-shadow:0 0 0 2px #fff } #learning { color:var(--muted); font-size:12.5px; margin:-8px 0 14px }
   .legend span { display:inline-block; margin-right:12px; font-size:12px; color:var(--muted) } .legend i { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:5px; vertical-align:-1px }
 </style>
 </head>
@@ -44,6 +47,7 @@
   <section id="chat">
     <div class="meta" id="meta"></div>
     <div class="legend" id="legend"></div>
+    <div id="learning"></div>
     <div id="thread"></div>
     <form id="ask"><input id="q" placeholder="Posez une question sur l'arrêt…" autocomplete="off"><button>Envoyer</button></form>
   </section>
@@ -86,22 +90,69 @@ async function animate(data, wall) {
   await new Promise(r => setTimeout(r, 700));
   $('reading').style.display = 'none'; $('chat').style.display = 'block';
   $('meta').textContent = `Solution détectée : ${data.solution.replaceAll('_',' ')} · ${data.entries.length} segments attribués en ${data.seconds}s (Système 1 : ${data.model || 'Jev'})`;
-  $('q').focus();
+  refreshLearning(); $('q').focus();
 }
 
-function pill(p) {
+function pill(p, i) {
   const where = p.paragraph ? '§'+p.paragraph : p.zone_label;
   const probs = Object.entries(p.probabilities).sort((a,b) => b[1]-a[1]).slice(0,3).map(([k,v]) => `${NAMES[k]||k} ${Math.round(v*100)} %`).join(', ');
   const warn = p.level === 'ok' ? '' : ' ⚠';
-  return `<span class="pill ${p.level}" style="background:${color(p.speaker)}">${p.label} · ${where} · ${Math.round(p.confidence*100)} %${warn}
+  return `<span class="pill ${p.level}" data-s="${i}" data-seg="${p.segment_id}" style="background:${color(p.speaker)}">${p.label} · ${where} · ${Math.round(p.confidence*100)} %${warn}
     <span class="tip"><b>${esc(p.zone_label)}${p.paragraph ? ', §'+p.paragraph : ''}</b> — ${p.segment_id}<br>« ${esc(p.source_text)} »<br><i>${probs}</i>
     ${p.level === 'warn' ? '<br><b style="color:#f59e0b">' + esc(p.note || 'À vérifier dans le texte.') + '</b>' : ''}${p.level === 'unsupported' ? '<br><b style="color:#ef4444">Non soutenu par le passage cité.</b>' : ''}</span></span>`;
 }
 
 function render(a) {
   if (a.abstained) return `<span class="abstain">L'arrêt ne traite pas cette question.</span> <span class="pill none">Abstention</span>`;
-  return a.sentences.map(s => esc(s.text) + (s.revised_from ? `<span class="pill none revised" title="Reformulé après vérification. Version initiale : ${esc(s.revised_from)}">corrigé</span>` : '') + (s.pills.length ? s.pills.map(pill).join('') : '<span class="pill unsupported none">non sourcé ⚠</span>')).join(' ')
-    + `<div style="color:var(--muted);font-size:12px;margin-top:8px">${a.seconds}s</div>`;
+  return a.sentences.map((s, i) => esc(s.text) + (s.revised_from ? `<span class="pill none revised" title="Reformulé après vérification. Version initiale : ${esc(s.revised_from)}">corrigé</span>` : '') + (s.pills.length ? s.pills.map(p => pill(p, i)).join('') : '<span class="pill unsupported none">non sourcé ⚠</span>')).join(' ')
+    + `<div style="color:var(--muted);font-size:12px;margin-top:8px">${a.seconds}s</div>`
+    + `<div class="fb" data-role="answer">Réponse juste ? <button class="ghost" data-v="up">👍</button><button class="ghost" data-v="down">👎</button>
+       <span>· cliquez une pastille pour corriger le locuteur</span></div><div class="fb" data-role="pill" hidden></div>`;
+}
+
+function learningLine(l) {
+  const left = Math.max(0, l.min_labels - l.labels);
+  const thr = `seuil « vérifié » ${Math.round(l.ok_threshold*100)} %`;
+  return `Apprentissage : ${l.labels} pastille${l.labels > 1 ? 's' : ''} notée${l.labels > 1 ? 's' : ''} · ${l.corrections} correction${l.corrections > 1 ? 's' : ''} du registre · `
+    + `${l.validated_answers} réponse${l.validated_answers > 1 ? 's' : ''} validée${l.validated_answers > 1 ? 's' : ''} · `
+    + (left ? `${thr} (par défaut, recalibré après ${left} retour${left > 1 ? 's' : ''} de plus)` : `${thr} (appris sur vos retours, défaut ${Math.round(l.default_threshold*100)} %)`);
+}
+async function refreshLearning() { const r = await fetch('/api/learning'); if (r.ok) $('learning').textContent = learningLine(await r.json()); }
+
+async function sendFeedback(box, body) {
+  const res = await fetch('/api/feedback', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({answer_id: box.dataset.answer, ...body})});
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.detail || 'Erreur');
+  $('learning').textContent = learningLine(data.learning);
+  if (data.entry && doc) { const k = doc.entries.findIndex(e => e.id === data.entry.id); if (k >= 0) doc.entries[k] = data.entry; }
+  return data;
+}
+
+function wireFeedback(box) {
+  const answerBar = box.querySelector('[data-role=answer]'), pillBar = box.querySelector('[data-role=pill]');
+  if (!answerBar) return;
+  answerBar.onclick = async e => {
+    const v = e.target.dataset && e.target.dataset.v; if (!v) return;
+    try { await sendFeedback(box, {verdict: v}); answerBar.innerHTML = `<span class="done">${v === 'up' ? '👍 Réponse validée : ajoutée aux exemples d\'entraînement.' : '👎 Noté : réponse écartée des exemples.'}</span>`; }
+    catch (err) { answerBar.insertAdjacentHTML('beforeend', `<span class="err">${esc(err.message)}</span>`); }
+  };
+  box.querySelectorAll('.pill[data-seg]').forEach(el => el.onclick = () => {
+    box.querySelectorAll('.pill.picked').forEach(x => x.classList.remove('picked')); el.classList.add('picked');
+    const s = +el.dataset.s, seg = el.dataset.seg;
+    const others = Object.entries(NAMES).filter(([k]) => k !== 'INDETERMINE');
+    pillBar.hidden = false;
+    pillBar.innerHTML = `<b style="color:var(--text)">${seg}</b> : <button class="ghost" data-v="correct">✓ Juste</button><button class="ghost" data-v="unsupported">Non soutenu</button>
+      <span>Mauvais locuteur, c'est :</span>${others.map(([k, v]) => `<button style="background:${color(k)}" data-v="wrong_speaker" data-sp="${k}">${v}</button>`).join('')}`;
+    pillBar.onclick = async e => {
+      const v = e.target.dataset && e.target.dataset.v; if (!v) return;
+      try {
+        const data = await sendFeedback(box, {verdict: v, sentence_index: s, segment_id: seg, speaker: e.target.dataset.sp || null});
+        const msg = v === 'wrong_speaker' ? `Registre corrigé : ${seg} → ${NAMES[e.target.dataset.sp]} (100 %). Reposez la question pour une réponse recalculée.`
+          : v === 'correct' ? `Confirmé : ${seg} attribué à ${data.entry ? data.entry.label : 'ce locuteur'} à 100 %.` : 'Noté : cette pastille sert au recalibrage du seuil.';
+        pillBar.innerHTML = `<span class="done">${esc(msg)}</span>`;
+      } catch (err) { pillBar.insertAdjacentHTML('beforeend', `<span class="err">${esc(err.message)}</span>`); }
+    };
+  });
 }
 
 $('ask').onsubmit = async e => {
@@ -111,6 +162,7 @@ $('ask').onsubmit = async e => {
   const res = await fetch(`/api/documents/${doc.document_id}/ask`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({question:q})});
   const data = await res.json();
   box.innerHTML = res.ok ? render(data) : `<span class="err">${esc(data.detail || 'Erreur')}</span>`;
+  if (res.ok && !data.abstained) { box.dataset.answer = data.answer_id; wireFeedback(box); }
 };
 </script>
 </body>

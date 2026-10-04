@@ -478,6 +478,17 @@ def test_false_premise_question_is_rescued_lexically(legifrance_doc):
     assert s8 in {e.id for e in picked}
 
 
+def test_lexical_match_is_added_alongside_jev_picks(legifrance_doc):
+    from lawhack.answer import retrieve
+
+    registry = _registry(legifrance_doc)
+    s8, s10 = _para(registry, 8).id, _para(registry, 10).id
+    question = "La Cour de cassation a-t-elle constaté que la banque avait refusé le prêt des acquéreurs ?"
+    picked = asyncio.run(retrieve(registry, question, _fake(registry, relevant={s10})))
+
+    assert {s8, s10} <= {e.id for e in picked}
+
+
 def test_flagged_sentence_is_rewritten_when_reverification_improves(legifrance_doc, monkeypatch):
     registry = _registry(legifrance_doc)
     s8 = _para(registry, 8).id

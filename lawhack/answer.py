@@ -237,8 +237,8 @@ async def retrieve(registry: Registry, question: str, client: SystemOneClient) -
         # A question naming the wrong speaker (« la Cour a-t-elle constaté… ») can hide the passage: retry on its substance.
         state = {**state, "question": strip_cues(question)}
         votes = await _vote(state, keys, client)
+    rescued = _lexical_match(paragraphs, strip_cues(question))
     if none_everywhere() and not pinned:
-        rescued = _lexical_match(paragraphs, strip_cues(question))
         if rescued is None:
             return []
         votes = [{rescued: 1.0}]
@@ -253,6 +253,9 @@ async def retrieve(registry: Registry, question: str, client: SystemOneClient) -
             cumulative += p
             for e in paragraphs[key]:
                 picked[e.id] = e
+    if rescued is not None:
+        for e in paragraphs[rescued]:
+            picked[e.id] = e
     # The operative ruling is short and needed to state what the Cour actually decided.
     for e in registry.entries:
         if e.zone is Zone.DISPOSITIF:
@@ -330,6 +333,8 @@ SYSTEM_PROMPT = """Tu es LawHack, assistant juridique qui répond UNIQUEMENT à 
 Chaque extrait porte un identifiant [S-xxx], son locuteur (Cour, Cour d'appel, Demandeur…), sa rubrique et son paragraphe.
 
 Règles impératives :
+- Commence par répondre directement à la question posée (oui, non, ou « la Cour ne se prononce pas sur ce point »), en citant
+  le passage du vrai locuteur, ex. « Non : la Cour ne se prononce pas sur ce point, c'est la cour d'appel qui l'a retenu [S-012]. »
 - Chaque phrase de ta réponse se termine par le ou les identifiants qui la justifient, ex. « … [S-012] ».
 - Attribue chaque affirmation à son vrai locuteur : « la Cour décide/juge », « la cour d'appel a retenu », « le demandeur soutient ».
   Ne présente jamais l'argument d'une partie ou le motif de la cour d'appel comme une décision de la Cour.
@@ -338,6 +343,9 @@ Règles impératives :
 - Si la question prête une affirmation au mauvais locuteur (ex. « la Cour a-t-elle constaté… » alors que c'est la cour d'appel
   qui l'a relevé), ne t'abstiens pas : corrige l'attribution et donne l'information avec son vrai locuteur.
   Rappelle si utile que la Cour de cassation, juge du droit, ne constate pas les faits.
+- Si la question prête à la Cour un raisonnement que seuls la cour d'appel ou une partie ont tenu, dis que la Cour ne se
+  prononce pas sur ce point, rapporte ce qu'a retenu la cour d'appel (ou soutenu la partie), puis indique sur quel
+  fondement la Cour casse ou rejette.
 - Si les extraits ne permettent pas de répondre, réponds exactement : « L'arrêt ne traite pas cette question. »
 - N'utilise aucune connaissance extérieure à ces extraits. Réponse en français, concise (au plus 5 phrases)."""
 
@@ -578,6 +586,7 @@ async def _repair(
             prompt = f"{s.text}\nProblème : {reasons[i]} {tags}"
         try:  # a failed rewrite or re-check must not lose the verified draft
             rewritten = (await asyncio.to_thread(revise, prompt, cited, model)).strip()
+            rewritten = rewritten[:1].upper() + rewritten[1:]
             if rewritten.startswith(DROP):
                 return None
             ids = set(_CITE.findall(rewritten))

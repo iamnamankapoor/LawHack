@@ -56,6 +56,16 @@ def ocr_pdf(path: str | Path) -> list[str]:
     return [re.sub(r"(?m)^#+\s+", "", p["markdown"]) for p in pages]
 
 
+def read_text_file(path: str | Path) -> Document:
+    """A .txt decision copied from Légifrance/Judilibre: UTF-8 (with or without BOM) or Windows-1252."""
+    data = Path(path).read_bytes()
+    try:
+        text = data.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        text = data.decode("cp1252", errors="replace")
+    return load_text(text.replace("\r\n", "\n").replace("\r", "\n"))
+
+
 def load_text(text: str, doc_id: str | None = None) -> Document:
     return Document(id=doc_id or _digest(text), text=text, pages=[(0, len(text))])
 

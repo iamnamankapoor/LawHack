@@ -40,6 +40,13 @@ TARGET_ANY = "ANY"
 TARGET_MIN = 0.6
 MAX_PINNED = 3
 LEXICAL_RESCUE = 0.6
+HEADER_MIN = 0.5
+_HEADER_CUES = re.compile(
+    r"\b(auteur|r[ée]dig|pr[ée]sid|rapporteu?r|conseill[eè]r|avocat|greff|magistrat|juges?\b|chambre|formation"
+    r"|date|quand|audience|num[ée]ro|pourvoi n|ecli|quelle (cour|juridiction)|qui a (rendu|jug[ée]|sign)|rendu par"
+    r"|d[ée]cision attaqu[ée]e|publi[ée]|bulletin)",
+    re.I,
+)
 
 log = logging.getLogger(__name__)
 
@@ -214,9 +221,10 @@ async def retrieve(registry: Registry, question: str, client: SystemOneClient) -
         },
     }
     keys = [*paragraphs, NONE]
-    target_result, votes = await asyncio.gather(
+    target_result, votes, header = await asyncio.gather(
         client.decide({"question": question}, {"target": _target_choice()}),
         _vote(state, keys, client),
+        _header_for(registry, question, client),
     )
     target_probabilities = target_result.decisions["target"].probabilities
     top_target = max(target_probabilities, key=target_probabilities.get)
@@ -239,10 +247,11 @@ async def retrieve(registry: Registry, question: str, client: SystemOneClient) -
         votes = await _vote(state, keys, client)
     rescued = _lexical_match(paragraphs, strip_cues(question))
     if none_everywhere() and not pinned:
-        if rescued is None:
+        if rescued is None and not header:
             return []
-        votes = [{rescued: 1.0}]
-    picked: dict[str, RegistryEntry] = {e.id: e for e in pinned}
+        if rescued is not None:
+            votes = [{rescued: 1.0}]
+    picked: dict[str, RegistryEntry] = {e.id: e for e in [*header, *pinned]}
     if not none_everywhere():
         averaged = {k: sum(v.get(k, 0.0) for v in votes) / len(votes) for k in keys if k != NONE}
         ranked = sorted(averaged.items(), key=lambda t: -t[1])
@@ -265,6 +274,36 @@ async def retrieve(registry: Registry, question: str, client: SystemOneClient) -
             for reply in _court_reply(registry, e):
                 picked.setdefault(reply.id, reply)
     return sorted(picked.values(), key=lambda e: e.start)
+
+
+def header_entries(registry: Registry) -> list[RegistryEntry]:
+    """Caption of the arrêt (court, chamber, date, pourvoi, président, rapporteur, avocats), before the exposé.
+
+    Légifrance titrages and résumés come after the decision and are written by the documentation service: excluded.
+    """
+    out = []
+    for e in sorted(registry.entries, key=lambda e: e.start):
+        if e.zone not in (Zone.INTRODUCTION, Zone.METADONNEES):
+            break
+        out.append(e)
+    return out
+
+
+async def _header_for(registry: Registry, question: str, client: SystemOneClient) -> list[RegistryEntry]:
+    """The caption, only for questions about the arrêt itself (who rendered it, when, which judges or lawyers)."""
+    mode = os.environ.get("HEADER_CONTEXT", "lex")
+    header = header_entries(registry)
+    if not header or mode == "off":
+        return []
+    if mode == "always":
+        return header
+    if mode == "lex":
+        return header if _HEADER_CUES.search(question) else []
+    gate = await client.decide({"question": question}, {"about_caption": Noul(instructions=(
+        "Does `question` ask about the identity of the court decision itself: which court or chamber rendered it, "
+        "its date, case number, presiding judge, rapporteur, lawyers, parties' names, or the decision under appeal?"
+    ))})
+    return header if gate.decisions["about_caption"].probabilities["yes"] >= HEADER_MIN else []
 
 
 def _lexical_match(paragraphs: dict[str, list[RegistryEntry]], query: str) -> str | None:
@@ -349,6 +388,8 @@ Règles impératives :
   prononce pas sur ce point, rapporte ce qu'a retenu la cour d'appel (ou soutenu la partie), puis indique sur quel
   fondement la Cour casse ou rejette.
 - Seulement si aucun extrait n'évoque le sujet de la question, réponds exactement : « L'arrêt ne traite pas cette question. »
+- Les extraits « En-tête » / « Métadonnées » décrivent l'arrêt lui-même (juridiction, chambre, date, pourvoi, président,
+  rapporteur, avocats) : pour « qui est l'auteur », réponds la Cour de cassation et sa chambre, en citant l'en-tête.
 - N'utilise aucune connaissance extérieure à ces extraits. Réponse en français, concise (au plus 5 phrases)."""
 
 
@@ -411,7 +452,7 @@ async def verify(draft_text: str, registry: Registry, client: SystemOneClient) -
 
     # One Jev call per claim: batched questions influence each other and drag correct claims down.
     async def check(i: int, text: str, cited: list[RegistryEntry]) -> tuple[str, object]:
-        state = {"claim": text, "cited_sentences": {c.id: {"speaker": c.speaker.value, "text": c.text} for c in cited}}
+        state = {"claim": text, "cited_sentences": {c.id: {"speaker": _verify_speaker(c), "text": c.text} for c in cited}}
         question = Noul(
             instructions=(
                 "Is `claim` fully supported by `cited_sentences`, AND does it attribute each statement to the same "
@@ -456,6 +497,11 @@ async def verify(draft_text: str, registry: Registry, client: SystemOneClient) -
             ))
         out.append(AnswerSentence(text=text, pills=pills, supported=round(supported, 3)))
     return out
+
+
+def _verify_speaker(e: RegistryEntry) -> str:
+    # Jev reads the caption's « Président Mme X » as a speaker clash unless it is labelled as metadata.
+    return "METADONNEES" if e.zone in (Zone.INTRODUCTION, Zone.METADONNEES) else e.speaker.value
 
 
 def _reports_lower_court(claim: str, cited: RegistryEntry) -> bool:

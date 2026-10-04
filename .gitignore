@@ -4,6 +4,7 @@ __pycache__/
 .pytest_cache/
 data/cache/
 data/feedback/
+data/history.json
 data/raw/
 *.egg-info/
 .venv/

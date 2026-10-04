@@ -1,7 +1,12 @@
 """Demo web app: upload a decision (PDF or .txt), watch the System 1 reading, then chat with cited answers."""
 
+import json
+import os
+import re
+import tempfile
 import time
 import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -22,6 +27,7 @@ load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 ROOT = Path(__file__).resolve().parent.parent
 UPLOADS = ROOT / "data" / "raw"
+HISTORY = ROOT / "data" / "history.json"
 DEMO_PDF = ROOT / "data" / "samples" / "cass_civ3_2022-12-14_21-24539.pdf"
 STATIC = Path(__file__).resolve().parent / "static"
 
@@ -54,7 +60,67 @@ def _entry_dict(entry) -> dict:
     }
 
 
-def _analyse(path: Path) -> dict:
+def _history_entries() -> list[dict]:
+    try:
+        entries = json.loads(HISTORY.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    return [entry for entry in entries if isinstance(entry, dict)] if isinstance(entries, list) else []
+
+
+def _history_file(entry: dict) -> Path | None:
+    stored_path = entry.get("path")
+    if not isinstance(stored_path, str):
+        return None
+    relative_path = Path(stored_path)
+    if relative_path.is_absolute():
+        return None
+    root = ROOT.resolve()
+    path = (root / relative_path).resolve()
+    try:
+        path.relative_to(root)
+    except ValueError:
+        return None
+    return path
+
+
+def _record_history(entry: dict) -> None:
+    entries = [item for item in _history_entries() if item.get("document_id") != entry["document_id"]]
+    entries.insert(0, entry)
+    entries = entries[:50]
+    HISTORY.parent.mkdir(parents=True, exist_ok=True)
+    temporary: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=HISTORY.parent,
+            prefix=f".{HISTORY.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as stream:
+            temporary = Path(stream.name)
+            json.dump(entries, stream, ensure_ascii=False, indent=2)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, HISTORY)
+    except OSError:
+        if temporary is not None:
+            try:
+                temporary.unlink(missing_ok=True)
+            except OSError:
+                pass
+        raise
+
+
+def _title_with_case_number(title: str, text: str) -> str:
+    match = re.search(r"\b\d{2}-\d{2}\.\d{3}\b", text)
+    if match and match.group() not in title:
+        return f"{title} · n° {match.group()}"
+    return title
+
+
+def _analyse(path: Path, title: str) -> dict:
     started = time.perf_counter()
     try:
         doc = load(path)
@@ -66,8 +132,18 @@ def _analyse(path: Path) -> dict:
     if not registry.entries:
         raise HTTPException(422, "Aucun paragraphe d'arrêt reconnu dans ce document.")
     _registries[registry.document_id] = (registry, solution)
+    title = _title_with_case_number(title, doc.text)
+    _record_history({
+        "document_id": registry.document_id,
+        "title": title,
+        "solution": solution.value,
+        "segments": len(registry.entries),
+        "analysed_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "path": os.path.relpath(path, ROOT),
+    })
     return {
         "document_id": registry.document_id,
+        "title": title,
         "solution": solution.value,
         "model": registry.model,
         "seconds": round(registry.seconds or time.perf_counter() - started, 2),
@@ -86,14 +162,42 @@ async def upload(file: UploadFile) -> dict:
     if Path(file.filename or "").suffix.lower() not in {".pdf", ".txt"}:
         raise HTTPException(400, "Déposez un arrêt en PDF ou en .txt (Légifrance ou Judilibre).")
     UPLOADS.mkdir(parents=True, exist_ok=True)
-    path = UPLOADS / f"{uuid.uuid4().hex[:8]}_{Path(file.filename).name}"
+    filename = Path(file.filename).name
+    title = Path(filename).stem
+    path = UPLOADS / f"{uuid.uuid4().hex[:8]}_{filename}"
     path.write_bytes(await file.read())
-    return await run_in_threadpool(_analyse, path)
+    return await run_in_threadpool(_analyse, path, title)
 
 
 @app.post("/api/documents/demo")
 async def demo() -> dict:
-    return await run_in_threadpool(_analyse, DEMO_PDF)
+    return await run_in_threadpool(_analyse, DEMO_PDF, "Civ. 3, 14 déc. 2022")
+
+
+@app.get("/api/documents")
+def documents() -> dict:
+    visible = []
+    public_fields = ("document_id", "title", "solution", "segments", "analysed_at")
+    for entry in _history_entries():
+        if not all(field in entry for field in (*public_fields, "path")):
+            continue
+        path = _history_file(entry)
+        if path is None or not path.is_file():
+            continue
+        visible.append({field: entry[field] for field in public_fields})
+    return {"documents": visible}
+
+
+@app.get("/api/documents/{document_id}")
+async def reopen_document(document_id: str) -> dict:
+    entry = next(
+        (item for item in _history_entries() if item.get("document_id") == document_id),
+        None,
+    )
+    path = _history_file(entry) if entry is not None else None
+    if entry is None or not isinstance(entry.get("title"), str) or path is None or not path.is_file():
+        raise HTTPException(404, "Arrêt introuvable : déposez-le à nouveau.")
+    return await run_in_threadpool(_analyse, path, entry["title"])
 
 
 @app.post("/api/documents/{document_id}/ask")

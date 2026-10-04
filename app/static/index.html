@@ -68,6 +68,15 @@ h1 .dot { color:var(--v-cour) }
 #demo .go i { font-style:normal; transition:transform .3s var(--ease) }
 #demo:hover { background:#1c1c1c } #demo:hover .go i { transform:translateX(6px) }
 #demo:active { transform:scale(.99) }
+.recent { margin-top:56px; border-top:1px solid var(--ink) }
+.recent .rh { display:flex; justify-content:space-between; align-items:baseline; padding:14px 0 6px }
+.recent .meta { font-size:12px; color:var(--soft) }
+.rec { display:grid; grid-template-columns:minmax(0,1fr) max-content max-content 20px; gap:24px; align-items:baseline; width:100%; padding:12px 0; border-bottom:1px solid var(--hair); text-align:left; font-size:14.5px; animation:rise .4s var(--ease) both; animation-delay:calc(var(--i) * 40ms) }
+.rec strong { font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.rec span { font-size:12.5px; color:var(--grey) }
+.rec i { font-style:normal; color:var(--soft); transition:transform .3s var(--ease), color .2s }
+.rec:hover strong { color:var(--v-cour) } .rec:hover i { transform:translateX(4px); color:var(--ink) }
+@keyframes rise { from { opacity:0; transform:translateY(4px) } }
 #uperr { grid-column:span 12; font-size:13.5px; color:var(--bad); border-left:2px solid var(--bad); padding-left:10px }
 #uperr:empty { display:none }
 .steps { margin-top:72px; border-top:1px solid var(--ink) }
@@ -241,6 +250,10 @@ h1 .dot { color:var(--v-cour) }
       <div id="uperr" role="alert"></div>
     </div>
     <input type="file" id="file" accept=".pdf,.txt" hidden>
+    <div class="recent" id="recent" hidden>
+      <div class="rh"><span class="eyebrow">Déjà analysés</span><span class="meta num" id="recentn"></span></div>
+      <div id="recentl"></div>
+    </div>
     <div class="grid steps">
       <div><div class="n">01</div><h4>Lecture</h4><p>Chaque phrase de l'arrêt est attribuée à son locuteur par le Système 1.</p></div>
       <div><div class="n">02</div><h4>Question</h4><p>La réponse est rédigée uniquement à partir des passages retrouvés.</p></div>
@@ -297,7 +310,23 @@ drop.ondragleave = () => { drop.classList.remove('over'); $('droptitle').textCon
 drop.ondrop = e => { e.preventDefault(); drop.ondragleave(); if (e.dataTransfer.files[0]) upload(e.dataTransfer.files[0]); };
 $('file').onchange = e => { const f = e.target.files[0]; e.target.value = ''; if (f) upload(f); };
 $('demo').onclick = () => start(fetch('/api/documents/demo', {method:'POST'}), 'Civ. 3, 14 déc. 2022');
-$('reset').onclick = () => { run++; doc = null; busy = false; hidePop(); setFocus(null); show('upload'); };
+$('reset').onclick = () => { run++; doc = null; busy = false; hidePop(); setFocus(null); show('upload'); loadRecent(); };
+
+/* Previously analysed decisions */
+function ago(iso) {
+  const d = new Date(iso.endsWith('Z') || iso.includes('+') ? iso : iso + 'Z'), m = Math.round((Date.now() - d) / 60000);
+  if (m < 1) return "à l'instant"; if (m < 60) return `il y a ${m} min`; if (m < 1440) return `il y a ${Math.round(m / 60)} h`;
+  return d.toLocaleDateString('fr-FR', {day:'numeric', month:'short'});
+}
+async function loadRecent() {
+  let list = [];
+  try { const r = await fetch('/api/documents'); if (r.ok) list = (await r.json()).documents || []; } catch {}
+  $('recent').hidden = !list.length;
+  $('recentn').textContent = list.length > 1 ? `${list.length} arrêts` : '';
+  $('recentl').innerHTML = list.map((d, i) => `<button type="button" class="rec" data-id="${esc(d.document_id)}" style="--i:${i}"><strong>${esc(d.title)}</strong><span>${esc(SOLUTIONS[d.solution] || d.solution)} · ${fr(d.segments)} segments</span><span class="num">${esc(ago(d.analysed_at))}</span><i>→</i></button>`).join('');
+  $('recentl').querySelectorAll('.rec').forEach((b, i) => b.onclick = () => start(fetch('/api/documents/' + encodeURIComponent(list[i].document_id)), list[i].title));
+}
+loadRecent();
 
 function upload(file) { const fd = new FormData(); fd.append('file', file); start(fetch('/api/documents', {method:'POST', body:fd}), file.name.replace(/\.(pdf|txt)$/i, '')); }
 

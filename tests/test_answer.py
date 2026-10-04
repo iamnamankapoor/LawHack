@@ -106,3 +106,13 @@ def test_abstains_only_when_both_passes_say_none(legifrance_doc, monkeypatch):
     fake.decide = flaky
     context = asyncio.run(answer_module.retrieve(registry, "Les acquéreurs devaient-ils accepter le prêt ?", fake))
     assert len(calls) == 2 and 10 in {e.paragraph for e in context}
+
+
+def test_lower_court_reported_in_a_moyen_is_a_warning(legifrance_doc, monkeypatch):
+    registry = _registry(legifrance_doc)
+    s7 = next(e for e in registry.entries if e.paragraph == 7 and e.speaker.value == "DEMANDEUR")
+    monkeypatch.setattr(answer_module, "draft", lambda q, ctx, m=None: f"La cour d'appel a déclaré la promesse caduque [{s7.id}].")
+    result = asyncio.run(ask(registry, "Qu'a décidé la cour d'appel ?", _fake(registry, relevant={s7.id}, supported=0.1)))
+    pill = result.sentences[0].pills[0]
+    assert pill.level == "warn"
+    assert pill.note.startswith("Rapporté par le demandeur (§7)")

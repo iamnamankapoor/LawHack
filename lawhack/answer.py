@@ -39,6 +39,8 @@ ZONE_LABELS = {
 }
 NOT_ADDRESSED = "L'arrêt ne traite pas cette question."
 _CITE = re.compile(r"\[(S-\d{3})\]")
+_LOWER_COURT = re.compile(r"\b(cour d'appel|arr[êe]t attaqu[ée]|juges? du fond|tribunal)\b", re.I)
+_PARTIES = {"DEMANDEUR", "DEFENDEUR"}
 
 
 class Pill(BaseModel):
@@ -51,6 +53,7 @@ class Pill(BaseModel):
     level: str  # "ok" | "warn" | "unsupported"
     source_text: str
     probabilities: dict[str, float]
+    note: str | None = None
 
 
 class AnswerSentence(BaseModel):
@@ -232,13 +235,23 @@ async def verify(draft_text: str, registry: Registry, client: SystemOneClient) -
         for c in cited:
             confidence = min(c.speaker.confidence, supported)
             level = "ok" if confidence >= ANSWER_ABOVE else "warn" if confidence >= WARN_ABOVE else "unsupported"
+            note = None
+            if _reports_lower_court(text, c):
+                # The party's moyen paraphrases the arrêt attaqué: a real source, but second-hand.
+                confidence, level = c.speaker.confidence, "warn"
+                who = SPEAKER_LABELS[c.speaker.value].lower()
+                note = f"Rapporté par le {who}" + (f" (§{c.paragraph})" if c.paragraph else "") + ", pas par la Cour."
             pills.append(Pill(
                 segment_id=c.id, speaker=c.speaker.value, label=SPEAKER_LABELS[c.speaker.value],
                 paragraph=c.paragraph, zone_label=ZONE_LABELS[c.zone], confidence=round(confidence, 3),
-                level=level, source_text=c.text, probabilities=c.speaker.probabilities,
+                level=level, source_text=c.text, probabilities=c.speaker.probabilities, note=note,
             ))
         out.append(AnswerSentence(text=text, pills=pills, supported=round(supported, 3)))
     return out
+
+
+def _reports_lower_court(claim: str, cited: RegistryEntry) -> bool:
+    return cited.zone is Zone.MOYENS and cited.speaker.value in _PARTIES and bool(_LOWER_COURT.search(claim))
 
 
 async def ask(registry: Registry, question: str, client: SystemOneClient, model: str | None = None) -> Answer:

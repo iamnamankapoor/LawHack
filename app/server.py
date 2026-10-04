@@ -10,7 +10,7 @@ from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
-from lawhack.answer import SPEAKER_LABELS, ZONE_LABELS, ask
+from lawhack.answer import SPEAKER_LABELS, ZONE_LABELS, ask, speaker_label
 from lawhack.pipeline import analyse, load
 from lawhack.schema import Registry
 from lawhack.system_one import TypeSafeSystemOne
@@ -46,7 +46,7 @@ def _analyse(path: Path) -> dict:
                 "paragraph": e.paragraph,
                 "zone": ZONE_LABELS[e.zone],
                 "speaker": e.speaker.value,
-                "label": SPEAKER_LABELS[e.speaker.value],
+                "label": speaker_label(e),
                 "confidence": round(e.speaker.confidence, 3),
                 "text": e.text,
             }

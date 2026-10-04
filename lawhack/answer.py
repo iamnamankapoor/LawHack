@@ -8,9 +8,11 @@ import time
 from pydantic import BaseModel
 from typesafe_sdk import Choice, Noul
 
+from lawhack.retrieval import BM25, coverage
 from lawhack.schema import Registry, RegistryEntry, Speaker, Zone
 from lawhack.segmenter import split_sentences
 from lawhack.system_one import SystemOneClient
+from lawhack.verify import strip_cues
 
 ANSWER_ABOVE = 0.8
 WARN_ABOVE = 0.5
@@ -19,6 +21,7 @@ MIN_PARAGRAPH_P = 0.05
 COVER = 0.9
 PARAGRAPH_CHARS = 1500
 NONE = "NONE"
+LEXICAL_RESCUE = 0.6
 
 SPEAKER_LABELS = {
     "COUR_CASSATION": "Cour",
@@ -80,9 +83,22 @@ def _tag(p: Pill) -> str:
     return f"[{p.label} · {para} · {p.confidence:.0%}{warn}]"
 
 
+def speaker_label(e: RegistryEntry, labels: dict[str, str] = SPEAKER_LABELS) -> str:
+    """« Cour, approuvant la cour d'appel » when the Cour endorses a reported voice (« à bon droit »)."""
+    label = labels[e.speaker.value]
+    reported = e.chain[-1].value if e.chain else e.speaker.value
+    if e.speaker.value == Speaker.COUR_CASSATION.value and reported != e.speaker.value:
+        return f"{label}, approuvant {APPROVED[reported]}"
+    return label
+
+
+APPROVED = {"JURIDICTION_FOND": "la cour d'appel", "DEMANDEUR": "le demandeur", "DEFENDEUR": "le défendeur",
+            "MINISTERE_PUBLIC": "le ministère public", "LOI": "la loi", "INDETERMINE": "un tiers"}
+
+
 def _describe(e: RegistryEntry) -> str:
     para = f"§{e.paragraph}" if e.paragraph else "sans numéro"
-    return (f"[{e.id}] locuteur={SPEAKER_LABELS[e.speaker.value]} ({e.speaker.confidence:.0%}) · "
+    return (f"[{e.id}] locuteur={speaker_label(e)} ({e.speaker.confidence:.0%}) · "
             f"rubrique={ZONE_LABELS[e.zone]} · {para} · statut={e.status.value}\n{e.text}")
 
 
@@ -104,12 +120,16 @@ async def retrieve(registry: Registry, question: str, client: SystemOneClient) -
         },
     }
     keys = [*paragraphs, NONE]
-    # Two passes with reversed option order counter Jev's first-option bias and run-to-run variance;
-    # we abstain only when both passes agree that no paragraph answers.
-    passes = await asyncio.gather(*(client.decide(state, {"best": _paragraph_choice(order)}) for order in (keys, keys[::-1])))
-    votes = [r.decisions["best"].probabilities for r in passes]
+    votes = await _vote(state, keys, client)
     if all(max(v, key=v.get) == NONE for v in votes):
-        return []
+        # A question naming the wrong speaker (« la Cour a-t-elle constaté… ») can hide the passage: retry on its substance.
+        state = {**state, "question": strip_cues(question)}
+        votes = await _vote(state, keys, client)
+    if all(max(v, key=v.get) == NONE for v in votes):
+        rescued = _lexical_match(paragraphs, strip_cues(question))
+        if rescued is None:
+            return []
+        votes = [{rescued: 1.0}]
     averaged = {k: sum(v.get(k, 0.0) for v in votes) / len(votes) for k in keys if k != NONE}
     ranked = sorted(averaged.items(), key=lambda t: -t[1])
     picked: dict[str, RegistryEntry] = {}
@@ -129,6 +149,21 @@ async def retrieve(registry: Registry, question: str, client: SystemOneClient) -
             for reply in _court_reply(registry, e):
                 picked.setdefault(reply.id, reply)
     return sorted(picked.values(), key=lambda e: e.start)
+
+
+def _lexical_match(paragraphs: dict[str, list[RegistryEntry]], query: str) -> str | None:
+    """Paragraph holding most of the question's content words, when Jev abstains on a false-premise question."""
+    keys = list(paragraphs)
+    texts = [" ".join(e.text for e in paragraphs[k]) for k in keys]
+    best = max(((keys[i], coverage(query, texts[i])) for i, _ in BM25(texts).top(query, k=3)), key=lambda t: t[1], default=None)
+    return best[0] if best and best[1] >= LEXICAL_RESCUE else None
+
+
+async def _vote(state: dict, keys: list[str], client: SystemOneClient) -> list[dict[str, float]]:
+    # Two passes with reversed option order counter Jev's first-option bias and run-to-run variance;
+    # we abstain only when both passes agree that no paragraph answers.
+    passes = await asyncio.gather(*(client.decide(state, {"best": _paragraph_choice(order)}) for order in (keys, keys[::-1])))
+    return [r.decisions["best"].probabilities for r in passes]
 
 
 def _paragraph_choice(keys: list[str]) -> Choice:
@@ -176,6 +211,9 @@ Règles impératives :
   Ne présente jamais l'argument d'une partie ou le motif de la cour d'appel comme une décision de la Cour.
 - Si la Cour approuve la cour d'appel (« à bon droit », « exactement déduit »), dis-le explicitement.
 - Si le point n'apparaît que dans le moyen, écris que la Cour ne le tranche pas et que c'est l'argument du demandeur.
+- Si la question prête une affirmation au mauvais locuteur (ex. « la Cour a-t-elle constaté… » alors que c'est la cour d'appel
+  qui l'a relevé), ne t'abstiens pas : corrige l'attribution et donne l'information avec son vrai locuteur.
+  Rappelle si utile que la Cour de cassation, juge du droit, ne constate pas les faits.
 - Si les extraits ne permettent pas de répondre, réponds exactement : « L'arrêt ne traite pas cette question. »
 - N'utilise aucune connaissance extérieure à ces extraits. Réponse en français, concise (au plus 5 phrases)."""
 
@@ -234,7 +272,7 @@ async def verify(draft_text: str, registry: Registry, client: SystemOneClient) -
             confidence = min(c.speaker.confidence, supported)
             level = "ok" if confidence >= ANSWER_ABOVE else "warn" if confidence >= WARN_ABOVE else "unsupported"
             pills.append(Pill(
-                segment_id=c.id, speaker=c.speaker.value, label=SPEAKER_LABELS[c.speaker.value],
+                segment_id=c.id, speaker=c.speaker.value, label=speaker_label(c),
                 paragraph=c.paragraph, zone_label=ZONE_LABELS[c.zone], confidence=round(confidence, 3),
                 level=level, source_text=c.text, probabilities=c.speaker.probabilities,
             ))

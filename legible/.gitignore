@@ -1,0 +1,6 @@
+.env
+cache/
+__pycache__/
+video/node_modules
+video/build/
+video/out/*.png

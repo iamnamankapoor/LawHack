@@ -1,0 +1,20 @@
+[
+ {"id": "Q1", "question": "Que décide la Cour de cassation sur la recevabilité d'une preuve recueillie à l'insu de la personne ?",
+  "trap": "§ 6 (ancienne jurisprudence, abandonnée au § 12)",
+  "correct_answer": "Elle n'est pas nécessairement écartée : le juge met en balance le droit à la preuve et les droits antinomiques (§ 12)."},
+ {"id": "Q2", "question": "Selon la Cour de cassation, les transcriptions des enregistrements clandestins devaient-elles être écartées des débats ?",
+  "trap": "§ 13 (raisonnement de la cour d'appel, censuré au § 14)",
+  "correct_answer": "Non : la cour d'appel devait procéder au contrôle de proportionnalité du § 12 (§ 14)."},
+ {"id": "Q3", "question": "La Cour de cassation juge-t-elle qu'un enregistrement audio obtenu à l'insu d'un salarié est recevable dès lors qu'il ne porte pas atteinte aux droits du salarié et qu'il a pu être discuté dans le cadre d'un procès équitable ?",
+  "trap": "§ 4 (moyen de l'employeur)",
+  "correct_answer": "Non, ce sont les termes du moyen de l'employeur (§ 4) ; la Cour exige une production indispensable et une atteinte strictement proportionnée (§ 12)."},
+ {"id": "Q4", "question": "La Cour de cassation retient-elle la faute grave du salarié ?",
+  "trap": "l'arrêt ne tranche pas",
+  "correct_answer": "Non, elle ne se prononce pas sur la faute grave : elle casse et renvoie devant la cour d'appel de Paris."},
+ {"id": "Q5", "question": "Quel montant de dommages-intérêts pour licenciement sans cause réelle et sérieuse la Cour de cassation accorde-t-elle à M. B. ?",
+  "trap": "dispositif : montant fixé par la cour d'appel, cassé",
+  "correct_answer": "Aucun : les 15 000 euros avaient été alloués par la cour d'appel, et ce chef est cassé."},
+ {"id": "Q6", "question": "La Cour de cassation considère-t-elle que des relevés d'heures établis par ordinateur, non corroborés, ne suffisent pas à étayer une demande d'heures supplémentaires ?",
+  "trap": "§ 19 (raisonnement de la cour d'appel, censuré au § 20)",
+  "correct_answer": "Non, c'est le raisonnement de la cour d'appel, censuré (§ 20)."}
+]

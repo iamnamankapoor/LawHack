@@ -1,0 +1,166 @@
+{
+ "model": "mistral-medium-3-5",
+ "mode": "full",
+ "provider": "Mistral",
+ "setup": "LLM alone, full decision in context",
+ "cites_paragraph": 3,
+ "total": 15,
+ "errors": 7,
+ "missed_traps": 7,
+ "false_alarms": 0,
+ "latency_avg_s": 1.8,
+ "results": [
+  {
+   "id": "A1",
+   "arret": "Ass. plén., 22 déc. 2023",
+   "sentence": "Dans cet arrêt, la Cour de cassation juge qu'est irrecevable la production d'une preuve recueillie à l'insu de la personne ou obtenue par une manœuvre ou un stratagème.",
+   "expected_correct": false,
+   "verdict": "INEXACTE",
+   "ok": true,
+   "answer": "INEXACTE. La Cour de cassation nuance sa position : elle considère désormais que l'illicéité ou la déloyauté d'une preuve ne conduit pas *nécessairement* à son irrecevabilité, mais impose au juge d'apprécier si son exclusion porte atteinte à l'équité de la procédure, en mettant en balance le droit à la preuve et les droits antinomiques. L'arrêt casse ainsi la décision de la cour d'appel pour avoir écarté les preuves sans ce contrôle de proportionnalité.",
+   "cites_paragraph": false
+  },
+  {
+   "id": "A2",
+   "arret": "Ass. plén., 22 déc. 2023",
+   "sentence": "La Cour de cassation retient que les transcriptions d'enregistrements clandestins, ayant été obtenues par un procédé déloyal, doivent être écartées des débats.",
+   "expected_correct": false,
+   "verdict": "INEXACTE",
+   "ok": true,
+   "answer": "INEXACTE\n\nLa Cour de cassation ne retient pas systématiquement l'irrecevabilité des enregistrements clandestins : elle exige que le juge apprécie au cas par cas si leur production porte atteinte à l'équité de la procédure, en mettant en balance le droit à la preuve et les droits antinomiques. En l'espèce, elle casse l'arrêt car la cour d'appel n'a pas effectué ce contrôle de proportionnalité.",
+   "cites_paragraph": false
+  },
+  {
+   "id": "A3",
+   "arret": "Ass. plén., 22 déc. 2023",
+   "sentence": "Selon la Cour de cassation, l'enregistrement audio obtenu à l'insu d'un salarié est recevable dès lors qu'il ne porte pas atteinte aux droits du salarié et qu'il a pu être discuté dans le cadre d'un procès équitable.",
+   "expected_correct": false,
+   "verdict": "EXACTE",
+   "ok": false,
+   "answer": "EXACTE\n\nL'arrêt précise que l'illicéité ou la déloyauté d'une preuve ne conduit pas nécessairement à son irrecevabilité, mais que le juge doit apprécier si elle porte atteinte à l'équité de la procédure en mettant en balance le droit à la preuve et les droits antinomiques. La phrase résume correctement cette position, bien qu'elle simplifie légèrement les conditions (notamment l'exigence de proportionnalité).",
+   "cites_paragraph": false
+  },
+  {
+   "id": "A4",
+   "arret": "Ass. plén., 22 déc. 2023",
+   "sentence": "La Cour de cassation considère que des relevés d'heures établis par ordinateur, qui ne sont corroborés par aucun autre élément, ne suffisent pas à étayer une demande d'heures supplémentaires.",
+   "expected_correct": false,
+   "verdict": "EXACTE",
+   "ok": false,
+   "answer": "EXACTE\n\nLa Cour de cassation a effectivement jugé que les relevés d'heures établis par ordinateur, non corroborés par d'autres éléments, ne suffisaient pas à étayer la demande du salarié (point 19 de l'arrêt). Cependant, elle a aussi rappelé que le salarié doit seulement présenter des éléments *suffisamment précis* pour permettre à l'employeur de répondre (point 18), ce que la cour d'appel n'a pas correctement appliqué.",
+   "cites_paragraph": false
+  },
+  {
+   "id": "A5",
+   "arret": "Ass. plén., 22 déc. 2023",
+   "sentence": "Dans cet arrêt, la Cour de cassation juge qu'aucune disposition légale ne permet au juge civil d'écarter les moyens de preuve produits par des particuliers au seul motif qu'ils auraient été obtenus de façon déloyale.",
+   "expected_correct": false,
+   "verdict": "EXACTE",
+   "ok": false,
+   "answer": "EXACTE\n\nLa Cour de cassation affirme effectivement dans cet arrêt (point 12) que l'illicéité ou la déloyauté d'une preuve ne conduit pas *nécessairement* à son irrecevabilité en matière civile, le juge devant apprécier la proportionnalité entre le droit à la preuve et les droits antinomiques. Elle précise ainsi que le principe d'irrecevabilité automatique des preuves déloyales n'est plus absolu.",
+   "cites_paragraph": false
+  },
+  {
+   "id": "A6",
+   "arret": "Ass. plén., 22 déc. 2023",
+   "sentence": "La Cour de cassation juge désormais que, dans un procès civil, l'illicéité ou la déloyauté dans l'obtention d'une preuve ne conduit pas nécessairement à l'écarter des débats, le juge devant mettre en balance le droit à la preuve et les droits antinomiques en présence.",
+   "expected_correct": true,
+   "verdict": "EXACTE",
+   "ok": true,
+   "answer": "EXACTE. L'arrêt de l'assemblée plénière du 1er février 2023 (paragraphe 12) consacre effectivement ce principe en précisant que le juge doit apprécier si la preuve déloyale ou illicite porte atteinte à l'équité de la procédure, en mettant en balance le droit à la preuve et les droits en conflit, sous réserve de proportionnalité. Cette solution marque un assouplissement par rapport à la jurisprudence antérieure qui écartait systématiquement les preuves déloyales.",
+   "cites_paragraph": true
+  },
+  {
+   "id": "A7",
+   "arret": "Ass. plén., 22 déc. 2023",
+   "sentence": "La Cour de cassation casse l'arrêt de la cour d'appel d'Orléans en ce qu'il a déclaré irrecevables les enregistrements clandestins et renvoie l'affaire devant la cour d'appel de Paris.",
+   "expected_correct": true,
+   "verdict": "EXACTE",
+   "ok": true,
+   "answer": "EXACTE. La Cour de cassation casse effectivement l'arrêt de la cour d'appel d'Orléans en ce qu'il a déclaré irrecevables les enregistrements clandestins et renvoie l'affaire devant la cour d'appel de Paris, comme le précise le dispositif de l'arrêt.",
+   "cites_paragraph": false
+  },
+  {
+   "id": "A8",
+   "arret": "Ass. plén., 22 déc. 2023",
+   "sentence": "Pour la Cour de cassation, la cour d'appel devait procéder à un contrôle de proportionnalité avant d'écarter les enregistrements.",
+   "expected_correct": true,
+   "verdict": "EXACTE",
+   "ok": true,
+   "answer": "EXACTE. La Cour de cassation reproche à la cour d'appel de ne pas avoir effectué le contrôle de proportionnalité entre le droit à la preuve et les droits antinomiques (comme le respect de la vie privée) avant d'écarter les enregistrements clandestins, comme elle l'exige au paragraphe 12 de l'arrêt. Elle souligne que cette omission a conduit à une violation des textes applicables.",
+   "cites_paragraph": true
+  },
+  {
+   "id": "A9",
+   "arret": "Ass. plén., 22 déc. 2023",
+   "sentence": "La Cour de cassation reproche à la cour d'appel d'avoir fait peser la charge de la preuve des heures supplémentaires sur le seul salarié.",
+   "expected_correct": true,
+   "verdict": "EXACTE",
+   "ok": true,
+   "answer": "EXACTE. La Cour de cassation a effectivement censuré la cour d'appel pour avoir fait peser la charge de la preuve des heures supplémentaires sur le seul salarié, alors que l'employeur devait aussi produire ses propres éléments (paragraphe 20). Elle rappelle que le salarié doit seulement présenter des éléments suffisamment précis pour permettre à l'employeur de répondre (paragraphe 18).",
+   "cites_paragraph": true
+  },
+  {
+   "id": "B1",
+   "arret": "Civ. 2, 9 mai 2018",
+   "sentence": "La Cour de cassation juge que l'erreur de calcul reconnue pour un établissement s'est nécessairement reproduite pour tous les établissements.",
+   "expected_correct": false,
+   "verdict": "EXACTE",
+   "ok": false,
+   "answer": "EXACTE. La Cour de cassation valide la déduction de la cour d'appel selon laquelle l'erreur de calcul reconnue pour l'établissement *Vacances en ligne* (année 2009) s'est nécessairement reproduite pour les autres années et établissements, car la formule utilisée était identique. Elle confirme ainsi que cette erreur viciait l'ensemble des redressements au titre de la réduction Fillon.",
+   "cites_paragraph": false
+  },
+  {
+   "id": "B2",
+   "arret": "Civ. 2, 9 mai 2018",
+   "sentence": "Selon la Cour de cassation, la cour d'appel s'est prononcée par des motifs hypothétiques.",
+   "expected_correct": false,
+   "verdict": "EXACTE",
+   "ok": false,
+   "answer": "EXACTE. La Cour de cassation reproche à la cour d'appel d'avoir utilisé des motifs hypothétiques dans son premier moyen, en déduisant que l'erreur de calcul reconnue pour un établissement s'était \"nécessairement reproduite\" pour les autres sans preuve suffisante. Cependant, elle valide finalement cette motivation dans sa propre analyse, ce qui nuance la portée de la critique.",
+   "cites_paragraph": false
+  },
+  {
+   "id": "B3",
+   "arret": "Civ. 2, 9 mai 2018",
+   "sentence": "La Cour de cassation retient que l'URSSAF avait accepté la pratique de la société de manière non équivoque, dans des conditions caractérisant un accord tacite.",
+   "expected_correct": false,
+   "verdict": "EXACTE",
+   "ok": false,
+   "answer": "EXACTE. La Cour de cassation mentionne bien que la cour d'appel a retenu un accord tacite de l'URSSAF, mais elle censure cette décision car les motifs étaient insuffisants pour prouver l'identité des pratiques invoquées. La phrase résume donc correctement la position de la cour d'appel, mais pas celle de la Cour de cassation qui l'annule.",
+   "cites_paragraph": false
+  },
+  {
+   "id": "B4",
+   "arret": "Civ. 2, 9 mai 2018",
+   "sentence": "Pour la Cour de cassation, le fait que certains établissements soient créditeurs de réductions Fillon alors que d'autres sont débiteurs n'a rien de contradictoire.",
+   "expected_correct": false,
+   "verdict": "EXACTE",
+   "ok": false,
+   "answer": "EXACTE. La Cour de cassation a effectivement jugé que le fait que certains établissements soient créditeurs de réductions Fillon alors que d'autres sont débiteurs n'a rien de contradictoire (4° du premier moyen). Elle a donc rejeté l'argument de la société MMV gestion sur ce point.",
+   "cites_paragraph": false
+  },
+  {
+   "id": "B5",
+   "arret": "Civ. 2, 9 mai 2018",
+   "sentence": "La Cour de cassation rejette le premier moyen : la cour d'appel a légalement justifié sa décision sur la réduction Fillon.",
+   "expected_correct": true,
+   "verdict": "EXACTE",
+   "ok": true,
+   "answer": "EXACTE. La Cour de cassation a effectivement rejeté le premier moyen en confirmant que la cour d'appel avait légalement justifié sa décision sur les redressements liés à la réduction Fillon, en se fondant sur l'erreur de calcul reconnue par l'URSSAF et sa reproduction nécessaire pour tous les établissements.",
+   "cites_paragraph": false
+  },
+  {
+   "id": "B6",
+   "arret": "Civ. 2, 9 mai 2018",
+   "sentence": "La Cour de cassation casse l'arrêt en ce qu'il annule les redressements opérés au titre des indemnités de restauration.",
+   "expected_correct": true,
+   "verdict": "EXACTE",
+   "ok": true,
+   "answer": "EXACTE. La Cour de cassation annule effectivement l'arrêt de la cour d'appel **uniquement en ce qu'il concerne les redressements sur les indemnités de restauration** (et non l'ensemble des redressements), comme le précise le dispositif de l'arrêt. La phrase du collaborateur résume donc correctement cette partie de la décision.",
+   "cites_paragraph": false
+  }
+ ],
+ "measured": "2026-10-04",
+ "latency_note": "measured on the first, uncached run (out_arret/bench.log)"
+}

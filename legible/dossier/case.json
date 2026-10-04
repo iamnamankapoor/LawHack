@@ -1,0 +1,4 @@
+{"case": "Dunder Mifflin France SAS c/ Michael Scott Paper Company SAS", "court": "Tribunal de commerce de Paris", "rg": "2026F01234",
+ "speakers": {"dm": "Dunder Mifflin France SAS (demanderesse)", "mspc": "Michael Scott Paper Company SAS et son président Michael Scott (défenderesse)", "dwight": "Dwight Schrute, témoin (attestation produite par Dunder Mifflin)", "pam": "Pam Beesly, témoin (attestation produite par MSPC)", "expert": "Oscar Martinez, expert judiciaire", "court": "Une juridiction (juge des référés, tribunal)"},
+ "parties": {"dm": "demanderesse", "mspc": "défenderesse"},
+ "party_of": {"michael": "mspc", "dwight": "dm", "pam": "mspc"}}

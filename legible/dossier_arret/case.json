@@ -1,0 +1,19 @@
+{"case": "Cour de cassation, Assemblée plénière, 22 décembre 2023, n° 20-20.648",
+ "court": "Cour de cassation, Assemblée plénière", "rg": "20-20.648", "mode": "arret",
+ "ecli": "ECLI:FR:CCASS:2023:AP00673",
+ "source_url": "https://www.legifrance.gouv.fr/juri/id/JURITEXT000048769030",
+ "solution": "Cassation partielle",
+ "speakers": {
+   "cour": "La Cour de cassation (assemblée plénière), en son nom, dans cet arrêt",
+   "jurisprudence_anterieure": "La jurisprudence antérieure de la Cour de cassation, que l'arrêt rappelle",
+   "cour_appel": "La cour d'appel d'Orléans (arrêt attaqué du 28 juillet 2020)",
+   "abs": "La société Abaque bâtiment services, employeur, demanderesse au pourvoi principal",
+   "salarie": "M. B., salarié, défendeur au pourvoi principal et demandeur au pourvoi incident",
+   "cedh": "La Cour européenne des droits de l'homme",
+   "chambre_criminelle": "La chambre criminelle de la Cour de cassation (matière pénale)",
+   "doctrine": "Une partie de la doctrine"
+ },
+ "short": {"cour": "Cour de cassation", "jurisprudence_anterieure": "Ancienne jurisprudence", "cour_appel": "Cour d'appel d'Orléans",
+           "abs": "Société ABS (employeur)", "salarie": "M. B. (salarié)", "cedh": "CEDH",
+           "chambre_criminelle": "Chambre criminelle", "doctrine": "Doctrine"},
+ "parties": {"abs": "demanderesse au pourvoi", "salarie": "défendeur au pourvoi"}}

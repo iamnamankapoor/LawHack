@@ -1,0 +1,4 @@
+{"case": "Mini test : Dunder Mifflin c/ MSPC", "court": "Tribunal de commerce de Paris", "rg": "TEST",
+ "speakers": {"dm": "Dunder Mifflin France SAS (demanderesse)", "mspc": "Michael Scott Paper Company SAS et son président Michael Scott (défenderesse)", "expert": "Oscar Martinez, expert judiciaire"},
+ "parties": {"dm": "demanderesse", "mspc": "défenderesse"},
+ "party_of": {"michael": "mspc"}}

@@ -16,21 +16,35 @@ _HEADINGS: list[tuple[re.Pattern[str], Zone]] = [
     (re.compile(r"^recevabilit[ée]\b", re.I), Zone.MOTIVATIONS),
     (re.compile(r"^examen d(u|es) moyens?\b", re.I), Zone.MOTIVATIONS),
     (re.compile(r"^(mais )?sur (le|les|la) (premier |deuxi[eè]me |troisi[eè]me |second )?(moyens?|branches?|pourvoi)\b", re.I), Zone.MOTIVATIONS),
+    (re.compile(r"^[ée]nonc[ée] de la question prioritaire\b", re.I), Zone.MOYENS),
+    (re.compile(r"^examen de la question prioritaire\b", re.I), Zone.MOTIVATIONS),
+    (re.compile(r"^en cons[ée]quence\s*:?$", re.I), Zone.DISPOSITIF),
     (re.compile(r"^(par|pour) ces motifs\b", re.I), Zone.DISPOSITIF),
     (re.compile(r"^moyens? annexes?\b", re.I), Zone.MOYENS),
     (re.compile(r"^ECLI\s*:", re.I), Zone.METADONNEES),
 ]
 
+# Opening words that change the zone but are body text, not headings
+# (pre-2019 "attendu" style decisions have no headings).
+_OPENERS: list[tuple[re.Pattern[str], Zone]] = [
+    (re.compile(r"^moyens? produits? par\b", re.I), Zone.MOYENS),
+    (re.compile(r"^attendu,? selon (l'arr[êe]t attaqu[ée]|le jugement attaqu[ée])", re.I), Zone.EXPOSE),
+    (re.compile(r"^attendu que .{0,200}?\bfai(t|sait) grief\b", re.I), Zone.MOYENS),
+    (re.compile(r"^mais attendu\b", re.I), Zone.MOTIVATIONS),
+    (re.compile(r"^vu (l'article|les articles)\b", re.I), Zone.MOTIVATIONS),
+    (re.compile(r"^(REJETTE|CASSE ET ANNULE|DÉCLARE|DECLARE|DIT N'Y AVOIR LIEU|RENVOIE)\b"), Zone.DISPOSITIF),
+]
+
 
 def _heading_zone(line: str) -> Zone | None:
-    for pattern, zone in _HEADINGS:
+    for pattern, zone in _HEADINGS + _OPENERS:
         if pattern.search(line):
             return zone
     return None
 
 
 def _is_heading(line: str) -> bool:
-    if _NUMBERED.match(line) or _heading_zone(line) is None:
+    if _NUMBERED.match(line) or _heading_zone(line) is None or any(p.search(line) for p, _ in _OPENERS):
         return False
     # "PAR CES MOTIFS, la Cour :" is both the heading and the first dispositif block.
     return len(line) < 120 and _heading_zone(line) is not Zone.DISPOSITIF
@@ -43,6 +57,8 @@ def zone_blocks(doc: Document) -> list[Block]:
     heading: str | None = None
     for start, end, line in _paragraphs(doc.text):
         detected = _heading_zone(line)
+        if zone is Zone.DISPOSITIF and detected in (Zone.EXPOSE, Zone.MOTIVATIONS) and not _is_heading(line):
+            detected = None  # "Vu l'article 700…" inside the dispositif
         if detected is not None:
             zone = detected
         if _is_heading(line):
@@ -50,6 +66,11 @@ def zone_blocks(doc: Document) -> list[Block]:
             continue
         if detected is Zone.DISPOSITIF:
             heading = "Dispositif"
+        if blocks and line[:1].islower() and blocks[-1].zone is zone and blocks[-1].heading == heading:
+            # Paragraph cut by a page break (print header in between): glue it back.
+            prev = blocks[-1]
+            blocks[-1] = prev.model_copy(update={"text": f"{prev.text} {line}", "end": end})
+            continue
         match = _NUMBERED.match(line)
         blocks.append(
             Block(

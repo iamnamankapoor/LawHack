@@ -11,6 +11,7 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from lawhack.answer import SPEAKER_LABELS, ZONE_LABELS, ask
+from lawhack.ingest import NoTextError
 from lawhack.pipeline import analyse, load
 from lawhack.schema import Registry
 from lawhack.system_one import TypeSafeSystemOne
@@ -33,7 +34,15 @@ class Question(BaseModel):
 
 def _analyse(path: Path) -> dict:
     started = time.perf_counter()
-    registry, solution = analyse(load(path))
+    try:
+        doc = load(path)
+    except NoTextError as error:
+        raise HTTPException(422, str(error)) from error
+    if not doc.text.strip():
+        raise HTTPException(422, "Aucun texte lisible dans ce PDF.")
+    registry, solution = analyse(doc)
+    if not registry.entries:
+        raise HTTPException(422, "Aucun paragraphe d'arrêt reconnu dans ce document.")
     _registries[registry.document_id] = registry
     return {
         "document_id": registry.document_id,

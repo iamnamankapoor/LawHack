@@ -1,5 +1,7 @@
 import asyncio
 
+import pytest
+
 from lawhack import answer as answer_module
 from lawhack.answer import ask
 from lawhack.attributor import build_registry
@@ -9,6 +11,14 @@ from lawhack.system_one import SystemOneResult
 from lawhack.zoning import zone_blocks
 
 from tests.test_attributor import FakeSystemOne
+
+
+@pytest.fixture(autouse=True)
+def _no_live_rewrite(monkeypatch):
+    """Rewrites hit Mistral: tests opt in by patching `revise`; by default it fails and the draft is kept."""
+    def offline(*a, **k):
+        raise RuntimeError("offline")
+    monkeypatch.setattr(answer_module, "revise", offline)
 
 
 class FakeRetrieval(FakeSystemOne):
@@ -26,7 +36,7 @@ class FakeRetrieval(FakeSystemOne):
             probs["NONE"] = 0.0 if hits else 1.0
             best = max(probs, key=probs.get)
             return SystemOneResult(decisions={"best": Decision(value=best, probabilities=probs, confidence=1.0)}, model="fake")
-        if not any(k.startswith("ok:") for k in questions):
+        if not any(k == "ok" or k.startswith("ok:") for k in questions):
             return await super().decide(state, questions)
         p = self.supported
         out = {k: Decision(value="yes" if p >= 0.5 else "no", probabilities={"yes": p, "no": 1 - p}, confidence=max(p, 1 - p)) for k in questions}
@@ -74,7 +84,6 @@ def test_low_verification_downgrades_pill(legifrance_doc, monkeypatch):
     registry = _registry(legifrance_doc)
     s9 = _para(registry, 9).id
     monkeypatch.setattr(answer_module, "draft", lambda q, ctx, m=None: f"La Cour casse l'arrêt [{s9}].")
-    monkeypatch.setattr(answer_module, "revise", lambda s, c, m=None: s)
     result = asyncio.run(ask(registry, "Que décide la Cour ?", _fake(registry, relevant={s9}, supported=0.2)))
     assert result.sentences[0].pills[0].level == "unsupported"
 
@@ -200,3 +209,14 @@ def test_recheck_failure_keeps_draft_and_removing_everything_abstains(legifrance
     monkeypatch.setattr(answer_module, "revise", lambda s, c, m=None: "SUPPRIMER")
     result = asyncio.run(ask(registry, "?", fake))
     assert result.abstained and result.sentences == []
+
+
+def test_lower_court_reported_in_a_moyen_is_a_warning(legifrance_doc, monkeypatch):
+    registry = _registry(legifrance_doc)
+    s7 = next(e for e in registry.entries if e.paragraph == 7 and e.speaker.value == "DEMANDEUR")
+    monkeypatch.setattr(answer_module, "draft", lambda q, ctx, m=None: f"La cour d'appel a statué [{s7.id}]. Elle a déclaré la promesse caduque [{s7.id}]. Le vendeur soutient que la cour d'appel a violé la loi [{s7.id}].")
+    result = asyncio.run(ask(registry, "Qu'a décidé la cour d'appel ?", _fake(registry, relevant={s7.id}, supported=0.1)))
+    first, pronoun, party = (s.pills[0] for s in result.sentences)
+    assert first.level == pronoun.level == "warn"
+    assert pronoun.note.startswith("Rapporté par le demandeur (§7)")
+    assert party.note is None

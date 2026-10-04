@@ -66,3 +66,17 @@ def test_expose_is_lower_court_findings(legifrance_doc):
     expose = [e for e in registry.entries if e.zone is Zone.EXPOSE]
     assert expose and all(e.speaker.value == "JURIDICTION_FOND" and e.status.value == "CONSTATE" for e in expose)
     assert all(e.type.value in ("FAIT", "PROCEDURE") for e in expose)
+
+
+def test_analyse_falls_back_to_heuristic_when_jev_fails(tmp_path, monkeypatch, legifrance_doc):
+    from lawhack import pipeline
+
+    class Broken:
+        model = "jev-latest"
+
+        async def decide(self, state, questions):
+            raise RuntimeError("401 Cannot authenticate")
+
+    monkeypatch.setattr(pipeline, "CACHE_DIR", tmp_path)
+    registry, _ = pipeline.analyse(legifrance_doc, Broken())
+    assert registry.entries and registry.model == "heuristic"

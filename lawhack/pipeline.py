@@ -1,4 +1,5 @@
 import asyncio
+import logging
 import os
 from pathlib import Path
 
@@ -12,6 +13,7 @@ from lawhack.system_one import SystemOneClient, TypeSafeSystemOne
 from lawhack.zoning import zone_blocks
 
 CACHE_DIR = Path("data/cache")
+log = logging.getLogger(__name__)
 
 
 def load(path: str | Path) -> Document:
@@ -47,7 +49,14 @@ async def analyse_async(doc: Document, client: SystemOneClient | None = None, us
         registry = Registry.model_validate_json(cached.read_text())
         if is_current(registry, client):
             return registry, solution
-    registry = await build_registry(doc.id, segment(blocks), client)
+    try:
+        registry = await build_registry(doc.id, segment(blocks), client)
+    except Exception as error:
+        if isinstance(client, HeuristicSystemOne):
+            raise
+        # Bad key, wrong TYPESAFE_BASE_URL/SYSTEM_ONE_MODEL or network: degrade instead of failing the upload.
+        log.warning("Jev indisponible (%s) : attribution heuristique.", error)
+        registry = await build_registry(doc.id, segment(blocks), HeuristicSystemOne())
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     cached.write_text(registry.model_dump_json(indent=2))
     return registry, solution

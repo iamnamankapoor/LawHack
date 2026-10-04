@@ -58,7 +58,28 @@ def test_paired_comparison_on_synthetic_rows():
     assert correct["diff"] == 0
 
 
-def test_parse_citations_matches_answer_render_format():
-    assert eqa.parse_citations("La Cour statue [S-001], puis confirme [S-123]. [S-12] [S-1234]") == [
-        "S-001", "S-123",
-    ]
+def test_lawhack_citation_stats_use_structured_pills():
+    row = {
+        "id": "q1", "decision": "d1", "system": "lawhack", "type": "synthetic",
+        "expected_abstain": False, "seconds": 0.5, "registry_ids": ["S-001"],
+        "grade": {
+            "attribution_error": False, "invented": False, "correct": True,
+            "abstained": False, "label": "correct",
+        },
+        "lawhack": {
+            "abstained": False,
+            "sentences": [
+                {"supported": 0.8, "pills": [
+                    {"segment_id": "S-001", "speaker": "COUR_CASSATION", "level": "ok"},
+                ]},
+                {"supported": 0.6, "pills": [
+                    {"segment_id": "S-999", "speaker": "COUR_CASSATION", "level": "warn"},
+                ]},
+            ],
+        },
+    }
+    summary = eqa.summarise([row], "lawhack")
+    assert summary["citation_coverage"]["rate"] == 1.0
+    assert summary["invalid_citations"]["rate"] == 0.5
+    assert summary["unsupported_pills"]["rate"] == 0.5
+    assert summary["supported_mean"] == 0.7

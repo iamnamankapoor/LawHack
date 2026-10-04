@@ -19,7 +19,6 @@ import json
 import math
 import os
 import random
-import re
 import sys
 import time
 from collections import Counter
@@ -49,7 +48,6 @@ HUMAN_LABELS = ROOT / "eval" / "human_labels.csv"
 HUMAN_LABELS_KEY = ROOT / "eval" / "human_labels_key.json"
 ANSWER_MODEL = os.environ.get("ANSWER_MODEL", "mistral-medium-latest")
 JUDGE_MODEL = os.environ.get("JUDGE_MODEL", "mistral-large-latest")
-_CITATION = re.compile(r"\[(S-\d{3})\]")
 _LABELS = {"correct", "incomplete", "misgrounded", "incorrect"}
 
 BASELINE_PROMPT = ("Tu es un assistant juridique. Réponds à la question en t'appuyant sur l'arrêt de la Cour de cassation "
@@ -141,10 +139,6 @@ def write_cache(kind: str, key: str, value) -> None:
     temporary.replace(path)
 
 
-def parse_citations(answer: str) -> list[str]:
-    return _CITATION.findall(answer)
-
-
 def wilson(num: int, den: int, z: float = 1.959963984540054) -> list[float]:
     if den == 0:
         return [0.0, 0.0]
@@ -228,15 +222,24 @@ def summarise(rows: list[dict], system: str) -> dict:
             "correct": _wilson_rate(of_kind, lambda r: r["grade"]["correct"]),
         }
     if system == "lawhack":
-        cited_answers = [r for r in answerable if parse_citations(r.get("answer", ""))]
-        citations = [(r, citation) for r in graded for citation in parse_citations(r.get("answer", ""))]
-        summary["citation_coverage"] = _row_rate(
-            answerable, lambda r: bool(parse_citations(r.get("answer", ""))))
-        summary["invalid_citations"] = rate(
-            [int(citation not in set(r.get("registry_ids", []))) for r, citation in citations],
-            [r["decision"] for r, _ in citations],
+        with_answers = [r for r in answerable if "lawhack" in r and not r["lawhack"]["abstained"]]
+        sentences = [(r, sentence) for r in with_answers for sentence in r["lawhack"]["sentences"]]
+        pills = [(r, pill) for r, sentence in sentences for pill in sentence["pills"]]
+        summary["citation_coverage"] = rate(
+            [int(bool(sentence["pills"])) for _, sentence in sentences],
+            [r["decision"] for r, _ in sentences],
         )
-        summary["answers_with_citations"] = len(cited_answers)
+        summary["invalid_citations"] = rate(
+            [int(pill["segment_id"] not in set(r.get("registry_ids", []))) for r, pill in pills],
+            [r["decision"] for r, _ in pills],
+        )
+        summary["unsupported_pills"] = rate(
+            [int(pill["level"] != "ok") for _, pill in pills],
+            [r["decision"] for r, _ in pills],
+        )
+        summary["supported_mean"] = (
+            sum(sentence["supported"] for _, sentence in sentences) / len(sentences) if sentences else 0.0
+        )
     if system == "baseline":
         errors = [r for r in answerable if r["grade"]["attribution_error"]]
         summary["verifier_flags_baseline_errors"] = _row_rate(errors, lambda r: r["verifier_flagged"])
@@ -430,13 +433,31 @@ async def evaluate_one(q: dict, system: str, registry, text: str, client, semaph
         answer_key = hash_key(system, ANSWER_MODEL, q["decision"], q["question"],
                               *( [BASELINE_PROMPT] if system == "baseline" else []))
         cached_answer = read_cache("answer", answer_key) if use_cache else None
+        if system == "lawhack" and cached_answer is not None and "lawhack" not in cached_answer:
+            cached_answer = None
         if cached_answer is not None:
             answer = cached_answer["answer"]
+            if system == "lawhack":
+                row["lawhack"] = cached_answer["lawhack"]
         elif system == "lawhack":
             async with semaphore:
-                answer = (await ask(registry, q["question"], client=client, model=ANSWER_MODEL)).render()
+                result = await ask(registry, q["question"], client=client, model=ANSWER_MODEL)
+            answer = result.render()
+            row["lawhack"] = {
+                "abstained": result.abstained,
+                "sentences": [
+                    {
+                        "supported": sentence.supported,
+                        "pills": [
+                            {"segment_id": pill.segment_id, "speaker": pill.speaker, "level": pill.level}
+                            for pill in sentence.pills
+                        ],
+                    }
+                    for sentence in result.sentences
+                ],
+            }
             if use_cache:
-                write_cache("answer", answer_key, {"answer": answer})
+                write_cache("answer", answer_key, {"answer": answer, "lawhack": row["lawhack"]})
         else:
             async with semaphore:
                 answer = await asyncio.to_thread(chat, [

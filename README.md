@@ -57,7 +57,7 @@ restitution des faits croisée avec *qui affirme quoi*.
 
 Un **chat juridique** :
 
-1. l'avocat dépose **un PDF propre** d'arrêt (Légifrance ou Judilibre ; pas de scan / OCR en V1) ;
+1. l'avocat dépose **un PDF propre** (ou un fichier `.txt`) d'arrêt (Légifrance ou Judilibre) ;
 2. LawHack analyse l'arrêt en coulisse et construit un **registre d'attribution** interne ;
 3. l'avocat pose des questions libres ;
 4. chaque réponse **cite sa source** (« §8, Réponse de la Cour »), distingue les voix

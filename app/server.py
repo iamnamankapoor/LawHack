@@ -15,6 +15,7 @@ from lawhack.ingest import NoTextError
 from lawhack.pipeline import analyse, load
 from lawhack.schema import Registry
 from lawhack.system_one import TypeSafeSystemOne
+from lawhack.answer import speaker_label
 
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
@@ -55,7 +56,7 @@ def _analyse(path: Path) -> dict:
                 "paragraph": e.paragraph,
                 "zone": ZONE_LABELS[e.zone],
                 "speaker": e.speaker.value,
-                "label": SPEAKER_LABELS[e.speaker.value],
+                "label": speaker_label(e),
                 "confidence": round(e.speaker.confidence, 3),
                 "text": e.text,
             }

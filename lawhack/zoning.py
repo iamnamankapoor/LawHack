@@ -12,15 +12,18 @@ _HEADINGS: list[tuple[re.Pattern[str], Zone]] = [
     (re.compile(r"^faits et proc[ée]dure\b", re.I), Zone.EXPOSE),
     (re.compile(r"^expos[ée] (du|des) griefs?\b", re.I), Zone.MOYENS),
     (re.compile(r"^[ée]nonc[ée] d(u|es) moyens?\b", re.I), Zone.MOYENS),
+    (re.compile(r"^[ée]nonc[ée] de la demande d'avis\b", re.I), Zone.MOYENS),
     (re.compile(r"^r[ée]ponse de la cour\b", re.I), Zone.MOTIVATIONS),
+    (re.compile(r"^examen de la demande d'avis\b", re.I), Zone.MOTIVATIONS),
     (re.compile(r"^port[ée]e et cons[ée]quences de la cassation\b", re.I), Zone.MOTIVATIONS),
     (re.compile(r"^recevabilit[ée]\b", re.I), Zone.MOTIVATIONS),
     (re.compile(r"^examen d(u|es) (moyens?|griefs?)\b", re.I), Zone.MOTIVATIONS),
-    (re.compile(r"^(mais )?sur (le|les|la) (premier |deuxi[eè]me |troisi[eè]me |second )?(moyens?|branches?|pourvoi|griefs?)\b", re.I), Zone.MOTIVATIONS),
+    (re.compile(r"^(et |mais )?sur (le|les|la|l')\s?[^.;]{0,80}?\b(moyens?|branches?|pourvois?|griefs?)\b", re.I), Zone.MOTIVATIONS),
     (re.compile(r"^[ée]nonc[ée] de la question prioritaire\b", re.I), Zone.MOYENS),
     (re.compile(r"^examen de la question prioritaire\b", re.I), Zone.MOTIVATIONS),
     (re.compile(r"^en cons[ée]quence\s*:?$", re.I), Zone.DISPOSITIF),
     (re.compile(r"^(par|pour) ces motifs\b", re.I), Zone.DISPOSITIF),
+    (re.compile(r"^en cons[ée]quence,? la cour\b|^est d'avis que\b", re.I), Zone.DISPOSITIF),  # demandes d'avis
     (re.compile(r"^moyens? annexes?\b", re.I), Zone.MOYENS),
     (re.compile(r"^ECLI\s*:", re.I), Zone.METADONNEES),
 ]
@@ -30,12 +33,16 @@ _HEADINGS: list[tuple[re.Pattern[str], Zone]] = [
 _OPENERS: list[tuple[re.Pattern[str], Zone]] = [
     (re.compile(r"^moyens? produits? par\b", re.I), Zone.MOYENS),
     (re.compile(r"^attendu,? selon (l'arr[êe]t attaqu[ée]|le jugement attaqu[ée])", re.I), Zone.EXPOSE),
-    (re.compile(r"^attendu que .{0,200}?\bfai(t|sait) grief\b", re.I), Zone.MOYENS),
+    (re.compile(r"^attendu que .{0,200}?\bfai(t|sait|saient|t les mêmes) griefs?\b", re.I), Zone.MOYENS),
     (re.compile(r"^(?:\d{1,3}\.\s+)?(?=[^.]{1,120}\b(?:fait|font) grief à l'arr[êe]t\b)[^.]{1,120}?\b(?<!qui )(?:fait|font) grief à l'arr[êe]t\b", re.I), Zone.MOYENS),
     (re.compile(r"^mais attendu\b", re.I), Zone.MOTIVATIONS),
     (re.compile(r"^vu (l'article|les articles)\b", re.I), Zone.MOTIVATIONS),
     (re.compile(r"^(REJETTE|CASSE (ET|et) ANNULE|DÉCLARE|DECLARE|DIT N'Y AVOIR LIEU|RENVOIE)\b"), Zone.DISPOSITIF),
 ]
+
+
+# « 1°) alors que… », « 2°/ qu'en statuant… »: a branch of the ground of appeal, i.e. the party speaking.
+_BRANCH = re.compile(r"^\d{1,2}\s?°\s?[)/-]?\s*(alors|que |qu'|et |en |de |subsidiairement)", re.I)
 
 
 def _heading_zone(line: str) -> Zone | None:
@@ -57,10 +64,17 @@ def zone_blocks(doc: Document) -> list[Block]:
     blocks: list[Block] = []
     zone = Zone.INTRODUCTION
     heading: str | None = None
+    annexed = False
     for start, end, line in _paragraphs(doc.text):
         detected = _heading_zone(line)
+        if annexed and detected is not Zone.METADONNEES:
+            detected = None  # annexed grounds quote the arrêt attaqué (« Mais attendu… »): still the party's text
+        if zone is Zone.DISPOSITIF and detected is Zone.MOYENS:
+            annexed = True
         if zone is Zone.DISPOSITIF and detected in (Zone.EXPOSE, Zone.MOTIVATIONS) and not _is_heading(line):
             detected = None  # "Vu l'article 700…" inside the dispositif
+        if detected is None and zone is Zone.MOTIVATIONS and _BRANCH.match(line):
+            detected = Zone.MOYENS
         if detected is not None:
             zone = detected
         if _is_heading(line):
@@ -89,6 +103,18 @@ def zone_blocks(doc: Document) -> list[Block]:
     return blocks
 
 
+_GLUED_HEADING = re.compile(r"(?<=[.;]) +(?=MOYENS? ANNEXES?\b)")
+
+
+def _split_glued(lines: list[str]) -> list[str]:
+    """Judilibre texts glue « MOYENS ANNEXES » to the last line of the dispositif: split it off."""
+    out = []
+    for line in lines:
+        parts = _GLUED_HEADING.split(line)
+        out += [part + " " for part in parts[:-1]] + [parts[-1]]
+    return out
+
+
 def _paragraphs(text: str):
     """Yield (start, end, text) for blank-line separated paragraphs, whitespace-normalised.
 
@@ -106,7 +132,7 @@ def _paragraphs(text: str):
         return None
 
     pos = 0
-    for raw in text.splitlines(keepends=True):
+    for raw in _split_glued(text.splitlines(keepends=True)):
         stripped = raw.strip()
         lead = len(raw) - len(raw.lstrip())
         if not stripped:

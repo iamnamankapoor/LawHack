@@ -52,7 +52,12 @@ body:not([data-view=upload]) .links { display:none }
 body[data-view=upload] nav.top { background:color-mix(in srgb,#efefef 90%,transparent); border-color:#d9d9d9 }
 @media (prefers-reduced-motion:no-preference) { html { scroll-behavior:smooth } }
 :focus-visible { outline:2px solid var(--v-cour); outline-offset:2px }
-#how, #try { scroll-margin-top:64px }
+#how, #try, #bench { scroll-margin-top:64px }
+.showcase { padding-top:112px; border-bottom:1px solid var(--hair) }
+.shnote { margin-block:24px 56px } .shnote p { grid-column:4 / span 7; margin:0; color:var(--grey); font-size:15px; line-height:1.5 }
+#showcase { display:block; width:100%; height:2400px; border:0 }
+.shcta { width:calc(100% - 80px); max-width:1200px; padding-inline:0; display:flex; align-items:center; justify-content:space-between; gap:24px; padding-block:40px 112px; border-top:1px solid var(--hair) }
+.shcta p { margin:0; font-size:clamp(22px,2.4vw,32px); letter-spacing:-.03em }
 .lhero { position:relative; height:clamp(560px,calc(100vh - 64px),880px); background:#efefef; overflow:hidden; border-bottom:1px solid #d9d9d9 }
 .skyline { position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:min(1100px,86%); height:100%; display:flex; align-items:flex-end }
 .skyline i { position:relative; flex:1; height:var(--h); margin-left:-1px; border:1px solid #cdcdcd; border-bottom:0; transform-origin:bottom; animation:barup 1.3s var(--ease) both; animation-delay:calc(var(--i) * 70ms + 150ms) }
@@ -246,7 +251,8 @@ body[data-view=upload] nav.top { background:color-mix(in srgb,#efefef 90%,transp
   .wrap { padding-inline:20px }
   .links { display:none }
   .hcta { flex-direction:column; align-items:flex-start; gap:12px }
-  .dtitle p, .dtitle h2, .tryh .mono, .tryh h2, .card, #drop, #demo { grid-column:span 12 }
+  .dtitle p, .dtitle h2, .tryh .mono, .tryh h2, .card, #drop, #demo, .shnote p { grid-column:span 12 }
+  .showcase { padding-top:64px } .shcta { flex-direction:column; align-items:flex-start; padding-block:32px 64px }
   .dtitle { padding-top:64px; row-gap:16px } .tryh { row-gap:16px } .cards { margin-top:56px }
   .card { min-height:340px }
   .desk { grid-template-columns:1fr; height:auto }
@@ -273,7 +279,7 @@ body[data-view=upload] nav.top { background:color-mix(in srgb,#efefef 90%,transp
 
 <nav class="top"><div class="wrap">
   <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="7" y="5" width="5" height="7" fill="#3e63dd"/><rect x="7" y="12" width="5" height="6" fill="#ef5f00"/><rect x="7" y="18" width="5" height="6" fill="#6e56cf"/><rect x="7" y="24" width="19" height="4" rx="1" fill="#1c1b19"/><rect x="15" y="7" width="11" height="2.4" rx="1.2" fill="#d0cec7"/><rect x="15" y="13.6" width="8" height="2.4" rx="1.2" fill="#d0cec7"/><rect x="15" y="19.8" width="10" height="2.4" rx="1.2" fill="#d0cec7"/></svg>Legible</a>
-  <div class="links"><a href="#how">How it works</a><a href="#try">Try it</a><a href="https://github.com/talal95c/LawHack">GitHub</a></div>
+  <div class="links"><a href="#how">How it works</a><a href="#bench">Benchmark</a><a href="#try">Try it</a><a href="https://github.com/talal95c/LawHack">GitHub</a></div>
   <div id="docbar"><strong id="docname"></strong><span id="docmeta" class="num"></span></div>
   <button class="btn" id="reset">Nouvel arrêt</button>
 </div></nav>
@@ -311,6 +317,12 @@ body[data-view=upload] nav.top { background:color-mix(in srgb,#efefef 90%,transp
         <footer>Source verification<b><span>03</span><i>»</i></b></footer>
       </article>
     </div>
+  </div>
+  <div class="showcase" id="bench" lang="en">
+    <div class="wrap grid tryh"><span class="mono">Benchmark</span><h2>Legible next to GPT-6.1, Mistral and the legal AI platforms.</h2></div>
+    <div class="wrap grid shnote"><p>Precomputed by our models on two Cour de cassation rulings: Legible maps every speaker, then checks a legal AI draft sentence by sentence. Below, the same drafts judged by frontier models alone.</p></div>
+    <iframe id="showcase" src="/showcase/" title="Legible analysis and model comparison" loading="lazy" scrolling="no"></iframe>
+    <div class="wrap shcta"><p>Now run Legible on your own ruling.</p><a class="cta" href="#try" data-goto-drop><span>Test it yourself</span><i>»</i></a></div>
   </div>
   <div class="wrap try" id="try" lang="en">
     <div class="grid tryh"><span class="mono">Try it</span><h2>Try it on a real ruling.</h2></div>
@@ -389,6 +401,7 @@ function gotoDrop(e) {
   drop.focus({preventScroll:true});
   drop.classList.remove('call'); void drop.offsetWidth; drop.classList.add('call');
 }
+addEventListener('message', e => { const h = e.data && e.data.legibleShowcase; if (e.source === $('showcase').contentWindow && h > 0) $('showcase').style.height = h + 'px'; });
 $('herodemo').onclick = gotoDrop;
 document.querySelectorAll('[data-goto-drop]').forEach(a => a.onclick = gotoDrop);
 let drags = 0;

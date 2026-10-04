@@ -1,9 +1,11 @@
 import asyncio
+import importlib
+from types import SimpleNamespace
 
 import pytest
 
 from lawhack import answer as answer_module
-from lawhack.answer import ask
+from lawhack.answer import ask, draft as answer_draft, revise as answer_revise
 from lawhack.attributor import build_registry
 from lawhack.schema import Decision, Zone
 from lawhack.segmenter import segment
@@ -28,8 +30,10 @@ class FakeRetrieval(FakeSystemOne):
         super().__init__()
         self.relevant, self.supported = set(relevant), supported
         self.target, self.target_p = target, target_p
+        self.decide_calls = 0
 
     async def decide(self, state, questions):
+        self.decide_calls += 1
         if "target" in questions:
             keys = questions["target"].criteria
             other_p = (1 - self.target_p) / (len(keys) - 1)
@@ -50,6 +54,32 @@ class FakeRetrieval(FakeSystemOne):
         p = self.supported
         out = {k: Decision(value="yes" if p >= 0.5 else "no", probabilities={"yes": p, "no": 1 - p}, confidence=max(p, 1 - p)) for k in questions}
         return SystemOneResult(decisions=out, model="fake")
+
+
+class FakeMistral:
+    def __init__(self, response):
+        self.response = response
+        self.models = []
+        self.chat = self
+
+    def complete(self, **kwargs):
+        self.models.append(kwargs["model"])
+        return SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content=self.response))])
+
+
+def _fake_mistral(monkeypatch, response):
+    mistral_client = importlib.import_module("mistralai.client")
+    fake = FakeMistral(response)
+    monkeypatch.setattr(mistral_client, "Mistral", lambda api_key: fake)
+    monkeypatch.setenv("MISTRAL_API_KEY", "fake-key")
+    return fake
+
+
+def _enable_answer_cache(monkeypatch, tmp_path):
+    monkeypatch.setattr(answer_module, "ANSWER_CACHE_DIR", tmp_path / "answers")
+    monkeypatch.setenv("ANSWER_CACHE", "1")
+    monkeypatch.setenv("ANSWER_MODEL", "draft-model")
+    monkeypatch.delenv("REVISE_MODEL", raising=False)
 
 
 def _fake(registry, **kwargs):
@@ -73,6 +103,134 @@ def test_abstains_when_nothing_relevant(legifrance_doc, monkeypatch):
     monkeypatch.setattr(answer_module, "draft", lambda *a: (_ for _ in ()).throw(AssertionError("no LLM call")))
     result = asyncio.run(ask(registry, "Montant du préjudice moral ?", _fake(registry)))
     assert result.abstained and result.render() == answer_module.NOT_ADDRESSED
+
+
+def test_answer_cache_hits_for_normalized_question(legifrance_doc, monkeypatch, tmp_path):
+    _enable_answer_cache(monkeypatch, tmp_path)
+    registry = _registry(legifrance_doc)
+    s9 = _para(registry, 9).id
+    client = _fake(registry, relevant={s9})
+    mistral = _fake_mistral(monkeypatch, f"La Cour confirme l'arrêt [{s9}].")
+
+    first = asyncio.run(ask(registry, "Que décide la Cour ?", client))
+    decide_calls = client.decide_calls
+    second_question = "  QUE   DÉCIDE LA COUR ?  "
+    second = asyncio.run(ask(registry, second_question, client))
+
+    assert client.decide_calls == decide_calls
+    assert mistral.models == ["draft-model"]
+    assert first.sentences == second.sentences
+    assert second.question == second_question
+
+
+def test_answer_cache_misses_for_different_question(legifrance_doc, monkeypatch, tmp_path):
+    _enable_answer_cache(monkeypatch, tmp_path)
+    registry = _registry(legifrance_doc)
+    s9 = _para(registry, 9).id
+    client = _fake(registry, relevant={s9})
+    mistral = _fake_mistral(monkeypatch, f"La Cour confirme l'arrêt [{s9}].")
+
+    asyncio.run(ask(registry, "Que décide la Cour ?", client))
+    calls_after_first = client.decide_calls
+    asyncio.run(ask(registry, "Quelle est la décision ?", client))
+
+    assert client.decide_calls > calls_after_first
+    assert mistral.models == ["draft-model", "draft-model"]
+
+
+def test_answer_cache_misses_when_registry_changes(legifrance_doc, monkeypatch, tmp_path):
+    _enable_answer_cache(monkeypatch, tmp_path)
+    registry = _registry(legifrance_doc)
+    s9 = _para(registry, 9).id
+    first_client = _fake(registry, relevant={s9})
+    mistral = _fake_mistral(monkeypatch, f"La Cour confirme l'arrêt [{s9}].")
+
+    asyncio.run(ask(registry, "Que décide la Cour ?", first_client))
+    modified = registry.model_copy(deep=True)
+    modified.entries[0] = modified.entries[0].model_copy(update={"text": modified.entries[0].text + " modifié"})
+    second_client = _fake(modified, relevant={s9})
+    asyncio.run(ask(modified, "Que décide la Cour ?", second_client))
+
+    assert first_client.decide_calls > 0 and second_client.decide_calls > 0
+    assert mistral.models == ["draft-model", "draft-model"]
+
+
+def test_answer_cache_can_be_disabled(legifrance_doc, monkeypatch, tmp_path):
+    _enable_answer_cache(monkeypatch, tmp_path)
+    monkeypatch.setenv("ANSWER_CACHE", "0")
+    registry = _registry(legifrance_doc)
+    s9 = _para(registry, 9).id
+    client = _fake(registry, relevant={s9})
+    mistral = _fake_mistral(monkeypatch, f"La Cour confirme l'arrêt [{s9}].")
+
+    asyncio.run(ask(registry, "Que décide la Cour ?", client))
+    calls_after_first = client.decide_calls
+    asyncio.run(ask(registry, "Que décide la Cour ?", client))
+
+    assert client.decide_calls > calls_after_first
+    assert mistral.models == ["draft-model", "draft-model"]
+
+
+def test_answer_cache_stores_abstentions(legifrance_doc, monkeypatch, tmp_path):
+    _enable_answer_cache(monkeypatch, tmp_path)
+    registry = _registry(legifrance_doc)
+    client = _fake(registry)
+    mistral = _fake_mistral(monkeypatch, "Unused")
+
+    first = asyncio.run(ask(registry, "Question hors sujet ?", client))
+    calls_after_first = client.decide_calls
+    second = asyncio.run(ask(registry, "Question hors sujet ?", client))
+
+    assert first.abstained and second.abstained
+    assert client.decide_calls == calls_after_first
+    assert mistral.models == []
+
+
+def test_corrupt_answer_cache_is_recomputed_and_overwritten(legifrance_doc, monkeypatch, tmp_path):
+    _enable_answer_cache(monkeypatch, tmp_path)
+    registry = _registry(legifrance_doc)
+    s9 = _para(registry, 9).id
+    client = _fake(registry, relevant={s9})
+    mistral = _fake_mistral(monkeypatch, f"La Cour confirme l'arrêt [{s9}].")
+
+    asyncio.run(ask(registry, "Que décide la Cour ?", client))
+    cache_file = next((tmp_path / "answers").rglob("*.json"))
+    cache_file.write_text("{broken", encoding="utf-8")
+    calls_after_first = client.decide_calls
+    asyncio.run(ask(registry, "Que décide la Cour ?", client))
+
+    assert client.decide_calls > calls_after_first
+    assert len(mistral.models) == 2
+    answer_module.Answer.model_validate_json(cache_file.read_text(encoding="utf-8"))
+    assert not list(cache_file.parent.glob(".*.tmp"))
+
+
+def test_draft_exception_does_not_write_answer_cache(legifrance_doc, monkeypatch, tmp_path):
+    _enable_answer_cache(monkeypatch, tmp_path)
+    registry = _registry(legifrance_doc)
+    s9 = _para(registry, 9).id
+    client = _fake(registry, relevant={s9})
+
+    def fail_draft(*args, **kwargs):
+        raise RuntimeError("draft failed")
+
+    monkeypatch.setattr(answer_module, "draft", fail_draft)
+    with pytest.raises(RuntimeError, match="draft failed"):
+        asyncio.run(ask(registry, "Que décide la Cour ?", client))
+
+    assert not (tmp_path / "answers").exists()
+
+
+def test_revise_model_defaults_to_revise_env_while_draft_uses_answer_env(monkeypatch):
+    monkeypatch.setenv("ANSWER_MODEL", "draft-model")
+    monkeypatch.setenv("REVISE_MODEL", "revise-model")
+    fake = _fake_mistral(monkeypatch, "Phrase.")
+
+    answer_draft("Question ?", [], model=None)
+    answer_revise("Phrase à corriger.", [], model=None)
+    answer_revise("Phrase à corriger.", [], model="explicit-model")
+
+    assert fake.models == ["draft-model", "revise-model", "explicit-model"]
 
 
 def test_pills_carry_speaker_paragraph_and_confidence(legifrance_doc, monkeypatch):

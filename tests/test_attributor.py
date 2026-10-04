@@ -1,7 +1,7 @@
 import asyncio
 
 from lawhack.attributor import build_registry
-from lawhack.schema import Decision, Speaker, Status
+from lawhack.schema import Decision, Speaker, Status, Zone
 from lawhack.segmenter import segment
 from lawhack.system_one import SystemOneResult
 from lawhack.zoning import zone_blocks
@@ -45,3 +45,10 @@ def test_rules_jev_and_approval_markers(legifrance_doc):
     assert approved.status.value == Status.DECIDE.value
     assert approved.chain == [Speaker.COUR_CASSATION, Speaker.JURIDICTION_FOND]
     assert fake.calls > 0 and registry.input_tokens == 10 * fake.calls
+
+
+def test_expose_is_lower_court_findings(legifrance_doc):
+    registry = asyncio.run(build_registry("doc", segment(zone_blocks(legifrance_doc)), FakeSystemOne()))
+    expose = [e for e in registry.entries if e.zone is Zone.EXPOSE]
+    assert expose and all(e.speaker.value == "JURIDICTION_FOND" and e.status.value == "CONSTATE" for e in expose)
+    assert all(e.type.value in ("FAIT", "PROCEDURE") for e in expose)

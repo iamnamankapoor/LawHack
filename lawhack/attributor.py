@@ -144,13 +144,22 @@ async def build_registry(document_id: str, segments: list[Segment], client: Syst
             speaker = decisions[f"speaker:{s.id}"]
             status = decisions[f"status:{s.id}"]
             chain = _chain(Speaker(speaker.value))
-            if s.zone is Zone.MOTIVATIONS and APPROVAL_MARKERS.search(s.text):
+            kind = decisions[f"type:{s.id}"]
+            if s.zone is Zone.EXPOSE:
+                # « Faits et procédure » restates what the arrêt attaqué found: parties' claims there are
+                # procedural history established by the lower court, not arguments addressed to the Cour.
+                speaker = _certain(Speaker.JURIDICTION_FOND.value)
+                status = _certain(Status.CONSTATE.value)
+                chain = _chain(Speaker.JURIDICTION_FOND)
+                if kind.value not in (StatementType.FAIT.value, StatementType.PROCEDURE.value):
+                    kind = _certain(StatementType.PROCEDURE.value)
+            elif s.zone is Zone.MOTIVATIONS and APPROVAL_MARKERS.search(s.text):
                 status = _certain(Status.DECIDE.value)
                 if speaker.value != Speaker.COUR_CASSATION.value:
                     chain = [Speaker.COUR_CASSATION, Speaker(speaker.value)]
                     speaker = _certain(Speaker.COUR_CASSATION.value)
             entries[s.id] = RegistryEntry(
-                **s.model_dump(), speaker=speaker, type=decisions[f"type:{s.id}"], status=status,
+                **s.model_dump(), speaker=speaker, type=kind, status=status,
                 chain=chain, source="jev",
             )
 

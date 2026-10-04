@@ -1,0 +1,1876 @@
+[
+ {
+  "decision": "2022-08-31_22-10-294",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "REJET",
+  "system": "LawHack",
+  "seconds": 1.61,
+  "answer": "La Cour de cassation a rejeté le recours, donc elle n'a pas cassé l'arrêt attaqué.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2022-08-31_22-10-294",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "REJET",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.07,
+  "answer": "Non, la Cour de cassation a rejeté le recours et n'a pas cassé la décision attaquée.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2022-08-31_22-10-294",
+  "kind": "hors_sujet",
+  "question": "Quels sont les critères de déontologie applicables aux experts judiciaires en matière de conflit d'intérêts ?",
+  "expected": "ABSTENTION",
+  "system": "LawHack",
+  "seconds": 5.58,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2022-08-31_22-10-294",
+  "kind": "hors_sujet",
+  "question": "Quels sont les critères de déontologie applicables aux experts judiciaires en matière de conflit d'intérêts ?",
+  "expected": "ABSTENTION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.0,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2022-08-31_22-10-294",
+  "kind": "moyen_decision",
+  "question": "La Cour de cassation a-t-elle jugé que la décision de refus d'inscription sur la liste des experts judiciaires est nulle en l'absence de motivation dans le procès-verbal de l'assemblée générale ?",
+  "expected": "DEMANDEUR",
+  "system": "LawHack",
+  "seconds": 7.54,
+  "answer": "La Cour rejette le recours. La Cour juge que la décision attaquée est nulle.",
+  "abstained": false,
+  "hallucinated": [
+   "La Cour juge que la décision attaquée est nulle."
+  ],
+  "correct": false,
+  "verdicts": [
+   "OK",
+   "MAL_ATTRIBUE"
+  ]
+ },
+ {
+  "decision": "2022-08-31_22-10-294",
+  "kind": "moyen_decision",
+  "question": "La Cour de cassation a-t-elle jugé que la décision de refus d'inscription sur la liste des experts judiciaires est nulle en l'absence de motivation dans le procès-verbal de l'assemblée générale ?",
+  "expected": "DEMANDEUR",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.31,
+  "answer": "Non, la Cour de cassation a jugé que la motivation de la décision de refus d'inscription figurait en annexe du procès-verbal de l'assemblée générale, à laquelle celui-ci renvoie, et que le grief tiré de l'absence de motivation dans le procès-verbal n'était donc pas fondé.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2022-08-31_22-10-294",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que M. [W] avait déclaré comme lieu d'exercice de son activité professionnelle principale une adresse située dans le ressort de la cour d'appel de Versailles ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "LawHack",
+  "seconds": 3.05,
+  "answer": "le demandeur soutient que, dans sa demande, M. avait spécifié que le lieu d'exercice de son activité professionnelle principale était au, commune située dans le ressort de la cour d'appel de Versailles",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2022-08-31_22-10-294",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que M. [W] avait déclaré comme lieu d'exercice de son activité professionnelle principale une adresse située dans le ressort de la cour d'appel de Versailles ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.44,
+  "answer": "Oui, la Cour de cassation a constaté que M. avait déclaré comme lieu d'exercice de son activité professionnelle principale une adresse située dans le ressort de la cour d'appel de Versailles, mais elle a également relevé que les pièces du dossier démontraient qu'il exerçait en réalité à l'hôpital Paul Brousse de Villejuif, dans le ressort de la cour d'appel de Paris.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2023-10-12_22-15-288",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "LawHack",
+  "seconds": 1.75,
+  "answer": "La Cour de cassation a cassé partiellement l'arrêt attaqué, uniquement en ce qu'il rejette la demande de M. et Mme en enlèvement de la couvertine dirigée contre M. et Mme.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2023-10-12_22-15-288",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.37,
+  "answer": "Oui, la Cour de cassation a cassé partiellement l'arrêt attaqué, uniquement en ce qu'il rejette la demande de M. et Mme en enlèvement de la couvertine dirigée contre M. et Mme.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2023-10-12_22-15-288",
+  "kind": "hors_sujet",
+  "question": "Un servitude de passage peut-elle être établie par destination du père de famille en l'absence de titre écrit ?",
+  "expected": "ABSTENTION",
+  "system": "LawHack",
+  "seconds": 1.1,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2023-10-12_22-15-288",
+  "kind": "hors_sujet",
+  "question": "Un servitude de passage peut-elle être établie par destination du père de famille en l'absence de titre écrit ?",
+  "expected": "ABSTENTION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.05,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2023-10-12_22-15-288",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que les baumes creusées dans la roche sont accessibles par les propriétés situées en contrebas appartenant aux consorts [N]-[S] ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "LawHack",
+  "seconds": 1.41,
+  "answer": "Non, la Cour de cassation, juge du droit, ne constate pas les faits. La cour d'appel a constaté que les baumes étaient accessibles par les propriétés en contrebas appartenant aux consorts-.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE",
+   "OK"
+  ]
+ },
+ {
+  "decision": "2023-10-12_22-15-288",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que les baumes creusées dans la roche sont accessibles par les propriétés situées en contrebas appartenant aux consorts [N]-[S] ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.2,
+  "answer": "Oui, la Cour de cassation a constaté que les baumes n° 5 et 6 étaient exclusivement accessibles depuis la maison appartenant actuellement à M. et Mme, qui font partie des consorts-.",
+  "abstained": false,
+  "hallucinated": [
+   "Oui, la Cour de cassation a constaté que les baumes n° 5 et 6 étaient exclusivement accessibles depuis la maison appartenant actuellement à M. et Mme, qui font partie des consorts-."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE"
+  ]
+ },
+ {
+  "decision": "2023-10-12_22-19-407",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "REJET",
+  "system": "LawHack",
+  "seconds": 1.23,
+  "answer": "La Cour de cassation a rejeté le pourvoi, donc elle n'a pas cassé l'arrêt attaqué.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2023-10-12_22-19-407",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "REJET",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.23,
+  "answer": "Non, la Cour de cassation a rejeté le pourvoi et n'a donc pas cassé l'arrêt attaqué.",
+  "abstained": false,
+  "hallucinated": [
+   "Non, la Cour de cassation a rejeté le pourvoi et n'a donc pas cassé l'arrêt attaqué."
+  ],
+  "correct": false,
+  "verdicts": [
+   "CONTREDIT"
+  ]
+ },
+ {
+  "decision": "2023-10-12_22-19-407",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de validité d'une clause de non-concurrence dans un contrat de copropriété ?",
+  "expected": "ABSTENTION",
+  "system": "LawHack",
+  "seconds": 5.7,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2023-10-12_22-19-407",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de validité d'une clause de non-concurrence dans un contrat de copropriété ?",
+  "expected": "ABSTENTION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.57,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2023-10-12_22-19-407",
+  "kind": "moyen_decision",
+  "question": "La Cour de cassation a-t-elle jugé que les demandes reconventionnelles du syndicat nécessitaient l'autorisation de l'assemblée générale des copropriétaires ?",
+  "expected": "DEMANDEUR",
+  "system": "LawHack",
+  "seconds": 7.05,
+  "answer": "Non, la Cour de cassation a jugé que la demande reconventionnelle du syndicat était recevable sans autorisation de l'assemblée générale, car elle découlait du rejet des demandes des consorts et en tirait les conséquences. La Cour a également approuvé la cour d'appel sur le fait que le syndic peut défendre aux actions intentées contre le syndicat sans autorisation de l'assemblée générale.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE",
+   "OK"
+  ]
+ },
+ {
+  "decision": "2023-10-12_22-19-407",
+  "kind": "moyen_decision",
+  "question": "La Cour de cassation a-t-elle jugé que les demandes reconventionnelles du syndicat nécessitaient l'autorisation de l'assemblée générale des copropriétaires ?",
+  "expected": "DEMANDEUR",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.36,
+  "answer": "Non, la Cour de cassation a jugé que la demande reconventionnelle du syndicat était recevable sans autorisation de l'assemblée générale, car elle était exclusivement fondée sur le rejet des demandes adverses.",
+  "abstained": false,
+  "hallucinated": [
+   "Non, la Cour de cassation a jugé que la demande reconventionnelle du syndicat était recevable sans autorisation de l'assemblée générale, car elle était exclusivement fondée sur le rejet des demandes adverses."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE"
+  ]
+ },
+ {
+  "decision": "2023-10-12_22-19-407",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que les consorts [R] étaient propriétaires d'un appartement loué à la société Cohen Amir Aslani ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "LawHack",
+  "seconds": 2.03,
+  "answer": "la cour d'appel a constaté que les consorts étaient propriétaires d'un appartement loué à la société Cohen Amir Aslani",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2023-10-12_22-19-407",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que les consorts [R] étaient propriétaires d'un appartement loué à la société Cohen Amir Aslani ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.89,
+  "answer": "Oui, la Cour de cassation a constaté que les consorts étaient propriétaires d'un appartement loué à la société Cohen Amir Aslani, comme mentionné dans les faits de l'arrêt (point 1).",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-05-15_22-11-652",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "LawHack",
+  "seconds": 6.42,
+  "answer": "La Cour de cassation casse partiellement l'arrêt attaqué.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-05-15_22-11-652",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.67,
+  "answer": "Oui, la Cour de cassation a cassé partiellement l'arrêt attaqué. Elle a annulé la décision de la cour d'appel de Paris en ce qui concerne la nullité du licenciement et les condamnations financières qui en découlent.",
+  "abstained": false,
+  "hallucinated": [
+   "Elle a annulé la décision de la cour d'appel de Paris en ce qui concerne la nullité du licenciement et les condamnations financières qui en découlent."
+  ],
+  "correct": false,
+  "verdicts": [
+   "OK",
+   "CONTREDIT"
+  ]
+ },
+ {
+  "decision": "2024-05-15_22-11-652",
+  "kind": "hors_sujet",
+  "question": "Un salarié peut-il invoquer un harcèlement moral pour contester son licenciement pour faute grave ?",
+  "expected": "ABSTENTION",
+  "system": "LawHack",
+  "seconds": 5.91,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-05-15_22-11-652",
+  "kind": "hors_sujet",
+  "question": "Un salarié peut-il invoquer un harcèlement moral pour contester son licenciement pour faute grave ?",
+  "expected": "ABSTENTION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.45,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-05-15_22-11-652",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que Mme [H] a été reconnue travailleur handicapé par la CDAPH le 1er avril 2010 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "LawHack",
+  "seconds": 2.54,
+  "answer": "la cour d'appel a constaté que la salariée a été reconnue en qualité de travailleur handicapé par la CDAPH le 1er avril 2010.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-05-15_22-11-652",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que Mme [H] a été reconnue travailleur handicapé par la CDAPH le 1er avril 2010 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.4,
+  "answer": "Oui, la Cour de cassation a constaté que Mme a été reconnue travailleur handicapé par la CDAPH le 1er avril 2010.",
+  "abstained": false,
+  "hallucinated": [
+   "Oui, la Cour de cassation a constaté que Mme a été reconnue travailleur handicapé par la CDAPH le 1er avril 2010."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE"
+  ]
+ },
+ {
+  "decision": "2024-05-15_22-23-797",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "REJET",
+  "system": "LawHack",
+  "seconds": 6.23,
+  "answer": "La Cour de cassation a rejeté le pourvoi, donc elle n'a pas cassé l'arrêt attaqué.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-05-15_22-23-797",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "REJET",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.97,
+  "answer": "Non, la Cour de cassation a rejeté le pourvoi et confirmé l'arrêt attaqué.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-05-15_22-23-797",
+  "kind": "hors_sujet",
+  "question": "Un salarié en CDD peut-il invoquer un licenciement sans cause réelle et sérieuse ?",
+  "expected": "ABSTENTION",
+  "system": "LawHack",
+  "seconds": 5.57,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-05-15_22-23-797",
+  "kind": "hors_sujet",
+  "question": "Un salarié en CDD peut-il invoquer un licenciement sans cause réelle et sérieuse ?",
+  "expected": "ABSTENTION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.07,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-05-15_22-23-797",
+  "kind": "moyen_decision",
+  "question": "La Cour de cassation a-t-elle jugé que l'affectation exclusive d'un salarié à un marché est réputée remplie en cas de rattachement administratif exclusif, même si le salarié intervient sur d'autres sites ?",
+  "expected": "DEMANDEUR",
+  "system": "LawHack",
+  "seconds": 22.6,
+  "answer": "La Cour de cassation n'a pas jugé cela: elle décide que la condition d'affectation exclusive est remplie lorsque le personnel de maîtrise passe **100 % de son temps de travail** sur le marché concerné. La cour d'appel a retenu que la salariée intervenait sur d'autres sites, et la Cour approuve cette déduction selon laquelle l'affectation exclusive n'était pas remplie. Le demandeur soutenait que le rattachement administratif exclusif suffisait, mais la Cour ne l'a pas suivi.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK",
+   "NON_SOURCE",
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-05-15_22-23-797",
+  "kind": "moyen_decision",
+  "question": "La Cour de cassation a-t-elle jugé que l'affectation exclusive d'un salarié à un marché est réputée remplie en cas de rattachement administratif exclusif, même si le salarié intervient sur d'autres sites ?",
+  "expected": "DEMANDEUR",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.35,
+  "answer": "Non, la Cour de cassation a jugé que l'affectation exclusive d'un salarié à un marché n'est pas réputée remplie en cas de rattachement administratif exclusif si le salarié intervient effectivement sur d'autres sites. Elle a confirmé que la condition d'affectation exclusive s'apprécie au regard du temps de travail effectif.",
+  "abstained": false,
+  "hallucinated": [
+   "Non, la Cour de cassation a jugé que l'affectation exclusive d'un salarié à un marché n'est pas réputée remplie en cas de rattachement administratif exclusif si le salarié intervient effectivement sur d'autres sites."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE",
+   "SANS_ATTRIBUTION"
+  ]
+ },
+ {
+  "decision": "2024-05-15_22-23-797",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que Mme [O] a été licenciée par la société Challancin le 27 janvier 2020 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "LawHack",
+  "seconds": 1.26,
+  "answer": "Non, la Cour de cassation, juge du droit, ne constate pas les faits: c'est la cour d'appel qui a constaté que Mme a été licenciée par la société Challancin le 27 janvier 2020.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-05-15_22-23-797",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que Mme [O] a été licenciée par la société Challancin le 27 janvier 2020 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.17,
+  "answer": "Oui, la Cour de cassation a constaté que Mme a été licenciée par la société Challancin le 27 janvier 2020 (point 4 des faits et procédure).",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-05-15_23-11-713",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "REJET",
+  "system": "LawHack",
+  "seconds": 1.2,
+  "answer": "La Cour de cassation a rejeté les pourvois, donc elle n'a pas cassé l'arrêt attaqué.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-05-15_23-11-713",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "REJET",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.07,
+  "answer": "Non, la Cour de cassation a rejeté les pourvois et n'a pas cassé l'arrêt attaqué.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-05-15_23-11-713",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de validité d'une clause limitative de responsabilité dans un contrat de prêt professionnel ?",
+  "expected": "ABSTENTION",
+  "system": "LawHack",
+  "seconds": 5.83,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-05-15_23-11-713",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de validité d'une clause limitative de responsabilité dans un contrat de prêt professionnel ?",
+  "expected": "ABSTENTION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.94,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-05-15_23-11-713",
+  "kind": "moyen_decision",
+  "question": "La Cour de cassation a-t-elle jugé que la clause de l'acte de cautionnement prévoyait une dérogation au principe selon lequel la déchéance du terme à l'égard du débiteur principal n'est pas opposable à la caution ?",
+  "expected": "DEMANDEUR",
+  "system": "LawHack",
+  "seconds": 3.57,
+  "answer": "La Cour de cassation n'a pas jugé que la clause prévoyait une telle dérogation, mais elle a approuvé la cour d'appel d'avoir retenu que la déchéance du terme était opposable à la caution sans dénaturer l'acte de cautionnement. Le demandeur soutenait au contraire que la cour d'appel avait méconnu les termes de la clause en y voyant une dérogation.",
+  "abstained": false,
+  "hallucinated": [
+   "La Cour de cassation n'a pas jugé que la clause prévoyait une telle dérogation, mais elle a approuvé la cour d'appel d'avoir retenu que la déchéance du terme était opposable à la caution sans dénaturer l'acte de cautionnement."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE",
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-05-15_23-11-713",
+  "kind": "moyen_decision",
+  "question": "La Cour de cassation a-t-elle jugé que la clause de l'acte de cautionnement prévoyait une dérogation au principe selon lequel la déchéance du terme à l'égard du débiteur principal n'est pas opposable à la caution ?",
+  "expected": "DEMANDEUR",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.23,
+  "answer": "Oui, la Cour de cassation a jugé que la clause de l'acte de cautionnement prévoyait une dérogation au principe selon lequel la déchéance du terme à l'égard du débiteur principal n'est pas opposable à la caution. Elle a confirmé que la cour d'appel avait correctement interprété cette clause sans la dénaturer.",
+  "abstained": false,
+  "hallucinated": [
+   "Oui, la Cour de cassation a jugé que la clause de l'acte de cautionnement prévoyait une dérogation au principe selon lequel la déchéance du terme à l'égard du débiteur principal n'est pas opposable à la caution."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE",
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-05-15_23-11-713",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que la société Pommes Lomagne a été placée en liquidation judiciaire ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "LawHack",
+  "seconds": 3.13,
+  "answer": "La cour d'appel a constaté que la société avait été placée en liquidation judiciaire.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-05-15_23-11-713",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que la société Pommes Lomagne a été placée en liquidation judiciaire ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.05,
+  "answer": "Oui, la Cour de cassation a constaté que la société Pommes Lomagne a été placée en liquidation judiciaire, comme mentionné au point 2 des faits et procédure de l'arrêt.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-05-15_23-11-851",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "LawHack",
+  "seconds": 6.5,
+  "answer": "La Cour de cassation casse partiellement l'arrêt attaqué, uniquement en ce qu'il déclare prescrite l'action en responsabilité formée par M. et Mme contre la société Creatis.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-05-15_23-11-851",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.78,
+  "answer": "Oui, la Cour de cassation a cassé partiellement l'arrêt attaqué, uniquement en ce qu'il déclarait prescrite l'action en responsabilité des emprunteurs.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-05-15_23-11-851",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de validité d'une clause abusives dans un contrat de crédit à la consommation ?",
+  "expected": "ABSTENTION",
+  "system": "LawHack",
+  "seconds": 0.51,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-05-15_23-11-851",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de validité d'une clause abusives dans un contrat de crédit à la consommation ?",
+  "expected": "ABSTENTION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.52,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-05-15_23-11-851",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que la déchéance du terme du prêt a été prononcée le 13 février 2018 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "LawHack",
+  "seconds": 6.33,
+  "answer": "Non, la Cour de cassation n'a pas constaté ce fait, car elle ne constate pas les faits. C'est la cour d'appel qui a constaté que la déchéance du terme a été prononcée le 13 février 2018.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE",
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-05-15_23-11-851",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que la déchéance du terme du prêt a été prononcée le 13 février 2018 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.72,
+  "answer": "Oui, la Cour de cassation a constaté que la déchéance du terme du prêt a été prononcée le 13 février 2018.",
+  "abstained": false,
+  "hallucinated": [
+   "Oui, la Cour de cassation a constaté que la déchéance du terme du prêt a été prononcée le 13 février 2018."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE"
+  ]
+ },
+ {
+  "decision": "2024-05-15_24-80-728",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "REJET",
+  "system": "LawHack",
+  "seconds": 11.03,
+  "answer": "La Cour de cassation a rejeté le pourvoi, donc elle n'a pas cassé l'arrêt attaqué. La Cour de cassation a partiellement cassé cet arrêt en ses seules dispositions relatives à la délivrance d'un mandat d'arrêt le 9 janvier 2024.",
+  "abstained": false,
+  "hallucinated": [
+   "La Cour de cassation a partiellement cassé cet arrêt en ses seules dispositions relatives à la délivrance d'un mandat d'arrêt le 9 janvier 2024."
+  ],
+  "correct": false,
+  "verdicts": [
+   "NON_SOURCE",
+   "CONTREDIT"
+  ]
+ },
+ {
+  "decision": "2024-05-15_24-80-728",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "REJET",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.7,
+  "answer": "Non, la Cour de cassation a rejeté le pourvoi et confirmé l'arrêt attaqué.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-05-15_24-80-728",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de validité d'une garde à vue en matière de droit pénal des mineurs ?",
+  "expected": "ABSTENTION",
+  "system": "LawHack",
+  "seconds": 0.71,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-05-15_24-80-728",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de validité d'une garde à vue en matière de droit pénal des mineurs ?",
+  "expected": "ABSTENTION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.7,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-05-15_24-80-728",
+  "kind": "moyen_decision",
+  "question": "La Cour de cassation a-t-elle jugé que la chambre de l'instruction a méconnu la portée de la cassation en ordonnant le placement en détention provisoire de Mme [U] ?",
+  "expected": "DEMANDEUR",
+  "system": "LawHack",
+  "seconds": 2.11,
+  "answer": "La Cour de cassation juge que la chambre de l'instruction n'a pas méconnu la portée de la cassation en ordonnant le placement en détention provisoire, car ses pouvoirs n'étaient pas limités à la délivrance d'un nouveau mandat d'arrêt après cassation partielle. La Cour écarte le moyen.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE",
+   "A_VERIFIER"
+  ]
+ },
+ {
+  "decision": "2024-05-15_24-80-728",
+  "kind": "moyen_decision",
+  "question": "La Cour de cassation a-t-elle jugé que la chambre de l'instruction a méconnu la portée de la cassation en ordonnant le placement en détention provisoire de Mme [U] ?",
+  "expected": "DEMANDEUR",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.71,
+  "answer": "Non, la Cour de cassation a jugé que la chambre de l'instruction **n'a pas méconnu** la portée de la cassation en ordonnant le placement en détention provisoire de Mme.",
+  "abstained": false,
+  "hallucinated": [
+   "Non, la Cour de cassation a jugé que la chambre de l'instruction **n'a pas méconnu** la portée de la cassation en ordonnant le placement en détention provisoire de Mme."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE"
+  ]
+ },
+ {
+  "decision": "2024-05-15_24-80-728",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que Mme [U] a été interpellée au Portugal le 3 février 2023 en exécution d'un mandat d'arrêt européen ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "LawHack",
+  "seconds": 6.44,
+  "answer": "Non, la Cour de cassation, juge du droit, ne constate pas les faits. La cour d'appel a constaté que Mme a été interpellée au Portugal le 3 février 2023 en exécution d'un mandat d'arrêt européen.",
+  "abstained": false,
+  "hallucinated": [
+   "Non, la Cour de cassation, juge du droit, ne constate pas les faits."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE",
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-05-15_24-80-728",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que Mme [U] a été interpellée au Portugal le 3 février 2023 en exécution d'un mandat d'arrêt européen ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.8,
+  "answer": "Oui, la Cour de cassation a constaté que Mme a été interpellée au Portugal le 3 février 2023 en exécution d'un mandat d'arrêt européen (point 3 de l'arrêt).",
+  "abstained": false,
+  "hallucinated": [
+   "Oui, la Cour de cassation a constaté que Mme a été interpellée au Portugal le 3 février 2023 en exécution d'un mandat d'arrêt européen (point 3 de l'arrêt)."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_22-13-021",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "LawHack",
+  "seconds": 1.13,
+  "answer": "Oui, la Cour de cassation a cassé l'arrêt attaqué.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_22-13-021",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.91,
+  "answer": "Oui, la Cour de cassation a cassé l'arrêt rendu le 19 octobre 2021 par la cour d'appel de Poitiers.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-09-18_22-13-021",
+  "kind": "hors_sujet",
+  "question": "Quels sont les critères pour qu'une société soit considérée comme une société holding animatrice de groupe en droit fiscal ?",
+  "expected": "ABSTENTION",
+  "system": "LawHack",
+  "seconds": 0.81,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-09-18_22-13-021",
+  "kind": "hors_sujet",
+  "question": "Quels sont les critères pour qu'une société soit considérée comme une société holding animatrice de groupe en droit fiscal ?",
+  "expected": "ABSTENTION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.88,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-09-18_22-13-021",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que M. [J] avait joint à ses déclarations d'ISF des années 2009 et 2010 une attestation de la société Finaréa Avenir PME ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "LawHack",
+  "seconds": 1.33,
+  "answer": "Non, la Cour de cassation n'a pas constaté ce fait, car elle ne constate pas les faits. C'est la cour d'appel de Poitiers qui a constaté que M. avait joint à ses déclarations d'ISF des années 2009 et 2010 une attestation de la société Finaréa Avenir PME.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE",
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-09-18_22-13-021",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que M. [J] avait joint à ses déclarations d'ISF des années 2009 et 2010 une attestation de la société Finaréa Avenir PME ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.03,
+  "answer": "Oui, la Cour de cassation a constaté que M. avait joint à ses déclarations d'ISF des années 2009 et 2010 une attestation de la société Finaréa Avenir PME.",
+  "abstained": false,
+  "hallucinated": [
+   "Oui, la Cour de cassation a constaté que M. avait joint à ses déclarations d'ISF des années 2009 et 2010 une attestation de la société Finaréa Avenir PME."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_22-22-797",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "LawHack",
+  "seconds": 1.52,
+  "answer": "La Cour casse et annule l'arrêt rendu le 15 septembre 2022 par la cour d'appel de Paris, sauf sur le point de la condamnation de la société Sodexcom océan Indien à reconstituer une trésorerie d'au moins 400 000 euros dans la société Socorec.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-09-18_22-22-797",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.09,
+  "answer": "Oui, la Cour de cassation a cassé partiellement l'arrêt attaqué, sauf sur le point concernant la condamnation de la société Sodexcom à reconstituer une trésorerie d'au moins 400 000 euros dans la société Socorec.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-09-18_22-22-797",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de validité d'une clause de non-concurrence dans un contrat de cession de parts sociales ?",
+  "expected": "ABSTENTION",
+  "system": "LawHack",
+  "seconds": 0.7,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-09-18_22-22-797",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de validité d'une clause de non-concurrence dans un contrat de cession de parts sociales ?",
+  "expected": "ABSTENTION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.83,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-09-18_22-22-797",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que la cession définitive des 527 titres de la Socorec a été régularisée par un acte du 17 novembre 2014 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "LawHack",
+  "seconds": 2.68,
+  "answer": "Non, la Cour de cassation n'a pas constaté ce fait, car elle ne constate pas les faits. La cour d'appel a constaté que la cession définitive des 527 titres de la Socorec a été régularisée par un acte du 17 novembre 2014 rappelant que le prix fera l'objet d'ajustements et de compléments.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE",
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-09-18_22-22-797",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que la cession définitive des 527 titres de la Socorec a été régularisée par un acte du 17 novembre 2014 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.03,
+  "answer": "Oui, la Cour de cassation a constaté que la cession définitive des 527 titres de la Socorec a été régularisée par un acte du 17 novembre 2014.",
+  "abstained": false,
+  "hallucinated": [
+   "Oui, la Cour de cassation a constaté que la cession définitive des 527 titres de la Socorec a été régularisée par un acte du 17 novembre 2014."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_22-86-244",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "LawHack",
+  "seconds": 1.21,
+  "answer": "La Cour casse et annule l'arrêt attaqué de la cour d'appel de Fort-de-France.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-09-18_22-86-244",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.87,
+  "answer": "Oui, la Cour de cassation a cassé l'arrêt attaqué de la cour d'appel de Fort-de-France en date du 13 octobre 2022.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-09-18_22-86-244",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de validité d'une citation directe en matière pénale ?",
+  "expected": "ABSTENTION",
+  "system": "LawHack",
+  "seconds": 0.49,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-09-18_22-86-244",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de validité d'une citation directe en matière pénale ?",
+  "expected": "ABSTENTION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.64,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-09-18_22-86-244",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que le tribunal correctionnel a relaxé Mme [D] [T] en raison de la prescription de l'action publique ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "LawHack",
+  "seconds": 1.96,
+  "answer": "la cour d'appel a constaté l'extinction de l'action publique du fait de sa prescription et que les juges du premier degré ont relaxé la prévenue et débouté la partie civile de sa demande",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-09-18_22-86-244",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que le tribunal correctionnel a relaxé Mme [D] [T] en raison de la prescription de l'action publique ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.81,
+  "answer": "Oui, la Cour de cassation a constaté que le tribunal correctionnel a relaxé Mme en raison de la prescription de l'action publique, comme indiqué au point 3 de l'arrêt.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_22-86-366",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "REJET",
+  "system": "LawHack",
+  "seconds": 1.15,
+  "answer": "La Cour de cassation a rejeté les pourvois, donc elle n'a pas cassé l'arrêt attaqué.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_22-86-366",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "REJET",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.62,
+  "answer": "Non, la Cour de cassation a rejeté les pourvois et n'a pas cassé l'arrêt attaqué.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_22-86-366",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de validité d'une perquisition fiscale en matière de fraude à l'impôt sur les sociétés ?",
+  "expected": "ABSTENTION",
+  "system": "LawHack",
+  "seconds": 0.58,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-09-18_22-86-366",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de validité d'une perquisition fiscale en matière de fraude à l'impôt sur les sociétés ?",
+  "expected": "ABSTENTION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.6,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-09-18_22-86-366",
+  "kind": "moyen_decision",
+  "question": "La Cour de cassation a-t-elle jugé que le juge pénal doit vérifier la gravité des faits pour justifier une répression pénale complémentaire en cas de sanction fiscale déjà prononcée pour les mêmes faits ?",
+  "expected": "DEMANDEUR",
+  "system": "LawHack",
+  "seconds": 2.09,
+  "answer": "La Cour de cassation n'a pas jugé que le juge pénal doit vérifier la gravité des faits pour justifier une répression pénale complémentaire en cas de sanction fiscale déjà prononcée pour les mêmes faits. La Cour a écarté le moyen du demandeur qui soutenait cette obligation.",
+  "abstained": false,
+  "hallucinated": [
+   "La Cour de cassation n'a pas jugé que le juge pénal doit vérifier la gravité des faits pour justifier une répression pénale complémentaire en cas de sanction fiscale déjà prononcée pour les mêmes faits."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE",
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_22-86-366",
+  "kind": "moyen_decision",
+  "question": "La Cour de cassation a-t-elle jugé que le juge pénal doit vérifier la gravité des faits pour justifier une répression pénale complémentaire en cas de sanction fiscale déjà prononcée pour les mêmes faits ?",
+  "expected": "DEMANDEUR",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.02,
+  "answer": "Oui, la Cour de cassation rappelle que le juge pénal doit vérifier si les faits présentent un degré de gravité justifiant une répression pénale complémentaire en cas de sanction fiscale déjà prononcée pour les mêmes faits (point 7 du moyen). Cependant, elle a validé la décision de la cour d'appel qui n'a pas effectué cette vérification, estimant que celle-ci avait souverainement apprécié les preuves.",
+  "abstained": false,
+  "hallucinated": [
+   "Oui, la Cour de cassation rappelle que le juge pénal doit vérifier si les faits présentent un degré de gravité justifiant une répression pénale complémentaire en cas de sanction fiscale déjà prononcée pour les mêmes faits (point 7 du moyen)."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE",
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_22-86-366",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que la société Hameau des Rennes a été condamnée par le tribunal correctionnel pour soustraction frauduleuse à la TVA au titre de décembre 2013 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "LawHack",
+  "seconds": 2.49,
+  "answer": "la cour d'appel a constaté que la société et ses gérants ont été cités devant le tribunal correctionnel pour soustraction frauduleuse à l'établissement et au paiement de la TVA exigible au titre du mois de décembre 2013 et que, par jugement du 22 novembre 2021, le tribunal correctionnel les a condamnés de ce chef.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-09-18_22-86-366",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que la société Hameau des Rennes a été condamnée par le tribunal correctionnel pour soustraction frauduleuse à la TVA au titre de décembre 2013 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.86,
+  "answer": "Oui, la Cour de cassation a constaté que la société Hameau des Rennes a été condamnée par le tribunal correctionnel pour soustraction frauduleuse à l'établissement et au paiement de la TVA exigible au titre du mois de décembre 2013.",
+  "abstained": false,
+  "hallucinated": [
+   "Oui, la Cour de cassation a constaté que la société Hameau des Rennes a été condamnée par le tribunal correctionnel pour soustraction frauduleuse à l'établissement et au paiement de la TVA exigible au titre du mois de décembre 2013."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_23-12-141",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "REJET",
+  "system": "LawHack",
+  "seconds": 1.27,
+  "answer": "La Cour de cassation a rejeté le pourvoi, donc elle n'a pas cassé l'arrêt attaqué.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_23-12-141",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "REJET",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.59,
+  "answer": "Non, la Cour de cassation a rejeté le pourvoi et confirmé l'arrêt attaqué.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_23-12-141",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de validité d'une clause de solidarité entre associés dans une société commerciale ?",
+  "expected": "ABSTENTION",
+  "system": "LawHack",
+  "seconds": 0.58,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-09-18_23-12-141",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de validité d'une clause de solidarité entre associés dans une société commerciale ?",
+  "expected": "ABSTENTION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.55,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-09-18_23-12-141",
+  "kind": "moyen_decision",
+  "question": "La Cour de cassation a-t-elle jugé que la solidarité prévue par l'article 1745 du code général des impôts ne peut être prononcée que dans le cadre de l'action publique et non de l'action civile ?",
+  "expected": "DEMANDEUR",
+  "system": "LawHack",
+  "seconds": 2.5,
+  "answer": "La loi prévoit que, lorsque les juges prononcent une condamnation pour fraude fiscale, l'administration fiscale est recevable, en sa qualité de partie civile, à demander que soit prononcée la solidarité du condamné avec le redevable légal des impôts fraudés. La Cour rejette le moyen qui postule le contraire.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK",
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-09-18_23-12-141",
+  "kind": "moyen_decision",
+  "question": "La Cour de cassation a-t-elle jugé que la solidarité prévue par l'article 1745 du code général des impôts ne peut être prononcée que dans le cadre de l'action publique et non de l'action civile ?",
+  "expected": "DEMANDEUR",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.7,
+  "answer": "Non, la Cour de cassation a jugé que la solidarité prévue par l'article 1745 du CGI peut être prononcée dans le cadre de l'action civile, lorsque l'administration fiscale est partie civile.",
+  "abstained": false,
+  "hallucinated": [
+   "Non, la Cour de cassation a jugé que la solidarité prévue par l'article 1745 du CGI peut être prononcée dans le cadre de l'action civile, lorsque l'administration fiscale est partie civile."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_23-12-141",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que M. [N] a été condamné solidairement avec les sociétés FDCE et France Data au paiement des impositions éludées par un tribunal correctionnel le 23 février 2020 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "LawHack",
+  "seconds": 2.13,
+  "answer": "Non, la Cour de cassation n'a pas constaté ces faits, car elle ne constate pas les faits. La cour d'appel a relevé que ce tribunal a condamné solidairement M. et les sociétés FDCE et France Data au paiement des impositions éludées.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE",
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-09-18_23-12-141",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que M. [N] a été condamné solidairement avec les sociétés FDCE et France Data au paiement des impositions éludées par un tribunal correctionnel le 23 février 2020 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.81,
+  "answer": "Oui, la Cour de cassation a constaté que M. a été condamné solidairement avec les sociétés FDCE et France Data au paiement des impositions éludées par un tribunal correctionnel le 23 février 2020.",
+  "abstained": false,
+  "hallucinated": [
+   "Oui, la Cour de cassation a constaté que M. a été condamné solidairement avec les sociétés FDCE et France Data au paiement des impositions éludées par un tribunal correctionnel le 23 février 2020."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_23-14-913",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "REJET",
+  "system": "LawHack",
+  "seconds": 6.03,
+  "answer": "La Cour de cassation a rejeté le pourvoi, donc elle n'a pas cassé l'arrêt attaqué.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_23-14-913",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "REJET",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.59,
+  "answer": "Non, la Cour de cassation a rejeté le pourvoi et n'a pas cassé l'arrêt attaqué.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_23-14-913",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de validité d'un avis de mise en recouvrement en matière de TVA ?",
+  "expected": "ABSTENTION",
+  "system": "LawHack",
+  "seconds": 0.5,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-09-18_23-14-913",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de validité d'un avis de mise en recouvrement en matière de TVA ?",
+  "expected": "ABSTENTION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.54,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-09-18_23-14-913",
+  "kind": "moyen_decision",
+  "question": "La Cour de cassation a-t-elle jugé que la notion de poussières totales en suspension visée par l'article 266 septies du code des douanes ne peut désigner que les poussières non sédimentables ?",
+  "expected": "DEMANDEUR",
+  "system": "LawHack",
+  "seconds": 1.45,
+  "answer": "La Cour de cassation n'a pas jugé que la notion de poussières totales en suspension visée par l'article 266 septies du code des douanes ne peut désigner que les poussières non sédimentables. Elle a rejeté le moyen qui postule le contraire, ce qui implique qu'elle ne partage pas cette interprétation restrictive.",
+  "abstained": false,
+  "hallucinated": [
+   "La Cour de cassation n'a pas jugé que la notion de poussières totales en suspension visée par l'article 266 septies du code des douanes ne peut désigner que les poussières non sédimentables."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE",
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_23-14-913",
+  "kind": "moyen_decision",
+  "question": "La Cour de cassation a-t-elle jugé que la notion de poussières totales en suspension visée par l'article 266 septies du code des douanes ne peut désigner que les poussières non sédimentables ?",
+  "expected": "DEMANDEUR",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.01,
+  "answer": "Non, la Cour de cassation a jugé que la notion de poussières totales en suspension visée par l'article 266 septies du code des douanes **ne se limite pas** aux poussières non sédimentables. Elle a confirmé que la TGAP s'applique à l'ensemble des poussières émises, sans distinction selon leur taille, leur poids ou leur volatilité.",
+  "abstained": false,
+  "hallucinated": [
+   "Non, la Cour de cassation a jugé que la notion de poussières totales en suspension visée par l'article 266 septies du code des douanes **ne se limite pas** aux poussières non sédimentables."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE",
+   "SANS_ATTRIBUTION"
+  ]
+ },
+ {
+  "decision": "2024-09-18_23-14-913",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que l'administration des douanes a notifié à la société Carrières Iribarren un défaut de déclaration de la TGAP pour deux de ses carrières au titre des années 2014, 2015 et 2016 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "LawHack",
+  "seconds": 2.29,
+  "answer": "la cour d'appel a relevé que l'administration des douanes a notifié à la société Carrières Iribarren un défaut de déclaration de la TGAP pour deux de ses carrières au titre des années 2014, 2015 et 2016.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-09-18_23-14-913",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que l'administration des douanes a notifié à la société Carrières Iribarren un défaut de déclaration de la TGAP pour deux de ses carrières au titre des années 2014, 2015 et 2016 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.19,
+  "answer": "Oui, la Cour de cassation a constaté que l'administration des douanes a notifié à la société Carrières Iribarren un défaut de déclaration de la TGAP pour deux de ses carrières au titre des années 2014, 2015 et 2016.",
+  "abstained": false,
+  "hallucinated": [
+   "Oui, la Cour de cassation a constaté que l'administration des douanes a notifié à la société Carrières Iribarren un défaut de déclaration de la TGAP pour deux de ses carrières au titre des années 2014, 2015 et 2016."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_23-15-676",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "LawHack",
+  "seconds": 6.07,
+  "answer": "La Cour de cassation a cassé partiellement l'arrêt attaqué.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2024-09-18_23-15-676",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.12,
+  "answer": "Oui, la Cour de cassation a cassé partiellement l'arrêt attaqué, uniquement en ce qui concerne le rejet des demandes du salarié relatives à certaines primes et commissions.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_23-15-676",
+  "kind": "hors_sujet",
+  "question": "Le salarié peut-il invoquer un harcèlement moral pour contester son licenciement ?",
+  "expected": "ABSTENTION",
+  "system": "LawHack",
+  "seconds": 0.73,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-09-18_23-15-676",
+  "kind": "hors_sujet",
+  "question": "Le salarié peut-il invoquer un harcèlement moral pour contester son licenciement ?",
+  "expected": "ABSTENTION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.92,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2024-09-18_23-15-676",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que M. [X] a été engagé en qualité de responsable commercial par la société Q.S.P. le 6 avril 1989 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "LawHack",
+  "seconds": 1.33,
+  "answer": "Non, la Cour de cassation, juge du droit, ne constate pas les faits: c'est la cour d'appel de Lyon qui a constaté que M. a été engagé en qualité de responsable commercial par la société Q.S.P. le 6 avril 1989.",
+  "abstained": false,
+  "hallucinated": [
+   "Non, la Cour de cassation, juge du droit, ne constate pas les faits: c'est la cour d'appel de Lyon qui a constaté que M. a été engagé en qualité de responsable commercial par la société Q.S.P. le 6 avril 1989."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE"
+  ]
+ },
+ {
+  "decision": "2024-09-18_23-15-676",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que M. [X] a été engagé en qualité de responsable commercial par la société Q.S.P. le 6 avril 1989 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.16,
+  "answer": "Oui, la Cour de cassation a constaté que M. a été engagé en qualité de responsable commercial par la société Q.S.P. le 6 avril 1989, comme indiqué dans les faits de l'arrêt (point 1).",
+  "abstained": false,
+  "hallucinated": [
+   "Oui, la Cour de cassation a constaté que M. a été engagé en qualité de responsable commercial par la société Q.S.P. le 6 avril 1989, comme indiqué dans les faits de l'arrêt (point 1)."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE"
+  ]
+ },
+ {
+  "decision": "2025-01-16_22-21-138",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "LawHack",
+  "seconds": 1.33,
+  "answer": "Oui, la Cour casse et annule l'arrêt rendu par la cour d'appel de Douai.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2025-01-16_22-21-138",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.19,
+  "answer": "Oui, la Cour de cassation a cassé l'arrêt rendu le 7 juillet 2022 par la cour d'appel de Douai, comme indiqué dans le dispositif de l'arrêt.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2025-01-16_22-21-138",
+  "kind": "hors_sujet",
+  "question": "Quels sont les délais de prescription pour une action en garantie des vices cachés dans un bail d'habitation ?",
+  "expected": "ABSTENTION",
+  "system": "LawHack",
+  "seconds": 0.53,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2025-01-16_22-21-138",
+  "kind": "hors_sujet",
+  "question": "Quels sont les délais de prescription pour une action en garantie des vices cachés dans un bail d'habitation ?",
+  "expected": "ABSTENTION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.58,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2025-01-16_22-21-138",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que le dépôt de garantie a été majoré de 10 % à compter du 4 juin 2016 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "LawHack",
+  "seconds": 7.23,
+  "answer": "Non, la Cour de cassation ne constate pas les faits: c'est la cour d'appel qui a constaté que M. et Mme ont demandé la restitution du dépôt de garantie majoré de 10 % à compter du 4 juin 2016.",
+  "abstained": false,
+  "hallucinated": [
+   "Non, la Cour de cassation ne constate pas les faits: c'est la cour d'appel qui a constaté que M. et Mme ont demandé la restitution du dépôt de garantie majoré de 10 % à compter du 4 juin 2016."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE"
+  ]
+ },
+ {
+  "decision": "2025-01-16_22-21-138",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que le dépôt de garantie a été majoré de 10 % à compter du 4 juin 2016 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.84,
+  "answer": "Oui, la Cour de cassation a constaté que le dépôt de garantie a été majoré de 10 % à compter du 4 juin 2016, comme mentionné dans le jugement du 15 septembre 2020.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "NON_SOURCE"
+  ]
+ },
+ {
+  "decision": "2025-01-17_23-18-823",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "LawHack",
+  "seconds": 2.11,
+  "answer": "Oui, la Cour de cassation a cassé l'arrêt rendu le 21 mars 2023 par la cour d'appel de Lyon.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2025-01-17_23-18-823",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.34,
+  "answer": "Oui, la Cour de cassation a cassé l'arrêt attaqué. Elle a annulé l'arrêt rendu le 21 mars 2023 par la cour d'appel de Lyon et renvoyé l'affaire devant la cour d'appel de Chambéry.",
+  "abstained": false,
+  "hallucinated": [
+   "Elle a annulé l'arrêt rendu le 21 mars 2023 par la cour d'appel de Lyon et renvoyé l'affaire devant la cour d'appel de Chambéry."
+  ],
+  "correct": false,
+  "verdicts": [
+   "NON_SOURCE",
+   "CONTREDIT"
+  ]
+ },
+ {
+  "decision": "2025-01-17_23-18-823",
+  "kind": "hors_sujet",
+  "question": "Un testament olographe peut-il être valable s'il est rédigé en partie en langue étrangère ?",
+  "expected": "ABSTENTION",
+  "system": "LawHack",
+  "seconds": 1.12,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2025-01-17_23-18-823",
+  "kind": "hors_sujet",
+  "question": "Un testament olographe peut-il être valable s'il est rédigé en partie en langue étrangère ?",
+  "expected": "ABSTENTION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.0,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2025-01-17_23-18-823",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que le testament a été reçu en présence de deux témoins et avec le concours d'une interprète en langue italienne ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "LawHack",
+  "seconds": 1.27,
+  "answer": "Non, la Cour de cassation ne constate pas les faits: c'est la cour d'appel de Lyon qui a constaté que le testament a été reçu en présence de deux témoins et avec le concours d'une interprète en langue italienne.",
+  "abstained": false,
+  "hallucinated": [
+   "Non, la Cour de cassation ne constate pas les faits: c'est la cour d'appel de Lyon qui a constaté que le testament a été reçu en présence de deux témoins et avec le concours d'une interprète en langue italienne."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE"
+  ]
+ },
+ {
+  "decision": "2025-01-17_23-18-823",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que le testament a été reçu en présence de deux témoins et avec le concours d'une interprète en langue italienne ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.2,
+  "answer": "Oui, la Cour de cassation a constaté que le testament a été reçu en présence de deux témoins et avec le concours d'une interprète en langue italienne (point 20 de l'arrêt).",
+  "abstained": false,
+  "hallucinated": [
+   "Oui, la Cour de cassation a constaté que le testament a été reçu en présence de deux témoins et avec le concours d'une interprète en langue italienne (point 20 de l'arrêt)."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE"
+  ]
+ },
+ {
+  "decision": "2025-01-21_23-87-337",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "LawHack",
+  "seconds": 1.3,
+  "answer": "La Cour de cassation casse et annule l'arrêt de la chambre de l'instruction de la cour d'appel d'Amiens du 24 octobre 2023.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2025-01-21_23-87-337",
+  "kind": "solution",
+  "question": "La Cour de cassation a-t-elle cassé l'arrêt attaqué ?",
+  "expected": "CASSATION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.9,
+  "answer": "Oui, la Cour de cassation a cassé l'arrêt du 24 octobre 2023 de la chambre de l'instruction de la cour d'appel d'Amiens.",
+  "abstained": false,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": [
+   "OK"
+  ]
+ },
+ {
+  "decision": "2025-01-21_23-87-337",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de recevabilité d'une plainte avec constitution de partie civile en matière de diffamation ?",
+  "expected": "ABSTENTION",
+  "system": "LawHack",
+  "seconds": 0.51,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2025-01-21_23-87-337",
+  "kind": "hors_sujet",
+  "question": "Quelles sont les conditions de recevabilité d'une plainte avec constitution de partie civile en matière de diffamation ?",
+  "expected": "ABSTENTION",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 0.88,
+  "answer": "L'arrêt ne traite pas cette question.",
+  "abstained": true,
+  "hallucinated": [],
+  "correct": true,
+  "verdicts": []
+ },
+ {
+  "decision": "2025-01-21_23-87-337",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que M. [F] a interjeté appel de l'ordonnance de non-lieu le 21 avril 2023 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "LawHack",
+  "seconds": 1.25,
+  "answer": "Non, la Cour de cassation, juge du droit, ne constate pas les faits: c'est la cour d'appel qui a constaté que M. a interjeté appel de l'ordonnance le 21 avril 2023.",
+  "abstained": false,
+  "hallucinated": [
+   "Non, la Cour de cassation, juge du droit, ne constate pas les faits: c'est la cour d'appel qui a constaté que M. a interjeté appel de l'ordonnance le 21 avril 2023."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE"
+  ]
+ },
+ {
+  "decision": "2025-01-21_23-87-337",
+  "kind": "fait_cour",
+  "question": "La Cour de cassation a-t-elle constaté que M. [F] a interjeté appel de l'ordonnance de non-lieu le 21 avril 2023 ?",
+  "expected": "JURIDICTION_FOND",
+  "system": "Mistral seul (mistral-medium-latest)",
+  "seconds": 1.04,
+  "answer": "Oui, la Cour de cassation a constaté que M. a interjeté appel de l'ordonnance de non-lieu le 21 avril 2023, comme mentionné au point 5 de l'arrêt.",
+  "abstained": false,
+  "hallucinated": [
+   "Oui, la Cour de cassation a constaté que M. a interjeté appel de l'ordonnance de non-lieu le 21 avril 2023, comme mentionné au point 5 de l'arrêt."
+  ],
+  "correct": false,
+  "verdicts": [
+   "MAL_ATTRIBUE"
+  ]
+ }
+]

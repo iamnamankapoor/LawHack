@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LawHack</title>
+<style>
+  :root { --cour:#f5c518; --ca:#3fb950; --dem:#3b82f6; --def:#8b5cf6; --loi:#6b7280; --mp:#ec4899; --ind:#9ca3af;
+          --bg:#0f1115; --panel:#171a21; --line:#262b36; --text:#e6e8ee; --muted:#8b93a7; }
+  * { box-sizing:border-box } body { margin:0; font:15px/1.55 system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--text) }
+  header { padding:14px 24px; border-bottom:1px solid var(--line); display:flex; gap:14px; align-items:baseline }
+  header b { font-size:18px } header span { color:var(--muted) }
+  main { max-width:900px; margin:0 auto; padding:24px }
+  #drop { border:2px dashed var(--line); border-radius:14px; padding:56px 24px; text-align:center; cursor:pointer; transition:.2s }
+  #drop.over { border-color:var(--cour); background:#1d1a0d }
+  button { background:var(--cour); color:#111; border:0; border-radius:8px; padding:9px 16px; font-weight:600; cursor:pointer }
+  button.ghost { background:transparent; color:var(--muted); border:1px solid var(--line) }
+  #reading { display:none } .doc { background:var(--panel); border-radius:12px; padding:16px; max-height:52vh; overflow:auto }
+  .seg { display:inline; padding:1px 2px; border-radius:3px; color:var(--muted); transition:background .25s, color .25s; font-size:13px }
+  .seg.on { color:#111 } .counter { margin:12px 0; color:var(--muted); font-variant-numeric:tabular-nums }
+  #chat { display:none } .meta { color:var(--muted); font-size:13px; margin-bottom:16px }
+  .msg { margin:14px 0; padding:14px 16px; border-radius:12px; background:var(--panel) } .msg.q { background:#1e2430; text-align:right }
+  .pill { display:inline-block; font-size:12px; padding:0 7px; margin-left:4px; border-radius:999px; color:#111; font-weight:600; position:relative; cursor:help; white-space:nowrap }
+  .pill.warn { outline:2px solid #f59e0b } .pill.unsupported { outline:2px solid #ef4444; opacity:.8 }
+  .pill.none { background:#3a3f4b; color:#e6e8ee }
+  .tip { display:none; position:absolute; z-index:5; bottom:130%; left:0; width:380px; white-space:normal; background:#0b0d12; color:var(--text);
+         border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-weight:400; font-size:12.5px; box-shadow:0 8px 24px #0008 }
+  .pill:hover .tip { display:block } .tip i { color:var(--muted) }
+  .abstain { color:var(--muted); font-style:italic } .err { color:#f87171 }
+  form { display:flex; gap:8px; margin-top:16px } input { flex:1; background:var(--panel); border:1px solid var(--line); color:var(--text); border-radius:8px; padding:10px 12px; font-size:15px }
+  .legend span { display:inline-block; margin-right:12px; font-size:12px; color:var(--muted) } .legend i { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:5px; vertical-align:-1px }
+</style>
+</head>
+<body>
+<header><b>LawHack</b><span>Les IA juridiques savent ce qui a été dit. LawHack vérifie qui l'a dit.</span></header>
+<main>
+  <section id="upload">
+    <div id="drop"><p><b>Déposez un arrêt (PDF Légifrance ou Judilibre)</b></p><p style="color:var(--muted)">ou cliquez pour choisir un fichier</p>
+      <input type="file" id="file" accept="application/pdf" hidden></div>
+    <p style="text-align:center;margin-top:14px"><button class="ghost" id="demo">Utiliser l'arrêt de démo (Civ. 3, 14 déc. 2022, n° 21-24.539)</button></p>
+    <p id="uperr" class="err"></p>
+  </section>
+  <section id="reading"><p><b>Lecture de l'arrêt par le Système 1…</b></p><div class="doc" id="doc"></div><div class="counter" id="counter"></div></section>
+  <section id="chat">
+    <div class="meta" id="meta"></div>
+    <div class="legend" id="legend"></div>
+    <div id="thread"></div>
+    <form id="ask"><input id="q" placeholder="Posez une question sur l'arrêt…" autocomplete="off"><button>Envoyer</button></form>
+  </section>
+</main>
+<script>
+const COLORS = {COUR_CASSATION:'--cour', JURIDICTION_FOND:'--ca', DEMANDEUR:'--dem', DEFENDEUR:'--def', LOI:'--loi', MINISTERE_PUBLIC:'--mp', INDETERMINE:'--ind'};
+const NAMES = {COUR_CASSATION:'Cour de cassation', JURIDICTION_FOND:"Cour d'appel", DEMANDEUR:'Demandeur', DEFENDEUR:'Défendeur', LOI:'Loi', MINISTERE_PUBLIC:'Ministère public', INDETERMINE:'Indéterminé'};
+const color = s => `var(${COLORS[s] || '--ind'})`;
+const esc = t => t.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const $ = id => document.getElementById(id);
+let doc = null;
+
+$('legend').innerHTML = Object.entries(NAMES).slice(0,5).map(([k,v]) => `<span><i style="background:${color(k)}"></i>${v}</span>`).join('');
+$('drop').onclick = () => $('file').click();
+$('drop').ondragover = e => { e.preventDefault(); $('drop').classList.add('over'); };
+$('drop').ondragleave = () => $('drop').classList.remove('over');
+$('drop').ondrop = e => { e.preventDefault(); $('drop').classList.remove('over'); if (e.dataTransfer.files[0]) upload(e.dataTransfer.files[0]); };
+$('file').onchange = e => e.target.files[0] && upload(e.target.files[0]);
+$('demo').onclick = () => start(fetch('/api/documents/demo', {method:'POST'}));
+
+function upload(file) { const fd = new FormData(); fd.append('file', file); start(fetch('/api/documents', {method:'POST', body:fd})); }
+
+async function start(request) {
+  $('uperr').textContent = ''; $('upload').style.display = 'none'; $('reading').style.display = 'block';
+  $('doc').innerHTML = '<span class="seg">Extraction, zonage, segmentation, attribution…</span>';
+  const t0 = performance.now();
+  const res = await request; const data = await res.json();
+  if (!res.ok) { $('reading').style.display = 'none'; $('upload').style.display = 'block'; $('uperr').textContent = data.detail || 'Erreur'; return; }
+  doc = data; await animate(data, (performance.now() - t0) / 1000);
+}
+
+async function animate(data, wall) {
+  $('doc').innerHTML = data.entries.map(e => `<span class="seg" id="r-${e.id}">${e.paragraph ? '§'+e.paragraph+' ' : ''}${esc(e.text)} </span>`).join('');
+  const step = Math.max(40, Math.min(140, 3000 / data.entries.length));
+  for (const [i, e] of data.entries.entries()) {
+    const el = $('r-'+e.id); el.classList.add('on'); el.style.background = color(e.speaker); el.scrollIntoView({block:'nearest'});
+    $('counter').textContent = `${i+1} / ${data.entries.length} segments · ${data.seconds}s · ${data.input_tokens.toLocaleString('fr')} tokens · ${data.model || ''}`;
+    await new Promise(r => setTimeout(r, step));
+  }
+  await new Promise(r => setTimeout(r, 700));
+  $('reading').style.display = 'none'; $('chat').style.display = 'block';
+  $('meta').textContent = `Solution détectée : ${data.solution.replaceAll('_',' ')} · ${data.entries.length} segments attribués en ${data.seconds}s (Système 1 : ${data.model || 'Jev'})`;
+  $('q').focus();
+}
+
+function pill(p) {
+  const where = p.paragraph ? '§'+p.paragraph : p.zone_label;
+  const probs = Object.entries(p.probabilities).sort((a,b) => b[1]-a[1]).slice(0,3).map(([k,v]) => `${NAMES[k]||k} ${Math.round(v*100)} %`).join(', ');
+  const warn = p.level === 'ok' ? '' : ' ⚠';
+  return `<span class="pill ${p.level}" style="background:${color(p.speaker)}">${p.label} · ${where} · ${Math.round(p.confidence*100)} %${warn}
+    <span class="tip"><b>${esc(p.zone_label)}${p.paragraph ? ', §'+p.paragraph : ''}</b> — ${p.segment_id}<br>« ${esc(p.source_text)} »<br><i>${probs}</i>
+    ${p.level === 'warn' ? '<br><b style="color:#f59e0b">À vérifier dans le texte.</b>' : ''}${p.level === 'unsupported' ? '<br><b style="color:#ef4444">Non soutenu par le passage cité.</b>' : ''}</span></span>`;
+}
+
+function render(a) {
+  if (a.abstained) return `<span class="abstain">L'arrêt ne traite pas cette question.</span> <span class="pill none">Abstention</span>`;
+  return a.sentences.map(s => esc(s.text) + (s.pills.length ? s.pills.map(pill).join('') : '<span class="pill unsupported none">non sourcé ⚠</span>')).join(' ')
+    + `<div style="color:var(--muted);font-size:12px;margin-top:8px">${a.seconds}s</div>`;
+}
+
+$('ask').onsubmit = async e => {
+  e.preventDefault(); const q = $('q').value.trim(); if (!q || !doc) return; $('q').value = '';
+  $('thread').insertAdjacentHTML('beforeend', `<div class="msg q">${esc(q)}</div>`);
+  const box = document.createElement('div'); box.className = 'msg'; box.innerHTML = '<span class="abstain">Recherche des passages et vérification…</span>'; $('thread').append(box);
+  const res = await fetch(`/api/documents/${doc.document_id}/ask`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({question:q})});
+  const data = await res.json();
+  box.innerHTML = res.ok ? render(data) : `<span class="err">${esc(data.detail || 'Erreur')}</span>`;
+};
+</script>
+</body>
+</html>

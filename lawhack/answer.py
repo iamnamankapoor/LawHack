@@ -103,14 +103,15 @@ async def retrieve(registry: Registry, question: str, client: SystemOneClient) -
             for key, group in paragraphs.items()
         },
     }
-    criteria = {key: f"Paragraph `paragraphs.{key}` answers the question" for key in paragraphs}
-    criteria[NONE] = "No paragraph of the decision answers the question"
-    result = await client.decide(
-        state, {"best": Choice(instructions="Which paragraph of the decision best answers `question`?", criteria=criteria)}
-    )
-    ranked = sorted(result.decisions["best"].probabilities.items(), key=lambda t: -t[1])
-    if ranked[0][0] == NONE:
+    keys = [*paragraphs, NONE]
+    # Two passes with reversed option order counter Jev's first-option bias and run-to-run variance;
+    # we abstain only when both passes agree that no paragraph answers.
+    passes = await asyncio.gather(*(client.decide(state, {"best": _paragraph_choice(order)}) for order in (keys, keys[::-1])))
+    votes = [r.decisions["best"].probabilities for r in passes]
+    if all(max(v, key=v.get) == NONE for v in votes):
         return []
+    averaged = {k: sum(v.get(k, 0.0) for v in votes) / len(votes) for k in keys if k != NONE}
+    ranked = sorted(averaged.items(), key=lambda t: -t[1])
     picked: dict[str, RegistryEntry] = {}
     cumulative = 0.0
     for key, p in ranked[:MAX_PARAGRAPHS]:
@@ -128,6 +129,15 @@ async def retrieve(registry: Registry, question: str, client: SystemOneClient) -
             for reply in _court_reply(registry, e):
                 picked.setdefault(reply.id, reply)
     return sorted(picked.values(), key=lambda e: e.start)
+
+
+def _paragraph_choice(keys: list[str]) -> Choice:
+    criteria = {
+        key: "No paragraph of the decision answers the question" if key == NONE
+        else f"Paragraph `paragraphs.{key}` answers the question"
+        for key in keys
+    }
+    return Choice(instructions="Which paragraph of the decision best answers `question`?", criteria=criteria)
 
 
 def _section(e: RegistryEntry) -> str:

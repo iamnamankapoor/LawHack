@@ -13,6 +13,9 @@ dependencies = [
   "typesafe-sdk>=0.7",
   "mistralai>=2",
   "python-dotenv",
+  "fastapi",
+  "uvicorn",
+  "python-multipart",
 ]
 
 [project.optional-dependencies]

@@ -85,3 +85,24 @@ def test_retrieving_a_moyen_brings_the_cour_reply(legifrance_doc, monkeypatch):
     monkeypatch.setattr(answer_module, "draft", lambda q, ctx, m=None: seen.setdefault("ctx", ctx) and f"Le vendeur soutient [{s7}].")
     asyncio.run(ask(registry, "Que soutient le vendeur ?", _fake(registry, relevant={s7})))
     assert {e.paragraph for e in seen["ctx"]} >= {7, 8, 9, 10, 11}
+
+
+def test_abstains_only_when_both_passes_say_none(legifrance_doc, monkeypatch):
+    registry = _registry(legifrance_doc)
+    s10 = _para(registry, 10).id
+    fake = _fake(registry, relevant={s10})
+    original = fake.decide
+    calls = []
+
+    async def flaky(state, questions):
+        result = await original(state, questions)
+        if "best" in questions:
+            calls.append(1)
+            if len(calls) == 1:  # first pass wrongly says NONE
+                probs = {k: 0.0 for k in result.decisions["best"].probabilities} | {"NONE": 1.0}
+                result.decisions["best"] = Decision(value="NONE", probabilities=probs, confidence=1.0)
+        return result
+
+    fake.decide = flaky
+    context = asyncio.run(answer_module.retrieve(registry, "Les acquéreurs devaient-ils accepter le prêt ?", fake))
+    assert len(calls) == 2 and 10 in {e.paragraph for e in context}

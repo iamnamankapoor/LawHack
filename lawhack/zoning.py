@@ -16,6 +16,9 @@ _HEADINGS: list[tuple[re.Pattern[str], Zone]] = [
     (re.compile(r"^recevabilit[ée]\b", re.I), Zone.MOTIVATIONS),
     (re.compile(r"^examen d(u|es) moyens?\b", re.I), Zone.MOTIVATIONS),
     (re.compile(r"^(mais )?sur (le|les|la) (premier |deuxi[eè]me |troisi[eè]me |second )?(moyens?|branches?|pourvoi)\b", re.I), Zone.MOTIVATIONS),
+    (re.compile(r"^[ée]nonc[ée] de la question prioritaire\b", re.I), Zone.MOYENS),
+    (re.compile(r"^examen de la question prioritaire\b", re.I), Zone.MOTIVATIONS),
+    (re.compile(r"^en cons[ée]quence\s*:?$", re.I), Zone.DISPOSITIF),
     (re.compile(r"^(par|pour) ces motifs\b", re.I), Zone.DISPOSITIF),
     (re.compile(r"^moyens? annexes?\b", re.I), Zone.MOYENS),
     (re.compile(r"^ECLI\s*:", re.I), Zone.METADONNEES),
@@ -29,6 +32,7 @@ _OPENERS: list[tuple[re.Pattern[str], Zone]] = [
     (re.compile(r"^attendu que .{0,200}?\bfai(t|sait) grief\b", re.I), Zone.MOYENS),
     (re.compile(r"^mais attendu\b", re.I), Zone.MOTIVATIONS),
     (re.compile(r"^vu (l'article|les articles)\b", re.I), Zone.MOTIVATIONS),
+    (re.compile(r"^(REJETTE|CASSE ET ANNULE|DÉCLARE|DECLARE|DIT N'Y AVOIR LIEU|RENVOIE)\b"), Zone.DISPOSITIF),
 ]
 
 

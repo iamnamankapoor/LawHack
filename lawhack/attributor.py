@@ -10,7 +10,7 @@ from lawhack.schema import Decision, Registry, RegistryEntry, Segment, Speaker, 
 from lawhack.system_one import SystemOneClient
 
 RECHECK_BELOW = 0.8
-VERSION = "3"  # bump when rules or prompts change: cached registries are recomputed
+VERSION = "4"  # bump when rules or prompts change: cached registries are recomputed
 
 SPEAKER_CRITERIA = {
     Speaker.COUR_CASSATION.value: "The Cour de cassation states its own reasoning, approval or ruling (judge of law, not of facts)",

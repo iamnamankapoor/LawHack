@@ -8,6 +8,7 @@ POST /api/analyze      file (PDF / TXT) or text  -> registry (who speaks in each
 POST /api/verify       {"doc_id", "text"}         -> one verdict per sentence, with proof and rewrite
 POST /api/compare      {"doc_id", "text"}         -> the same sentences checked by GPT-6.1 alone
 """
+import asyncio
 import hashlib
 import io
 import json
@@ -72,8 +73,12 @@ async def analyze(file: UploadFile | None = File(None), text: str | None = Form(
     if not text or len(text.strip()) < 200:
         raise HTTPException(400, "Paste or upload the full text of a decision (at least a few paragraphs).")
     doc_id = "u" + hashlib.sha256(text.encode("utf-8")).hexdigest()[:10]
-    md = legible.text_to_markdown(text[:80_000], title or "Uploaded decision")
-    doc, reg = legible.analyze_markdown(md, doc_id)
+    team = legible.team_source()
+    if team:  # their pipeline runs its own event loop: keep it off the server's
+        reg = await asyncio.to_thread(team.registry, text[:400_000], doc_id, True)
+    else:
+        md = legible.text_to_markdown(text[:80_000], title or "Uploaded decision")
+        doc, reg = legible.analyze_markdown(md, doc_id)
     DOCS[doc_id] = {"registry": reg, "text": text}
     return JSONResponse({"id": doc_id, "label": "Your decision", "title": title or "Uploaded decision",
                          "case": {"source_url": None, "ecli": None}, "registry": reg, "draft": []})

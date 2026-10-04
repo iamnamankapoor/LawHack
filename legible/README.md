@@ -4,8 +4,9 @@ Legible checks **who said what** in a legal draft before it reaches the client. 
 draft (from Legora, Harvey, ChatGPT or a lawyer) is matched to the passage of the decision it relies on.
 Rules then decide the verdict: **pass**, **review** or **blocked**, with the proof and a suggested rewrite.
 
-This folder is the product layer around the team's System 1 (the repo root). The speaker labels here
-are a placeholder (rules + Jev) until the team model is plugged in (see *Plugging the team model*).
+This folder is the product layer around the team's System 1 (the `lawhack` package at the repo root).
+That package labels who speaks in each sentence. Legible adds its citation rule, the status rules, the
+verdicts and the rewrites (see *System 1*).
 
 ## Run
 
@@ -48,9 +49,21 @@ Without a server, `site/index.html` + `site/data.json` work as a static demo.
 
 Legora and Harvey are still to be measured. These are small numbers on two decisions, measured on 2026-10-04.
 
-## Plugging the team model
+## System 1
 
-There are two ways in, and both leave the verdict rules unchanged:
+`team_system1.py` runs `lawhack.pipeline.analyse` (the team model) for the demo decisions and for live
+uploads. Results on the 15 trap sentences:
 
-- `REGISTRY_DIR=<folder>`: one registry JSON per decision, in the README §5 format.
-- `LABELER_URL=<url>`: an HTTP labeler; the contract is in `docs/LABELER.md`.
+| Registry source | Correct verdicts |
+|---|---|
+| Team model alone | 13 / 15 |
+| Team model + Legible's citation rule | 15 / 15, each with the right source paragraph |
+
+The 2 misses of the team model alone are the Court quoting former case law (§ 6, § 10): its labels are COUR_CASSATION / MOTIF, not CITATION.
+
+In live mode, a new decision is analysed in about 3 s, and a draft is checked in about 2 s.
+
+`REGISTRY_SOURCE=placeholder` switches back to the earlier rules + Jev labels. The team package needs
+`pip install -e ..` from this folder (or `pip install pymupdf typesafe-sdk`).
+
+The support search works on whole paragraphs: a draft sentence relies on a paragraph, and a fine segmentation must not let one long moyen outweigh a paragraph split in two.

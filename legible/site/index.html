@@ -649,7 +649,7 @@ function renderBench() {
       : `<div class="brow ${r.us ? "us" : ""}"><div class="name"><b>${esc(r.name)}</b><span>${esc(r.sub)}</span></div>
       ${bar(r.full, traps.length, r.fullFa)}${r.ex === "always" ? `<span class="yes">n/a<span class="sub">maps the whole decision once</span></span>` : bar(r.ex, traps.length, r.exFa)}
       <span class="${r.us ? "yes" : "nope"}">${r.cites}${r.citesSub ? `<span class="sub">${r.citesSub}</span>` : ""}</span><span class="${r.us ? "yes" : ""}">${esc(r.t)}</span></div>`).join("");
-  $("benchNote").textContent = `${traps.length} draft sentences on two decisions: ${nTraps} misattributed, ${traps.length - nTraps} correct. A wrong verdict lets a misattribution through or flags a correct sentence. Search excerpts: the model only gets the two paragraphs a search engine retrieves, the way retrieval-based assistants read long files. Legible's speaker labels are a placeholder until the team model is plugged in.`;
+  $("benchNote").textContent = `${traps.length} draft sentences on two decisions: ${nTraps} misattributed, ${traps.length - nTraps} correct. A wrong verdict lets a misattribution through or flags a correct sentence. Search excerpts: the model only gets the two paragraphs a search engine retrieves, the way retrieval-based assistants read long files. ${D.system1 || ""}.`;
   const io = "IntersectionObserver" in window && new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { $("bench").classList.add("play"); io.disconnect(); } }), { threshold: .3 });
   if (io && !reduce) io.observe($("bench"));
 }

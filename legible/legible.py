@@ -2,9 +2,9 @@
 
     .venv/Scripts/python legible.py            # writes site/data.json
 
-System 1 (who speaks in each sentence) is a placeholder answered by Jev until the team's model is
-plugged: set REGISTRY_DIR to a folder of `<arret id>.json` files in the README §5 format and they are
-used instead. Statuses and verdicts are computed by rules; Mistral only rewrites.
+System 1 (who speaks in each sentence) is the team's model (`team_system1.py`, the `lawhack` package);
+REGISTRY_SOURCE=placeholder falls back to drafting rules + Jev. Statuses and verdicts are computed by
+rules; Mistral only rewrites.
 """
 import json
 import os
@@ -133,6 +133,11 @@ def build_registry(doc, labels):
                     "block": n_para, "zone": zone_of(s["section"]), "section": s["section"], "page": s["page"],
                     "text": s["text"], **lab, "chain": ["COUR_CASSATION"] if lab["speaker"] == "COUR_CASSATION"
                     else ["COUR_CASSATION", lab["speaker"]]})
+    return add_statuses(reg)
+
+
+def add_statuses(reg):
+    """Statuses decided by rules from the speaker labels, whoever produced them (placeholder or team System 1)."""
     for i, e in enumerate(reg):
         sp = e["speaker"]
         if sp in ("DEMANDEUR", "DEFENDEUR"):
@@ -181,9 +186,21 @@ def window(text, sentence, size=420):
     return ("…" if best_i else "") + text[best_i:best_i + size] + "…"
 
 
+def paragraph_candidates(sentence, reg, k=8):
+    """Whole paragraphs (all sentences of a block), best overlap first: a draft sentence relies on a paragraph,
+    and a fine-grained segmentation must not let one long sentence outweigh a paragraph split in two."""
+    blocks = {}
+    for e in reg:
+        blocks.setdefault(e["block"], []).append(e)
+    q = tokens(sentence)
+    paras = [{"id": f"P{b}", "text": " ".join(x["text"] for x in es), "entries": es} for b, es in blocks.items()]
+    scored = sorted(paras, key=lambda p: -len(q & tokens(p["text"])) / (1 + len(tokens(p["text"]))) ** 0.25)
+    return [p for p in scored[:k] if q & tokens(p["text"])]
+
+
 def check(sentence, reg):
-    cands = candidates(sentence, reg)
-    crit = {e["id"]: window(e["text"], sentence) for e in cands}
+    paras = {p["id"]: p for p in paragraph_candidates(sentence, reg)}
+    crit = {pid: window(p["text"], sentence) for pid, p in paras.items()}
     crit["none"] = "None of these passages"
     ans = jevkit.ask({"language": "French", "draft_sentence": sentence},
                      {"support": {"type": "choice", "criteria": crit, "instructions":
@@ -192,7 +209,9 @@ def check(sentence, reg):
                                   "In `draft_sentence` (French), to whom is the statement attributed?"}},
                      label="legible_check")
     sup, claimed = ans["support"], ans["claimed"]
-    e = next((x for x in reg if x["id"] == sup["choice"]), None)
+    para, q = paras.get(sup["choice"]), tokens(sentence)
+    # within the paragraph, the sentence the draft restates (first one on ties)
+    e = max(para["entries"], key=lambda x: len(q & tokens(x["text"]))) if para else None
     out = {"text": sentence, "support": e["id"] if e else None, "support_conf": sup.get("confidence"),
            "claimed": claimed["choice"], "claimed_conf": claimed.get("confidence")}
     if not e or (sup.get("confidence") or 0) < 0.4:
@@ -378,15 +397,36 @@ def legible_stats():
             "tokens_mean": round(statistics.mean(r["input_tokens"] for r in calls))}
 
 
+TEAM_SYSTEM1 = "Speaker labels: the team's System 1 (drafting rules, then Jev) + Legible's citation rule"
+PLACEHOLDER_SYSTEM1 = "Speaker labels: drafting rules + Jev (placeholder System 1)"
+
+
+def team_source():
+    """The team's System 1 is the registry source unless REGISTRY_SOURCE=placeholder or the package is absent."""
+    if os.environ.get("REGISTRY_SOURCE", "team") != "team":
+        return None
+    try:
+        import team_system1
+        return team_system1
+    except ImportError as error:
+        print(f"team System 1 unavailable ({error}): placeholder labels")
+        return None
+
+
 def main():
+    team = team_source()
     site = {"arrets": [], "benchmark": load_benchmark(), "legible_stats": legible_stats(),
-            "system1": "Speaker labels: drafting rules + Jev (placeholder until the team model is plugged)"}
+            "system1": TEAM_SYSTEM1 if team else PLACEHOLDER_SYSTEM1}
     for a in ARRETS:
         folder = ROOT / a["dir"]
         case = json.loads((folder / "case.json").read_text(encoding="utf-8"))
         doc = load_document(folder / "arret.md")
         ext = os.environ.get("REGISTRY_DIR")
-        if ext and (pathlib.Path(ext) / f"{doc['meta']['id']}.json").exists():
+        if team:
+            md = (folder / "arret.md").read_text(encoding="utf-8")
+            reg = team.registry(team.plain_text(md), doc_id=a["dir"], rules=True)
+            print(f"{doc['meta']['id']}: team System 1 registry ({len(reg)} segments)")
+        elif ext and (pathlib.Path(ext) / f"{doc['meta']['id']}.json").exists():
             reg = json.loads((pathlib.Path(ext) / f"{doc['meta']['id']}.json").read_text(encoding="utf-8"))
             print(f"{doc['meta']['id']}: team registry ({len(reg)} entries)")
         else:

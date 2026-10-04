@@ -6,3 +6,4 @@ pypdf
 certifi
 typesafe-sdk>=0.7
 anthropic
+pymupdf

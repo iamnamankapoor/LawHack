@@ -10,6 +10,8 @@ from lawhack.ingest import load_pdf
 def offline(monkeypatch, tmp_path):
     monkeypatch.delenv("TYPESAFE_API_KEY", raising=False)
     monkeypatch.setattr(pipeline, "CACHE_DIR", tmp_path)
+    monkeypatch.setattr(server, "ROOT", tmp_path)
+    monkeypatch.setattr(server, "HISTORY", tmp_path / "history.json")
     monkeypatch.setattr(server, "UPLOADS", tmp_path / "raw")
 
 

@@ -17,3 +17,12 @@ def judilibre_doc():
 @pytest.fixture
 def legifrance_doc():
     return load_pdf(SAMPLES / "cass_civ3_2022-12-14_21-24539.pdf")
+
+
+@pytest.fixture(autouse=True)
+def _isolate_answer_cache(tmp_path, monkeypatch):
+    from lawhack import answer, feedback
+
+    monkeypatch.setattr(answer, "ANSWER_CACHE_DIR", tmp_path / "answers")
+    monkeypatch.setenv("ANSWER_CACHE", "0")
+    monkeypatch.setattr(feedback, "FEEDBACK_DIR", tmp_path / "feedback")

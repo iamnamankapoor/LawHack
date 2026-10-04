@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: legible
+    runtime: python
+    plan: free
+    buildCommand: pip install -U pip && pip install .
+    startCommand: uvicorn app.server:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: TYPESAFE_BASE_URL
+        value: https://api.codiv.ai
+      - key: SYSTEM_ONE_MODEL
+        value: openjev-latest
+      - key: TYPESAFE_API_KEY
+        sync: false
+      - key: MISTRAL_API_KEY
+        sync: false

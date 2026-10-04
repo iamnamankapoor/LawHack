@@ -1,7 +1,7 @@
 import asyncio
 
 from lawhack.attributor import build_registry
-from lawhack.schema import Decision, Speaker, Status, Zone
+from lawhack.schema import Decision, Segment, Speaker, Status, Zone
 from lawhack.segmenter import segment
 from lawhack.system_one import SystemOneResult
 from lawhack.zoning import zone_blocks
@@ -49,7 +49,6 @@ def test_rules_jev_and_approval_markers(legifrance_doc):
 
 def test_drafting_formulas_need_no_model_call():
     from lawhack.attributor import _rule
-    from lawhack.schema import Segment, Zone
 
     def seg(text, zone=Zone.MOTIVATIONS):
         return Segment(id="S-001", text=text, start=0, end=len(text), block=0, zone=zone)
@@ -59,6 +58,33 @@ def test_drafting_formulas_need_no_model_call():
     assert _rule(seg("12. Le moyen n'est donc pas fondé."))[:3] == (Speaker.COUR_CASSATION, _rule(seg("Le moyen n'est pas fondé."))[1], Status.DECIDE)
     assert _rule(seg("7. Le vendeur fait grief à l'arrêt de rejeter sa demande.", Zone.MOYENS))[0] is Speaker.DEMANDEUR
     assert _rule(seg("9. Elle a retenu à bon droit que la promesse était caduque.")) is None
+
+
+def test_numbered_anaphora_propagates_and_cascades():
+    texts = [
+        "La cour d'appel a examiné les propositions.",
+        "7. Il relève, encore, que le poste était adapté.",
+        "Il ajoute que le salarié pouvait accepter.",
+    ]
+    segments = []
+    start = 0
+    for i, text in enumerate(texts, start=1):
+        segments.append(Segment(
+            id=f"S-{i:03}",
+            text=text,
+            start=start,
+            end=start + len(text),
+            block=0,
+            zone=Zone.MOTIVATIONS,
+        ))
+        start += len(text) + 1
+    registry = asyncio.run(build_registry("doc", segments, FakeSystemOne()))
+
+    assert registry.entries[0].speaker.value == Speaker.JURIDICTION_FOND.value
+    assert registry.entries[1].speaker.value == Speaker.JURIDICTION_FOND.value
+    assert registry.entries[1].source == "jev+anaphora"
+    assert registry.entries[2].speaker.value == Speaker.JURIDICTION_FOND.value
+    assert registry.entries[2].source == "jev+anaphora"
 
 
 def test_expose_is_lower_court_findings(legifrance_doc):

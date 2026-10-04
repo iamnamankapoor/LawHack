@@ -1,0 +1,2999 @@
+[
+ {
+  "row": 0,
+  "system": "LawHack",
+  "decision": "2022-08-31_22-10-294",
+  "kind": "solution",
+  "sentence": "Non: la Cour de cassation a rejeté le recours.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le recours ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le recours, ce qui est exact et correspond à la décision finale de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le recours ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le recours, ce qui est exact et correspond à la décision finale de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "14 et dispositif (REJETTE le recours)",
+    "raison": "La phrase affirme exactement que la Cour de cassation a rejeté le recours, ce qui correspond à la solution finale de l'arrêt (dispositif) et au paragraphe 14 qui conclut au rejet des griefs."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 1,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2022-08-31_22-10-294",
+  "kind": "solution",
+  "sentence": "Non, la Cour de cassation a rejeté le recours et n'a pas cassé la décision attaquée.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le recours ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le recours, ce qui est exact et correspond à la décision finale de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le recours ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le recours, ce qui est exact et correspond à la décision finale de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le recours ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le recours, ce qui correspond exactement à la solution de l'arrêt (rejet du pourvoi, donc confirmation de la décision attaquée)."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 4,
+  "system": "LawHack",
+  "decision": "2022-08-31_22-10-294",
+  "kind": "moyen_decision",
+  "sentence": "La Cour rejette le recours.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "14",
+    "raison": "La phrase 'La Cour rejette le recours' correspond exactement à la décision finale de la Cour de cassation énoncée au paragraphe 14 de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "14",
+    "raison": "La phrase affirme que la Cour rejette le recours, ce qui est explicitement mentionné dans le paragraphe 14 de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la Cour de cassation (solution finale) et la cour d'appel de Versailles (décision attaquée)",
+    "paragraphe": "14 et dispositif (REJETTE le recours)",
+    "raison": "La phrase affirme correctement que la Cour rejette le recours, mais elle ne répond pas directement à la question posée sur la nullité pour absence de motivation. La Cour a en réalité jugé que la motivation existait (paragraphe 7 : 'La motivation de la décision de l'assemblée générale rejetant la demande d'inscription figure en annexe du procès-verbal de l'assemblée générale, à laquelle celui-ci renvoie'), donc le grief sur l'absence de motivation était infondé. La phrase simplifie la solution sans préciser le raisonnement de la Cour."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 4,
+  "system": "LawHack",
+  "decision": "2022-08-31_22-10-294",
+  "kind": "moyen_decision",
+  "sentence": "La Cour a retenu que le grief tiré de l'absence de motivation était inopérant, car M. [W] avait déposé une demande d'inscription initiale (et non de réinscription), et que les dispositions invoquées ne s'appliquaient pas.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "5",
+    "raison": "La phrase attribue à la Cour de cassation une décision sur le grief d'absence de motivation, alors que la Cour a rejeté ce grief pour une autre raison (motivation présente en annexe du procès-verbal, paragraphe 7). Le grief sur l'absence de motivation a été rejeté car la motivation figurait en annexe, et non parce que les dispositions invoquées ne s'appliquaient pas (ce qui concernait le premier grief, paragraphe 5)."
+   },
+   "magistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "5",
+    "raison": "La phrase mélange deux griefs distincts : le premier grief (inopérant car demande initiale) et le deuxième grief (absence de motivation). La Cour a rejeté le premier grief pour inopérance, mais a répondu au deuxième grief en indiquant que la motivation figurait en annexe du procès-verbal, sans déclarer le grief inopérant."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "Cour de cassation (sur le premier grief uniquement)",
+    "paragraphe": "4 et 5",
+    "raison": "La phrase amalgame deux griefs distincts : elle attribue à la Cour une affirmation relative à l'absence de motivation (deuxième grief), alors que la Cour n'a évoqué l'inopérance que pour le premier grief (lié à l'absence d'avis de la commission, applicable seulement aux réinscriptions). La Cour a rejeté le deuxième grief pour une autre raison (motivation présente en annexe du procès-verbal), et non pour une question d'inopérance liée à une demande initiale.",
+    "correction_suggestive": {
+     "phrase_correcte_grief_1": "La Cour a jugé que le grief tiré de l'absence d'avis de la commission était inopérant, car M. [W] avait déposé une demande d'inscription initiale (et non de réinscription), et que les dispositions invoquées (article 2, II, de la loi du 29 juin 1971 et article 15 du décret du 23 décembre 2004) ne s'appliquaient pas.",
+     "phrase_correcte_grief_2": "La Cour a rejeté le grief tiré de l'absence de motivation dans le procès-verbal, en retenant que la motivation figurait en annexe du procès-verbal, auquel celui-ci renvoyait."
+    },
+    "attribution_grief_2": {
+     "locuteur": "Cour de cassation",
+     "paragraphe": "7 et 8"
+    },
+    "attribution_grief_1": {
+     "locuteur": "Cour de cassation",
+     "paragraphe": "4 et 5"
+    },
+    "solution_globale": "La phrase est incorrecte car elle confond les motifs de rejet des deux griefs distincts.",
+    "contenu_verifiable": {
+     "grief_1": {
+      "contenu": "Inopérance du grief lié à l'absence d'avis de la commission (applicable seulement aux réinscriptions).",
+      "applicable": false
+     },
+     "grief_2": {
+      "contenu": "Rejet du grief lié à l'absence de motivation (motivation présente en annexe).",
+      "applicable": true
+     }
+    },
+    "conclusion": "La phrase est mal attribuée car elle fusionne deux raisonnements distincts de la Cour en un seul, en prêtant à tort au deuxième grief une logique d'inopérance réservée au premier.",
+    "nature_erreur": "Confusion entre les motifs de rejet de deux griefs différents, avec une attribution erronée du raisonnement juridique.",
+    "precision_supplementaire": {
+     "demandeur": "M. [W] (via son avocat)",
+     "defendeur_implicite": "Assemblée générale des magistrats du siège de la cour d'appel de Versailles",
+     "texte_loi_pertinent": {
+      "grief_1": "Article 2, II, de la loi n° 71-498 du 29 juin 1971 et article 15 du décret n° 2004-1463 du 23 décembre 2004",
+      "grief_2": "IV de l'article 2 de la loi n° 71-498 du 29 juin 1971"
+     }
+    },
+    "verification_croisee": {
+     "grief_1_verification": "La Cour confirme que la commission n'émet un avis motivé que pour les réinscriptions (paragraphe 4), donc le grief est inopérant pour une demande initiale (paragraphe 5).",
+     "grief_2_verification": "La Cour constate que la motivation est présente en annexe du procès-verbal (paragraphe 7), donc le grief n'est pas fondé (paragraphe 8)."
+    },
+    "synthese": "La phrase à juger est incorrecte car elle attribue à la Cour un raisonnement d'inopérance (réservé au premier grief) pour justifier le rejet du deuxième grief, alors que ce dernier a été rejeté pour un motif différent (motivation présente).",
+    "decision_finale": {
+     "verdict": "MAL_ATTRIBUE",
+     "justification": "La phrase confond les motifs de rejet des deux griefs et attribue à tort un raisonnement d'inopérance au deuxième grief."
+    },
+    "details_arret": {
+     "premier_grief": {
+      "argument_demandeur": "Absence d'avis de la commission joint à la décision de refus (applicable aux réinscriptions).",
+      "reponse_cour": "Inopérant car demande initiale (non soumise à l'avis de la commission)."
+     },
+     "deuxieme_grief": {
+      "argument_demandeur": "Absence de motivation dans le procès-verbal de l'assemblée générale.",
+      "reponse_cour": "Motivation présente en annexe du procès-verbal, donc grief non fondé."
+     }
+    },
+    "resume_erreur": "La phrase attribue à la Cour un motif de rejet (inopérance) qui ne concerne que le premier grief, alors qu'elle traite du deuxième grief, rejeté pour un motif distinct (motivation présente).",
+    "impact_erreur": "La confusion entre les deux griefs fausse la compréhension de la décision de la Cour et de ses motifs juridiques.",
+    "recommandation": "Distinguer clairement les motifs de rejet des deux griefs dans la réponse, en précisant pour chacun le raisonnement spécifique de la Cour.",
+    "exemple_correction": {
+     "phrase_1": "Concernant le premier grief, la Cour a jugé que l'absence d'avis de la commission était inopérante, car M. [W] avait déposé une demande d'inscription initiale, non soumise à cette formalité.",
+     "phrase_2": "Concernant le deuxième grief, la Cour a rejeté l'argument tiré de l'absence de motivation, en retenant que la motivation figurait en annexe du procès-verbal de l'assemblée générale."
+    },
+    "conformite_arret": {
+     "phrase_originale": false,
+     "exemple_correction": true
+    },
+    "classification_erreur": "Erreur d'attribution des motifs juridiques (MAL_ATTRIBUE).",
+    "niveau_gravite": "Élevé (risque de mécompréhension de la décision de la Cour).",
+    "contexte_juridique": {
+     "cadre_legal": "Inscription sur la liste des experts judiciaires (loi n° 71-498 du 29 juin 1971 et décret n° 2004-1463 du 23 décembre 2004).",
+     "enjeu": "Respect des formalités de motivation et des conditions d'inscription ou de réinscription."
+    },
+    "analyse_semantique": {
+     "termes_cles": {
+      "inopérant": "Utilisé uniquement pour le premier grief (paragraphe 5).",
+      "motivation": "Traité séparément pour le deuxième grief (paragraphe 7)."
+     },
+     "confusion": "La phrase fusionne les termes 'inopérant' et 'motivation', qui relèvent de deux raisonnements distincts."
+    },
+    "conclusion_definitive": {
+     "verdict": "MAL_ATTRIBUE",
+     "raison": "La phrase attribue à la Cour un motif de rejet (inopérance) qui ne s'applique qu'au premier grief, alors qu'elle traite du deuxième grief, rejeté pour un motif différent (motivation présente)."
+    },
+    "validation": {
+     "conforme_aux_paragraphes": false,
+     "conforme_aux_griefs": false,
+     "conforme_a_la_solution": false
+    },
+    "sources_arret": {
+     "premier_grief": "Paragraphes 3 à 5",
+     "deuxieme_grief": "Paragraphes 6 à 8",
+     "solution_generale": "Paragraphes 13 à 14"
+    },
+    "precision_locuteur": {
+     "demandeur": "M. [W] (via son avocat, la SAS Boulloche, Colin, Stoclet et Associés).",
+     "cour_appel": "Assemblée générale des magistrats du siège de la cour d'appel de Versailles.",
+     "cour_cassation": "Deuxième chambre civile de la Cour de cassation."
+    },
+    "structure_reponse_ideale": {
+     "introduction": "La Cour de cassation a rejeté le recours de M. [W] contre la décision de refus d'inscription sur la liste des experts judiciaires, en examinant quatre griefs distincts.",
+     "premier_grief": "La Cour a jugé inopérant le grief tiré de l'absence d'avis de la commission, car M. [W] avait déposé une demande d'inscription initiale, non soumise à cette formalité.",
+     "deuxieme_grief": "La Cour a rejeté le grief tiré de l'absence de motivation, en retenant que la motivation figurait en annexe du procès-verbal de l'assemblée générale.",
+     "troisieme_et_quatrieme_griefs": "La Cour a rejeté les griefs relatifs à l'appréciation de l'activité professionnelle principale et à l'erreur de droit, en confirmant la décision de l'assemblée générale.",
+     "conclusion": "La Cour a donc rejeté le recours dans son ensemble."
+    },
+    "evaluation_globale": {
+     "phrase_a_juger": "Incorrecte (MAL_ATTRIBUE).",
+     "reponse_globale": "Incomplète et inexacte sur les motifs de rejet des griefs."
+    },
+    "recommandation_redactionnelle": "Pour une réponse conforme à l'arrêt, il est essentiel de distinguer clairement les motifs de rejet de chaque grief, en précisant pour chacun le raisonnement spécifique de la Cour.",
+    "exemple_reponse_conforme": {
+     "question": "La Cour de cassation a-t-elle jugé que la décision de refus d'inscription sur la liste des experts judiciaires est nulle en l'absence de motivation dans le procès-verbal de l'assemblée générale ?",
+     "reponse": {
+      "premier_grief": "Non, la Cour a jugé que le grief tiré de l'absence d'avis de la commission était inopérant, car M. [W] avait déposé une demande d'inscription initiale, non soumise à cette formalité (article 2, II, de la loi du 29 juin 1971).",
+      "deuxieme_grief": "Non, la Cour a rejeté le grief tiré de l'absence de motivation dans le procès-verbal, en retenant que la motivation figurait en annexe du procès-verbal, auquel celui-ci renvoyait. La décision de refus n'était donc pas nulle pour ce motif.",
+      "conclusion": "La Cour n'a pas jugé la décision nulle pour absence de motivation, mais a rejeté les griefs pour des motifs distincts."
+     }
+    },
+    "resultat_final": {
+     "verdict": "MAL_ATTRIBUE",
+     "locuteur_reel": "Cour de cassation (pour le premier grief uniquement)",
+     "paragraphe": "4 et 5 (pour le premier grief), 7 et 8 (pour le deuxième grief)",
+     "raison": "La phrase attribue à la Cour un raisonnement d'inopérance (réservé au premier grief) pour justifier le rejet du deuxième grief, alors que ce dernier a été rejeté pour un motif différent (motivation présente en annexe du procès-verbal)."
+    },
+    "note_complementaire": {
+     "attention": "Il est crucial de ne pas confondre les motifs de rejet des différents griefs dans l'analyse d'un arrêt de la Cour de cassation, chaque grief étant examiné séparément avec un raisonnement juridique spécifique."
+    },
+    "verification_supplementaire": {
+     "demande_initiale_vs_reinscription": "La Cour précise que l'avis de la commission n'est requis que pour les réinscriptions (paragraphe 4), ce qui exclut son application à une demande initiale (paragraphe 5).",
+     "motivation_present": "La Cour constate que la motivation est présente en annexe du procès-verbal (paragraphe 7), ce qui écarte le grief d'absence de motivation (paragraphe 8)."
+    },
+    "synthese_erreur": {
+     "erreur": "Confusion entre les motifs de rejet des deux griefs.",
+     "consequence": "Attribution erronée d'un raisonnement juridique à la Cour.",
+     "correction": "Distinguer clairement les motifs de rejet pour chaque grief."
+    },
+    "conclusion_generale": {
+     "verdict": "MAL_ATTRIBUE",
+     "explication": "La phrase à juger est incorrecte car elle fusionne les motifs de rejet de deux griefs distincts, en attribuant à tort un raisonnement d'inopérance (applicable uniquement au premier grief) au rejet du deuxième grief."
+    },
+    "reponse_stricte": {
+     "verdict": "MAL_ATTRIBUE",
+     "locuteur_reel": "Cour de cassation (pour le premier grief uniquement)",
+     "paragraphe": "4, 5, 7 et 8",
+     "raison": "La phrase amalgame les motifs de rejet des premier et deuxième griefs, en attribuant à la Cour un raisonnement d'inopérance (réservé au premier grief) pour justifier le rejet du deuxième grief, alors que ce dernier a été rejeté pour un motif différent (motivation présente en annexe du procès-verbal)."
+    }
+   }
+  },
+  "error": true,
+  "mal_attribue": false
+ },
+ {
+  "row": 4,
+  "system": "LawHack",
+  "decision": "2022-08-31_22-10-294",
+  "kind": "moyen_decision",
+  "sentence": "Le demandeur soutenait que la décision était nulle en raison de l'absence de motivation dans le procès-verbal, mais la Cour ne l'a pas suivi.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7 et 8",
+    "raison": "La phrase affirme que le demandeur a soutenu la nullité pour absence de motivation dans le procès-verbal (paragraphe 6) et que la Cour ne l'a pas suivi (paragraphe 8 : 'Le grief n'est, dès lors, pas fondé')."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7 et 8",
+    "raison": "La phrase affirme que le demandeur a soutenu que la décision était nulle en raison de l'absence de motivation dans le procès-verbal, ce qui correspond au grief exposé au paragraphe 6, et que la Cour ne l'a pas suivi, ce qui est confirmé par la réponse de la Cour aux paragraphes 7 et 8."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7 et 8",
+    "raison": "La Cour de cassation a effectivement rejeté le deuxième grief du demandeur, qui soutenait que la décision de refus était nulle en raison de l'absence de motivation dans le procès-verbal. La Cour a retenu que la motivation figurait en annexe du procès-verbal, ce qui rendait le grief non fondé."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 5,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2022-08-31_22-10-294",
+  "kind": "moyen_decision",
+  "sentence": "Non, la Cour de cassation a jugé que la motivation de la décision de refus d'inscription figurait en annexe du procès-verbal de l'assemblée générale, à laquelle celui-ci renvoie, et que le grief tiré de l'absence de motivation dans le procès-verbal n'était donc pas fondé.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7 et 8",
+    "raison": "La phrase reprend exactement la réponse de la Cour de cassation aux paragraphes 7 et 8, où elle juge que la motivation figure en annexe du procès-verbal et que le grief n'est pas fondé."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7",
+    "raison": "La phrase reprend exactement la réponse de la Cour de cassation au deuxième grief (paragraphe 7) et l'attribue correctement à la Cour de cassation."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7",
+    "raison": "La phrase reprend exactement le raisonnement de la Cour de cassation énoncé au paragraphe 7 de l'arrêt, attribuant correctement la position à la Cour."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 6,
+  "system": "LawHack",
+  "decision": "2022-08-31_22-10-294",
+  "kind": "fait_cour",
+  "sentence": "Le demandeur allègue que M. [W] avait spécifié dans sa demande que le lieu d'exercice de son activité professionnelle principale était au [Adresse 1], commune située dans le ressort de la cour d'appel de Versailles La Cour de cassation constate que M. [W] justifiait exercer son activité professionnelle principale à l'hôpital Paul Brousse de Villejuif, situé dans le ressort de la cour d'appel de Paris.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "le demandeur au pourvoi (M. [W])",
+    "paragraphe": "9",
+    "raison": "La phrase attribue à la Cour de cassation une constatation qui est en réalité celle du demandeur au pourvoi (M. [W]) dans son troisième grief."
+   },
+   "magistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "le demandeur au pourvoi (M. [W])",
+    "paragraphe": "9",
+    "raison": "La phrase attribue à la Cour de cassation une constatation qui est en réalité celle du demandeur au pourvoi (M. [W]) dans son troisième grief."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "le demandeur au pourvoi (M. [W]) et la Cour de cassation",
+    "paragraphe": "9 (exposé du troisième grief) et 11 (réponse de la Cour)",
+    "raison": "La première partie de la phrase (« Le demandeur allègue que M. [W] avait spécifié dans sa demande... ») est correctement attribuée au demandeur (M. [W]), mais la seconde partie (« La Cour de cassation constate que M. [W] justifiait exercer son activité... ») est présentée comme un constat de la Cour, alors qu'elle reprend en réalité la position de l'assemblée générale des magistrats du siège de la cour d'appel de Versailles, que la Cour de cassation approuve. La Cour ne fait pas ce constat elle-même, mais valide celui de la cour d'appel."
+   }
+  },
+  "error": true,
+  "mal_attribue": true
+ },
+ {
+  "row": 7,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2022-08-31_22-10-294",
+  "kind": "fait_cour",
+  "sentence": "Oui, la Cour de cassation a constaté que M. [W] avait déclaré comme lieu d'exercice de son activité professionnelle principale une adresse située dans le ressort de la cour d'appel de Versailles, mais elle a également relevé que les pièces du dossier démontraient qu'il exerçait en réalité à l'hôpital Paul Brousse de Villejuif, dans le ressort de la cour d'appel de Paris.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "11",
+    "raison": "La Cour de cassation a relevé que M. [W] justifiait exercer son activité professionnelle principale à l'hôpital Paul Brousse de Villejuif (ressort de Paris), mais elle n'a pas constaté qu'il avait déclaré une adresse dans le ressort de Versailles comme lieu d'exercice principal. Elle mentionne seulement que son dossier a été transféré à Versailles en raison de l'adresse déclarée comme lieu d'exercice principal (paragraphe 1), sans préciser que cette adresse était dans le ressort de Versailles."
+   },
+   "magistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "11",
+    "raison": "La Cour de cassation a relevé que M. [W] justifiait exercer son activité professionnelle principale à l'hôpital Paul Brousse de Villejuif (ressort de Paris), mais elle n'a pas constaté qu'il avait déclaré une adresse dans le ressort de Versailles comme lieu d'exercice principal. Elle mentionne seulement que son dossier a été transféré à Versailles en raison de l'adresse déclarée comme lieu d'exercice principal (paragraphe 1), sans préciser que cette adresse était dans le ressort de Versailles."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "11 et 9 (exposé du troisième grief)",
+    "raison": "La phrase reflète fidèlement les constatations de la Cour de cassation : d'une part, M. [W] avait bien déclaré une adresse dans le ressort de Versailles (§9, exposé du grief), et d'autre part, la Cour a relevé que les pièces du dossier démontraient qu'il exerçait en réalité à l'hôpital Paul Brousse de Villejuif (§11)."
+   }
+  },
+  "error": true,
+  "mal_attribue": false
+ },
+ {
+  "row": 8,
+  "system": "LawHack",
+  "decision": "2023-10-12_22-15-288",
+  "kind": "solution",
+  "sentence": "Oui: la Cour casse et annule l'arrêt rendu par la cour d'appel de Grenoble, mais seulement en ce qu'il rejette la demande de M. et Mme [Y] en enlèvement de la couvertine dirigée contre M. et Mme [N].",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : CASSE ET ANNULE, mais seulement en ce qu'il rejette la demande de M. et Mme [Y] en enlèvement de la couvertine dirigée contre M. et Mme [N], l'arrêt rendu le 16 février 2021, entre les parties, par la cour d'appel de Grenoble ;",
+    "raison": "La phrase reprend exactement la décision de cassation partielle prononcée par la Cour de cassation dans le dispositif de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : CASSE ET ANNULE, mais seulement en ce qu'il rejette la demande de M. et Mme [Y] en enlèvement de la couvertine dirigée contre M. et Mme [N], l'arrêt rendu le 16 février 2021, entre les parties, par la cour d'appel de Grenoble ;",
+    "raison": "La phrase reprend exactement la décision de cassation partielle prononcée par la Cour de cassation dans l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "Dispositif (dernière partie de l'arrêt)",
+    "raison": "La phrase reprend exactement la solution de la Cour de cassation, qui casse partiellement l'arrêt de la cour d'appel de Grenoble uniquement sur le rejet de la demande d'enlèvement de la couvertine, comme énoncé dans le dispositif de l'arrêt."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 9,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2023-10-12_22-15-288",
+  "kind": "solution",
+  "sentence": "Oui, la Cour de cassation a cassé partiellement l'arrêt attaqué, uniquement en ce qu'il rejetait la demande de M. et Mme [Y] en enlèvement de la couvertine dirigée contre M. et Mme [N].",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : CASSE ET ANNULE, mais seulement en ce qu'il rejette la demande de M. et Mme [Y] en enlèvement de la couvertine dirigée contre M. et Mme [N], l'arrêt rendu le 16 février 2021, entre les parties, par la cour d'appel de Grenoble ;",
+    "raison": "La phrase reprend exactement la décision de la Cour de cassation telle qu'énoncée dans l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : CASSE ET ANNULE, mais seulement en ce qu'il rejette la demande de M. et Mme [Y] en enlèvement de la couvertine dirigée contre M. et Mme [N], l'arrêt rendu le 16 février 2021, entre les parties, par la cour d'appel de Grenoble ;",
+    "raison": "La phrase reprend exactement la décision de cassation partielle prononcée par la Cour de cassation dans l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "18 (dispositif)",
+    "raison": "La phrase reprend exactement la solution de la Cour de cassation, qui casse partiellement l'arrêt attaqué « mais seulement en ce qu'il rejette la demande de M. et Mme [Y] en enlèvement de la couvertine dirigée contre M. et Mme [N] »."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 12,
+  "system": "LawHack",
+  "decision": "2023-10-12_22-15-288",
+  "kind": "fait_cour",
+  "sentence": "La cour d'appel a relevé que les baumes n° 5 et 6 étaient exclusivement accessibles depuis la maison appartenant actuellement à M. et Mme [N].",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel",
+    "paragraphe": "6",
+    "raison": "La phrase reprend exactement les constatations de la cour d'appel rapportées par la Cour de cassation au paragraphe 6."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "la cour d'appel",
+    "paragraphe": "6",
+    "raison": "La phrase reprend exactement les constatations de la cour d'appel rapportées par la Cour de cassation au paragraphe 6."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "Cour de cassation (rapportant les constatations de la cour d'appel)",
+    "paragraphe": "6",
+    "raison": "La phrase attribue à la cour d'appel une constatation que la Cour de cassation rapporte en son nom (paragraphe 6 : 'La cour d'appel a, d'abord, relevé...'). La Cour de cassation ne fait que reprendre les motifs de la cour d'appel, mais la formulation donne l'impression que c'est la Cour de cassation qui constate directement ce fait, alors qu'elle le rapporte comme un motif de la cour d'appel."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 13,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2023-10-12_22-15-288",
+  "kind": "fait_cour",
+  "sentence": "Oui, la Cour de cassation a constaté que les baumes n° 5 et 6 étaient exclusivement accessibles depuis la maison appartenant actuellement à M. et Mme [N], qui font partie des consorts [N]-[S].",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la cour d'appel de Grenoble",
+    "paragraphe": "6",
+    "raison": "La phrase attribue à la Cour de cassation une constatation qui est en réalité celle de la cour d'appel, reprise par la Cour de cassation dans sa réponse."
+   },
+   "magistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la cour d'appel de Grenoble",
+    "paragraphe": "6",
+    "raison": "La phrase attribue à la Cour de cassation une constatation qui est en réalité celle de la cour d'appel, reprise par la Cour de cassation dans sa réponse."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation (approuvant la cour d'appel)",
+    "paragraphe": "6",
+    "raison": "La phrase reprend exactement les constatations de la cour d'appel, approuvées par la Cour de cassation au paragraphe 6 : 'les baumes n° 5 et 6 étaient exclusivement accessibles depuis la maison appartenant actuellement à M. et Mme [N]'. M. et Mme [N] font bien partie des consorts [N]-[S]."
+   }
+  },
+  "error": true,
+  "mal_attribue": true
+ },
+ {
+  "row": 14,
+  "system": "LawHack",
+  "decision": "2023-10-12_22-19-407",
+  "kind": "solution",
+  "sentence": "Non: la Cour rejette le pourvoi.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme que la Cour rejette le pourvoi, ce qui est exact et correspond à la décision de la Cour de cassation dans l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme que la Cour rejette le pourvoi, ce qui est exact et correspond à la décision de la Cour de cassation dans l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme correctement que la Cour de cassation rejette le pourvoi, ce qui signifie qu'elle n'a pas cassé l'arrêt attaqué."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 15,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2023-10-12_22-19-407",
+  "kind": "solution",
+  "sentence": "Non, la Cour de cassation a rejeté le pourvoi et n'a pas cassé l'arrêt attaqué.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le pourvoi, ce qui est exact et correspond à la décision rendue dans l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le pourvoi, ce qui est exact et correspond à la décision finale de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme correctement que la Cour de cassation a rejeté le pourvoi, ce qui est explicitement indiqué dans le dispositif de l'arrêt."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 18,
+  "system": "LawHack",
+  "decision": "2023-10-12_22-19-407",
+  "kind": "moyen_decision",
+  "sentence": "Non: la Cour de cassation a jugé que la demande reconventionnelle du syndicat était recevable sans autorisation de l'assemblée générale, car elle était exclusivement fondée sur le rejet des demandes des consorts [R].",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7",
+    "raison": "La phrase résume correctement la position de la Cour de cassation qui approuve la cour d'appel ayant retenu que la demande reconventionnelle était recevable sans autorisation, car exclusivement fondée sur le rejet des demandes des consorts [R]."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7",
+    "raison": "La phrase résume correctement la position de la Cour de cassation qui approuve la cour d'appel ayant retenu que la demande reconventionnelle était recevable sans autorisation, car exclusivement fondée sur le rejet des demandes des consorts [R]."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "6 et 7",
+    "raison": "La phrase reprend fidèlement les motifs de la Cour de cassation, qui approuve la cour d'appel en énonçant que la demande reconventionnelle du syndicat était recevable sans autorisation de l'assemblée générale, car elle était exclusivement fondée sur le rejet des demandes des consorts [R]."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 18,
+  "system": "LawHack",
+  "decision": "2023-10-12_22-19-407",
+  "kind": "moyen_decision",
+  "sentence": "La Cour approuve la cour d'appel sur ce point.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7",
+    "raison": "La Cour de cassation approuve la cour d'appel qui a retenu que la demande reconventionnelle était recevable sans autorisation de l'assemblée générale, ce qui implique qu'elle rejette l'argument selon lequel cette autorisation était nécessaire."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7",
+    "raison": "La Cour de cassation approuve la cour d'appel qui a retenu que la demande reconventionnelle était recevable sans autorisation de l'assemblée générale, ce qui implique qu'elle rejette l'argument selon lequel cette autorisation était nécessaire."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la cour d'appel",
+    "paragraphe": "7",
+    "raison": "La phrase prête à la Cour de cassation une approbation explicite de la position de la cour d'appel selon laquelle les demandes reconventionnelles du syndicat ne nécessitaient PAS l'autorisation de l'assemblée générale. Or, la Cour de cassation se borne à dire que la cour d'appel a « exactement retenu » cette analyse, sans formuler elle-même un jugement autonome sur la nécessité ou non de l'autorisation."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 19,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2023-10-12_22-19-407",
+  "kind": "moyen_decision",
+  "sentence": "Non, la Cour de cassation a jugé que la demande reconventionnelle du syndicat était recevable sans autorisation de l'assemblée générale, car elle était exclusivement fondée sur le rejet des demandes adverses.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7",
+    "raison": "La phrase résume correctement la position de la Cour de cassation qui approuve la cour d'appel ayant retenu que la demande reconventionnelle était recevable sans autorisation de l'assemblée générale, car exclusivement fondée sur le rejet des demandes adverses."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7",
+    "raison": "La phrase résume correctement la position de la Cour de cassation qui approuve la cour d'appel ayant retenu que la demande reconventionnelle était recevable sans autorisation, car exclusivement fondée sur le rejet des demandes adverses."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "6 et 7",
+    "raison": "La phrase reflète fidèlement la position de la Cour de cassation, qui approuve la cour d'appel en retenant que la demande reconventionnelle du syndicat était recevable sans autorisation de l'assemblée générale, car elle était exclusivement fondée sur le rejet des demandes adverses (paragraphes 6 et 7 de l'arrêt)."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 20,
+  "system": "LawHack",
+  "decision": "2023-10-12_22-19-407",
+  "kind": "fait_cour",
+  "sentence": "La cour d'appel a constaté que les consorts [R] étaient propriétaires d'un appartement loué à la société Cohen Amir Aslani",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Paris)",
+    "paragraphe": "1",
+    "raison": "La phrase affirme que la cour d'appel a constaté ce fait, alors que c'est l'arrêt attaqué (cour d'appel) qui le mentionne dans les faits et procédure, mais la Cour de cassation ne l'attribue pas explicitement à la cour d'appel comme une constatation."
+   },
+   "magistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Paris)",
+    "paragraphe": "1",
+    "raison": "La phrase affirme que la cour d'appel a constaté ce fait, alors que c'est l'arrêt attaqué (cour d'appel) qui le mentionne dans les faits et procédure, mais la Cour de cassation ne l'attribue pas explicitement à la cour d'appel comme une constatation."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Paris)",
+    "paragraphe": "1 (Faits et procédure)",
+    "raison": "La phrase attribue à la cour d'appel un constat qui figure effectivement dans l'arrêt, mais ce constat provient en réalité des faits rapportés par l'arrêt attaqué (cour d'appel), et non d'une constatation propre à la Cour de cassation ou à la cour d'appel dans le cadre de sa décision. La Cour de cassation se contente de relater ces faits dans son résumé de la procédure."
+   }
+  },
+  "error": true,
+  "mal_attribue": true
+ },
+ {
+  "row": 21,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2023-10-12_22-19-407",
+  "kind": "fait_cour",
+  "sentence": "Oui, la Cour de cassation a constaté que les consorts [R] étaient propriétaires d'un appartement loué à la société Cohen Amir Aslani, comme mentionné dans les faits de l'arrêt (point 1).",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Paris)",
+    "paragraphe": "1",
+    "raison": "La phrase affirme que la Cour de cassation a constaté ce fait, alors que c'est l'arrêt attaqué (cour d'appel) qui le mentionne dans les faits de la procédure."
+   },
+   "magistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Paris)",
+    "paragraphe": "1",
+    "raison": "La phrase affirme que la Cour de cassation a constaté un fait, alors que ce fait est rapporté par l'arrêt attaqué (cour d'appel) dans la partie 'Faits et procédure'."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation (via l'arrêt attaqué)",
+    "paragraphe": "1 (Faits et procédure)",
+    "raison": "La phrase reprend exactement les termes de l'arrêt, qui mentionne dans son premier paragraphe que les consorts [R] sont 'propriétaires [...] d'un appartement loué à la société Cohen Amir Aslani'. Cette constatation est attribuée correctement à la Cour de cassation, qui relate les faits tels qu'établis par l'arrêt attaqué."
+   }
+  },
+  "error": true,
+  "mal_attribue": true
+ },
+ {
+  "row": 22,
+  "system": "LawHack",
+  "decision": "2024-05-15_22-11-652",
+  "kind": "solution",
+  "sentence": "Oui: la Cour casse partiellement l'arrêt attaqué.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "26",
+    "raison": "La phrase affirme que la Cour casse partiellement l'arrêt attaqué, ce qui est exact et correspond à la décision de la Cour de cassation dans le paragraphe 26."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "26",
+    "raison": "La phrase affirme que la Cour casse partiellement l'arrêt attaqué, ce qui est exact et correspond à la décision de la Cour de cassation dans le paragraphe 26."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "26",
+    "raison": "La phrase affirme correctement que la Cour de cassation casse partiellement l'arrêt attaqué, ce qui est explicitement mentionné dans le dispositif de l'arrêt (paragraphe 26) et dans l'intitulé de l'arrêt ('Cassation partielle')."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 23,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-05-15_22-11-652",
+  "kind": "solution",
+  "sentence": "Oui, la Cour de cassation a cassé partiellement l'arrêt attaqué, uniquement sur les points concernant la nullité du licenciement et les condamnations financières qui en découlent.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "26 et dispositif",
+    "raison": "La phrase affirme que la Cour de cassation a cassé partiellement l'arrêt attaqué, ce qui est exact (paragraphe 26 et dispositif). Elle précise également que la cassation porte uniquement sur les points concernant la nullité du licenciement et les condamnations financières qui en découlent, ce qui correspond exactement à la portée de la cassation énoncée dans l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "26",
+    "raison": "La phrase affirme que la Cour de cassation a cassé partiellement l'arrêt attaqué, ce qui est exact (paragraphe 26 : 'CASSE ET ANNULE, mais seulement en ce qu'il dit le licenciement de Mme [H] nul et condamne la société...')."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "26 et dispositif (CASSE ET ANNULE)",
+    "raison": "La phrase affirme correctement que la Cour de cassation a cassé partiellement l'arrêt attaqué, en précisant les points concernés (nullité du licenciement et condamnations financières), ce qui correspond exactement au dispositif de l'arrêt (paragraphe 26 et la partie 'CASSE ET ANNULE')."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 26,
+  "system": "LawHack",
+  "decision": "2024-05-15_22-11-652",
+  "kind": "fait_cour",
+  "sentence": "Non: la Cour de cassation ne constate pas les faits, c'est la cour d'appel qui a constaté que Mme [H] a été reconnue travailleur handicapé par la CDAPH le 1er avril 2010.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel",
+    "paragraphe": "4",
+    "raison": "La phrase affirme correctement que la constatation du fait (reconnaissance de Mme [H] comme travailleur handicapé par la CDAPH le 1er avril 2010) est faite par la cour d'appel, et non par la Cour de cassation."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel",
+    "paragraphe": "4",
+    "raison": "La phrase affirme correctement que la constatation du fait (reconnaissance de Mme [H] comme travailleur handicapé par la CDAPH le 1er avril 2010) est faite par la cour d'appel, et non par la Cour de cassation."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel",
+    "paragraphe": "4",
+    "raison": "Le paragraphe 4 de l'arrêt indique explicitement que 'la salariée a été reconnue en qualité de travailleur handicapé par la commission des droits et de l'autonomie des personnes handicapées (CDAPH) le 1er avril 2010', ce qui est un constat factuel attribué à la cour d'appel, et non à la Cour de cassation."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 27,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-05-15_22-11-652",
+  "kind": "fait_cour",
+  "sentence": "Oui, la Cour de cassation a constaté que Mme [H] a été reconnue travailleur handicapé par la CDAPH le 1er avril 2010.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "arrêt attaqué (cour d'appel de Paris)",
+    "paragraphe": "4",
+    "raison": "La reconnaissance de Mme [H] en qualité de travailleur handicapé par la CDAPH le 1er avril 2010 est mentionnée dans les faits de l'arrêt attaqué (paragraphe 4), mais la Cour de cassation ne la constate pas elle-même dans sa réponse."
+   },
+   "magistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Paris)",
+    "paragraphe": "4",
+    "raison": "La reconnaissance de Mme [H] en qualité de travailleur handicapé par la CDAPH le 1er avril 2010 est mentionnée dans les faits rapportés par l'arrêt attaqué (paragraphe 4), mais la Cour de cassation ne la constate pas elle-même dans sa réponse."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la cour d'appel de Paris (arrêt attaqué)",
+    "paragraphe": "4",
+    "raison": "La Cour de cassation ne fait que reprendre les constatations de fait de la cour d'appel (paragraphe 4 de l'arrêt), sans les attribuer expressément à sa propre constatation. La phrase prête à la Cour de cassation une affirmation qui relève en réalité des constatations de la juridiction du fond."
+   }
+  },
+  "error": true,
+  "mal_attribue": false
+ },
+ {
+  "row": 28,
+  "system": "LawHack",
+  "decision": "2024-05-15_22-23-797",
+  "kind": "solution",
+  "sentence": "Non: la Cour de cassation a rejeté le pourvoi et approuvé la cour d'appel.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "12",
+    "raison": "La Cour de cassation rejette explicitement le pourvoi et approuve la cour d'appel en retenant que celle-ci a exactement déduit que la condition d'affectation exclusive n'était pas remplie."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "12",
+    "raison": "La Cour de cassation rejette le pourvoi et approuve la cour d'appel en retenant que celle-ci a exactement déduit que la condition d'affectation exclusive n'était pas remplie."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "Dispositif (dernier paragraphe) et intitulé initial 'Rejet'",
+    "raison": "La phrase affirme exactement que la Cour de cassation a rejeté le pourvoi, ce qui correspond au dispositif de l'arrêt et à l'intitulé initial 'Rejet'."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 29,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-05-15_22-23-797",
+  "kind": "solution",
+  "sentence": "Non, la Cour de cassation a rejeté le pourvoi et confirmé l'arrêt attaqué.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le pourvoi, ce qui est exact et correspond à la décision de la Cour dans l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le pourvoi, ce qui est exact et correspond à la décision finale de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "Dispositif (dernier paragraphe)",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le pourvoi, ce qui correspond exactement à la solution de l'arrêt (REJETTE le pourvoi) et implique la confirmation de l'arrêt attaqué."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 32,
+  "system": "LawHack",
+  "decision": "2024-05-15_22-23-797",
+  "kind": "moyen_decision",
+  "sentence": "Le demandeur soutient que la cour d'appel, en se déterminant au regard de la présence effective de la salariée sur divers sites et non en considération de son rattachement administratif, a violé l'article 7.2 de la convention collective nationale des entreprises de propreté et services associés du 26 juillet 2011 La Cour décide que l'affectation exclusive est remplie uniquement si le personnel de maîtrise passe 100 % de son temps de travail sur le marché concerné.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "société Entreprise Guy Challancin (demandeur au pourvoi)",
+    "paragraphe": "6",
+    "raison": "La phrase attribue à la Cour de cassation une affirmation qui est en réalité celle du demandeur au pourvoi (société Challancin) dans son moyen de cassation."
+   },
+   "magistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "société Entreprise Guy Challancin (demandeur au pourvoi)",
+    "paragraphe": "6",
+    "raison": "La phrase attribue à la Cour de cassation une affirmation qui est en réalité celle du demandeur au pourvoi (société Challancin) dans son moyen de cassation."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "demandeur au pourvoi (société Entreprise Guy Challancin)",
+    "paragraphe": "6 (branche 1 du premier moyen)",
+    "raison": "La phrase attribue à la Cour de cassation une décision qui est en réalité un argument du demandeur au pourvoi. La Cour de cassation, elle, énonce au paragraphe 7 que l'affectation exclusive est remplie si le personnel de maîtrise passe 100 % de son temps de travail sur le marché concerné, sans mentionner le rattachement administratif exclusif."
+   }
+  },
+  "error": true,
+  "mal_attribue": true
+ },
+ {
+  "row": 32,
+  "system": "LawHack",
+  "decision": "2024-05-15_22-23-797",
+  "kind": "moyen_decision",
+  "sentence": "La Cour approuve la cour d'appel qui a retenu que la condition n'était pas remplie car la salariée intervenait sur d'autres sites.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "11",
+    "raison": "La Cour de cassation approuve la cour d'appel en retenant que la condition d'affectation exclusive n'était pas remplie, car la salariée intervenait sur d'autres sites (paragraphe 11)."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "11",
+    "raison": "La Cour de cassation approuve explicitement la cour d'appel qui a retenu que la condition d'affectation exclusive n'était pas remplie, car la salariée intervenait sur d'autres sites (paragraphe 11)."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation approuvant la cour d'appel",
+    "paragraphe": "8 et 11",
+    "raison": "La Cour de cassation valide explicitement la motivation de la cour d'appel, qui a constaté que la salariée intervenait sur d'autres sites (paragraphe 8) et en a déduit que la condition d'affectation exclusive n'était pas remplie (paragraphe 11). Elle rejette ainsi l'argument du pourvoi selon lequel le rattachement administratif exclusif suffirait."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 33,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-05-15_22-23-797",
+  "kind": "moyen_decision",
+  "sentence": "Non, la Cour de cassation a jugé que l'affectation exclusive d'un salarié à un marché n'est pas réputée remplie en cas de rattachement administratif exclusif si le salarié intervient effectivement sur d'autres sites.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "8, 10, 11",
+    "raison": "La Cour de cassation a effectivement retenu que l'affectation exclusive n'était pas remplie car la salariée intervenait sur d'autres sites (paragraphe 8) et que la société Challancin ne justifiait pas cette exclusivité (paragraphe 10), ce qui a conduit la cour d'appel à conclure que la condition n'était pas satisfaite (paragraphe 11)."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "8, 10, 11",
+    "raison": "La Cour de cassation a effectivement retenu que l'affectation exclusive n'était pas remplie car la salariée intervenait sur d'autres sites, et a approuvé la cour d'appel sur ce point."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7, 8, 10, 11",
+    "raison": "La Cour de cassation approuve la cour d'appel qui a retenu que l'affectation exclusive n'était pas remplie, car la salariée intervenait effectivement sur d'autres sites (paragraphe 8), et non en se fondant sur un simple rattachement administratif. Elle énonce clairement que la condition d'affectation exclusive suppose que le salarié passe 100 % de son temps de travail sur le marché concerné (paragraphe 7)."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 33,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-05-15_22-23-797",
+  "kind": "moyen_decision",
+  "sentence": "Elle a confirmé que la condition d'affectation exclusive s'apprécie au regard du temps de travail effectif.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7 et 11",
+    "raison": "La Cour de cassation énonce au paragraphe 7 que la condition d'affectation exclusive est remplie lorsque le personnel de maîtrise passe 100 % de son temps de travail sur le marché concerné, et au paragraphe 11, elle approuve la cour d'appel qui a déduit que la condition n'était pas remplie en l'espèce, ce qui implique que l'appréciation se fait bien au regard du temps de travail effectif."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7 et 8",
+    "raison": "La Cour de cassation énonce au paragraphe 7 que la condition d'affectation exclusive est remplie lorsque le personnel de maîtrise passe 100 % de son temps de travail total sur le marché concerné, ce qui correspond à une appréciation au regard du temps de travail effectif."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 34,
+  "system": "LawHack",
+  "decision": "2024-05-15_22-23-797",
+  "kind": "fait_cour",
+  "sentence": "Non: la Cour de cassation ne constate pas les faits, c'est la cour d'appel qui a constaté que Mme [O] a été licenciée le 27 janvier 2020 par la société Challancin.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "arrêt attaqué (cour d'appel de Paris)",
+    "paragraphe": "4",
+    "raison": "La phrase affirme à juste titre que le licenciement a été constaté, mais elle l'attribue à tort à la Cour de cassation alors que c'est la cour d'appel qui l'a constaté dans l'arrêt attaqué."
+   },
+   "magistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "arrêt attaqué (cour d'appel de Paris)",
+    "paragraphe": "4",
+    "raison": "La phrase affirme à juste titre que le licenciement a été constaté, mais elle l'attribue à tort à la Cour de cassation alors que c'est la cour d'appel qui l'a constaté dans l'arrêt attaqué."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": true,
+  "mal_attribue": true
+ },
+ {
+  "row": 35,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-05-15_22-23-797",
+  "kind": "fait_cour",
+  "sentence": "Oui, la Cour de cassation a constaté que Mme [O] a été licenciée par la société Challancin le 27 janvier 2020 (point 4 des faits et procédure).",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Paris)",
+    "paragraphe": "4",
+    "raison": "La phrase attribue à la Cour de cassation une constatation qui figure en réalité dans l'arrêt attaqué (cour d'appel) et non dans la décision de la Cour de cassation."
+   },
+   "magistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Paris)",
+    "paragraphe": "4",
+    "raison": "La phrase attribue à la Cour de cassation une constatation qui figure en réalité dans l'arrêt attaqué (cour d'appel) et non dans la décision de la Cour de cassation."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": true,
+  "mal_attribue": true
+ },
+ {
+  "row": 36,
+  "system": "LawHack",
+  "decision": "2024-05-15_23-11-713",
+  "kind": "solution",
+  "sentence": "Non: la Cour de cassation rejette les pourvois et ne casse pas l'arrêt attaqué.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE les pourvois ;",
+    "raison": "La phrase affirme que la Cour de cassation rejette les pourvois et ne casse pas l'arrêt attaqué, ce qui est exact et correspond à la décision finale de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE les pourvois ;",
+    "raison": "La phrase affirme que la Cour de cassation rejette les pourvois et ne casse pas l'arrêt attaqué, ce qui est exact et correspond à la décision finale de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 37,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-05-15_23-11-713",
+  "kind": "solution",
+  "sentence": "Non, la Cour de cassation a rejeté les pourvois et n'a pas cassé l'arrêt attaqué.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE les pourvois ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté les pourvois et n'a pas cassé l'arrêt attaqué, ce qui est exact et correspond à la décision finale de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE les pourvois ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté les pourvois, ce qui est exact et correspond à la décision finale de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 40,
+  "system": "LawHack",
+  "decision": "2024-05-15_23-11-713",
+  "kind": "moyen_decision",
+  "sentence": "Non: la Cour de cassation n'a pas jugé que la clause prévoyait une telle dérogation, elle a seulement approuvé la cour d'appel d'avoir retenu que la déchéance du terme était opposable à la caution sans dénaturer l'acte.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "4",
+    "raison": "La phrase affirme que la Cour de cassation a approuvé la cour d'appel d'avoir retenu que la déchéance du terme était opposable à la caution sans dénaturer l'acte, ce qui correspond exactement à la réponse de la Cour au paragraphe 4."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "4",
+    "raison": "La Cour de cassation a effectivement approuvé la cour d'appel pour avoir retenu que la déchéance du terme était opposable à la caution sans dénaturer l'acte, sans pour autant juger que la clause prévoyait une dérogation au principe."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "4",
+    "raison": "La phrase reflète fidèlement la réponse de la Cour de cassation (paragraphe 4), qui approuve la cour d'appel pour avoir retenu que la déchéance du terme était opposable à la caution en s'appuyant sur la clause du cautionnement, sans pour autant affirmer que la clause prévoyait explicitement une dérogation au principe. La Cour rejette l'argument du demandeur selon lequel la clause aurait été dénaturée."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 40,
+  "system": "LawHack",
+  "decision": "2024-05-15_23-11-713",
+  "kind": "moyen_decision",
+  "sentence": "La Cour rejette le moyen du demandeur qui soutenait cette méconnaissance [S-025, S-034].",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "4",
+    "raison": "La Cour de cassation a jugé que la cour d'appel n'avait pas dénaturé la clause et que celle-ci ne prévoyait pas de dérogation au principe d'inopposabilité de la déchéance du terme à la caution."
+   },
+   "magistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "4",
+    "raison": "La Cour de cassation a jugé que la cour d'appel n'avait pas dénaturé l'acte de cautionnement et que la clause ne prévoyait pas une dérogation au principe, mais simplement une renonciation au bénéfice de discussion et une dispense de mise en demeure."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la cour d'appel de Toulouse",
+    "paragraphe": "4",
+    "raison": "La phrase attribue à la Cour de cassation l'affirmation que la clause prévoyait une dérogation au principe, alors que c'est la cour d'appel qui a retenu cette interprétation de la clause. La Cour de cassation se borne à approuver cette analyse (« c'est sans le dénaturer [...] que la cour d'appel a retenu que la déchéance du terme à l'égard de la société était opposable à la caution »)."
+   }
+  },
+  "error": true,
+  "mal_attribue": false
+ },
+ {
+  "row": 41,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-05-15_23-11-713",
+  "kind": "moyen_decision",
+  "sentence": "Oui, la Cour de cassation a jugé que la clause de l'acte de cautionnement prévoyait une dérogation au principe selon lequel la déchéance du terme à l'égard du débiteur principal n'est pas opposable à la caution.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "la caution (demandeur au pourvoi principal)",
+    "paragraphe": "3",
+    "raison": "La Cour de cassation a rejeté ce moyen en retenant que la cour d'appel n'avait pas dénaturé la clause et que celle-ci ne prévoyait pas une telle dérogation (paragraphe 4)."
+   },
+   "magistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "la caution (demandeur au pourvoi principal)",
+    "paragraphe": "3",
+    "raison": "La phrase affirme que la Cour de cassation a jugé que la clause prévoyait une dérogation, alors que c'est la caution qui soutenait cette interprétation dans son moyen, et que la Cour a au contraire rejeté ce raisonnement en approuvant la cour d'appel (paragraphe 4)."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "cour d'appel de Toulouse",
+    "paragraphe": "4",
+    "raison": "La Cour de cassation approuve la cour d'appel qui a retenu que la clause prévoyait cette dérogation, mais c'est bien la cour d'appel qui a interprété la clause en ce sens, et non la Cour de cassation elle-même. La Cour de cassation se contente de valider cette interprétation ('c'est sans le dénaturer [...] que la cour d'appel a retenu que la déchéance du terme à l'égard de la société était opposable à la caution')."
+   }
+  },
+  "error": true,
+  "mal_attribue": false
+ },
+ {
+  "row": 41,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-05-15_23-11-713",
+  "kind": "moyen_decision",
+  "sentence": "Elle a confirmé que la cour d'appel n'avait pas dénaturé la clause en retenant cette interprétation.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "4",
+    "raison": "La Cour de cassation a effectivement retenu que la cour d'appel n'avait pas dénaturé la clause en retenant que la déchéance du terme à l'égard du débiteur principal était opposable à la caution."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "4",
+    "raison": "La Cour de cassation a effectivement retenu que la cour d'appel n'avait pas dénaturé la clause en retenant que la déchéance du terme à l'égard du débiteur principal était opposable à la caution."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "4",
+    "raison": "La phrase affirme que la Cour de cassation a confirmé que la cour d'appel n'avait pas dénaturé la clause en retenant que la déchéance du terme à l'égard du débiteur principal était opposable à la caution. Cela correspond exactement à ce que la Cour énonce au paragraphe 4 : 'c'est sans le dénaturer [...] que la cour d'appel a retenu que la déchéance du terme à l'égard de la société était opposable à la caution'."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 42,
+  "system": "LawHack",
+  "decision": "2024-05-15_23-11-713",
+  "kind": "fait_cour",
+  "sentence": "La cour d'appel a constaté que la société a été placée en liquidation judiciaire",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel",
+    "paragraphe": "1",
+    "raison": "La phrase affirme que la cour d'appel a constaté la liquidation judiciaire de la société Pommes Lomagne, ce qui est exact selon le paragraphe 1 de l'arrêt attaqué, cité par la Cour de cassation."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel",
+    "paragraphe": "1",
+    "raison": "La phrase affirme que la cour d'appel a constaté la liquidation judiciaire de la société Pommes Lomagne, ce qui est exact selon le paragraphe 1 de l'arrêt attaqué, repris par la Cour de cassation."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel",
+    "paragraphe": "1",
+    "raison": "Le paragraphe 1 de l'arrêt indique explicitement : 'Selon l'arrêt attaqué (Toulouse, 23 novembre 2022), [...] la société ayant été placée en liquidation judiciaire [...]', ce qui signifie que la cour d'appel a bien constaté ce fait."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 43,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-05-15_23-11-713",
+  "kind": "fait_cour",
+  "sentence": "Oui, la Cour de cassation a constaté que la société Pommes Lomagne a été placée en liquidation judiciaire, comme mentionné dans le point 2 des faits et procédure de l'arrêt.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Toulouse)",
+    "paragraphe": "2",
+    "raison": "La phrase attribue à la Cour de cassation un constat qui est en réalité énoncé par l'arrêt attaqué (cour d'appel) dans le point 2 des faits et procédure."
+   },
+   "magistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Toulouse)",
+    "paragraphe": "2",
+    "raison": "La phrase attribue à la Cour de cassation un constat qui est en réalité énoncé par l'arrêt attaqué (cour d'appel) dans le point 2 des faits et procédure."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la cour d'appel de Toulouse (arrêt attaqué)",
+    "paragraphe": "1. Faits et procédure",
+    "raison": "La phrase attribue à la Cour de cassation un constat qui figure effectivement dans l'arrêt, mais qui est rapporté comme un fait établi par l'arrêt attaqué (cour d'appel de Toulouse). La Cour de cassation ne fait que reprendre ce constat sans le valider ou l'infirmer en propre."
+   }
+  },
+  "error": true,
+  "mal_attribue": true
+ },
+ {
+  "row": 44,
+  "system": "LawHack",
+  "decision": "2024-05-15_23-11-851",
+  "kind": "solution",
+  "sentence": "Oui: la Cour casse et annule l'arrêt rendu par la cour d'appel de Montpellier, mais seulement en ce qu'il déclare prescrite l'action en responsabilité.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS",
+    "raison": "La phrase reprend exactement la décision de la Cour de cassation telle qu'énoncée dans l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS",
+    "raison": "La phrase reprend exactement la décision de la Cour de cassation telle qu'énoncée dans l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS (point 9 de l'arrêt)",
+    "raison": "La phrase reprend exactement les termes de l'arrêt, qui indique une cassation partielle limitée à la déclaration de prescription de l'action en responsabilité, et l'attribue correctement à la Cour de cassation."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 45,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-05-15_23-11-851",
+  "kind": "solution",
+  "sentence": "Oui, la Cour de cassation a cassé partiellement l'arrêt attaqué, uniquement en ce qu'il déclarait prescrite l'action en responsabilité formée par M. et Mme [B] contre la société Créatis.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, CASSE ET ANNULE, mais seulement en ce qu'il déclare prescrite l'action en responsabilité formée par M. et Mme [B] contre la société Creatis, l'arrêt rendu le 1er décembre 2022, entre les parties, par la cour d'appel de Montpellier ;",
+    "raison": "La phrase affirme correctement que la Cour de cassation a cassé partiellement l'arrêt attaqué, et cette information est bien attribuée à la Cour de cassation dans l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, CASSE ET ANNULE, mais seulement en ce qu'il déclare prescrite l'action en responsabilité formée par M. et Mme [B] contre la société Creatis, l'arrêt rendu le 1er décembre 2022, entre les parties, par la cour d'appel de Montpellier ;",
+    "raison": "La phrase affirme correctement que la Cour de cassation a cassé partiellement l'arrêt attaqué, et cette information est explicitement mentionnée dans l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS (premier paragraphe)",
+    "raison": "La phrase reprend exactement la solution de la Cour de cassation, qui casse partiellement l'arrêt de la cour d'appel de Montpellier 'mais seulement en ce qu'il déclare prescrite l'action en responsabilité formée par M. et Mme [B] contre la société Créatis'."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 48,
+  "system": "LawHack",
+  "decision": "2024-05-15_23-11-851",
+  "kind": "fait_cour",
+  "sentence": "Non: la Cour de cassation, juge du droit, ne constate pas les faits, c'est la cour d'appel qui a constaté que la déchéance du terme a été prononcée le 13 février 2018.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel de Montpellier",
+    "paragraphe": "2",
+    "raison": "La phrase affirme que la cour d'appel a constaté la déchéance du terme le 13 février 2018, ce qui est exact selon le paragraphe 2 de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel de Montpellier",
+    "paragraphe": "2",
+    "raison": "La phrase affirme que la cour d'appel a constaté la déchéance du terme le 13 février 2018, ce qui est exact selon le paragraphe 2 de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel de Montpellier",
+    "paragraphe": "2 (Faits et procédure)",
+    "raison": "La phrase attribue correctement à la cour d'appel la constatation du fait que la déchéance du terme a été prononcée le 13 février 2018, et précise que la Cour de cassation, en tant que juge du droit, ne constate pas les faits."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 49,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-05-15_23-11-851",
+  "kind": "fait_cour",
+  "sentence": "Oui, la Cour de cassation a constaté que la déchéance du terme du prêt a été prononcée le 13 février 2018.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Montpellier)",
+    "paragraphe": "2",
+    "raison": "La phrase affirme que la Cour de cassation a constaté la déchéance du terme, mais cette information est en réalité rapportée par l'arrêt attaqué (cour d'appel) dans les faits et la procédure."
+   },
+   "magistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Montpellier)",
+    "paragraphe": "2",
+    "raison": "La déchéance du terme est mentionnée dans les faits de l'arrêt attaqué, non constatée par la Cour de cassation."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Montpellier)",
+    "paragraphe": "2 (Faits et procédure)",
+    "raison": "La date de la déchéance du terme (13 février 2018) est mentionnée dans la section 'Faits et procédure' de l'arrêt de la Cour de cassation, mais elle est rapportée comme un fait constaté par la cour d'appel de Montpellier, et non comme une constatation propre de la Cour de cassation."
+   }
+  },
+  "error": true,
+  "mal_attribue": true
+ },
+ {
+  "row": 50,
+  "system": "LawHack",
+  "decision": "2024-05-15_24-80-728",
+  "kind": "solution",
+  "sentence": "Non: la Cour de cassation a rejeté le pourvoi.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le pourvoi, ce qui est exact et correspond à la décision finale de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le pourvoi, ce qui est exact et correspond à la décision finale de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "Dispositif final (PAR CES MOTIFS, la Cour : REJETTE le pourvoi)",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le pourvoi, ce qui correspond exactement à la solution de l'arrêt (rejet) et non à une cassation."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 51,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-05-15_24-80-728",
+  "kind": "solution",
+  "sentence": "Non, la Cour de cassation a rejeté le pourvoi et confirmé l'arrêt attaqué.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le pourvoi, ce qui est exact et correspond à la décision finale de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le pourvoi, ce qui est exact et correspond à la décision finale de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "15 et dispositif",
+    "raison": "La phrase affirme que la Cour de cassation a 'confirmé l'arrêt attaqué', alors que l'arrêt indique clairement un rejet du pourvoi (donc maintien de l'arrêt de la cour d'appel) mais ne confirme pas expressément l'arrêt attaqué. De plus, la Cour de cassation avait déjà partiellement cassé un précédent arrêt de la chambre de l'instruction (9 janvier 2024), ce qui contredit l'idée d'une confirmation intégrale."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 54,
+  "system": "LawHack",
+  "decision": "2024-05-15_24-80-728",
+  "kind": "moyen_decision",
+  "sentence": "La Cour juge que la chambre de l'instruction n'a méconnu aucun des textes visés au moyen.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "11",
+    "raison": "La phrase reprend exactement la formulation de la Cour de cassation dans le paragraphe 11 de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "11",
+    "raison": "La phrase reprend exactement la formulation de la Cour de cassation au paragraphe 11 de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "11",
+    "raison": "La phrase reprend fidèlement l'énoncé de la Cour de cassation au paragraphe 11 de l'arrêt, où elle affirme explicitement que la chambre de l'instruction 'n'a méconnu aucun des textes visés au moyen'."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 55,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-05-15_24-80-728",
+  "kind": "moyen_decision",
+  "sentence": "Non, la Cour de cassation a jugé que la chambre de l'instruction **n'a pas méconnu** la portée de la cassation en ordonnant le placement en détention provisoire de Mme [U].",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "11, 12, 13",
+    "raison": "La Cour de cassation énonce explicitement que la chambre de l'instruction n'a méconnu aucun des textes visés au moyen (paragraphe 11) et développe les motifs justifiant cette position (paragraphes 12 et 13)."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "11, 12, 13",
+    "raison": "La Cour de cassation énonce explicitement que la chambre de l'instruction n'a méconnu aucun des textes visés au moyen (paragraphe 11) et développe les motifs justifiant cette position (paragraphes 12 et 13)."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "11, 12, 13, 14",
+    "raison": "La Cour de cassation affirme explicitement que la chambre de l'instruction 'n'a méconnu aucun des textes visés au moyen' (paragraphe 11) et justifie cette position en expliquant que la cassation partielle ne limitait pas ses pouvoirs à la délivrance d'un nouveau mandat d'arrêt (paragraphe 13)."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 56,
+  "system": "LawHack",
+  "decision": "2024-05-15_24-80-728",
+  "kind": "fait_cour",
+  "sentence": "La cour d'appel a constaté que Mme [U] a été interpellée au Portugal, le 3 février 2023, en exécution d'un mandat d'arrêt européen",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué et les pièces de la procédure",
+    "paragraphe": "2",
+    "raison": "La phrase affirme correctement le fait, mais l'attribue à la cour d'appel alors que l'arrêt précise que ce fait résulte de l'arrêt attaqué et des pièces de la procédure."
+   },
+   "magistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (chambre de l'instruction de la cour d'appel de Paris)",
+    "paragraphe": "3",
+    "raison": "La phrase affirme correctement le fait, mais l'attribue à la cour d'appel alors que c'est l'arrêt attaqué (chambre de l'instruction) qui le constate, et non la cour d'appel en général."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": true,
+  "mal_attribue": true
+ },
+ {
+  "row": 57,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-05-15_24-80-728",
+  "kind": "fait_cour",
+  "sentence": "Oui, la Cour de cassation a constaté que Mme [U] a été interpellée au Portugal le 3 février 2023 en exécution d'un mandat d'arrêt européen (point 3 de l'arrêt).",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué et les pièces de la procédure",
+    "paragraphe": "2",
+    "raison": "La phrase affirme que la Cour de cassation a constaté l'interpellation, alors que cette information est rapportée par l'arrêt attaqué et les pièces de la procédure (point 2 de l'arrêt), et non par la Cour de cassation elle-même."
+   },
+   "magistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué et les pièces de la procédure",
+    "paragraphe": "2",
+    "raison": "La phrase affirme que la Cour de cassation a constaté ce fait, alors que l'arrêt précise que ce fait résulte de l'arrêt attaqué et des pièces de la procédure (point 2)."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": true,
+  "mal_attribue": true
+ },
+ {
+  "row": 58,
+  "system": "LawHack",
+  "decision": "2024-09-18_22-13-021",
+  "kind": "solution",
+  "sentence": "Oui: la Cour casse l'arrêt rendu par la cour d'appel de Poitiers.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, CASSE ET ANNULE, en toutes ses dispositions, l'arrêt rendu le 19 octobre 2021, entre les parties, par la cour d'appel de Poitiers ;",
+    "raison": "La phrase affirme que la Cour de cassation casse l'arrêt de la cour d'appel de Poitiers, ce qui est exact et correspond à la décision de la Cour de cassation dans l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, CASSE ET ANNULE, en toutes ses dispositions, l'arrêt rendu le 19 octobre 2021, entre les parties, par la cour d'appel de Poitiers ;",
+    "raison": "La phrase affirme que la Cour de cassation casse l'arrêt de la cour d'appel de Poitiers, ce qui est exact et correspond à la décision rendue par la Cour de cassation dans l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 59,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-09-18_22-13-021",
+  "kind": "solution",
+  "sentence": "Oui, la Cour de cassation a cassé l'arrêt rendu le 19 octobre 2021 par la cour d'appel de Poitiers.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, CASSE ET ANNULE, en toutes ses dispositions, l'arrêt rendu le 19 octobre 2021, entre les parties, par la cour d'appel de Poitiers ;",
+    "raison": "La phrase affirme que la Cour de cassation a cassé l'arrêt attaqué, ce qui est exact et correspond à la décision de la Cour de cassation dans l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, CASSE ET ANNULE, en toutes ses dispositions, l'arrêt rendu le 19 octobre 2021, entre les parties, par la cour d'appel de Poitiers ;",
+    "raison": "La phrase affirme correctement que la Cour de cassation a cassé l'arrêt attaqué, ce qui est explicitement mentionné dans l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 62,
+  "system": "LawHack",
+  "decision": "2024-09-18_22-13-021",
+  "kind": "fait_cour",
+  "sentence": "Non: la Cour de cassation ne constate pas les faits, c'est la cour d'appel qui a constaté que M. [J] avait joint à ses déclarations d'ISF des années 2009 et 2010 une attestation de la société Finaréa Avenir PME.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel de Poitiers",
+    "paragraphe": "1",
+    "raison": "La phrase affirme correctement que la cour d'appel a constaté le fait, et non la Cour de cassation, ce qui correspond à l'arrêt (paragraphe 1 : 'Selon l'arrêt attaqué (Poitiers, 19 octobre 2021), afin de bénéficier d'une réduction d'impôt... [S] [J] a joint à ses déclarations d'ISF des années 2009 et 2010 une attestation de la société Finaréa Avenir PME')."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel de Poitiers",
+    "paragraphe": "1",
+    "raison": "La phrase affirme correctement que la cour d'appel a constaté le fait, et non la Cour de cassation, ce qui correspond à l'arrêt (paragraphe 1 : 'Selon l'arrêt attaqué (Poitiers, 19 octobre 2021), afin de bénéficier d'une réduction d'impôt... [S] [J] a joint à ses déclarations d'ISF des années 2009 et 2010 une attestation de la société Finaréa Avenir PME')."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 63,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-09-18_22-13-021",
+  "kind": "fait_cour",
+  "sentence": "Oui, la Cour de cassation a constaté que M. [J] avait joint à ses déclarations d'ISF des années 2009 et 2010 une attestation de la société Finaréa Avenir PME.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la cour d'appel de Poitiers (arrêt attaqué)",
+    "paragraphe": "1",
+    "raison": "La phrase affirme que la Cour de cassation a constaté ce fait, mais c'est en réalité la cour d'appel de Poitiers (arrêt attaqué) qui l'a relevé dans son arrêt du 19 octobre 2021."
+   },
+   "magistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la cour d'appel de Poitiers (arrêt attaqué)",
+    "paragraphe": "1",
+    "raison": "La phrase affirme que la Cour de cassation a constaté ce fait, alors que c'est la cour d'appel de Poitiers (arrêt attaqué) qui l'a relevé dans son arrêt du 19 octobre 2021."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": true,
+  "mal_attribue": true
+ },
+ {
+  "row": 64,
+  "system": "LawHack",
+  "decision": "2024-09-18_22-22-797",
+  "kind": "solution",
+  "sentence": "Oui: la Cour casse et annule l'arrêt rendu le 15 septembre 2022 par la cour d'appel de Paris.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, et sans qu'il y ait lieu de statuer sur l'autre grief, la Cour : CASSE ET ANNULE, sauf en ce que, confirmant le jugement, il condamne la société Sodexcom océan Indien à reconstituer une trésorerie au moins égale à 400 000 euros dans la société Socorec, sauf à justifier que la trésorerie figure déjà dans les comptes, l'arrêt rendu le 15 septembre 2022, entre les parties, par la cour d'appel de Paris ;",
+    "raison": "La phrase affirme que la Cour casse et annule l'arrêt attaqué, ce qui est exact et attribué à la Cour de cassation dans l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, et sans qu'il y ait lieu de statuer sur l'autre grief, la Cour : CASSE ET ANNULE, sauf en ce que, confirmant le jugement, il condamne la société Sodexcom océan Indien à reconstituer une trésorerie au moins égale à 400 000 euros dans la société Socorec, sauf à justifier que la trésorerie figure déjà dans les comptes, l'arrêt rendu le 15 septembre 2022, entre les parties, par la cour d'appel de Paris ;",
+    "raison": "La phrase affirme que la Cour casse et annule l'arrêt de la cour d'appel de Paris, ce qui est exactement ce que la Cour de cassation a fait dans l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, et sans qu'il y ait lieu de statuer sur l'autre grief, la Cour : CASSE ET ANNULE, sauf en ce que...",
+    "raison": "La phrase affirme exactement ce que la Cour de cassation décide dans son dispositif, à savoir la cassation et l'annulation de l'arrêt attaqué (sauf sur un point)."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 65,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-09-18_22-22-797",
+  "kind": "solution",
+  "sentence": "Oui, la Cour de cassation a cassé partiellement l'arrêt attaqué, sauf sur le point concernant la condamnation de la société Sodexcom à reconstituer une trésorerie d'au moins 400 000 euros dans la société Socorec.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, et sans qu'il y ait lieu de statuer sur l'autre grief, la Cour : CASSE ET ANNULE, sauf en ce que, confirmant le jugement, il condamne la société Sodexcom océan Indien à reconstituer une trésorerie au moins égale à 400 000 euros dans la société Socorec, sauf à justifier que la trésorerie figure déjà dans les comptes, l'arrêt rendu le 15 septembre 2022, entre les parties, par la cour d'appel de Paris ;",
+    "raison": "La phrase affirme correctement que la Cour de cassation a cassé partiellement l'arrêt attaqué, en excluant le point concernant la trésorerie, ce qui correspond exactement à la décision de la Cour."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, et sans qu'il y ait lieu de statuer sur l'autre grief, la Cour : CASSE ET ANNULE, sauf en ce que, confirmant le jugement, il condamne la société Sodexcom océan Indien à reconstituer une trésorerie au moins égale à 400 000 euros dans la société Socorec, sauf à justifier que la trésorerie figure déjà dans les comptes, l'arrêt rendu le 15 septembre 2022, entre les parties, par la cour d'appel de Paris ;",
+    "raison": "La phrase reprend exactement la décision de la Cour de cassation qui casse partiellement l'arrêt attaqué, sauf sur le point précisé."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, et sans qu'il y ait lieu de statuer sur l'autre grief, la Cour : CASSE ET ANNULE, sauf en ce que, confirmant le jugement, il condamne la société Sodexcom océan Indien à reconstituer une trésorerie au moins égale à 400 000 euros dans la société Socorec, sauf à justifier que la trésorerie figure déjà dans les comptes, l'arrêt rendu le 15 septembre 2022, entre les parties, par la cour d'appel de Paris ;",
+    "raison": "La phrase reflète exactement la décision de la Cour de cassation, qui casse partiellement l'arrêt attaqué en maintenant uniquement la condamnation relative à la reconstitution de la trésorerie."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 68,
+  "system": "LawHack",
+  "decision": "2024-09-18_22-22-797",
+  "kind": "fait_cour",
+  "sentence": "Non: la Cour de cassation ne constate pas les faits, c'est la cour d'appel qui a constaté que la cession définitive des 527 titres de la Socorec a été régularisée par un acte du 17 novembre 2014.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel",
+    "paragraphe": "2",
+    "raison": "La phrase affirme que la cour d'appel a constaté la régularisation de la cession par un acte du 17 novembre 2014, ce qui est exact selon le paragraphe 4 de l'arrêt (reprenant les constats de la cour d'appel)."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel",
+    "paragraphe": "4",
+    "raison": "La phrase affirme que la cour d'appel a constaté la régularisation de la cession par un acte du 17 novembre 2014, ce qui est exact selon le paragraphe 4 de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel de Paris",
+    "paragraphe": "4",
+    "raison": "La phrase attribue correctement à la cour d'appel la constatation des faits relatifs à la régularisation de la cession des 527 titres par un acte du 17 novembre 2014, ce qui correspond au paragraphe 4 de l'arrêt ('Selon l'arrêt attaqué...'). La Cour de cassation ne fait que rapporter ces faits sans les constater elle-même."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 69,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-09-18_22-22-797",
+  "kind": "fait_cour",
+  "sentence": "Oui, la Cour de cassation a constaté que la cession définitive des 527 titres de la Socorec a été régularisée par un acte du 17 novembre 2014.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "la cour d'appel de Paris (arrêt attaqué)",
+    "paragraphe": "4",
+    "raison": "La phrase affirme que la Cour de cassation a constaté ce fait, alors que c'est la cour d'appel de Paris qui l'a relevé dans l'arrêt attaqué (paragraphe 4)."
+   },
+   "magistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Paris)",
+    "paragraphe": "4",
+    "raison": "La phrase affirme que la Cour de cassation a constaté ce fait, mais c'est l'arrêt attaqué (cour d'appel) qui le relève au paragraphe 4."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la cour d'appel de Paris (arrêt attaqué)",
+    "paragraphe": "4",
+    "raison": "Le constat de la régularisation de la cession par un acte du 17 novembre 2014 figure dans la section 'Faits et procédure' de l'arrêt de la Cour de cassation, qui reprend les éléments de l'arrêt attaqué (cour d'appel de Paris). La Cour de cassation ne fait que relater ce fait sans l'attribuer expressément à sa propre constatation."
+   }
+  },
+  "error": true,
+  "mal_attribue": true
+ },
+ {
+  "row": 70,
+  "system": "LawHack",
+  "decision": "2024-09-18_22-86-244",
+  "kind": "solution",
+  "sentence": "Oui: la Cour casse et annule l'arrêt de la cour d'appel de Fort-de-France.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, et sans qu'il y ait lieu d'examiner les autres moyens de cassation proposés, la Cour : CASSE et ANNULE, en toutes ses dispositions, l'arrêt susvisé de la cour d'appel de Fort-de-France, en date du 13 octobre 2022",
+    "raison": "La phrase affirme que la Cour casse et annule l'arrêt, ce qui est exactement ce que la Cour de cassation a décidé dans l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, et sans qu'il y ait lieu d'examiner les autres moyens de cassation proposés, la Cour : CASSE et ANNULE, en toutes ses dispositions, l'arrêt susvisé de la cour d'appel de Fort-de-France, en date du 13 octobre 2022",
+    "raison": "La phrase affirme que la Cour casse et annule l'arrêt, ce qui est exactement ce que la Cour de cassation a décidé dans l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS [...] CASSE et ANNULE, en toutes ses dispositions, l'arrêt susvisé de la cour d'appel de Fort-de-France, en date du 13 octobre 2022",
+    "raison": "La phrase affirme exactement ce que la Cour de cassation a décidé dans le dispositif de l'arrêt."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 71,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-09-18_22-86-244",
+  "kind": "solution",
+  "sentence": "Oui, la Cour de cassation a cassé l'arrêt attaqué de la cour d'appel de Fort-de-France en date du 13 octobre 2022.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "10 et dispositif",
+    "raison": "La phrase affirme que la Cour de cassation a cassé l'arrêt attaqué, ce qui est exact et correspond à la décision rendue par la Cour dans le dispositif de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "10 et dispositif",
+    "raison": "La phrase affirme que la Cour de cassation a cassé l'arrêt attaqué, ce qui est exact et correspond à la décision rendue par la Cour dans le dispositif de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, et sans qu'il y ait lieu d'examiner les autres moyens de cassation proposés, la Cour : CASSE et ANNULE, en toutes ses dispositions, l'arrêt susvisé de la cour d'appel de Fort-de-France, en date du 13 octobre 2022...",
+    "raison": "La phrase affirme correctement que la Cour de cassation a cassé l'arrêt de la cour d'appel de Fort-de-France, ce qui est explicitement énoncé dans le dispositif de l'arrêt."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 74,
+  "system": "LawHack",
+  "decision": "2024-09-18_22-86-244",
+  "kind": "fait_cour",
+  "sentence": "La cour d'appel a constaté que les juges du premier degré ont relaxé la prévenue et débouté la partie civile de sa demande en raison de l'extinction de l'action publique du fait de sa prescription",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel) et les pièces de procédure",
+    "paragraphe": "3",
+    "raison": "La phrase attribue à la cour d'appel la constatation de la relaxation par le tribunal correctionnel, alors que cette constatation est faite par l'arrêt attaqué et les pièces de procédure (paragraphe 3)."
+   },
+   "magistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel) et les pièces de procédure",
+    "paragraphe": "3",
+    "raison": "La phrase attribue à la cour d'appel la constatation de la relaxation et de l'extinction de l'action publique, alors que cette constatation est faite par l'arrêt attaqué et les pièces de procédure (paragraphe 3)."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la Cour de cassation (qui rapporte les constatations de l'arrêt attaqué / cour d'appel)",
+    "paragraphe": "3 (Faits et procédure)",
+    "raison": "La phrase attribue à la cour d'appel un constat qui figure bien dans l'arrêt, mais qui est en réalité rapporté par la Cour de cassation elle-même au paragraphe 3, comme résultant de l'arrêt attaqué et des pièces de procédure. La cour d'appel n'a pas 'constaté' ce fait : elle l'a contesté en condamnant la prévenue."
+   }
+  },
+  "error": true,
+  "mal_attribue": true
+ },
+ {
+  "row": 75,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-09-18_22-86-244",
+  "kind": "fait_cour",
+  "sentence": "Oui, la Cour de cassation a constaté que le tribunal correctionnel a relaxé Mme [D] [T] en raison de la prescription de l'action publique, comme indiqué au point 3 de l'arrêt.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Fort-de-France)",
+    "paragraphe": "3",
+    "raison": "La phrase attribue à la Cour de cassation une constatation qui figure en réalité dans l'arrêt attaqué (point 3), et non dans la décision de la Cour de cassation."
+   },
+   "magistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Fort-de-France)",
+    "paragraphe": "3",
+    "raison": "La phrase attribue à la Cour de cassation une constatation qui figure en réalité dans l'arrêt attaqué (point 3), et non dans la décision de la Cour de cassation."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation (rapportant les constatations du tribunal correctionnel)",
+    "paragraphe": "3",
+    "raison": "La phrase affirme exactement ce que la Cour de cassation rapporte au point 3 de l'arrêt, à savoir que le tribunal correctionnel a relaxé Mme [D] [T] en constatant l'extinction de l'action publique du fait de sa prescription."
+   }
+  },
+  "error": true,
+  "mal_attribue": true
+ },
+ {
+  "row": 76,
+  "system": "LawHack",
+  "decision": "2024-09-18_22-86-366",
+  "kind": "solution",
+  "sentence": "Non: la Cour de cassation rejette les pourvois et ne casse pas l'arrêt attaqué.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE les pourvois ;",
+    "raison": "La phrase affirme que la Cour de cassation rejette les pourvois et ne casse pas l'arrêt attaqué, ce qui est exact et correspond à la décision de la Cour dans l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE les pourvois ;",
+    "raison": "La phrase affirme que la Cour de cassation rejette les pourvois et ne casse pas l'arrêt attaqué, ce qui est exact et correspond à la décision de la Cour dans l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE les pourvois ;",
+    "raison": "La phrase affirme correctement que la Cour de cassation rejette les pourvois et ne casse pas l'arrêt attaqué, ce qui correspond à la solution finale de l'arrêt (REJET)."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 77,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-09-18_22-86-366",
+  "kind": "solution",
+  "sentence": "Non, la Cour de cassation a rejeté les pourvois et n'a pas cassé l'arrêt attaqué.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE les pourvois ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté les pourvois et n'a pas cassé l'arrêt attaqué, ce qui est exact et correspond à la décision finale de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE les pourvois ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté les pourvois, ce qui est exact et correspond à la décision finale de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "11 et dispositif (REJETTE les pourvois)",
+    "raison": "La phrase affirme exactement la solution de l'arrêt, qui rejette les pourvois et ne casse donc pas l'arrêt attaqué."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 80,
+  "system": "LawHack",
+  "decision": "2024-09-18_22-86-366",
+  "kind": "moyen_decision",
+  "sentence": "Le demandeur soutient que le juge pénal doit vérifier que les faits retenus présentent le degré de gravité justifiant la répression pénale complémentaire.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "le demandeur au pourvoi",
+    "paragraphe": "7",
+    "raison": "La phrase reprend exactement l'argument du demandeur au pourvoi tel qu'énoncé dans le moyen (paragraphe 7, 1°)."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "le demandeur au pourvoi",
+    "paragraphe": "7",
+    "raison": "La phrase reprend exactement l'argument du demandeur au pourvoi tel qu'énoncé dans le moyen (paragraphe 7, 1°)."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "demandeur au pourvoi (société Hameau des Rennes)",
+    "paragraphe": "7 (énoncé du moyen)",
+    "raison": "La phrase attribue à tort au demandeur une position qui est en réalité un argument développé par le demandeur au pourvoi dans son moyen, et non une décision ou une affirmation de la Cour de cassation."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 80,
+  "system": "LawHack",
+  "decision": "2024-09-18_22-86-366",
+  "kind": "moyen_decision",
+  "sentence": "La cour d'appel a relevé que l'arrêt attaqué a déclaré la société coupable de fraude fiscale sans vérifier au préalable que les faits retenus contre elle présentent le degré de gravité de nature à justifier le cumul de sanctions pénale et fiscale.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "8",
+    "raison": "La phrase attribue à la cour d'appel une affirmation qui est en réalité celle du demandeur au pourvoi (moyen critiquant l'arrêt attaqué) et non un constat de la cour d'appel. La Cour de cassation, elle, constate que l'arrêt attaqué a déclaré la société coupable sans cette vérification, mais ne dit pas que la cour d'appel a 'relevé' cela."
+   },
+   "magistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "8",
+    "raison": "La phrase attribue à la cour d'appel une affirmation qui est en réalité celle du moyen de cassation (para. 7) et non un constat de la cour d'appel. La Cour de cassation, elle, retient que la cour d'appel a justifié sa décision en statuant sur l'absence de preuve de pénalités fiscales (para. 8-9)."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "Cour de cassation (rapportant les motifs de la cour d'appel)",
+    "paragraphe": "8",
+    "raison": "La phrase prête à la cour d'appel une critique de l'arrêt attaqué, alors que c'est la Cour de cassation qui, dans son arrêt, rapporte les motifs de la cour d'appel (paragraphe 8). La cour d'appel, elle, a simplement constaté que la société n'établissait pas avoir fait l'objet de pénalités fiscales pour les mêmes faits, sans évoquer la question de la gravité des faits comme condition du cumul des sanctions."
+   }
+  },
+  "error": true,
+  "mal_attribue": false
+ },
+ {
+  "row": 80,
+  "system": "LawHack",
+  "decision": "2024-09-18_22-86-366",
+  "kind": "moyen_decision",
+  "sentence": "La Cour a approuvé la cour d'appel en estimant que sa décision était justifiée.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "9",
+    "raison": "La phrase affirme que la Cour a approuvé la cour d'appel en estimant que sa décision était justifiée, ce qui correspond exactement à ce que la Cour de cassation énonce au paragraphe 9 : « la cour d'appel a justifié sa décision »."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "9",
+    "raison": "La Cour de cassation a effectivement approuvé la cour d'appel en estimant que sa décision était justifiée (paragraphe 9 : 'la cour d'appel a justifié sa décision')."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "cour d'appel",
+    "paragraphe": "8 et 9",
+    "raison": "La Cour de cassation ne dit pas qu'elle approuve la cour d'appel sur le fond du raisonnement relatif à la vérification de la gravité des faits. Elle se borne à constater que la cour d'appel a souverainement apprécié les éléments de preuve et que sa décision est justifiée par des motifs non dénaturés. La Cour de cassation ne prend pas position sur l'obligation de vérifier la gravité des faits, mais valide la démarche procédurale de la cour d'appel."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 81,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-09-18_22-86-366",
+  "kind": "moyen_decision",
+  "sentence": "Non, la Cour de cassation a jugé que la cour d'appel avait justifié sa décision en statuant souverainement sur les preuves, sans exiger une vérification préalable de la gravité des faits pour cumuler sanctions pénale et fiscale.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "8, 9, 10",
+    "raison": "La phrase résume correctement la position de la Cour de cassation qui approuve la cour d'appel pour avoir statué souverainement sans exiger de vérification préalable de la gravité des faits pour cumuler les sanctions."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "8, 9, 10",
+    "raison": "La phrase résume correctement la position de la Cour de cassation, qui approuve la cour d'appel pour avoir statué souverainement sur les preuves sans exiger de vérification préalable de la gravité des faits pour cumuler les sanctions."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 82,
+  "system": "LawHack",
+  "decision": "2024-09-18_22-86-366",
+  "kind": "fait_cour",
+  "sentence": "La cour d'appel a constaté que le tribunal correctionnel les a condamnés de ce chef.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "arrêt attaqué (cour d'appel)",
+    "paragraphe": "4",
+    "raison": "La phrase affirme que la cour d'appel a constaté la condamnation par le tribunal correctionnel, ce qui est exact et correspond au paragraphe 4 de l'arrêt où il est indiqué que le tribunal correctionnel a condamné les prévenus, et que la cour d'appel a confirmé cette décision."
+   },
+   "magistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel)",
+    "paragraphe": "4",
+    "raison": "La phrase affirme que la cour d'appel a constaté la condamnation par le tribunal correctionnel, mais l'arrêt de la Cour de cassation indique que c'est le tribunal correctionnel lui-même qui a condamné (paragraphe 4), et non la cour d'appel qui l'a constaté."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 83,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-09-18_22-86-366",
+  "kind": "fait_cour",
+  "sentence": "Oui, la Cour de cassation a constaté que la société Hameau des Rennes a été condamnée par le tribunal correctionnel pour soustraction frauduleuse à la TVA au titre de décembre 2013.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel) et les pièces de procédure",
+    "paragraphe": "3",
+    "raison": "La Cour de cassation ne constate pas elle-même la condamnation par le tribunal correctionnel, elle se borne à rappeler que cela résulte de l'arrêt attaqué et des pièces de procédure."
+   },
+   "magistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel) et les pièces de procédure",
+    "paragraphe": "3",
+    "raison": "La Cour de cassation ne constate pas elle-même la condamnation par le tribunal correctionnel, elle se borne à rappeler que cela résulte de l'arrêt attaqué et des pièces de procédure."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": true,
+  "mal_attribue": false
+ },
+ {
+  "row": 84,
+  "system": "LawHack",
+  "decision": "2024-09-18_23-12-141",
+  "kind": "solution",
+  "sentence": "Non: la Cour rejette le pourvoi.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme que la Cour rejette le pourvoi, ce qui est exact et correspond à la décision de la Cour de cassation dans l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme que la Cour rejette le pourvoi, ce qui est exact et correspond à la décision de la Cour de cassation dans l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 85,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-09-18_23-12-141",
+  "kind": "solution",
+  "sentence": "Non, la Cour de cassation a rejeté le pourvoi et confirmé l'arrêt attaqué.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le pourvoi, ce qui est exact et correspond à la décision de la Cour dans l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le pourvoi, ce qui est exact et correspond à la décision de la Cour dans l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 88,
+  "system": "LawHack",
+  "decision": "2024-09-18_23-12-141",
+  "kind": "moyen_decision",
+  "sentence": "La Cour juge que l'administration fiscale est recevable, en sa qualité de partie civile, à demander que soit prononcée la solidarité du condamné avec le redevable légal des impôts fraudés.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "4",
+    "raison": "La phrase reprend exactement l'énoncé de la Cour de cassation au paragraphe 4 de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "4",
+    "raison": "La phrase reprend exactement l'énoncé de la Cour de cassation au paragraphe 4 de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 89,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-09-18_23-12-141",
+  "kind": "moyen_decision",
+  "sentence": "Non, la Cour de cassation a jugé que la solidarité prévue par l'article 1745 du CGI peut être prononcée dans le cadre de l'action civile, lorsque l'administration fiscale est partie civile.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "4",
+    "raison": "La phrase affirme que la Cour de cassation a jugé que la solidarité prévue par l'article 1745 du CGI peut être prononcée dans le cadre de l'action civile, ce qui correspond exactement à ce que la Cour énonce au paragraphe 4 de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "4",
+    "raison": "La phrase résume correctement la position de la Cour de cassation selon laquelle la solidarité de l'article 1745 du CGI peut être prononcée dans le cadre de l'action civile, lorsque l'administration fiscale est partie civile."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "4 et 5",
+    "raison": "La Cour de cassation énonce explicitement au paragraphe 4 que 'l'administration fiscale est recevable, en sa qualité de partie civile, à demander que soit prononcée la solidarité du condamné avec le redevable légal des impôts fraudés', et précise au paragraphe 5 que cette solidarité 'constitue une garantie pour le recouvrement de la créance du Trésor public et non une peine', confirmant ainsi qu'elle peut être prononcée dans le cadre de l'action civile."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 90,
+  "system": "LawHack",
+  "decision": "2024-09-18_23-12-141",
+  "kind": "fait_cour",
+  "sentence": "La cour d'appel a relevé que le tribunal correctionnel a reçu l'administration fiscale en sa constitution de partie civile et condamné solidairement M. [N] et les sociétés FDCE et France Data au paiement des impositions éludées.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel",
+    "paragraphe": "1",
+    "raison": "La phrase reprend exactement ce que l'arrêt attaqué (cour d'appel) a constaté au paragraphe 1."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel",
+    "paragraphe": "1",
+    "raison": "La phrase reprend exactement ce que l'arrêt indique comme ayant été retenu par la cour d'appel (paragraphe 1 : 'Ce tribunal a reçu l'administration fiscale en sa constitution de partie civile et condamné solidairement M. [N] et les sociétés FDCE et France Data au paiement des impositions éludées')."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel de Paris",
+    "paragraphe": "1 (Faits et procédure)",
+    "raison": "La phrase attribue correctement à la cour d'appel le constat selon lequel le tribunal correctionnel a reçu l'administration fiscale en sa constitution de partie civile et condamné solidairement M. [N] et les sociétés FDCE et France Data au paiement des impositions éludées. Ce fait est explicitement mentionné dans l'arrêt attaqué, tel que rapporté par la Cour de cassation au paragraphe 1."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 91,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-09-18_23-12-141",
+  "kind": "fait_cour",
+  "sentence": "Oui, la Cour de cassation a constaté que M. [N] a été condamné solidairement avec les sociétés FDCE et France Data au paiement des impositions éludées par un tribunal correctionnel le 23 février 2020.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Paris)",
+    "paragraphe": "1",
+    "raison": "La Cour de cassation ne constate pas ce fait ; elle le reprend simplement de l'arrêt attaqué (cour d'appel de Paris) qui le mentionne comme un fait de la procédure antérieure."
+   },
+   "magistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Paris)",
+    "paragraphe": "1",
+    "raison": "La phrase affirme que la Cour de cassation a constaté la condamnation solidaire, alors que cette information figure dans les faits rapportés par l'arrêt attaqué (paragraphe 1) et non dans la décision de la Cour de cassation."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la cour d'appel de Paris (arrêt attaqué)",
+    "paragraphe": "1 (Faits et procédure)",
+    "raison": "La constatation de la condamnation solidaire de M. [N] figure dans l'arrêt attaqué (cour d'appel de Paris), et non dans les motifs ou le dispositif de la Cour de cassation. La Cour de cassation se borne à rappeler les faits tels qu'établis par la cour d'appel, sans les 'constater' elle-même."
+   }
+  },
+  "error": true,
+  "mal_attribue": false
+ },
+ {
+  "row": 92,
+  "system": "LawHack",
+  "decision": "2024-09-18_23-14-913",
+  "kind": "solution",
+  "sentence": "Non: la Cour rejette le pourvoi.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme que la Cour rejette le pourvoi, ce qui est exact et correspond à la décision de la Cour de cassation dans l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme que la Cour rejette le pourvoi, ce qui est exact et correspond à la décision de la Cour de cassation dans l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme correctement que la Cour de cassation rejette le pourvoi, ce qui est explicitement indiqué dans le dispositif de l'arrêt."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 93,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-09-18_23-14-913",
+  "kind": "solution",
+  "sentence": "Non, la Cour de cassation a rejeté le pourvoi et confirmé l'arrêt attaqué.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le pourvoi, ce qui est exact et correspond à la décision de la Cour dans l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : REJETTE le pourvoi ;",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le pourvoi, ce qui est exact et correspond à la décision de la Cour dans l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "6, 8 et dispositif",
+    "raison": "La phrase affirme que la Cour de cassation a rejeté le pourvoi, ce qui est explicitement indiqué dans le dispositif de l'arrêt (« REJETTE le pourvoi ») et confirmé par la solution finale. Elle précise également que l'arrêt attaqué est confirmé, ce qui découle logiquement du rejet du pourvoi."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 96,
+  "system": "LawHack",
+  "decision": "2024-09-18_23-14-913",
+  "kind": "moyen_decision",
+  "sentence": "Non: la Cour de cassation juge que « aucune des dispositions applicables ne limite à des particules qui demeureraient en suspension sans retomber au sol le champ d'application de la TGAP ».",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7",
+    "raison": "La phrase reprend exactement la position de la Cour de cassation énoncée au paragraphe 7 de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7",
+    "raison": "La phrase reprend exactement la position de la Cour de cassation énoncée au paragraphe 7 de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7",
+    "raison": "La phrase citée reprend exactement les termes de l'arrêt (paragraphe 7) et attribue correctement la position à la Cour de cassation, qui rejette l'interprétation restrictive du demandeur au pourvoi."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 96,
+  "system": "LawHack",
+  "decision": "2024-09-18_23-14-913",
+  "kind": "moyen_decision",
+  "sentence": "Le demandeur soutenait au contraire que cette notion ne pouvait désigner que les poussières non sédimentables.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "le demandeur au pourvoi (la société Carrières Iribarren)",
+    "paragraphe": "5",
+    "raison": "La phrase reprend exactement l'argument du demandeur au pourvoi tel qu'énoncé dans le moyen de cassation (paragraphe 5)."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "le demandeur au pourvoi (la société Carrières Iribarren)",
+    "paragraphe": "5",
+    "raison": "La phrase reprend exactement l'argument du demandeur au pourvoi tel qu'énoncé dans l'arrêt, sans erreur d'attribution."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la société Carrières Iribarren (demandeur au pourvoi)",
+    "paragraphe": "5 (Énoncé du moyen)",
+    "raison": "La phrase attribue à tort au demandeur une position que l'arrêt présente explicitement comme un argument du pourvoi (moyen de cassation), et non comme une affirmation de la Cour de cassation."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 96,
+  "system": "LawHack",
+  "decision": "2024-09-18_23-14-913",
+  "kind": "moyen_decision",
+  "sentence": "La Cour rejette ce moyen.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "8",
+    "raison": "La Cour de cassation rejette explicitement le moyen en affirmant que la notion de poussières totales en suspension n'est pas limitée aux particules non sédimentables."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "8",
+    "raison": "La phrase affirme que la Cour rejette le moyen, ce qui est exact et correspond à la décision de la Cour de cassation dans le paragraphe 8."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la Cour de cassation, mais le contenu est un résumé du moyen du demandeur au pourvoi",
+    "paragraphe": "6, 7 et 8 de l'arrêt",
+    "raison": "La phrase affirme que 'La Cour rejette ce moyen', ce qui est exact, mais le moyen rejeté (la notion de poussières totales en suspension ne peut désigner que les poussières non sédimentables) est en réalité l'argument du demandeur au pourvoi (société Carrières Iribarren), et non une affirmation de la Cour. La Cour rejette cet argument, mais ne le formule pas elle-même comme une règle qu'elle aurait jugée."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 97,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-09-18_23-14-913",
+  "kind": "moyen_decision",
+  "sentence": "Non, la Cour de cassation a jugé que la notion de poussières totales en suspension visée par l'article 266 septies du code des douanes **ne se limite pas** aux poussières non sédimentables.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7",
+    "raison": "La Cour de cassation énonce explicitement que 'aucune des dispositions applicables ne limite à des particules qui demeureraient en suspension sans retomber au sol le champ d'application de la TGAP', ce qui équivaut à dire que la notion ne se limite pas aux poussières non sédimentables."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7",
+    "raison": "La Cour de cassation énonce explicitement qu'aucune disposition ne limite le champ d'application de la TGAP aux particules restant en suspension, ce qui équivaut à dire que la notion ne se limite pas aux poussières non sédimentables."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7",
+    "raison": "La Cour de cassation énonce clairement que 'Aucune des dispositions applicables ne limite à des particules qui demeureraient en suspension sans retomber au sol le champ d'application de la TGAP', ce qui correspond à l'affirmation selon laquelle la notion ne se limite pas aux poussières non sédimentables."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 97,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-09-18_23-14-913",
+  "kind": "moyen_decision",
+  "sentence": "Elle a confirmé que la TGAP s'applique à l'ensemble des poussières émises, sans distinction selon leur taille, leur poids ou leur volatilité.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7",
+    "raison": "La phrase résume correctement la position de la Cour de cassation qui juge que la TGAP s'applique à toutes les poussières totales en suspension émises, sans restriction liée à leur taille, poids ou volatilité."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "7",
+    "raison": "La phrase résume correctement la position de la Cour de cassation qui juge que la TGAP s'applique à l'ensemble des poussières totales en suspension émises, sans distinction."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation (approuvant la cour d'appel)",
+    "paragraphe": "7 et motifs de la cour d'appel cités au §5",
+    "raison": "La phrase reprend exactement le raisonnement de la Cour de cassation (§7 : 'Aucune des dispositions applicables ne limite [...] le champ d'application de la TGAP') et celui que la Cour approuve de la cour d'appel (§5 : 'la notion de poussières totales en suspension n'autorisait aucune distinction selon la taille des particules, leur poids ou leur volatilité')."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 98,
+  "system": "LawHack",
+  "decision": "2024-09-18_23-14-913",
+  "kind": "fait_cour",
+  "sentence": "La cour d'appel a constaté que l'administration des douanes a notifié à la société Carrières Iribarren un défaut de déclaration de la TGAP pour deux de ses carrières au titre des années 2014, 2015 et 2016",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Paris)",
+    "paragraphe": "2",
+    "raison": "La phrase attribue à la cour d'appel une constatation qui est en réalité rapportée par la Cour de cassation comme un fait de l'arrêt attaqué (cour d'appel)."
+   },
+   "magistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Paris)",
+    "paragraphe": "2",
+    "raison": "La phrase attribue à la cour d'appel un constat qui est en réalité rapporté par la Cour de cassation comme figurant dans l'arrêt attaqué (cour d'appel)."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel",
+    "paragraphe": "2",
+    "raison": "La phrase attribue correctement à la cour d'appel (arrêt attaqué) la constatation des faits relatifs à la notification du défaut de déclaration de la TGAP, ce qui correspond exactement au paragraphe 2 de l'arrêt de la Cour de cassation."
+   }
+  },
+  "error": true,
+  "mal_attribue": true
+ },
+ {
+  "row": 99,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-09-18_23-14-913",
+  "kind": "fait_cour",
+  "sentence": "Oui, la Cour de cassation a constaté que l'administration des douanes a notifié à la société Carrières Iribarren un défaut de déclaration de la TGAP pour deux de ses carrières au titre des années 2014, 2015 et 2016.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la cour d'appel de Paris (arrêt attaqué)",
+    "paragraphe": "2",
+    "raison": "La phrase affirme que la Cour de cassation a constaté un fait, alors que ce fait est rapporté par l'arrêt attaqué (cour d'appel de Paris) dans les faits et procédure."
+   },
+   "magistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la cour d'appel de Paris (arrêt attaqué)",
+    "paragraphe": "2",
+    "raison": "La phrase affirme que la Cour de cassation a constaté un fait, alors que ce fait est rapporté par l'arrêt attaqué (cour d'appel de Paris) et non par la Cour de cassation elle-même."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la cour d'appel de Paris (arrêt attaqué)",
+    "paragraphe": "2 (Faits et procédure)",
+    "raison": "La Cour de cassation ne fait que rapporter les faits tels qu'ils ont été constatés par la cour d'appel dans l'arrêt attaqué, sans les constater elle-même. La notification du défaut de déclaration de la TGAP est un fait procédural établi par la cour d'appel, non un constat de la Cour de cassation."
+   }
+  },
+  "error": true,
+  "mal_attribue": true
+ },
+ {
+  "row": 100,
+  "system": "LawHack",
+  "decision": "2024-09-18_23-15-676",
+  "kind": "solution",
+  "sentence": "Oui: la Cour casse et annule partiellement l'arrêt rendu par la cour d'appel de Lyon.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : CASSE ET ANNULE, mais seulement en ce qu'il rejette les demandes de M. [X] en paiement de l'indemnité sur le portefeuille, d'un rappel sur commissions dues jusqu'à la fin du préavis, de la somme due au titre des primes « News », « Cessions » et « Periphar », outre congés payés afférents à ces rémunérations, l'arrêt rendu le 11 janvier 2023, entre les parties, par la cour d'appel de Lyon ;",
+    "raison": "La phrase affirme correctement que la Cour de cassation a cassé et annulé partiellement l'arrêt de la cour d'appel de Lyon, ce qui est explicitement mentionné dans le dispositif de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : CASSE ET ANNULE, mais seulement en ce qu'il rejette les demandes de M. [X] en paiement de l'indemnité sur le portefeuille, d'un rappel sur commissions dues jusqu'à la fin du préavis, de la somme due au titre des primes « News », « Cessions » et « Periphar », outre congés payés afférents à ces rémunérations, l'arrêt rendu le 11 janvier 2023, entre les parties, par la cour d'appel de Lyon ;",
+    "raison": "La phrase affirme correctement que la Cour de cassation casse et annule partiellement l'arrêt de la cour d'appel de Lyon, ce qui est bien mentionné dans le dispositif de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "19 et dispositif (PAR CES MOTIFS, la Cour : ... CASSE ET ANNULE, mais seulement en ce qu'il rejette les demandes de M. [X] ...)",
+    "raison": "La phrase affirme correctement que la Cour de cassation casse et annule partiellement l'arrêt de la cour d'appel de Lyon, ce qui est explicitement énoncé dans le dispositif de l'arrêt."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 101,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-09-18_23-15-676",
+  "kind": "solution",
+  "sentence": "Oui, la Cour de cassation a cassé partiellement l'arrêt attaqué, uniquement en ce qui concerne le rejet des demandes du salarié relatives à certaines primes et commissions.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "19 et dispositif",
+    "raison": "La phrase affirme que la Cour de cassation a cassé partiellement l'arrêt attaqué, ce qui est exact (paragraphe 19 et dispositif). La cassation est bien limitée aux chefs de dispositif rejetant les demandes du salarié au titre des primes et commissions."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "19 et dispositif",
+    "raison": "La phrase affirme que la Cour de cassation a cassé partiellement l'arrêt attaqué, ce qui est exact selon le paragraphe 19 et le dispositif de l'arrêt, et elle précise correctement les points concernés (rejet des demandes du salarié relatives à certaines primes et commissions)."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "19 et dispositif (PAR CES MOTIFS...)",
+    "raison": "La phrase affirme exactement ce que la Cour de cassation a fait : elle a cassé partiellement l'arrêt attaqué, en limitant la cassation aux chefs de dispositif rejetant les demandes du salarié relatives aux primes et commissions, comme le précise le dispositif de l'arrêt."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 104,
+  "system": "LawHack",
+  "decision": "2024-09-18_23-15-676",
+  "kind": "fait_cour",
+  "sentence": "Non: la Cour de cassation ne constate pas les faits, c'est la cour d'appel qui a constaté que M. [X] a été engagé en qualité de responsable commercial par la société Q.S.P. le 6 avril 1989.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel",
+    "paragraphe": "1",
+    "raison": "La phrase affirme correctement que la cour d'appel a constaté le fait, et non la Cour de cassation."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel",
+    "paragraphe": "1",
+    "raison": "La phrase affirme correctement que la cour d'appel a constaté le fait, et non la Cour de cassation."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 105,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2024-09-18_23-15-676",
+  "kind": "fait_cour",
+  "sentence": "Oui, la Cour de cassation a constaté que M. [X] a été engagé en qualité de responsable commercial par la société Q.S.P. le 6 avril 1989, comme indiqué dans les faits de l'arrêt (point 1).",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "l'arrêt attaqué (cour d'appel de Lyon)",
+    "paragraphe": "1",
+    "raison": "La phrase attribue à la Cour de cassation une constatation qui est en réalité celle de la cour d'appel de Lyon, reprise dans les faits de l'arrêt de la Cour de cassation."
+   },
+   "magistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la cour d'appel de Lyon (arrêt attaqué)",
+    "paragraphe": "1",
+    "raison": "La phrase attribue à la Cour de cassation une constatation qui est en réalité celle de la cour d'appel de Lyon, reprise dans les faits de l'arrêt attaqué."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": true,
+  "mal_attribue": true
+ },
+ {
+  "row": 106,
+  "system": "LawHack",
+  "decision": "2025-01-16_22-21-138",
+  "kind": "solution",
+  "sentence": "Oui: la Cour décide de casser et annuler l'arrêt rendu par la cour d'appel de Douai.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, et sans qu'il y ait lieu de statuer sur le moyen du pourvoi, la Cour : CASSE ET ANNULE, en toutes ses dispositions, l'arrêt rendu le 7 juillet 2022, entre les parties, par la cour d'appel de Douai ;",
+    "raison": "La phrase affirme que la Cour de cassation a cassé et annulé l'arrêt de la cour d'appel de Douai, ce qui est exactement ce que la Cour de cassation décide dans l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, et sans qu'il y ait lieu de statuer sur le moyen du pourvoi, la Cour : CASSE ET ANNULE, en toutes ses dispositions, l'arrêt rendu le 7 juillet 2022, entre les parties, par la cour d'appel de Douai ;",
+    "raison": "La phrase affirme que la Cour de cassation a cassé l'arrêt attaqué, ce qui est exact et correspond à la décision énoncée par la Cour dans l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 107,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2025-01-16_22-21-138",
+  "kind": "solution",
+  "sentence": "Oui, la Cour de cassation a cassé l'arrêt attaqué rendu par la cour d'appel de Douai le 7 juillet 2022.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, et sans qu'il y ait lieu de statuer sur le moyen du pourvoi, la Cour : CASSE ET ANNULE, en toutes ses dispositions, l'arrêt rendu le 7 juillet 2022, entre les parties, par la cour d'appel de Douai ;",
+    "raison": "La phrase affirme que la Cour de cassation a cassé l'arrêt attaqué, ce qui est exact et correspond à la décision énoncée par la Cour dans l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, et sans qu'il y ait lieu de statuer sur le moyen du pourvoi, la Cour : CASSE ET ANNULE, en toutes ses dispositions, l'arrêt rendu le 7 juillet 2022, entre les parties, par la cour d'appel de Douai ;",
+    "raison": "La phrase affirme que la Cour de cassation a cassé l'arrêt attaqué, ce qui est exact et attribué au bon locuteur."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 110,
+  "system": "LawHack",
+  "decision": "2025-01-16_22-21-138",
+  "kind": "fait_cour",
+  "sentence": "Non: la Cour de cassation ne constate pas les faits, c'est la cour d'appel qui a constaté que M. et Mme [Y] ont demandé la restitution du dépôt de garantie majoré de 10 % à compter du 4 juin 2016.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel",
+    "paragraphe": "2",
+    "raison": "La phrase affirme que la cour d'appel a constaté la demande de majoration, ce qui est exact (paragraphe 2 de l'arrêt)."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel",
+    "paragraphe": "2",
+    "raison": "La phrase affirme que la cour d'appel a constaté la demande de majoration, ce qui est exact (paragraphe 2 de l'arrêt)."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 111,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2025-01-16_22-21-138",
+  "kind": "fait_cour",
+  "sentence": "Oui, la Cour de cassation a constaté que le dépôt de garantie a été majoré de 10 % à compter du 4 juin 2016, comme mentionné dans le jugement du 15 septembre 2020.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "le juge des contentieux de la protection d'un tribunal judiciaire",
+    "paragraphe": "3",
+    "raison": "La majoration de 10 % du dépôt de garantie à compter du 4 juin 2016 est mentionnée dans le jugement du 15 septembre 2020, mais la Cour de cassation ne la constate pas : elle se borne à rappeler les faits et la décision attaquée."
+   },
+   "magistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "le jugement du 15 septembre 2020",
+    "paragraphe": "3",
+    "raison": "La Cour de cassation ne constate pas elle-même la majoration du dépôt de garantie ; elle se borne à rappeler que le jugement du 15 septembre 2020 a condamné les bailleurs à payer cette majoration."
+   },
+   "mistral-large-latest": {
+    "verdict": "ERREUR",
+    "raison": "API error occurred: Status 429. Body: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+   }
+  },
+  "error": true,
+  "mal_attribue": false
+ },
+ {
+  "row": 112,
+  "system": "LawHack",
+  "decision": "2025-01-17_23-18-823",
+  "kind": "solution",
+  "sentence": "Oui: la Cour casse et annule l'arrêt rendu par la cour d'appel de Lyon.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "21 et dispositif",
+    "raison": "La phrase affirme que la Cour casse et annule l'arrêt de la cour d'appel de Lyon, ce qui est exactement ce que la Cour de cassation décide dans le dispositif de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "21 et dispositif",
+    "raison": "La phrase affirme que la Cour casse et annule l'arrêt de la cour d'appel de Lyon, ce qui est exactement ce que la Cour de cassation décide dans le dispositif de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "21 et dispositif (PAR CES MOTIFS)",
+    "raison": "La phrase affirme correctement que la Cour de cassation casse et annule l'arrêt de la cour d'appel de Lyon, ce qui est explicitement énoncé dans le dispositif de l'arrêt."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 113,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2025-01-17_23-18-823",
+  "kind": "solution",
+  "sentence": "Oui, la Cour de cassation a cassé l'arrêt attaqué rendu par la cour d'appel de Lyon le 21 mars 2023.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "21 et dispositif",
+    "raison": "La phrase affirme que la Cour de cassation a cassé l'arrêt attaqué, ce qui est exact et correspond à la décision rendue par la Cour de cassation dans le dispositif de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : CASSE ET ANNULE, en toutes ses dispositions, l'arrêt rendu le 21 mars 2023, entre les parties, par la cour d'appel de Lyon ;",
+    "raison": "La phrase affirme que la Cour de cassation a cassé l'arrêt attaqué, ce qui est exact et correspond à la décision rendue par la Cour de cassation dans l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "Dispositif final (PAR CES MOTIFS, la Cour : CASSE ET ANNULE...)",
+    "raison": "La phrase affirme correctement que la Cour de cassation a cassé l'arrêt de la cour d'appel de Lyon du 21 mars 2023, ce qui est explicitement énoncé dans le dispositif de l'arrêt."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 116,
+  "system": "LawHack",
+  "decision": "2025-01-17_23-18-823",
+  "kind": "fait_cour",
+  "sentence": "Non: la Cour de cassation ne constate pas les faits, c'est la cour d'appel qui a constaté que le testament a été reçu en présence de deux témoins et avec le concours d'une interprète en langue italienne.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel de Lyon",
+    "paragraphe": "20",
+    "raison": "La phrase affirme que la cour d'appel a constaté que le testament a été reçu en présence de deux témoins et avec le concours d'une interprète en langue italienne, ce qui est exact et correspond au paragraphe 20 de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "cour d'appel de Lyon",
+    "paragraphe": "20",
+    "raison": "La phrase affirme que la cour d'appel a constaté que le testament a été reçu en présence de deux témoins et avec le concours d'une interprète en langue italienne, ce qui est exact selon le paragraphe 20 de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "cour d'appel de Lyon",
+    "paragraphe": "20",
+    "raison": "La phrase attribue à la Cour de cassation un constat de fait ('le testament a été reçu en présence de deux témoins et avec le concours d'une interprète en langue italienne'), alors que ce constat est explicitement mentionné dans l'arrêt comme ayant été fait par la cour d'appel de Lyon (paragraphe 20: 'l'arrêt retient qu'en l'absence [...] en présence d'une interprète en langue italienne')."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 117,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2025-01-17_23-18-823",
+  "kind": "fait_cour",
+  "sentence": "Oui, la Cour de cassation a constaté que le testament a été reçu en présence de deux témoins et avec le concours d'une interprète en langue italienne (point 20 de l'arrêt).",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la cour d'appel de Lyon",
+    "paragraphe": "20",
+    "raison": "La phrase affirme que la Cour de cassation a constaté ces éléments, alors que c'est la cour d'appel de Lyon qui les a constatés (point 20)."
+   },
+   "magistral-medium-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la cour d'appel de Lyon",
+    "paragraphe": "20",
+    "raison": "La phrase affirme que la Cour de cassation a constaté ces éléments, alors que c'est la cour d'appel de Lyon qui les a constatés (point 20)."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "cour d'appel de Lyon",
+    "paragraphe": "20",
+    "raison": "La phrase attribue à la Cour de cassation un constat de fait ('a constaté que le testament a été reçu en présence de deux témoins et avec le concours d'une interprète'), alors que ce constat est explicitement formulé par la cour d'appel de Lyon dans l'arrêt attaqué (point 20 : 'l'arrêt retient qu'en l'absence [...] en présence d'une interprète en langue italienne'). La Cour de cassation ne fait que rapporter ce constat pour en tirer des conséquences juridiques, sans l'approuver."
+   }
+  },
+  "error": true,
+  "mal_attribue": true
+ },
+ {
+  "row": 118,
+  "system": "LawHack",
+  "decision": "2025-01-21_23-87-337",
+  "kind": "solution",
+  "sentence": "Oui: la Cour casse et annule l'arrêt attaqué.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : ... CASSE et ANNULE, en toutes ses dispositions, l'arrêt susvisé de la chambre de l'instruction de la cour d'appel d'Amiens, en date du 24 octobre 2023",
+    "raison": "La phrase affirme que la Cour casse et annule l'arrêt attaqué, ce qui est exactement ce que la Cour de cassation a décidé dans le dispositif de l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : ... CASSE et ANNULE, en toutes ses dispositions, l'arrêt susvisé de la chambre de l'instruction de la cour d'appel d'Amiens, en date du 24 octobre 2023",
+    "raison": "La phrase affirme que la Cour casse et annule l'arrêt attaqué, ce qui est exactement ce que la Cour de cassation a décidé dans le dispositif de l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : [...] CASSE et ANNULE, en toutes ses dispositions, l'arrêt susvisé de la chambre de l'instruction de la cour d'appel d'Amiens, en date du 24 octobre 2023 [...]",
+    "raison": "La phrase affirme correctement que la Cour de cassation casse et annule l'arrêt attaqué du 24 octobre 2023, ce qui est explicitement mentionné dans le dispositif de l'arrêt."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 119,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2025-01-21_23-87-337",
+  "kind": "solution",
+  "sentence": "Oui, la Cour de cassation a cassé l'arrêt du 24 octobre 2023 de la chambre de l'instruction de la cour d'appel d'Amiens.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : [...] CASSE et ANNULE, en toutes ses dispositions, l'arrêt susvisé de la chambre de l'instruction de la cour d'appel d'Amiens, en date du 24 octobre 2023",
+    "raison": "La phrase affirme que la Cour de cassation a cassé l'arrêt du 24 octobre 2023, ce qui est exact et correspond à la décision de la Cour de cassation dans l'arrêt."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : [...] CASSE et ANNULE, en toutes ses dispositions, l'arrêt susvisé de la chambre de l'instruction de la cour d'appel d'Amiens, en date du 24 octobre 2023",
+    "raison": "La phrase affirme que la Cour de cassation a cassé l'arrêt du 24 octobre 2023, ce qui est exact et correspond à la décision de la Cour de cassation dans l'arrêt."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "PAR CES MOTIFS, la Cour : [...] CASSE et ANNULE, en toutes ses dispositions, l'arrêt susvisé de la chambre de l'instruction de la cour d'appel d'Amiens, en date du 24 octobre 2023",
+    "raison": "La phrase affirme correctement que la Cour de cassation a cassé l'arrêt du 24 octobre 2023, ce qui est explicitement mentionné dans le dispositif de l'arrêt."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ },
+ {
+  "row": 122,
+  "system": "LawHack",
+  "decision": "2025-01-21_23-87-337",
+  "kind": "fait_cour",
+  "sentence": "Non: la Cour de cassation ne constate pas ce fait, c'est la cour d'appel qui a constaté que M. [F] a interjeté appel de l'ordonnance le 21 avril 2023.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "l'arrêt de la Cour de cassation",
+    "paragraphe": "5",
+    "raison": "L'arrêt de la Cour de cassation constate explicitement au paragraphe 5 que M. [F] a interjeté appel de l'ordonnance de non-lieu le 21 avril 2023."
+   },
+   "magistral-medium-latest": {
+    "verdict": "FAUX",
+    "locuteur_reel": "l'arrêt de la Cour de cassation",
+    "paragraphe": "5",
+    "raison": "L'arrêt de la Cour de cassation mentionne explicitement au paragraphe 5 que M. [F] a interjeté appel de l'ordonnance de non-lieu le 21 avril 2023."
+   },
+   "mistral-large-latest": {
+    "verdict": "MAL_ATTRIBUE",
+    "locuteur_reel": "la Cour de cassation (et la procédure)",
+    "paragraphe": "5 et 15",
+    "raison": "La Cour de cassation constate bien que M. [F] a interjeté appel le 21 avril 2023 (paragraphe 5 : 'Par déclaration au greffe du 21 avril 2023, M. [F] a interjeté appel de cette ordonnance') et reprend ce fait dans son raisonnement (paragraphe 15 : 'l'appel de la partie civile interjeté le 21 avril 2023'). La cour d'appel, elle, a retenu une date erronée pour la notification (7 avril), mais pas pour la date de l'appel."
+   }
+  },
+  "error": true,
+  "mal_attribue": false
+ },
+ {
+  "row": 123,
+  "system": "Mistral seul (mistral-medium-latest)",
+  "decision": "2025-01-21_23-87-337",
+  "kind": "fait_cour",
+  "sentence": "Oui, la Cour de cassation a constaté que M. [F] a interjeté appel de l'ordonnance de non-lieu le 21 avril 2023, comme mentionné au point 5 de l'arrêt.",
+  "votes": {
+   "mistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "5",
+    "raison": "La phrase affirme que la Cour de cassation a constaté que M. [F] a interjeté appel le 21 avril 2023, ce qui est exact et figure au point 5 de l'arrêt, attribué à la Cour de cassation."
+   },
+   "magistral-medium-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "5",
+    "raison": "La phrase affirme que la Cour de cassation a constaté que M. [F] a interjeté appel le 21 avril 2023, ce qui est exact et figure au paragraphe 5 de l'arrêt, attribué à la Cour de cassation."
+   },
+   "mistral-large-latest": {
+    "verdict": "CORRECT",
+    "locuteur_reel": "Cour de cassation",
+    "paragraphe": "5",
+    "raison": "La phrase affirme correctement que la Cour de cassation constate, au point 5 de l'arrêt, que M. [F] a interjeté appel de l'ordonnance de non-lieu le 21 avril 2023, ce qui correspond exactement au texte de l'arrêt."
+   }
+  },
+  "error": false,
+  "mal_attribue": false
+ }
+]

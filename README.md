@@ -21,7 +21,7 @@ Projet né au hackathon Mistral × Stanford CodeX (LLM x Law, Paris).
 5. [Ontologie d'attribution](#5-ontologie-dattribution)
 6. [Utilisation de Jev (Système 1)](#6-utilisation-de-jev-système-1)
 7. [Système 2 et politique d'honnêteté](#7-système-2-et-politique-dhonnêteté)
-8. [Données et benchmark](#8-données-et-benchmark)
+8. [Évaluation](#8-évaluation)
 9. [Stack technique et arborescence](#9-stack-technique-et-arborescence)
 10. [Configuration et clés](#10-configuration-et-clés)
 11. [Démo](#11-démo)
@@ -252,7 +252,7 @@ class SystemOneClient(Protocol):
 ## 7. Système 2 et politique d'honnêteté
 
 - **Modèle de réponse** : Mistral Medium 3.5 (repli : Mistral Large 3, moins cher).
-- **Baseline du benchmark** : GPT-6 Astra seul (≈ 7× plus cher en entrée que Mistral Medium 3.5).
+- **Baseline du benchmark** : Mistral Medium seul, avec le texte intégral de l'arrêt.
 - Mistral reçoit **le registre + les extraits originaux** des segments récupérés, jamais le
   registre seul. Il cite par identifiants `[S-xx]`, convertis par le code en
   « §n, Zone » et en pastilles.
@@ -269,29 +269,125 @@ Politique d'honnêteté (seuils de départ, à calibrer sur le jeu labellisé) :
 On préfère **répondre avec un avertissement** plutôt que refuser : un outil qui refuse trop
 est inutilisable, mais une erreur d'auteur non signalée est pire qu'un doute affiché.
 
-## 8. Données et benchmark
+## 8. Évaluation
 
-**Données**
+Pour le contexte scientifique et les travaux connexes, voir [l'état de l'art](eval/ETAT_DE_LART.md).
 
-- [`antoinejeannot/jurisprudence`](https://huggingface.co/datasets/antoinejeannot/jurisprudence)
-  (Hugging Face, Etalab 2.0) : ~553 000 décisions de la Cour de cassation issues de Judilibre,
-  avec le champ `zones` (`introduction`, `expose`, `moyens`, `motivations`, `dispositif`,
-  offsets `start`/`end` ; une zone peut avoir plusieurs fragments → trier par `start`).
-- API Judilibre / PDF Légifrance pour les documents de démo.
-- **Jeu labellisé de l'équipe** (attribution par phrase) : **réservé à l'évaluation**.
-  Moitié pour calibrer les seuils, moitié pour publier les chiffres. Jamais dans les prompts.
+### Apprentissage par retours
 
-**Métriques**
+Les retours de l'avocat corrigent les locuteurs du registre et recalibrent localement le seuil
+« ok » ; ils accumulent aussi des réponses validées pour constituer des jeux SFT/préférences et
+d'attribution. Aucun réglage de modèle ni variable d'environnement supplémentaire n'est requis.
+Exporter les jeux avec `python scripts/export_training.py --out data/feedback/export`.
+Cette commande prépare les données ; le fine-tuning Mistral n'est pas exécuté.
 
-1. Précision d'attribution du locuteur (par segment), vs zones Judilibre et vs jeu labellisé.
-2. Taux d'**hallucination d'attribution** dans les réponses (Astra seul vs Jev + Mistral).
-3. Abstention correcte sur les questions pièges (question non traitée, point seulement allégué).
-4. Calibration : courbe fiabilité confiance Jev vs exactitude (ECE).
-5. Latence et coût par arrêt et par question.
+### Protocole
 
-**Questions pièges** (`bench/questions.jsonl`) : « Que décide la Cour sur X ? » quand X n'est
-qu'un moyen ; « La faute grave est-elle établie ? » quand seule la cour d'appel l'a retenue ;
-questions hors arrêt.
+| Niveau | Protocole |
+|---|---|
+| **Smoke test** | 31 phrases annotées à la main sur 2 arrêts (`scripts/eval_attribution.py`) ; test de régression uniquement, pas un résultat de performance. |
+| **Zonage à grande échelle** | Échantillon Judilibre [`antoinejeannot/jurisprudence`](https://huggingface.co/datasets/antoinejeannot/jurisprudence), configuration `cour_de_cassation` : 277 arrêts. Split dev/test déterministe par SHA-256 de l'identifiant (147 arrêts test). Référence : zones officielles Judilibre, avec `annexes` rattaché à `moyens`. IC95 % par bootstrap au niveau de l'arrêt. Commande : `python scripts/eval_zones.py --split test [--client jev|heuristic] [--limit N]`. |
+| **Questions QA pièges** | Cinq familles : `piege_moyen`, `piege_fond`, `decision`, `allegue`, `hors_arret`. LawHack (registre d'attribution + vérification Jev) est comparé à Mistral seul, avec le texte intégral et le même modèle de rédaction (`mistral-medium`). Un juge `mistral-large`, à l'aveugle sur le système, voit le texte intégral de l'arrêt et la référence ; il applique la typologie de Magesh et al. (2024) : `correct`, `incomplete`, `misgrounded`, `incorrect`. Comparaison appariée : McNemar exact et IC bootstrap du différentiel ; IC Wilson pour les taux. Commande : `python scripts/eval_qa.py [--questions FILE] [--concurrency N]`. Les questions sont générées par `mistral-large` à partir du zonage officiel (`scripts/make_questions.py`), puis filtrées par relecture `mistral-large` (`scripts/review_questions.py`) ; seules les questions retenues après relecture sont conservées. |
+
+**Efficacité.** Cache disque versionné par le code LawHack : une relance réutilise les résultats (0 appel) et une exécution interrompue peut reprendre. Le débit Jev est plafonné par `EVAL_JEV_RPM` (25/min par défaut), sous la limite de 60/min de la clé partagée.
+
+**Résultats (18 arrêts Judilibre, 62 questions, `bench/`)**
+
+LawHack (Jev + Mistral) contre Mistral seul, avec le même modèle de rédaction (`mistral-medium-latest`).
+
+| | Phrases fausses ou mal attribuées | « La Cour a-t-elle constaté… ? » (fait de la cour d'appel) | Argument d'une partie présenté comme décision | Solution | Hors sujet (abstention) |
+|---|---|---|---|---|---|
+| **LawHack** | **1/53** (+2 incertaines) | **18/18** | 7/8 | 18/18 | 18/18 |
+| Mistral seul | 18/47 | 1/18 | 7/8 | 18/18 | 18/18 |
+
+Méthode de notation :
+- Chaque phrase de chaque réponse est jugée par un panel de 3 modèles Mistral (medium, magistral, large). Le panel lit l'arrêt intégral.
+- Les 53 phrases où le panel n'est pas unanime ont été annotées à la main (`bench/gold.json`). Les autres prennent le verdict unanime du panel.
+- Commandes : `scripts/judge.py run`, puis `scripts/judge.py score`.
+- `bench/judge_results.json` est la passe d'origine, faite avec une première version du prompt sans les conventions de lecture. Le script contient le prompt actuel, qui les ajoute.
+- Limites : un seul annotateur, et seulement 8 questions « argument d'une partie ».
+- Le vérificateur interne (`scripts/bench.py`, matching lexical) n'est pas fiable pour publier : il comptait 6 erreurs pour LawHack, toutes fausses, et ratait la vraie.
+
+### Résultats — benchmark Légifrance 25 arrêts
+
+**Résultats (25 arrêts Légifrance, 112 questions, 2026-10-04, code `b038009`, avant PR #26)** — rapport complet : [`bench/legifrance25/BENCHMARK.md`](bench/legifrance25/BENCHMARK.md)
+
+Corpus : 25 arrêts récents de 6 chambres (civ. 1/2/3, com., soc., crim.) couvrant toutes les solutions (rejet, cassation, partielle, sans renvoi). Les questions sont figées et le gold est structurel (métadonnées, marqueurs de l'arrêt, sommaire officiel). Chaque système a répondu deux fois, sur le PDF uploadé et sur le texte brut, soit 224 réponses par système. Les réponses sont notées par un juge aveugle, `mistral-large`, qui voit les réponses sans les pastilles ni le nom du système.
+
+| | Score global (0–1) | Réponses avec erreur d'attribution | « La Cour a-t-elle constaté… ? » | Thèse du demandeur ou du juge du fond présentée comme décision | Solution | Hors sujet (abstention) |
+|---|---|---|---|---|---|---|
+| **LawHack** | **0,86–0,87** | **11/224** | **47/50** | 27/50 | 49/50 | 45/50 |
+| Mistral seul | 0,76 | 44/224 | 0/50 | **39/50** | 49/50 | **49/50** |
+
+| Indicateur | LawHack | Mistral seul |
+|---|---|---|
+| Score global (texte brut / PDF) | **0,87 / 0,86** | 0,76 / 0,76 |
+| Réponses entièrement correctes | **182/224** | 159/224 |
+| Score sur les pièges d'attribution (texte / PDF) | **0,82 / 0,79** | 0,48 / 0,49 |
+| Règle conforme au sommaire officiel | 14/24 | **22/24** |
+| Faits inventés | 4 | **1** |
+| Latence médiane / réponse (texte / PDF) | 2,4 s / 5,9 s | **1,1 s / 1,2 s** |
+| Lecture Système 1 | ingestion PDF ≥ 0,986 · zonage 98,5 % · locuteurs 259/259 · solution 24/25 (bug « REJETTE le recours ») | — (pas de registre) |
+| Écart apparié (IC 95 % bootstrap) | +0,11 [+0,02 ; +0,20] texte · +0,10 [+0,01 ; +0,19] PDF | référence |
+
+| Faiblesse mesurée de LawHack | Cas |
+|---|---|
+| Pas de contrôle de **polarité** : moyen rejeté ou raisonnement censuré repris comme « la Cour juge » | 7 |
+| Abstention à tort sur ces mêmes pièges | 4 |
+| Filtre hors sujet trop permissif | 5 |
+
+### Résultats — Judilibre (zonage, QA dev et held-out)
+
+Les IC du zonage sont des IC95 % bootstrap par arrêt. Pour la comparaison Jev/heuristique, les deux systèmes ont été évalués sur les mêmes 60 arrêts test (2 716 phrases) ; aucune erreur d'appel API.
+
+| Zonage, test — heuristique | Numérateur / dénominateur | Résultat |
+|---|---:|---:|
+| Zonage exact | 4 821 / 4 953 | 97,3 % [95,1–99,2] |
+| Moyen attribué à la Cour | 65 / 1 878 | 3,5 % [0,8–8,9] |
+| Dispositif attribué hors Cour | 0 / 910 | 0,0 % [0,0–0,0] |
+| Arrêts avec erreur critique | 15 / 147 | 10,2 % [5,4–15,6] |
+
+| Jev (`openjev-latest`) vs heuristique, 60 arrêts test | Résultat |
+|---|---|
+| Zonage exact | Identique : 96,7 % [94,7–98,7] |
+| Moyen attribué à la Cour | Identique : 32 / 1 466 = 2,2 % [0,6–4,4] |
+| Dispositif attribué hors Cour | 1 / 378 (Jev) vs 0 / 378 (heuristique) |
+| Arrêts avec erreur critique | 9 / 60 (Jev) vs 8 / 60 (heuristique) |
+| Coût/latence Jev | ≈ 5,1 appels et 6,7 k tokens par arrêt ; p50 ≈ 40 s |
+
+Le zonage est déterministe ; Jev ne tranche que les segments ambigus (≈ 4 %). Ce benchmark mesure donc principalement le zoneur, pas Jev. La calibration Jev (ECE) n'est pas concluante (n = 23 segments) et n'est pas présentée comme un résultat.
+
+Le jeu QA ci-dessous est le **jeu de développement** (46 questions, 12 arrêts) ayant servi au réglage ; ce n'est pas le résultat final. Les IC par système sont des IC95 % Wilson ; les différences appariées utilisent le bootstrap indiqué.
+
+| QA — dev | LawHack | Mistral seul | Comparaison appariée |
+|---|---:|---:|---:|
+| Hallucination d'attribution, questions répondables | 2 / 34 · 6 % [1,6–19,1] | 8 / 34 · 24 % [12,4–40,0] | McNemar exact p = 0,031 |
+| Hallucination globale (`misgrounded` + `incorrect`) | — | — | Différence LawHack − baseline : −15,2 points [−25,0 ; −5,0], p = 0,016 |
+| Réponse correcte | 41 / 46 · 89 % [77,0–95,3] | 37 / 46 · 80 % [66,8–89,3] | McNemar p = 0,29 |
+| Abstention correcte, hors arrêt | 12 / 12 · 100 % [75,8–100] | 11 / 12 · 92 % [64,6–98,5] | — |
+| Abstention à tort | 5 / 34 · 15 % [6,4–30,1] | 0 / 34 · 0 % [0–10,2] | — |
+| Invention | 0 / 46 · 0 % [0–7,7] | 1 / 46 · 2 % [0,4–11,3] | — |
+
+Jeu **held-out** : 102 questions (150 générées, 102 retenues après relecture) sur 30 arrêts test jamais utilisés pendant le réglage, code figé. C'est le résultat à citer.
+
+| QA — held-out | LawHack | Mistral seul | Comparaison appariée |
+|---|---:|---:|---:|
+| Hallucination d'attribution, questions répondables | 16 / 73 · 22 % | 19 / 72 · 26 % | McNemar p = 0,66 (b = 9, c = 12) |
+| Hallucination globale | 19 / 102 · 19 % | 23 / 101 · 23 % | −4,0 points [−14,7 ; +6,1], p = 0,54 |
+| Réponse correcte | 79 / 102 · 77 % | 78 / 101 · 77 % | p = 1,00 |
+| Abstention correcte, hors arrêt | 26 / 29 · 90 % | 25 / 29 · 86 % | — |
+| Abstention à tort | 17 / 73 · 23 % | 6 / 72 · 8 % | — |
+| Invention | 3 / 102 · 3 % | 3 / 101 · 3 % | — |
+
+Lecture honnête : sur le held-out, l'écart d'hallucination d'attribution va dans le bon sens mais **n'est pas significatif**, et LawHack s'abstient trop souvent à tort. L'écart observé sur le jeu de dev (6 % vs 24 %) était en partie dû au réglage. Ces chiffres QA ont été mesurés sur le code de la branche evals (`33891dc`), avant sa fusion avec les évolutions de `answer.py` sur main (récupération lexicale, questions à fausse prémisse) : à remesurer sur main avec `python scripts/eval_qa.py --questions eval/questions_heldout.jsonl`. Une revue des erreurs montre aussi des verdicts du juge discutables (approbation de la cour d'appel par la Cour comptée comme erreur) : la validation humaine du juge est prioritaire. 1 réponse baseline manquante (erreur API 429).
+
+### Limites
+
+- Juge et baseline appartiennent à la même famille Mistral : un biais d'auto-préférence est possible.
+- Les références ont été générées et relues par un LLM, pas encore par un juriste.
+- Validation humaine prévue : `python scripts/eval_qa.py --export-labels N` (échantillon uniforme), puis `--import-labels` pour calculer le kappa de Cohen et la correction PPI.
+- Les zones Judilibre indiquent une section, pas le locuteur fin de chaque phrase.
+- Les petits effectifs produisent des IC larges ; les résultats doivent être lus avec prudence.
 
 ## 9. Stack technique et arborescence
 
@@ -344,6 +440,7 @@ SYSTEM_ONE_MODEL=jev-latest  # ou openjev-latest
 MISTRAL_API_KEY=
 OPENROUTER_API_KEY=          # baseline Astra (openai/gpt-6-astra) et/ou Mistral
 ANSWER_MODEL=mistral-medium-3-5
+# REVISE_MODEL= (défaut : ANSWER_MODEL) ; ANSWER_CACHE=1 active le cache des réponses
 BASELINE_MODEL=openai/gpt-6-astra
 ```
 
@@ -359,6 +456,10 @@ python scripts/ask.py data/samples/cass_civ3_2022-12-14_21-24539.pdf "Que décid
 ```
 
 Le registre est mis en cache dans `data/cache/<doc_id>.json` (`--no-cache` pour le recalculer).
+
+### Déploiement (Render)
+
+`render.yaml` décrit un service web unique (landing + démo + API) : Render → **New → Blueprint** → choisir ce repo, puis renseigner `TYPESAFE_API_KEY` (clé Codiv) et `MISTRAL_API_KEY`. Démarrage : `uvicorn app.server:app --host 0.0.0.0 --port $PORT`. Pas Vercel : la démo garde les registres en mémoire et écrit dans `data/`, il lui faut un process unique et persistant. Sur le plan gratuit, le disque est éphémère (historique « Déjà analysés » et feedback remis à zéro à chaque redéploiement/mise en veille) et le premier accès après inactivité prend ~1 min.
 
 ## 11. Démo (≈ 3 minutes)
 

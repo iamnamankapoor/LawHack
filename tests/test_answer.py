@@ -611,3 +611,27 @@ def test_lower_court_reported_in_a_moyen_is_a_warning(legifrance_doc, monkeypatc
     assert pronoun.note.startswith("Rapporté par le demandeur (§7)")
     assert pronoun.note in pronoun.reasons
     assert party.note is None
+
+
+def test_caption_question_gets_the_header_even_when_jev_says_none(legifrance_doc):
+    registry = _registry(legifrance_doc)
+    header = answer_module.header_entries(registry)
+    assert header and all(e.zone in (Zone.INTRODUCTION, Zone.METADONNEES) for e in header)
+    assert not any("Titrages" in e.text for e in header)
+
+    context = asyncio.run(answer_module.retrieve(registry, "Qui est le président de la chambre ?", _fake(registry)))
+
+    assert {e.id for e in header} <= {e.id for e in context}
+
+
+def test_header_stays_out_of_substantive_questions(legifrance_doc, monkeypatch):
+    registry = _registry(legifrance_doc)
+    s10 = _para(registry, 10).id
+    header_ids = {e.id for e in answer_module.header_entries(registry)}
+
+    context = asyncio.run(answer_module.retrieve(registry, "Les acquéreurs devaient-ils accepter le prêt ?", _fake(registry, relevant={s10})))
+    assert not header_ids & {e.id for e in context}
+
+    monkeypatch.setenv("HEADER_CONTEXT", "off")
+    context = asyncio.run(answer_module.retrieve(registry, "Qui est le président de la chambre ?", _fake(registry)))
+    assert not header_ids & {e.id for e in context}

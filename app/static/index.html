@@ -352,6 +352,16 @@ body[data-view=upload] nav.top { background:color-mix(in srgb,#efefef 90%,transp
       </div>
       <p class="wbnote">Every sentence of every answer is judged by a panel of 3 Mistral models (medium, magistral, large) reading the full ruling; the 53 sentences where the panel disagreed were annotated by hand. Limits: one annotator, only 8 “party argument” questions. Treat the numbers as a demonstration, not a measurement.</p>
     </div>
+    <div class="wrap wbench" id="wide25">
+      <div class="grid wbh"><span class="mono">Légifrance benchmark</span><h2>25 rulings, 112 questions: 4× fewer misattributions than Mistral alone.</h2></div>
+      <p class="wbsub">25 recent Cour de cassation rulings from Légifrance, six chambers, every outcome. Each question was asked on the uploaded PDF and on the plain text: 224 answers per system, scored blind by <code>mistral-large</code>. Overall score: Legible 0.86–0.87, Mistral alone 0.76.</p>
+      <div class="wbt" role="table" aria-label="Legible against Mistral alone, 25 Légifrance rulings">
+        <div class="wr wh" role="row"><span role="columnheader">System</span><span role="columnheader">Answers with a misattribution</span><span role="columnheader">“Did the Court find…?” (a lower-court finding)</span><span role="columnheader">Party argument or censured reasoning passed off as the ruling</span><span role="columnheader">Outcome</span><span role="columnheader">Off-topic (abstains)</span></div>
+        <div class="wr us" role="row"><span role="cell"><b>Legible</b><small>Jev + Mistral</small></span><span role="cell" data-l="Misattributed answers" class="wbar"><i style="--w:4.9%"></i><b>11 / 224</b></span><span role="cell" data-l="“Did the Court find…?”" class="ok">47 / 50</span><span role="cell" data-l="Party argument as ruling">27 / 50</span><span role="cell" data-l="Outcome">49 / 50</span><span role="cell" data-l="Off-topic">45 / 50</span></div>
+        <div class="wr" role="row"><span role="cell"><b>Mistral alone</b><small>mistral-medium-latest</small></span><span role="cell" data-l="Misattributed answers" class="wbar bad"><i style="--w:19.6%"></i><b>44 / 224</b></span><span role="cell" data-l="“Did the Court find…?”" class="bad">0 / 50</span><span role="cell" data-l="Party argument as ruling">39 / 50</span><span role="cell" data-l="Outcome">49 / 50</span><span role="cell" data-l="Off-topic">49 / 50</span></div>
+      </div>
+      <p class="wbnote">Gold answers come from Légifrance metadata, the ruling's own structure and the official summary, not from a model. Paired gap +0.10 to +0.11 (95% bootstrap CI excludes 0). Legible is weaker where a rejected argument is restated as the Court's view (no polarity check yet) and is 2–5× slower. Full report: <code>bench/legifrance25/BENCHMARK.md</code>.</p>
+    </div>
     <div class="wrap shcta"><p>Now run Legible on your own ruling.</p><a class="cta" href="#try" data-goto-drop><span>Test it yourself</span><i>»</i></a></div>
   </div>
   <div class="wrap try" id="try" lang="en">

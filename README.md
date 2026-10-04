@@ -314,6 +314,24 @@ Méthode de notation :
 - Le vérificateur interne (`scripts/bench.py`, matching lexical) n'est pas fiable pour publier : il comptait 6 erreurs pour LawHack, toutes fausses, et ratait la vraie.
 5. Latence et coût par arrêt et par question.
 
+**Résultats (25 arrêts Légifrance, 112 questions, 2026-10-04)** — rapport complet : [`bench/legifrance25/BENCHMARK.md`](bench/legifrance25/BENCHMARK.md)
+
+Corpus : 25 arrêts récents de 6 chambres (civ. 1/2/3, com., soc., crim.) couvrant toutes les solutions (rejet, cassation, partielle, sans renvoi). Les questions sont figées et le gold est structurel (métadonnées, marqueurs de l'arrêt, sommaire officiel). Chaque système a répondu deux fois, sur le PDF uploadé et sur le texte brut, soit 224 réponses par système. Les réponses sont notées par un juge aveugle, `mistral-large`, qui voit les réponses sans les pastilles ni le nom du système.
+
+| | Score global (0–1) | Réponses avec erreur d'attribution | « La Cour a-t-elle constaté… ? » | Thèse du demandeur ou du juge du fond présentée comme décision | Solution | Hors sujet (abstention) |
+|---|---|---|---|---|---|---|
+| **LawHack** | **0,86–0,87** | **11/224** | **47/50** | 27/50 | 49/50 | 45/50 |
+| Mistral seul | 0,76 | 44/224 | 0/50 | **39/50** | 49/50 | **49/50** |
+
+- Écart apparié LawHack − Mistral seul : +0,11 [+0,02 ; +0,20] sur le texte brut et +0,10 [+0,01 ; +0,19] sur le PDF (IC 95 % bootstrap).
+- Système 1 : fidélité d'ingestion PDF ≥ 0,986, zonage 98,5 %, locuteurs 259/259 sur les segments ancrés, solution 24/25.
+- L'erreur sur la solution est un bug : `_REJECT` ne reconnaît pas « REJETTE le recours ».
+- Faiblesses mesurées :
+  - absence de contrôle de **polarité** : un moyen rejeté ou un raisonnement censuré est repris comme « la Cour juge » (7 cas) ;
+  - abstentions à tort sur ces mêmes pièges (4 cas) ;
+  - filtre hors sujet trop permissif (5 cas) ;
+  - latence de 2 à 5 fois celle de Mistral seul.
+
 **Questions pièges** (`bench/questions.jsonl`) : « Que décide la Cour sur X ? » quand X n'est
 qu'un moyen ; « La faute grave est-elle établie ? » quand seule la cour d'appel l'a retenue ;
 questions hors arrêt.

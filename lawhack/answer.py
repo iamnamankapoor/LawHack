@@ -1,6 +1,7 @@
 """System 2: retrieve registry segments with Jev, draft a cited answer with Mistral, verify with Jev."""
 
 import asyncio
+import logging
 import os
 import re
 import time
@@ -22,6 +23,8 @@ COVER = 0.9
 PARAGRAPH_CHARS = 1500
 NONE = "NONE"
 LEXICAL_RESCUE = 0.6
+
+log = logging.getLogger(__name__)
 
 SPEAKER_LABELS = {
     "COUR_CASSATION": "Cour",
@@ -60,6 +63,7 @@ class AnswerSentence(BaseModel):
     text: str
     pills: list[Pill]
     supported: float  # Jev probability that the cited segments support this sentence as attributed
+    revised_from: str | None = None  # original Mistral wording when a flagged sentence was rewritten
 
 
 class Answer(BaseModel):
@@ -219,15 +223,35 @@ Règles impératives :
 
 
 def draft(question: str, context: list[RegistryEntry], model: str | None = None) -> str:
+    excerpts = "\n\n".join(_describe(e) for e in sorted(context, key=lambda e: e.id))
+    return _complete([
+        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "user", "content": f"Extraits :\n\n{excerpts}\n\nQuestion : {question}"},
+    ], model)
+
+
+REVISE_PROMPT = """Tu corriges UNE phrase d'une réponse juridique que la vérification a jugée non soutenue par ses passages cités.
+Réécris-la pour qu'elle ne dise QUE ce que les passages établissent, attribuée à leur vrai locuteur
+(« la cour d'appel a relevé », « la Cour juge », « le demandeur soutient »). N'ajoute aucun fait, ne transforme pas
+une offre, une demande ou une allégation en fait accompli. Termine la phrase par les mêmes identifiants [S-xxx].
+Si aucune formulation fidèle n'est possible, réponds exactement : SUPPRIMER"""
+DROP = "SUPPRIMER"
+MAX_REVISIONS = 3
+
+
+def revise(sentence: str, cited: list[RegistryEntry], model: str | None = None) -> str:
+    excerpts = "\n\n".join(_describe(e) for e in cited)
+    return _complete([
+        {"role": "system", "content": REVISE_PROMPT},
+        {"role": "user", "content": f"Passages cités :\n\n{excerpts}\n\nPhrase à corriger : {sentence}"},
+    ], model)
+
+
+def _complete(messages: list[dict], model: str | None) -> str:
     from mistralai.client import Mistral
     from mistralai.client.errors import SDKError
 
     client = Mistral(api_key=os.environ["MISTRAL_API_KEY"])
-    excerpts = "\n\n".join(_describe(e) for e in sorted(context, key=lambda e: e.id))
-    messages = [
-        {"role": "system", "content": SYSTEM_PROMPT},
-        {"role": "user", "content": f"Extraits :\n\n{excerpts}\n\nQuestion : {question}"},
-    ]
     for attempt in range(5):
         try:
             response = client.chat.complete(
@@ -287,4 +311,40 @@ async def ask(registry: Registry, question: str, client: SystemOneClient, model:
     text = await asyncio.to_thread(draft, question, context, model)
     if text.strip().startswith(NOT_ADDRESSED):
         return Answer(question=question, sentences=[], abstained=True)
-    return Answer(question=question, sentences=await verify(text, registry, client))
+    sentences = await verify(text, registry, client)
+    return Answer(question=question, sentences=await _repair(sentences, registry, client, model))
+
+
+def _flagged(s: AnswerSentence) -> bool:
+    return bool(s.pills) and any(p.level != "ok" for p in s.pills)
+
+
+async def _repair(
+    sentences: list[AnswerSentence], registry: Registry, client: SystemOneClient, model: str | None
+) -> list[AnswerSentence]:
+    """Rewrite flagged sentences from their cited passages only; keep a rewrite only if Jev supports it better."""
+    targets = [i for i, s in enumerate(sentences) if _flagged(s)][:MAX_REVISIONS]
+    if not targets:
+        return sentences
+
+    async def fix(i: int) -> AnswerSentence | None:
+        s = sentences[i]
+        cited = [registry.by_id(p.segment_id) for p in s.pills]
+        tags = " ".join(f"[{c.id}]" for c in cited)
+        try:
+            rewritten = (await asyncio.to_thread(revise, f"{s.text} {tags}", cited, model)).strip()
+        except Exception as error:  # a failed rewrite must not lose the verified draft
+            log.warning("Reformulation impossible (%s) : phrase conservée avec son avertissement.", error)
+            return s
+        if rewritten.startswith(DROP):
+            return None
+        if not _CITE.search(rewritten):
+            rewritten = f"{rewritten} {tags}"
+        checked = await verify(rewritten, registry, client)
+        if len(checked) != 1 or checked[0].supported <= s.supported:
+            return s
+        return checked[0].model_copy(update={"revised_from": s.text})
+
+    fixed = dict(zip(targets, await asyncio.gather(*(fix(i) for i in targets))))
+    out = [fixed[i] if i in fixed else s for i, s in enumerate(sentences)]
+    return [s for s in out if s is not None]

@@ -100,7 +100,7 @@ function pill(p) {
 
 function render(a) {
   if (a.abstained) return `<span class="abstain">L'arrêt ne traite pas cette question.</span> <span class="pill none">Abstention</span>`;
-  return a.sentences.map(s => esc(s.text) + (s.pills.length ? s.pills.map(pill).join('') : '<span class="pill unsupported none">non sourcé ⚠</span>')).join(' ')
+  return a.sentences.map(s => esc(s.text) + (s.revised_from ? `<span class="pill none revised" title="Reformulé après vérification. Version initiale : ${esc(s.revised_from)}">corrigé</span>` : '') + (s.pills.length ? s.pills.map(pill).join('') : '<span class="pill unsupported none">non sourcé ⚠</span>')).join(' ')
     + `<div style="color:var(--muted);font-size:12px;margin-top:8px">${a.seconds}s</div>`;
 }
 

@@ -111,8 +111,9 @@ def test_abstains_only_when_both_passes_say_none(legifrance_doc, monkeypatch):
 def test_lower_court_reported_in_a_moyen_is_a_warning(legifrance_doc, monkeypatch):
     registry = _registry(legifrance_doc)
     s7 = next(e for e in registry.entries if e.paragraph == 7 and e.speaker.value == "DEMANDEUR")
-    monkeypatch.setattr(answer_module, "draft", lambda q, ctx, m=None: f"La cour d'appel a déclaré la promesse caduque [{s7.id}].")
+    monkeypatch.setattr(answer_module, "draft", lambda q, ctx, m=None: f"La cour d'appel a statué [{s7.id}]. Elle a déclaré la promesse caduque [{s7.id}]. Le vendeur soutient que la cour d'appel a violé la loi [{s7.id}].")
     result = asyncio.run(ask(registry, "Qu'a décidé la cour d'appel ?", _fake(registry, relevant={s7.id}, supported=0.1)))
-    pill = result.sentences[0].pills[0]
-    assert pill.level == "warn"
-    assert pill.note.startswith("Rapporté par le demandeur (§7)")
+    first, pronoun, party = (s.pills[0] for s in result.sentences)
+    assert first.level == pronoun.level == "warn"
+    assert pronoun.note.startswith("Rapporté par le demandeur (§7)")
+    assert party.note is None

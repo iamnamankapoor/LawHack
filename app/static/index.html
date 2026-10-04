@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LawHack · Qui l'a dit</title>
+<link rel="icon" type="image/svg+xml" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="64" height="64" fill="none"%3E %3Crect width="32" height="32" rx="7" fill="#ffffff"/%3E %3Crect x="7" y="5" width="5" height="7" fill="#3e63dd"/%3E %3Crect x="7" y="12" width="5" height="6" fill="#ef5f00"/%3E %3Crect x="7" y="18" width="5" height="6" fill="#6e56cf"/%3E %3Crect x="7" y="24" width="19" height="4" rx="1" fill="#1c1b19"/%3E %3C/svg%3E'>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -30,8 +31,7 @@ button { cursor:pointer }
 nav.top { position:sticky; top:0; z-index:20; height:64px; background:color-mix(in srgb,var(--paper) 92%,transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--hair) }
 nav.top .wrap { height:100%; display:flex; align-items:center; gap:24px }
 .logo { display:flex; align-items:center; gap:10px; font-size:20px; font-weight:700; letter-spacing:-.04em; text-decoration:none; color:inherit }
-.logo i { display:grid; gap:2px; width:14px }
-.logo i b { height:4px; background:var(--v) }
+.logo svg { width:28px; height:28px; flex:none }
 #docbar { flex:1; min-width:0; display:flex; align-items:baseline; gap:12px; font-size:13px; color:var(--grey); opacity:0; transform:translateY(4px); transition:opacity .3s, transform .3s var(--ease) }
 #docbar.on { opacity:1; transform:none }
 #docbar strong { color:var(--ink); font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
@@ -227,7 +227,7 @@ h1 .dot { color:var(--v-cour) }
 </svg>
 
 <nav class="top"><div class="wrap">
-  <a class="logo" href="/"><i><b style="--v:var(--v-cour)"></b><b style="--v:var(--v-fond)"></b><b style="--v:var(--v-dem)"></b></i>LawHack</a>
+  <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="7" y="5" width="5" height="7" fill="#3e63dd"/><rect x="7" y="12" width="5" height="6" fill="#ef5f00"/><rect x="7" y="18" width="5" height="6" fill="#6e56cf"/><rect x="7" y="24" width="19" height="4" rx="1" fill="#1c1b19"/><rect x="15" y="7" width="11" height="2.4" rx="1.2" fill="#d0cec7"/><rect x="15" y="13.6" width="8" height="2.4" rx="1.2" fill="#d0cec7"/><rect x="15" y="19.8" width="10" height="2.4" rx="1.2" fill="#d0cec7"/></svg>LawHack</a>
   <div id="docbar"><strong id="docname"></strong><span id="docmeta" class="num"></span></div>
   <button class="btn" id="reset">Nouvel arrêt</button>
 </div></nav>

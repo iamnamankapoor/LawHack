@@ -3,15 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LawHack · Qui l'a dit</title>
+<title>Legible · Who said it</title>
+<link rel="icon" type="image/svg+xml" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="64" height="64" fill="none"%3E %3Crect width="32" height="32" rx="7" fill="#ffffff"/%3E %3Crect x="7" y="5" width="5" height="7" fill="#3e63dd"/%3E %3Crect x="7" y="12" width="5" height="6" fill="#ef5f00"/%3E %3Crect x="7" y="18" width="5" height="6" fill="#6e56cf"/%3E %3Crect x="7" y="24" width="19" height="4" rx="1" fill="#1c1b19"/%3E %3C/svg%3E'>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
   --paper:#fff; --ink:#0a0a0a; --grey:#6f6f6f; --soft:#a3a3a3; --hair:#e6e6e6; --wash:#f4f4f4;
   --v-cour:#1a47ff; --v-fond:#ff5a1f; --v-dem:#e0006e; --v-def:#00876a; --v-min:#b08800; --v-loi:#6e6e6e; --v-ind:#a3a3a3;
   --ok:#0f8a3c; --warn:#d97706; --bad:#e11d2e;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace; --acc:#ef5f00;
   --f:"Inter Tight","Helvetica Neue",Helvetica,Arial,sans-serif;
   --ease:cubic-bezier(.2,.8,.2,1); --snap:cubic-bezier(.2,1.6,.4,1);
 }
@@ -30,8 +32,7 @@ button { cursor:pointer }
 nav.top { position:sticky; top:0; z-index:20; height:64px; background:color-mix(in srgb,var(--paper) 92%,transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--hair) }
 nav.top .wrap { height:100%; display:flex; align-items:center; gap:24px }
 .logo { display:flex; align-items:center; gap:10px; font-size:20px; font-weight:700; letter-spacing:-.04em; text-decoration:none; color:inherit }
-.logo i { display:grid; gap:2px; width:14px }
-.logo i b { height:4px; background:var(--v) }
+.logo svg { width:28px; height:28px; flex:none }
 #docbar { flex:1; min-width:0; display:flex; align-items:baseline; gap:12px; font-size:13px; color:var(--grey); opacity:0; transform:translateY(4px); transition:opacity .3s, transform .3s var(--ease) }
 #docbar.on { opacity:1; transform:none }
 #docbar strong { color:var(--ink); font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
@@ -42,14 +43,58 @@ nav.top .wrap { height:100%; display:flex; align-items:center; gap:24px }
 .view { display:none } .view.active { display:block; animation:in .45s var(--ease) both }
 .desk.view.active { display:grid }
 
-/* Upload */
-.hero { padding-top:88px; padding-bottom:96px }
-h1 { font-size:clamp(52px,9vw,136px); line-height:.92; letter-spacing:-.055em; font-weight:700; margin:20px 0 28px }
-h1 .w { display:inline-block; overflow:hidden; vertical-align:top; padding-bottom:.08em; margin-bottom:-.08em }
-h1 .w > span { display:inline-block; animation:rise .9s var(--ease) both; animation-delay:calc(var(--i) * 90ms) }
-h1 .dot { color:var(--v-cour) }
-.sub { font-size:clamp(18px,2vw,24px); line-height:1.35; letter-spacing:-.02em; color:var(--grey); max-width:640px }
-.sub b { color:var(--ink); font-weight:500 }
+/* Landing */
+nav.top .wrap { position:relative }
+.links { position:absolute; left:50%; transform:translateX(-50%); display:flex; gap:8px }
+.links a { font:500 11px/1 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--ink); text-decoration:none; padding:10px 10px; opacity:.72; transition:opacity .2s }
+.links a:hover { opacity:1 }
+body:not([data-view=upload]) .links { display:none }
+body[data-view=upload] nav.top { background:color-mix(in srgb,#efefef 90%,transparent); border-color:#d9d9d9 }
+@media (prefers-reduced-motion:no-preference) { html { scroll-behavior:smooth } }
+:focus-visible { outline:2px solid var(--v-cour); outline-offset:2px }
+#how, #try { scroll-margin-top:64px }
+.lhero { position:relative; height:clamp(560px,calc(100vh - 64px),880px); background:#efefef; overflow:hidden; border-bottom:1px solid #d9d9d9 }
+.skyline { position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:min(1100px,86%); height:100%; display:flex; align-items:flex-end }
+.skyline i { position:relative; flex:1; height:var(--h); margin-left:-1px; border:1px solid #cdcdcd; border-bottom:0; transform-origin:bottom; animation:barup 1.3s var(--ease) both; animation-delay:calc(var(--i) * 70ms + 150ms) }
+.skyline i::before { content:""; position:absolute; inset:-1px -1px auto; height:2px; background:var(--v,transparent) }
+.lh { position:relative; z-index:1; padding-top:clamp(88px,15vh,160px); text-align:center; font-size:clamp(42px,6.2vw,88px); line-height:1.04; letter-spacing:-.045em; font-weight:400 }
+.lh .ln { display:block; overflow:hidden; padding-bottom:.06em }
+.lh .ln > span { display:inline-block; animation:rise 1s var(--ease) both; animation-delay:calc(var(--i) * 110ms + 150ms) }
+.hcta { position:absolute; inset:auto 0 20px; z-index:1; display:flex; align-items:center; gap:20px; animation:in .6s var(--ease) .8s both }
+.hcta p { max-width:48ch; padding:4px 0; background:#efefef; font-size:13.5px; line-height:1.5; color:#3a3a3a }
+.hcta small { display:block; margin-top:4px; font:400 11px/1.4 var(--mono); letter-spacing:.04em; color:#6f6f6f }
+.cta { display:inline-flex; align-items:stretch; flex:none; height:46px; background:var(--ink); color:#fff; border:1px solid var(--ink); text-decoration:none; font:500 11px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; transition:transform .15s var(--ease) }
+.cta span { display:flex; align-items:center; padding:0 18px }
+.cta i { display:grid; place-items:center; width:40px; border-left:1px solid #333; font-style:normal; font-size:14px; color:var(--acc); transition:transform .3s var(--ease) }
+.cta:hover i { transform:translateX(3px) } .cta:active { transform:scale(.98) }
+.cta.ghost { height:38px; background:transparent; border-color:#3a3a3c }
+.cta.ghost i { border-color:#3a3a3c }
+.dark { background:#1c1c1e; color:#f2f2f2; padding-bottom:128px }
+.dhead { border-bottom:1px solid #2c2c2e } .dhead .wrap { height:80px; display:flex; align-items:center; justify-content:space-between }
+.dhead strong { font-size:22px; font-weight:400; letter-spacing:-.03em }
+.dtitle { padding-top:104px; align-items:center }
+.dtitle p { grid-column:1 / span 3; font-size:13.5px; line-height:1.5; color:#9a9a9f; max-width:24ch }
+.dtitle h2, .tryh h2 { grid-column:4 / span 9; font-size:clamp(38px,5.2vw,72px); line-height:1.02; letter-spacing:-.045em; font-weight:400 }
+.cards { margin-top:96px; row-gap:24px }
+.card { grid-column:span 4; display:flex; flex-direction:column; min-height:400px; padding:20px 12px 12px; background:#151517; transition:background .3s }
+.card:hover { background:#1a1a1d }
+.art { width:100%; height:auto; padding:0 12px; overflow:visible }
+.art * { fill:none; stroke-width:1; vector-effect:non-scaling-stroke }
+.art .g { stroke:#3a3a3c } .art .w { stroke:#e8e8e8 }
+.art .d { stroke-dasharray:1; stroke-dashoffset:1; transition:stroke-dashoffset 1.4s var(--ease); transition-delay:calc(var(--i,0) * 120ms) }
+.art .dot { fill:var(--acc); stroke:none; opacity:0; transform-box:fill-box; transform-origin:center; transform:scale(0); transition:all .4s var(--snap) .9s }
+.card.in .art .d { stroke-dashoffset:0 } .card.in .art .dot { opacity:1; transform:none }
+.card h3 { margin-top:auto; padding:0 12px; font-size:22px; font-weight:400; letter-spacing:-.03em }
+.card p { margin-top:14px; padding:0 12px; max-width:32ch; font-size:14px; line-height:1.5; color:#b4b4b9 }
+.card footer { margin-top:44px; padding-left:12px; display:flex; justify-content:space-between; align-items:center; font:400 11px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:#9a9a9f }
+.card footer b { display:flex; height:22px; border:1px solid #3a3a3c; font-weight:400 }
+.card footer b span { display:grid; place-items:center; width:24px }
+.card footer b i { display:grid; place-items:center; width:22px; border-left:1px solid #3a3a3c; font-style:normal; color:var(--acc); transition:transform .3s var(--ease) }
+.card:hover footer b i { transform:translateX(2px) }
+.try { padding-block:112px 120px }
+.tryh { align-items:center }
+.tryh .mono { grid-column:1 / span 3; font:400 11px/1 var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--grey) }
+@keyframes barup { from { transform:scaleY(0) } }
 .start { margin-top:56px; row-gap:16px }
 #drop { grid-column:span 8; position:relative; min-height:232px; display:grid; place-content:center; justify-items:center; gap:8px; text-align:center; border:1px solid var(--ink); background:var(--paper); outline:none; cursor:pointer; transition:background .2s, box-shadow .2s, border-color .2s }
 #drop svg { width:28px; height:28px; margin-bottom:8px; transition:transform .35s var(--snap) }
@@ -59,6 +104,8 @@ h1 .dot { color:var(--v-cour) }
 #drop:hover svg, #drop:focus-visible svg { transform:translateY(-3px) }
 #drop.over { background:color-mix(in srgb,var(--v-cour) 6%,var(--paper)); border-color:var(--v-cour); box-shadow:inset 0 0 0 1px var(--v-cour); color:var(--v-cour) }
 #drop.over svg { transform:translateY(-6px) scale(1.08) }
+#drop.call { animation:call 1.2s var(--ease) }
+@keyframes call { 0%,100% { box-shadow:inset 0 0 0 0 var(--v-cour) } 30% { box-shadow:inset 0 0 0 2px var(--v-cour), 0 0 0 8px color-mix(in srgb,var(--v-cour) 14%,transparent) } }
 #drop.shake { animation:shake .4s var(--ease); border-color:var(--bad); box-shadow:inset 0 0 0 1px var(--bad) }
 #demo { grid-column:span 4; display:flex; flex-direction:column; justify-content:space-between; gap:24px; padding:24px; background:var(--ink); color:var(--paper); text-align:left; transition:background .2s }
 #demo .eyebrow { color:var(--soft) }
@@ -79,11 +126,6 @@ h1 .dot { color:var(--v-cour) }
 @keyframes rise { from { opacity:0; transform:translateY(4px) } }
 #uperr { grid-column:span 12; font-size:13.5px; color:var(--bad); border-left:2px solid var(--bad); padding-left:10px }
 #uperr:empty { display:none }
-.steps { margin-top:72px; border-top:1px solid var(--ink) }
-.steps > div { grid-column:span 4; padding-top:16px }
-.steps .n { font-size:12px; font-weight:600; color:var(--soft) }
-.steps h4 { margin-top:6px; font-size:16px; font-weight:600; letter-spacing:-.01em }
-.steps p { margin-top:4px; font-size:13.5px; color:var(--grey); max-width:34ch }
 
 /* Desk */
 .desk { grid-template-columns:minmax(0,7fr) minmax(0,5fr); gap:24px; height:calc(100vh - 64px); padding-block:24px }
@@ -202,8 +244,11 @@ h1 .dot { color:var(--v-cour) }
 
 @media (max-width:900px) {
   .wrap { padding-inline:20px }
-  .hero { padding-top:56px }
-  #drop, #demo, .steps > div { grid-column:span 12 }
+  .links { display:none }
+  .hcta { flex-direction:column; align-items:flex-start; gap:12px }
+  .dtitle p, .dtitle h2, .tryh .mono, .tryh h2, .card, #drop, #demo { grid-column:span 12 }
+  .dtitle { padding-top:64px; row-gap:16px } .tryh { row-gap:16px } .cards { margin-top:56px }
+  .card { min-height:340px }
   .desk { grid-template-columns:1fr; height:auto }
   #docp { height:55vh } #chatp { min-height:70vh }
   .para { grid-template-columns:30px minmax(0,1fr); font-size:14.5px }
@@ -215,7 +260,7 @@ h1 .dot { color:var(--v-cour) }
 }
 </style>
 </head>
-<body>
+<body data-view="upload">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="p-cour" viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><path d="M6 13.5c0-3 2.7-5 6-5s6 2 6 5V15H6z"/><rect x="2" y="15" width="20" height="7"/></symbol>
   <symbol id="p-fond" viewBox="0 0 24 24"><circle cx="12" cy="6" r="3"/><path d="M6.5 14.5c0-2.8 2.5-4.6 5.5-4.6s5.5 1.8 5.5 4.6V16h-11z"/><rect x="5" y="16" width="14" height="6"/></symbol>
@@ -227,39 +272,67 @@ h1 .dot { color:var(--v-cour) }
 </svg>
 
 <nav class="top"><div class="wrap">
-  <a class="logo" href="/"><i><b style="--v:var(--v-cour)"></b><b style="--v:var(--v-fond)"></b><b style="--v:var(--v-dem)"></b></i>LawHack</a>
+  <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="7" y="5" width="5" height="7" fill="#3e63dd"/><rect x="7" y="12" width="5" height="6" fill="#ef5f00"/><rect x="7" y="18" width="5" height="6" fill="#6e56cf"/><rect x="7" y="24" width="19" height="4" rx="1" fill="#1c1b19"/><rect x="15" y="7" width="11" height="2.4" rx="1.2" fill="#d0cec7"/><rect x="15" y="13.6" width="8" height="2.4" rx="1.2" fill="#d0cec7"/><rect x="15" y="19.8" width="10" height="2.4" rx="1.2" fill="#d0cec7"/></svg>Legible</a>
+  <div class="links"><a href="#how">How it works</a><a href="#try">Try it</a><a href="https://github.com/talal95c/LawHack">GitHub</a></div>
   <div id="docbar"><strong id="docname"></strong><span id="docmeta" class="num"></span></div>
   <button class="btn" id="reset">Nouvel arrêt</button>
 </div></nav>
 
 <main>
-  <section class="view active" id="upload"><div class="wrap hero">
-    <div class="eyebrow">Attribution des arrêts de la Cour de cassation</div>
-    <h1><span class="w"><span style="--i:0">Qui</span></span> <span class="w"><span style="--i:1">l'a</span></span> <span class="w"><span style="--i:2">dit<span class="dot">.</span></span></span></h1>
-    <p class="sub">Une IA juridique sait ce qui a été dit. <b>LawHack vérifie qui l'a dit</b> : la Cour, la cour d'appel ou une partie.</p>
+  <section class="view active" id="upload">
+  <div class="lhero" lang="en">
+    <div class="skyline" aria-hidden="true"><i style="--i:0;--h:34%"></i><i style="--i:1;--h:26%"></i><i style="--i:2;--h:48%;--v:#3e63dd"></i><i style="--i:3;--h:72%"></i><i style="--i:4;--h:26%;--v:#ef5f00"></i><i style="--i:5;--h:68%"></i><i style="--i:6;--h:40%;--v:#6e56cf"></i><i style="--i:7;--h:30%"></i></div>
+    <h1 class="lh"><span class="ln"><span style="--i:0">Know exactly</span></span><span class="ln"><span style="--i:1">who said what</span></span><span class="ln"><span style="--i:2">in every ruling.</span></span></h1>
+    <div class="hcta wrap">
+      <button class="cta" id="herodemo"><span>Upload a ruling</span><i>»</i></button>
+      <p>Speaker attribution for French Cour de cassation rulings. Tell what the Court holds from what the court of appeal found or a party alleges.<small>Free demo · no sign-up · a ruling is read in seconds</small></p>
+    </div>
+  </div>
+  <div class="dark" id="how" lang="en">
+    <div class="dhead"><div class="wrap"><strong>Legible Pipeline</strong><a class="cta ghost" href="#try" data-goto-drop><span>Upload a ruling</span><i>»</i></a></div></div>
+    <div class="wrap grid dtitle"><p>Explore the three steps behind every answer.</p><h2>How we stop attribution hallucinations.</h2></div>
+    <div class="wrap grid cards">
+      <article class="card">
+        <svg class="art" viewBox="0 0 200 64" aria-hidden="true"><path class="g" d="M0 2H200M0 17H200M0 32H200M0 47H200M0 62H200"/><path class="d" pathLength="1" style="--i:0;stroke:var(--v-cour)" d="M0 2H124"/><path class="d" pathLength="1" style="--i:1;stroke:var(--v-fond)" d="M0 17H172"/><path class="d" pathLength="1" style="--i:2;stroke:var(--v-cour)" d="M0 32H92"/><path class="d" pathLength="1" style="--i:3;stroke:var(--v-dem)" d="M0 47H146"/><path class="d" pathLength="1" style="--i:4;stroke:var(--v-def)" d="M0 62H64"/></svg>
+        <h3>Attributing</h3>
+        <p>System 1 (Jev) reads the ruling and labels every sentence with its speaker: the Court, the court of appeal, a party, the law.</p>
+        <footer>Speaker attribution<b><span>01</span><i>»</i></b></footer>
+      </article>
+      <article class="card">
+        <svg class="art" viewBox="0 0 200 64" aria-hidden="true"><rect class="w d" pathLength="1" x="1.0" y="1" width="28" height="62" rx="2" style="--i:0;opacity:1"/><rect class="w d" pathLength="1" x="34.6" y="1" width="28" height="62" rx="2" style="--i:1;opacity:1"/><rect class="w d" pathLength="1" x="68.2" y="1" width="28" height="62" rx="2" style="--i:2;opacity:0.8"/><rect class="w d" pathLength="1" x="101.8" y="1" width="28" height="62" rx="2" style="--i:3;opacity:0.6"/><rect class="w d" pathLength="1" x="135.4" y="1" width="28" height="62" rx="2" style="--i:4;opacity:0.4"/><rect class="w d" pathLength="1" x="169.0" y="1" width="28" height="62" rx="2" style="--i:5;opacity:0.22"/></svg>
+        <h3>Answering</h3>
+        <p>Mistral drafts answers only from retrieved passages. Every sentence cites its paragraph and its speaker.</p>
+        <footer>Grounded answers<b><span>02</span><i>»</i></b></footer>
+      </article>
+      <article class="card">
+        <svg class="art" viewBox="0 0 200 64" aria-hidden="true"><path class="g" d="M0 2H200M0 62H200"/><path class="g" stroke-dasharray="2 3" d="M0 24H200"/><path class="g d" pathLength="1" style="--i:1" d="M0 58L60 40L120 50L200 18"/><path class="w d" pathLength="1" d="M0 60L52 28L104 46L148 12L200 6"/><circle class="dot" cx="148" cy="12" r="2.5"/></svg>
+        <h3>Verifying</h3>
+        <p>Each sentence is re-checked against its source. Misattributions are flagged; when the ruling is silent, Legible abstains.</p>
+        <footer>Source verification<b><span>03</span><i>»</i></b></footer>
+      </article>
+    </div>
+  </div>
+  <div class="wrap try" id="try" lang="en">
+    <div class="grid tryh"><span class="mono">Try it</span><h2>Try it on a real ruling.</h2></div>
     <div class="grid start">
-      <div id="drop" role="button" tabindex="0" aria-label="Déposer un arrêt">
+      <div id="drop" role="button" tabindex="0" aria-label="Drop a ruling">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 16V4M6.5 9.5 12 4l5.5 5.5M4 20h16"/></svg>
-        <strong id="droptitle">Déposez un arrêt</strong>
-        <span>PDF ou TXT, ou cliquez pour choisir un fichier</span>
+        <strong id="droptitle">Drop a ruling</strong>
+        <span>PDF or TXT, or click to choose a file</span>
       </div>
       <button id="demo">
-        <span><span class="eyebrow">Arrêt de démo</span><strong>Civ. 3, 14 déc. 2022</strong><p>Lu en direct par le Système 1, puis interrogé.</p></span>
-        <span class="go">Lancer la démo <i>→</i></span>
+        <span><span class="eyebrow">Demo ruling</span><strong>Civ. 3, 14 déc. 2022</strong><p>Read live by System 1, then queried.</p></span>
+        <span class="go">Launch the demo <i>→</i></span>
       </button>
       <div id="uperr" role="alert"></div>
     </div>
     <input type="file" id="file" accept=".pdf,.txt" hidden>
     <div class="recent" id="recent" hidden>
-      <div class="rh"><span class="eyebrow">Déjà analysés</span><span class="meta num" id="recentn"></span></div>
+      <div class="rh"><span class="eyebrow">Already analysed</span><span class="meta num" id="recentn"></span></div>
       <div id="recentl"></div>
     </div>
-    <div class="grid steps">
-      <div><div class="n">01</div><h4>Lecture</h4><p>Chaque phrase de l'arrêt est attribuée à son locuteur par le Système 1.</p></div>
-      <div><div class="n">02</div><h4>Question</h4><p>La réponse est rédigée uniquement à partir des passages retrouvés.</p></div>
-      <div><div class="n">03</div><h4>Vérification</h4><p>Chaque phrase est sourcée, ou signalée quand le locuteur ne la soutient pas.</p></div>
-    </div>
-  </div></section>
+  </div>
+</section>
 
   <section class="view wrap desk" id="desk">
     <div class="panel" id="docp">
@@ -295,6 +368,7 @@ const $ = id => document.getElementById(id);
 let doc = null, docName = '', pills = [], busy = false, focus = null, run = 0;
 
 function show(id) {
+  document.body.dataset.view = id;
   document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === id));
   $('reset').classList.toggle('on', id === 'desk');
   if (id !== 'desk') $('docbar').classList.remove('on');
@@ -305,24 +379,48 @@ function show(id) {
 const drop = $('drop');
 drop.onclick = () => $('file').click();
 drop.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $('file').click(); } };
-drop.ondragover = e => { e.preventDefault(); drop.classList.add('over'); $('droptitle').textContent = 'Lâchez le fichier'; };
-drop.ondragleave = () => { drop.classList.remove('over'); $('droptitle').textContent = 'Déposez un arrêt'; };
-drop.ondrop = e => { e.preventDefault(); drop.ondragleave(); if (e.dataTransfer.files[0]) upload(e.dataTransfer.files[0]); };
+drop.ondragover = e => { e.preventDefault(); drop.classList.add('over'); $('droptitle').textContent = 'Release the file'; };
+drop.ondragleave = () => { drop.classList.remove('over'); $('droptitle').textContent = 'Drop a ruling'; };
+
 $('file').onchange = e => { const f = e.target.files[0]; e.target.value = ''; if (f) upload(f); };
+function gotoDrop(e) {
+  if (e) e.preventDefault();
+  drop.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'center'});
+  drop.focus({preventScroll:true});
+  drop.classList.remove('call'); void drop.offsetWidth; drop.classList.add('call');
+}
+$('herodemo').onclick = gotoDrop;
+document.querySelectorAll('[data-goto-drop]').forEach(a => a.onclick = gotoDrop);
+let drags = 0;
+const onLanding = () => document.body.dataset.view === 'upload';
+const hasFile = e => [...(e.dataTransfer?.types || [])].includes('Files');
+document.addEventListener('dragenter', e => {
+  if (!onLanding() || !hasFile(e)) return;
+  if (drags++ === 0) { drop.scrollIntoView({block:'center'}); drop.classList.add('over'); $('droptitle').textContent = 'Release the file'; }
+});
+document.addEventListener('dragleave', e => { if (onLanding() && hasFile(e) && --drags <= 0) { drags = 0; drop.ondragleave(); } });
+document.addEventListener('dragover', e => { if (onLanding() && hasFile(e)) e.preventDefault(); });
+document.addEventListener('drop', e => {
+  if (!onLanding() || !hasFile(e)) return;
+  e.preventDefault(); drags = 0; drop.ondragleave();
+  if (e.dataTransfer.files[0]) upload(e.dataTransfer.files[0]);
+});
+const seen = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && (e.target.classList.add('in'), seen.unobserve(e.target))), {threshold:.35});
+document.querySelectorAll('.card').forEach(c => seen.observe(c));
 $('demo').onclick = () => start(fetch('/api/documents/demo', {method:'POST'}), 'Civ. 3, 14 déc. 2022');
 $('reset').onclick = () => { run++; doc = null; busy = false; hidePop(); setFocus(null); show('upload'); loadRecent(); };
 
 /* Previously analysed decisions */
 function ago(iso) {
   const d = new Date(iso.endsWith('Z') || iso.includes('+') ? iso : iso + 'Z'), m = Math.round((Date.now() - d) / 60000);
-  if (m < 1) return "à l'instant"; if (m < 60) return `il y a ${m} min`; if (m < 1440) return `il y a ${Math.round(m / 60)} h`;
-  return d.toLocaleDateString('fr-FR', {day:'numeric', month:'short'});
+  if (m < 1) return 'just now'; if (m < 60) return `${m} min ago`; if (m < 1440) return `${Math.round(m / 60)} h ago`;
+  return d.toLocaleDateString('en-GB', {day:'numeric', month:'short'});
 }
 async function loadRecent() {
   let list = [];
   try { const r = await fetch('/api/documents'); if (r.ok) list = (await r.json()).documents || []; } catch {}
   $('recent').hidden = !list.length;
-  $('recentn').textContent = list.length > 1 ? `${list.length} arrêts` : '';
+  $('recentn').textContent = list.length > 1 ? `${list.length} rulings` : '';
   $('recentl').innerHTML = list.map((d, i) => `<button type="button" class="rec" data-id="${esc(d.document_id)}" style="--i:${i}"><strong>${esc(d.title)}</strong><span>${esc(SOLUTIONS[d.solution] || d.solution)} · ${fr(d.segments)} segments</span><span class="num">${esc(ago(d.analysed_at))}</span><i>→</i></button>`).join('');
   $('recentl').querySelectorAll('.rec').forEach((b, i) => b.onclick = () => start(fetch('/api/documents/' + encodeURIComponent(list[i].document_id)), list[i].title));
 }

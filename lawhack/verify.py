@@ -50,6 +50,18 @@ def strip_cues(sentence: str) -> str:
     return sentence
 
 
+_SEGMENT_REF = re.compile(r"\bS-(\d{3})\b")
+_PARAGRAPH_REF = re.compile(r"§\s?(\d+)")
+_BADGE = re.compile(r"\[[^\]]*\]")
+
+
+def cited(registry: Registry, sentence: str) -> list[RegistryEntry]:
+    """Segments the sentence cites explicitly ([S-013], §7): checked first, before any retrieval."""
+    ids = {f"S-{n}" for n in _SEGMENT_REF.findall(sentence)}
+    paragraphs = {int(n) for n in _PARAGRAPH_REF.findall(sentence)}
+    return [e for e in registry.entries if e.id in ids or (e.paragraph in paragraphs and e.zone is not Zone.METADONNEES)]
+
+
 def check(registry: Registry, text: str, threshold: float = 0.8) -> list[dict]:
     entries = [e for e in registry.entries if e.zone is not Zone.METADONNEES]
     index = BM25([e.text for e in entries])
@@ -58,12 +70,15 @@ def check(registry: Registry, text: str, threshold: float = 0.8) -> list[dict]:
         sentence = text[s:e].strip()
         if not sentence:
             continue
-        claim = claimed_speaker(sentence)
-        query = strip_cues(sentence)
-        hits = index.top(query, k=3)
-        best = max(hits, key=lambda h: coverage(query, entries[h[0]].text), default=None)
-        support = coverage(query, entries[best[0]].text) if best else 0.0
-        entry = entries[best[0]] if best and support >= SUPPORT_MIN else None
+        claim = claimed_speaker(_BADGE.sub(" ", sentence))
+        query = strip_cues(_BADGE.sub(" ", _PARAGRAPH_REF.sub(" ", _SEGMENT_REF.sub(" ", sentence))))
+        refs = cited(registry, sentence)
+        best = max(refs, key=lambda c: coverage(query, c.text), default=None)
+        wrong_citation = bool(refs) and coverage(query, best.text) < SUPPORT_MIN
+        if not refs or wrong_citation:
+            best = max((entries[i] for i, _ in index.top(query, k=3)), key=lambda c: coverage(query, c.text), default=None)
+        support = coverage(query, best.text) if best else 0.0
+        entry = best if best and support >= SUPPORT_MIN else None
 
         if entry is None:
             verdict = Verdict.NON_SOURCE
@@ -76,5 +91,6 @@ def check(registry: Registry, text: str, threshold: float = 0.8) -> list[dict]:
         else:
             verdict = Verdict.OK
         results.append({"sentence": sentence, "claimed_speaker": claim.value if claim else None,
-                        "verdict": verdict.value, "support": round(support, 2), "entry": entry})
+                        "verdict": verdict.value, "support": round(support, 2), "entry": entry,
+                        "wrong_citation": wrong_citation})
     return results

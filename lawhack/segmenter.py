@@ -4,7 +4,7 @@ import re
 
 from lawhack.schema import Block, Segment
 
-_ABBREVIATIONS = {"m", "mme", "mmes", "mm", "me", "mes", "dr", "art", "n°", "no", "al", "cf", "p", "pp", "s", "ss", "etc"}
+_ABBREVIATIONS = {"m", "mme", "mmes", "mm", "me", "mes", "dr", "art", "n°", "no", "al", "cf", "p", "pp", "s", "ss", "etc", "bull", "civ", "crim", "soc", "com", "ass", "plén", "ch", "req", "jurispr", "obs", "ord"}
 _UPPER_START = re.compile(r"[A-ZÀ-ÖØ-Þ«\"0-9]")
 
 

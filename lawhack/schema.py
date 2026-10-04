@@ -89,6 +89,7 @@ class Document(BaseModel):
 class Registry(BaseModel):
     document_id: str
     model: str | None = None
+    version: str = "1"
     entries: list[RegistryEntry]
     input_tokens: int = 0
     seconds: float = 0.0

@@ -2,7 +2,7 @@ import asyncio
 import os
 from pathlib import Path
 
-from lawhack.attributor import build_registry
+from lawhack.attributor import VERSION, build_registry
 from lawhack.heuristic import HeuristicSystemOne
 from lawhack.ingest import load_pdf, load_text
 from lawhack.schema import Document, Registry, Zone
@@ -28,6 +28,12 @@ def default_client() -> SystemOneClient:
     return HeuristicSystemOne()
 
 
+def is_current(registry: Registry, client: SystemOneClient) -> bool:
+    """A cached registry is reusable unless the rules changed or Jev became available since."""
+    upgraded = registry.model == HeuristicSystemOne.model and not isinstance(client, HeuristicSystemOne)
+    return registry.version == VERSION and not upgraded
+
+
 def analyse(doc: Document, client: SystemOneClient | None = None, use_cache: bool = True) -> tuple[Registry, Solution]:
     return asyncio.run(analyse_async(doc, client, use_cache))
 
@@ -39,7 +45,7 @@ async def analyse_async(doc: Document, client: SystemOneClient | None = None, us
     cached = CACHE_DIR / f"{doc.id}.json"
     if use_cache and cached.exists():
         registry = Registry.model_validate_json(cached.read_text())
-        if registry.model != HeuristicSystemOne.model or isinstance(client, HeuristicSystemOne):
+        if is_current(registry, client):
             return registry, solution
     registry = await build_registry(doc.id, segment(blocks), client)
     CACHE_DIR.mkdir(parents=True, exist_ok=True)

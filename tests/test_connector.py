@@ -20,7 +20,6 @@ TRAP = (
 @pytest.fixture(autouse=True)
 def offline(monkeypatch, tmp_path):
     monkeypatch.delenv("TYPESAFE_API_KEY", raising=False)
-    monkeypatch.setattr(service, "CACHE_DIR", tmp_path)
     monkeypatch.setattr(pipeline, "CACHE_DIR", tmp_path)
     service._STORE.clear()
 
@@ -69,12 +68,16 @@ def test_mcp_tools_end_to_end():
     async def run():
         async with Client(mcp) as client:
             names = {t.name for t in await client.list_tools()}
-            assert names == {"lawhack_load_decision", "lawhack_who_said", "lawhack_verify", "lawhack_get_passage"}
+            assert names == {"lawhack_load_decision", "lawhack_read_decision", "lawhack_who_said", "lawhack_verify", "lawhack_get_passage"}
             loaded = await client.call_tool("lawhack_load_decision", {"sample": SAMPLE})
             did = loaded.structured_content["decision_id"]
             verified = await client.call_tool("lawhack_verify", {"decision_id": did, "text": TRAP})
             assert verified.structured_content["summary"]["MAL_ATTRIBUE"] == 1
-            passages = await client.call_tool("lawhack_get_passage", {"decision_id": did, "segment_id": "S-013", "context": 0})
+            moyen = next(p for p in loaded.structured_content["zones"] if p == "moyens")
+            assert moyen
+            found = await client.call_tool("lawhack_who_said", {"decision_id": did, "question": "Que reproche le vendeur à l'arrêt ?"})
+            sid = next(p["segment_id"] for p in found.structured_content["passages"] if p["zone"] == "moyens")
+            passages = await client.call_tool("lawhack_get_passage", {"decision_id": did, "segment_id": sid, "context": 0})
             assert "fait grief" in passages.content[0].text
             bad = await client.call_tool("lawhack_who_said", {"decision_id": "nope", "question": "x"}, raise_on_error=False)
             assert bad.is_error
@@ -101,3 +104,25 @@ def test_rest_and_auth(monkeypatch):
 
 def test_who_said_not_in_decision(decision_id):
     assert service.who_said(decision_id, "Quel est le régime fiscal des cryptomonnaies ?").answer_status == "not_in_decision"
+
+
+def test_read_decision_is_compact_and_annotated(decision_id):
+    text = service.read_decision(decision_id).text
+    assert "## Énoncé du moyen" in text and "[Demandeur" in text and len(text) < 20_000
+    assert "## Dispositif" not in service.read_decision(decision_id, ["moyens"]).text
+    with pytest.raises(ValueError):
+        service.read_decision(decision_id, ["nope"])
+
+
+def test_verify_uses_explicit_citations(decision_id):
+    moyen = next(e for e in service._get(decision_id).registry.entries if e.zone.value == "moyens")
+    result = service.verify_text(decision_id, f"La Cour juge que le vendeur a droit à l'indemnité d'immobilisation [{moyen.id}].")
+    assert result.sentences[0].verdict == "MAL_ATTRIBUE"
+    assert result.sentences[0].source.segment_id == moyen.id
+
+
+@pytest.mark.parametrize("url", ["http://127.0.0.1/x.pdf", "http://169.254.169.254/latest", "file:///etc/passwd", "http://localhost:8000/"])
+def test_url_loading_refuses_private_hosts(url, monkeypatch):
+    monkeypatch.delenv("LAWHACK_ALLOW_PRIVATE_URLS", raising=False)
+    with pytest.raises(ValueError):
+        service.read_document(url=url)

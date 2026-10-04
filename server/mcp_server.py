@@ -20,7 +20,7 @@ from lawhack import service
 load_dotenv()
 
 INSTRUCTIONS = """LawHack tells you WHO says what in a French Cour de cassation decision (Cour de cassation, cour d'appel, demandeur, défendeur, loi) with a calibrated confidence.
-Workflow: 1) lawhack_load_decision once per decision → decision_id. 2) lawhack_who_said before answering any question about the decision. 3) lawhack_verify on your draft answer before sending it; fix every MAL_ATTRIBUE / NON_SOURCE sentence.
+Workflow: 1) lawhack_load_decision once per decision → decision_id. 2) lawhack_read_decision for a summary or an open question (whole decision, annotated, a few thousand tokens), or lawhack_who_said for a targeted question. 3) lawhack_verify on your draft before sending it, citing segments as [S-xx]; fix every MAL_ATTRIBUE / NON_SOURCE sentence.
 Rules: answer only from returned passages; never present a party's argument (moyen) as the Court's ruling; cite `citation` and append `badge`; flag a_verifier passages; if answer_status is not answered, say the Cour de cassation does not decide the point."""
 
 mcp = FastMCP("LawHack", instructions=INSTRUCTIONS, website_url="https://github.com/talal95c/LawHack")
@@ -64,12 +64,23 @@ def lawhack_who_said(
     return _call(service.who_said, decision_id, question, k)
 
 
+@mcp.tool(annotations=ToolAnnotations(title="Lire l'arrêt annoté", **READ_ONLY.model_dump(exclude={"title"}, exclude_none=True)))
+def lawhack_read_decision(
+    decision_id: Annotated[str, Field(description="Returned by lawhack_load_decision.")],
+    zones: Annotated[list[str] | None, Field(description="Restrict to zones: expose, moyens, motivations, dispositif, introduction. Default: all.")] = None,
+) -> service.DecisionText:
+    """Use this to summarise a decision or answer open questions. Returns the whole decision, one line per sentence,
+    each prefixed with its segment id, paragraph, speaker, confidence and status (⚠ = to verify). Cite segments as [S-xx]."""
+    return _call(service.read_decision, decision_id, zones)
+
+
 @mcp.tool(annotations=ToolAnnotations(title="Vérifier les attributions", **READ_ONLY.model_dump(exclude={"title"}, exclude_none=True)))
 def lawhack_verify(
     decision_id: Annotated[str, Field(description="Returned by lawhack_load_decision.")],
     text: Annotated[str, Field(description="A drafted answer, memo or any text about the decision (yours, a colleague's, another AI's).")],
 ) -> service.VerifyResult:
-    """Use this on a draft before sending it. Checks sentence by sentence who the text says is speaking against the
+    """Use this on a draft before sending it. Sentences citing [S-xx] or §n are checked against exactly those segments.
+    Checks sentence by sentence who the text says is speaking against the
     registry. Verdicts: OK, A_VERIFIER (low confidence), MAL_ATTRIBUE (e.g. a party's argument presented as the Court's
     ruling), NON_SOURCE (not supported by the decision), SANS_ATTRIBUTION (no speaker named)."""
     return _call(service.verify_text, decision_id, text)

@@ -45,3 +45,17 @@ def test_rules_jev_and_approval_markers(legifrance_doc):
     assert approved.status.value == Status.DECIDE.value
     assert approved.chain == [Speaker.COUR_CASSATION, Speaker.JURIDICTION_FOND]
     assert fake.calls > 0 and registry.input_tokens == 10 * fake.calls
+
+
+def test_drafting_formulas_need_no_model_call():
+    from lawhack.attributor import _rule
+    from lawhack.schema import Segment, Zone
+
+    def seg(text, zone=Zone.MOTIVATIONS):
+        return Segment(id="S-001", text=text, start=0, end=len(text), block=0, zone=zone)
+
+    assert _rule(seg("9. Pour rejeter la demande, l'arrêt retient que le bail est résilié."))[0] is Speaker.JURIDICTION_FOND
+    assert _rule(seg("11. En statuant ainsi, la cour d'appel a violé le texte susvisé."))[0] is Speaker.COUR_CASSATION
+    assert _rule(seg("12. Le moyen n'est donc pas fondé."))[:3] == (Speaker.COUR_CASSATION, _rule(seg("Le moyen n'est pas fondé."))[1], Status.DECIDE)
+    assert _rule(seg("7. Le vendeur fait grief à l'arrêt de rejeter sa demande.", Zone.MOYENS))[0] is Speaker.DEMANDEUR
+    assert _rule(seg("9. Elle a retenu à bon droit que la promesse était caduque.")) is None

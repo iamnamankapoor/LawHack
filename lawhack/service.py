@@ -5,26 +5,34 @@ stateless: `load_decision` returns a server-minted `decision_id` that every othe
 takes as an ordinary argument (the pattern recommended by MCP 2026-07-28, SEP-2567).
 """
 
+import asyncio
 import base64
 import html
+import ipaddress
+import os
+import socket
 import json
 import re
 import tempfile
+import urllib.parse
 import urllib.request
+from collections import OrderedDict
 from pathlib import Path
 
 from pydantic import BaseModel, Field
 
 from lawhack import verify as verifier
 from lawhack.ingest import load_pdf, load_text
-from lawhack.heuristic import HeuristicSystemOne
-from lawhack.pipeline import CACHE_DIR, analyse_async, default_client
+from lawhack import pipeline
+from lawhack.pipeline import analyse_async, default_client, is_current
 from lawhack.retrieval import BM25, coverage
 from lawhack.schema import Document, Registry, RegistryEntry, Speaker, Status, Zone
 from lawhack.solution import Solution
 
 SAMPLES_DIR = Path(__file__).resolve().parent.parent / "data" / "samples"
 MAX_BYTES = 15_000_000
+MAX_TEXT_CHARS = 400_000
+STORE_SIZE = 256
 CONFIDENCE_OK = 0.8
 CONFIDENCE_WARN = 0.5
 
@@ -49,7 +57,7 @@ class Passage(BaseModel):
     status: str
     type: str
     confidence: float
-    probabilities: dict[str, float]
+    probabilities: dict[str, float] = Field(description="Top speaker probabilities, only when the attribution is uncertain.")
     flag: str = Field(description="ok (≥0.8) · a_verifier (0.5–0.8) · incertain (<0.5)")
     paragraph: int | None = None
     zone: str
@@ -94,21 +102,30 @@ class _Record(BaseModel):
     solution: Solution
 
 
-_STORE: dict[str, _Record] = {}
+_STORE: OrderedDict[str, _Record] = OrderedDict()  # LRU over the on-disk cache
+_LOADING: dict[str, asyncio.Lock] = {}
 
 
 def _record_path(decision_id: str) -> Path:
-    return CACHE_DIR / f"{decision_id}.decision.json"
+    return pipeline.CACHE_DIR / f"{decision_id}.decision.json"
+
+
+def _remember(decision_id: str, record: _Record) -> _Record:
+    _STORE[decision_id] = record
+    _STORE.move_to_end(decision_id)
+    while len(_STORE) > STORE_SIZE:
+        _STORE.popitem(last=False)
+    return record
 
 
 def _get(decision_id: str) -> _Record:
     if decision_id in _STORE:
+        _STORE.move_to_end(decision_id)
         return _STORE[decision_id]
     path = _record_path(decision_id)
     if not re.fullmatch(r"[0-9a-f]{16}", decision_id) or not path.exists():
         raise KeyError(f"Unknown decision_id {decision_id!r}: call lawhack_load_decision first.")
-    _STORE[decision_id] = _Record.model_validate_json(path.read_text())
-    return _STORE[decision_id]
+    return _remember(decision_id, _Record.model_validate_json(path.read_text()))
 
 
 def _flag(confidence: float) -> str:
@@ -128,7 +145,7 @@ def passage(entry: RegistryEntry) -> Passage:
         segment_id=entry.id, citation=f"{para}, {zone}", badge=f"[{label} · {para} · {entry.speaker.confidence:.0%}{warn}]",
         text=entry.text, speaker=entry.speaker.value, speaker_label=label, chain=[s.value for s in entry.chain],
         status=entry.status.value, type=entry.type.value, confidence=round(entry.speaker.confidence, 3),
-        probabilities={k: round(v, 3) for k, v in top.items()}, flag=flag, paragraph=entry.paragraph,
+        probabilities={k: round(v, 3) for k, v in top.items()} if flag != "ok" else {}, flag=flag, paragraph=entry.paragraph,
         zone=entry.zone.value, page=entry.page,
     )
 
@@ -159,11 +176,32 @@ def _from_json(data: dict) -> Document:
     return load_text(data["text"])
 
 
-def _from_url(url: str) -> Document:
-    if not url.startswith(("https://", "http://")):
+def _check_public(url: str) -> None:
+    """Refuse URLs that resolve to private / loopback / link-local addresses (SSRF) on a public deployment."""
+    parsed = urllib.parse.urlparse(url)
+    if parsed.scheme not in ("http", "https") or not parsed.hostname:
         raise ValueError("url must be http(s).")
+    if os.environ.get("LAWHACK_ALLOW_PRIVATE_URLS"):
+        return
+    for info in socket.getaddrinfo(parsed.hostname, parsed.port or (443 if parsed.scheme == "https" else 80)):
+        address = ipaddress.ip_address(info[4][0])
+        if not address.is_global:
+            raise ValueError("url must point to a public host.")
+
+
+class _SafeRedirects(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        _check_public(newurl)
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+_OPENER = urllib.request.build_opener(_SafeRedirects)
+
+
+def _from_url(url: str) -> Document:
+    _check_public(url)
     request = urllib.request.Request(url, headers={"User-Agent": "LawHack/0.1 (+https://github.com/talal95c/LawHack)"})
-    with urllib.request.urlopen(request, timeout=30) as response:
+    with _OPENER.open(request, timeout=30) as response:
         data = response.read(MAX_BYTES + 1)
         kind = response.headers.get("Content-Type", "")
     if len(data) > MAX_BYTES:
@@ -192,6 +230,8 @@ def read_document(text: str | None = None, url: str | None = None, pdf_base64: s
     if len(given) != 1:
         raise ValueError("Provide exactly one of: text, url, pdf_base64, sample.")
     if text:
+        if len(text) > MAX_TEXT_CHARS:
+            raise ValueError("Text too long for a single decision.")
         return load_text(text)
     if url:
         return _from_url(url)
@@ -201,17 +241,19 @@ def read_document(text: str | None = None, url: str | None = None, pdf_base64: s
 
 
 async def load_decision(text: str | None = None, url: str | None = None, pdf_base64: str | None = None, sample: str | None = None) -> DecisionSummary:
-    doc = read_document(text, url, pdf_base64, sample)
-    try:
-        stale = _get(doc.id).registry.model == HeuristicSystemOne.model and not isinstance(default_client(), HeuristicSystemOne)
-    except KeyError:
-        stale = True
-    if stale:
-        registry, solution = await analyse_async(doc)
-        record = _Record(document=doc, registry=registry, solution=solution)
-        CACHE_DIR.mkdir(parents=True, exist_ok=True)
-        _record_path(doc.id).write_text(record.model_dump_json())
-        _STORE[doc.id] = record
+    doc = await asyncio.to_thread(read_document, text, url, pdf_base64, sample)
+    async with _LOADING.setdefault(doc.id, asyncio.Lock()):  # concurrent loads of one decision pay Jev once
+        try:
+            stale = not is_current(_get(doc.id).registry, default_client())
+        except KeyError:
+            stale = True
+        if stale:
+            registry, solution = await analyse_async(doc)
+            record = _Record(document=doc, registry=registry, solution=solution)
+            _record_path(doc.id).parent.mkdir(parents=True, exist_ok=True)
+            _record_path(doc.id).write_text(record.model_dump_json())
+            _remember(doc.id, record)
+    _LOADING.pop(doc.id, None)
     record = _get(doc.id)
     zones: dict[str, int] = {}
     for e in record.registry.entries:
@@ -259,6 +301,31 @@ def who_said(decision_id: str, question: str, k: int = 6) -> WhoSaidResult:
                          passages=[passage(e) for e, _ in hits])
 
 
+class DecisionText(BaseModel):
+    decision_id: str
+    text: str = Field(description="One line per sentence: `S-xx §n [speaker · confidence] STATUS: text`.")
+
+
+def read_decision(decision_id: str, zones: list[str] | None = None) -> DecisionText:
+    """The whole decision, annotated sentence by sentence: compact enough (a few thousand tokens) to read in full."""
+    wanted = set(zones or [z.value for z in Zone if z is not Zone.METADONNEES])
+    unknown = wanted - {z.value for z in Zone}
+    if unknown:
+        raise ValueError(f"Unknown zones {sorted(unknown)}; use {[z.value for z in Zone]}.")
+    lines, current = [], None
+    for e in _get(decision_id).registry.entries:
+        if e.zone.value not in wanted:
+            continue
+        if e.zone is not current:
+            lines.append(f"## {ZONE_LABELS[e.zone.value]}")
+            current = e.zone
+        para = f" §{e.paragraph}" if e.paragraph else ""
+        chain = f" (reprend : {SPEAKER_LABELS[e.chain[-1].value]})" if len(e.chain) > 1 and e.speaker.value == "COUR_CASSATION" else ""
+        warn = " ⚠" if e.speaker.confidence < CONFIDENCE_OK else ""
+        lines.append(f"{e.id}{para} [{SPEAKER_LABELS[e.speaker.value]} · {e.speaker.confidence:.0%}{warn}]{chain} {e.status.value}: {e.text}")
+    return DecisionText(decision_id=decision_id, text="\n".join(lines))
+
+
 def get_passage(decision_id: str, segment_id: str, context: int = 1) -> list[Passage]:
     entries = _get(decision_id).registry.entries
     index = next((i for i, e in enumerate(entries) if e.id == segment_id), None)
@@ -287,6 +354,8 @@ def verify_text(decision_id: str, text: str) -> VerifyResult:
             explanation = f"Attribué à : {claimed} — en réalité : {actual} ({para}, {ZONE_LABELS[entry.zone.value]})."
         else:
             explanation = _EXPLAIN[r["verdict"]]
+        if r["wrong_citation"]:
+            explanation += f" Le segment cité ne contient pas cette affirmation{f' ; passage le plus proche : {entry.id}' if entry else ''}."
         sentences.append(VerifiedSentence(sentence=r["sentence"], claimed_speaker=r["claimed_speaker"], verdict=r["verdict"],
                                           explanation=explanation, source=passage(entry) if entry else None))
     summary: dict[str, int] = {}

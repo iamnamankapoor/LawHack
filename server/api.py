@@ -46,6 +46,11 @@ def who_said(decision_id: str, body: QuestionRequest) -> service.WhoSaidResult:
     return _http(service.who_said, decision_id, body.question, body.k)
 
 
+@router.get("/decisions/{decision_id}/text", operation_id="read_decision")
+def read_decision(decision_id: str, zones: str | None = None) -> service.DecisionText:
+    return _http(service.read_decision, decision_id, zones.split(",") if zones else None)
+
+
 @router.post("/decisions/{decision_id}/verify", operation_id="verify")
 def verify(decision_id: str, body: VerifyRequest) -> service.VerifyResult:
     return _http(service.verify_text, decision_id, body.text)

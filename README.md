@@ -344,6 +344,7 @@ SYSTEM_ONE_MODEL=jev-latest  # ou openjev-latest
 MISTRAL_API_KEY=
 OPENROUTER_API_KEY=          # baseline Astra (openai/gpt-6-astra) et/ou Mistral
 ANSWER_MODEL=mistral-medium-3-5
+# REVISE_MODEL= (défaut : ANSWER_MODEL) ; ANSWER_CACHE=1 active le cache des réponses
 BASELINE_MODEL=openai/gpt-6-astra
 ```
 

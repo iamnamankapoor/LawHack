@@ -1,12 +1,16 @@
 """System 2: retrieve registry segments with Jev, draft a cited answer with Mistral, verify with Jev."""
 
 import asyncio
+import hashlib
+import json
 import logging
 import os
 import re
+import tempfile
 import time
+from pathlib import Path
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 from typesafe_sdk import Choice, Noul
 
 from lawhack.retrieval import BM25, coverage
@@ -14,7 +18,12 @@ from lawhack.schema import Registry, RegistryEntry, Speaker, Zone
 from lawhack.segmenter import split_sentences
 from lawhack.solution import Solution
 from lawhack.system_one import SystemOneClient
+from lawhack import verify as verify_module
 from lawhack.verify import claimed_speaker, contradiction, strip_cues
+
+ANSWER_CODE_FINGERPRINT = hashlib.sha256(
+    Path(__file__).read_bytes() + Path(verify_module.__file__).read_bytes()
+).hexdigest()
 
 ANSWER_ABOVE = 0.8
 WARN_ABOVE = 0.5
@@ -23,6 +32,8 @@ MIN_PARAGRAPH_P = 0.05
 COVER = 0.9
 PARAGRAPH_CHARS = 1500
 NONE = "NONE"
+ANSWER_CACHE_DIR = Path("data/cache/answers")
+ANSWER_CACHE_VERSION = "1"
 TARGET_ANY = "ANY"
 TARGET_MIN = 0.6
 MAX_PINNED = 3
@@ -266,7 +277,7 @@ def draft(question: str, context: list[RegistryEntry], model: str | None = None)
     return _complete([
         {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user", "content": f"Extraits :\n\n{excerpts}\n\nQuestion : {question}"},
-    ], model)
+    ], _draft_model(model))
 
 
 REVISE_PROMPT = """Tu corriges UNE phrase d'une réponse juridique que la vérification a jugée non soutenue par ses passages cités.
@@ -283,10 +294,18 @@ def revise(sentence: str, cited: list[RegistryEntry], model: str | None = None) 
     return _complete([
         {"role": "system", "content": REVISE_PROMPT},
         {"role": "user", "content": f"Passages cités :\n\n{excerpts}\n\nPhrase à corriger : {sentence}"},
-    ], model)
+    ], _revise_model(model))
 
 
-def _complete(messages: list[dict], model: str | None) -> str:
+def _draft_model(model: str | None) -> str:
+    return model or os.environ.get("ANSWER_MODEL", "mistral-medium-latest")
+
+
+def _revise_model(model: str | None) -> str:
+    return model or os.environ.get("REVISE_MODEL") or _draft_model(None)
+
+
+def _complete(messages: list[dict], model: str) -> str:
     from mistralai.client import Mistral
     from mistralai.client.errors import SDKError
 
@@ -294,7 +313,7 @@ def _complete(messages: list[dict], model: str | None) -> str:
     for attempt in range(5):
         try:
             response = client.chat.complete(
-                model=model or os.environ.get("ANSWER_MODEL", "mistral-medium-latest"), temperature=0, messages=messages
+                model=model, temperature=0, messages=messages
             )
             return response.choices[0].message.content.strip()
         except SDKError as error:
@@ -356,6 +375,76 @@ def _reports_lower_court(claim: str, cited: RegistryEntry) -> bool:
 
 
 async def ask(
+    registry: Registry,
+    question: str,
+    client: SystemOneClient,
+    model: str | None = None,
+    *,
+    solution: Solution | None = None,
+) -> Answer:
+    if os.environ.get("ANSWER_CACHE") == "0":
+        return await _ask(registry, question, client, model, solution=solution)
+    key = _answer_cache_key(registry, question, model, solution)
+    cache_file = ANSWER_CACHE_DIR / registry.document_id / f"{key}.json"
+    cached = _read_cached_answer(cache_file, question)
+    if cached is not None:
+        return cached
+    answer = await _ask(registry, question, client, model, solution=solution)
+    _write_cached_answer(cache_file, answer)
+    return answer
+
+
+def _answer_cache_key(
+    registry: Registry,
+    question: str,
+    model: str | None,
+    solution: Solution | None = None,
+) -> str:
+    registry_hash = hashlib.sha256(registry.model_dump_json().encode("utf-8")).hexdigest()
+    content = json.dumps(
+        [
+            ANSWER_CACHE_VERSION,
+            ANSWER_CODE_FINGERPRINT,
+            registry_hash,
+            " ".join(question.split()).casefold(),
+            _draft_model(model),
+            _revise_model(model),
+            solution.value if solution else None,
+        ],
+        ensure_ascii=False,
+        separators=(",", ":"),
+    )
+    return hashlib.sha256(content.encode("utf-8")).hexdigest()
+
+
+def _read_cached_answer(path: Path, question: str) -> Answer | None:
+    try:
+        cached = Answer.model_validate_json(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError, ValidationError):
+        return None
+    return cached.model_copy(update={"question": question})
+
+
+def _write_cached_answer(path: Path, answer: Answer) -> None:
+    temporary: Path | None = None
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with tempfile.NamedTemporaryFile(
+            mode="w", encoding="utf-8", dir=path.parent, prefix=f".{path.name}.", suffix=".tmp", delete=False
+        ) as stream:
+            temporary = Path(stream.name)
+            stream.write(answer.model_dump_json())
+        os.replace(temporary, path)
+    except OSError as error:
+        if temporary is not None:
+            try:
+                temporary.unlink(missing_ok=True)
+            except OSError:
+                pass
+        log.warning("Réponse non mise en cache (%s).", error)
+
+
+async def _ask(
     registry: Registry,
     question: str,
     client: SystemOneClient,

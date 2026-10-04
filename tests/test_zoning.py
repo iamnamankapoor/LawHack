@@ -37,3 +37,54 @@ def test_legifrance_pdf_zones_and_annexe(legifrance_doc):
     annexe = [b for b in blocks if b.heading and b.heading.upper().startswith("MOYEN ANNEXE")]
     assert annexe and all(b.zone in (Zone.MOYENS, Zone.METADONNEES) for b in annexe)
     assert "legifrance.gouv.fr" not in legifrance_doc.text
+
+
+ATTENDU_STYLE = """LA COUR DE CASSATION, DEUXIÈME CHAMBRE CIVILE, a rendu l'arrêt suivant :
+
+Attendu, selon l'arrêt attaqué, qu'à l'issue d'un contrôle, l'URSSAF a adressé à la société une lettre d'observations ;
+
+Sur le premier moyen :
+
+Attendu que l'URSSAF fait grief à l'arrêt d'annuler les redressements, alors, selon le moyen :
+
+1°/ que les jugements doivent être motivés ;
+
+Mais attendu que l'arrêt retient que les redressements sont tous fondés sur le même motif ;
+
+Vu l'article R. 243-59 du code de la sécurité sociale ;
+
+PAR CES MOTIFS :
+
+CASSE ET ANNULE, mais seulement en ce qu'il annule les redressements ;
+
+Moyens produits par la SCP Gatineau et Fattaccini, avocat aux Conseils, pour l'URSSAF.
+
+Il est fait grief à l'arrêt attaqué d'avoir annulé les redressements.
+"""
+
+
+def test_pre_2019_attendu_style_zones():
+    from lawhack.ingest import load_text
+    from lawhack.zoning import zone_blocks
+
+    zones = {b.text[:25]: b.zone.value for b in zone_blocks(load_text(ATTENDU_STYLE))}
+    assert zones["Attendu, selon l'arrêt at"] == "expose"
+    assert zones["Attendu que l'URSSAF fait"] == "moyens"
+    assert zones["1°/ que les jugements doi"] == "moyens"
+    assert zones["Mais attendu que l'arrêt "] == "motivations"
+    assert zones["Vu l'article R. 243-59 du"] == "motivations"
+    assert zones["CASSE ET ANNULE, mais seu"] == "dispositif"
+    assert zones["Il est fait grief à l'arr"] == "moyens"
+
+
+def test_pdf_without_text_layer_falls_back_to_ocr(tmp_path, monkeypatch):
+    import pymupdf
+
+    from lawhack import ingest
+
+    path = tmp_path / "image.pdf"
+    pdf = pymupdf.open()
+    pdf.new_page()
+    pdf.save(path)
+    monkeypatch.setattr(ingest, "ocr_pdf", lambda p: ["10/4/26, 3:44 PM\nREJETTE le pourvoi ;\nhttps://www.legifrance.gouv.fr/x 1/1\n"])
+    assert ingest.load_pdf(path).text.strip() == "REJETTE le pourvoi ;"

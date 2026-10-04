@@ -1,7 +1,7 @@
 import asyncio
 
 from lawhack.attributor import build_registry
-from lawhack.schema import Decision, Speaker, Status, Zone
+from lawhack.schema import Decision, Segment, Speaker, Status, Zone
 from lawhack.segmenter import segment
 from lawhack.system_one import SystemOneResult
 from lawhack.zoning import zone_blocks
@@ -49,7 +49,6 @@ def test_rules_jev_and_approval_markers(legifrance_doc):
 
 def test_drafting_formulas_need_no_model_call():
     from lawhack.attributor import _rule
-    from lawhack.schema import Segment, Zone
 
     def seg(text, zone=Zone.MOTIVATIONS):
         return Segment(id="S-001", text=text, start=0, end=len(text), block=0, zone=zone)
@@ -61,8 +60,49 @@ def test_drafting_formulas_need_no_model_call():
     assert _rule(seg("9. Elle a retenu à bon droit que la promesse était caduque.")) is None
 
 
+def test_numbered_anaphora_propagates_and_cascades():
+    texts = [
+        "La cour d'appel a examiné les propositions.",
+        "7. Il relève, encore, que le poste était adapté.",
+        "Il ajoute que le salarié pouvait accepter.",
+    ]
+    segments = []
+    start = 0
+    for i, text in enumerate(texts, start=1):
+        segments.append(Segment(
+            id=f"S-{i:03}",
+            text=text,
+            start=start,
+            end=start + len(text),
+            block=0,
+            zone=Zone.MOTIVATIONS,
+        ))
+        start += len(text) + 1
+    registry = asyncio.run(build_registry("doc", segments, FakeSystemOne()))
+
+    assert registry.entries[0].speaker.value == Speaker.JURIDICTION_FOND.value
+    assert registry.entries[1].speaker.value == Speaker.JURIDICTION_FOND.value
+    assert registry.entries[1].source == "jev+anaphora"
+    assert registry.entries[2].speaker.value == Speaker.JURIDICTION_FOND.value
+    assert registry.entries[2].source == "jev+anaphora"
+
+
 def test_expose_is_lower_court_findings(legifrance_doc):
     registry = asyncio.run(build_registry("doc", segment(zone_blocks(legifrance_doc)), FakeSystemOne()))
     expose = [e for e in registry.entries if e.zone is Zone.EXPOSE]
     assert expose and all(e.speaker.value == "JURIDICTION_FOND" and e.status.value == "CONSTATE" for e in expose)
     assert all(e.type.value in ("FAIT", "PROCEDURE") for e in expose)
+
+
+def test_analyse_falls_back_to_heuristic_when_jev_fails(tmp_path, monkeypatch, legifrance_doc):
+    from lawhack import pipeline
+
+    class Broken:
+        model = "jev-latest"
+
+        async def decide(self, state, questions):
+            raise RuntimeError("401 Cannot authenticate")
+
+    monkeypatch.setattr(pipeline, "CACHE_DIR", tmp_path)
+    registry, _ = pipeline.analyse(legifrance_doc, Broken())
+    assert registry.entries and registry.model == "heuristic"

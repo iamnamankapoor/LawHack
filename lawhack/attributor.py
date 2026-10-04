@@ -10,7 +10,7 @@ from lawhack.schema import Decision, Registry, RegistryEntry, Segment, Speaker, 
 from lawhack.system_one import SystemOneClient
 
 RECHECK_BELOW = 0.8
-VERSION = "3"  # bump when rules or prompts change: cached registries are recomputed
+VERSION = "5"  # bump when rules or prompts change: cached registries are recomputed
 
 SPEAKER_CRITERIA = {
     Speaker.COUR_CASSATION.value: "The Cour de cassation states its own reasoning, approval or ruling (judge of law, not of facts)",
@@ -44,11 +44,11 @@ ENDORSEMENT_MARKERS = re.compile(r"à bon droit|exactement (déduit|retenu)|just
 # The Cour's verdict on a ground of appeal: its own ruling, no endorsed voice.
 _VERDICT = re.compile(r"^(\d+\.\s*)?(le|ce|ces) (moyen|grief)s?,?( pris en sa \w+ branche,)? (n'est|ne sont|est|sont|ne peu(t|vent)) ", re.I)
 _VISA = re.compile(r"^vu (les?|l')\s*(articles?|principe)", re.I)
+_N = r"^(\d+\.\s*)?"
 # « Il en déduit… » / « Elle retient… » continues the previous sentence's voice.
-_ANAPHORA = re.compile(r"^(il|elle)s? (en )?(a |ont )?(déduit|dédui|retient|retenu|relève|relevé|ajoute|énonce|constate|estime|considère|conclut|juge)", re.I)
+_ANAPHORA = re.compile(_N + r"(il|elle)s? (en )?(a |ont )?(déduit|dédui|retient|retenu|relève|relevé|ajoute|énonce|constate|estime|considère|conclut|juge)", re.I)
 
 # Codified formulas of Cour de cassation drafting (motivation enrichie): no model call needed.
-_N = r"^(\d+\.\s*)?"
 _LOWER_COURT_FORMULA = re.compile(
     _N + r"(pour [^.]{0,500}?, )?(l'arr[êe]t|la cour d'appel|les juges du fond|le jugement)( attaqu[ée])? "
     r"(retient|relève|énonce|constate|considère|estime|juge|ajoute|observe)\b", re.I)

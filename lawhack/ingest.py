@@ -17,8 +17,11 @@ def load_pdf(path: str | Path) -> Document:
     parts: list[str] = []
     pages: list[tuple[int, int]] = []
     offset = 0
-    with pymupdf.open(path) as pdf:
-        raw = [page.get_text("text") for page in pdf]
+    try:
+        with pymupdf.open(path) as pdf:
+            raw = [page.get_text("text") for page in pdf]
+    except pymupdf.FileDataError as error:
+        raise NoTextError("Fichier PDF illisible ou corrompu.") from error
     if sum(len(t.strip()) for t in raw) < MIN_TEXT_CHARS:
         raw = ocr_pdf(path)  # e.g. "Microsoft Print to PDF" turns the text into drawn glyphs
     for page_text in raw:
@@ -54,6 +57,16 @@ def ocr_pdf(path: str | Path) -> list[str]:
     with urllib.request.urlopen(req, timeout=180) as resp:
         pages = json.load(resp)["pages"]
     return [re.sub(r"(?m)^#+\s+", "", p["markdown"]) for p in pages]
+
+
+def read_text_file(path: str | Path) -> Document:
+    """A .txt decision copied from Légifrance/Judilibre: UTF-8 (with or without BOM) or Windows-1252."""
+    data = Path(path).read_bytes()
+    try:
+        text = data.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        text = data.decode("cp1252", errors="replace")
+    return load_text(text.replace("\r\n", "\n").replace("\r", "\n"))
 
 
 def load_text(text: str, doc_id: str | None = None) -> Document:

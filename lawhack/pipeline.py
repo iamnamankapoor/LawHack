@@ -1,10 +1,12 @@
 import asyncio
+import logging
 import os
 from pathlib import Path
 
 from lawhack.attributor import VERSION, build_registry
+from lawhack import feedback
 from lawhack.heuristic import HeuristicSystemOne
-from lawhack.ingest import load_pdf, load_text
+from lawhack.ingest import load_pdf, read_text_file
 from lawhack.schema import Document, Registry, Zone
 from lawhack.segmenter import segment
 from lawhack.solution import Solution, detect_solution
@@ -12,13 +14,14 @@ from lawhack.system_one import SystemOneClient, TypeSafeSystemOne
 from lawhack.zoning import zone_blocks
 
 CACHE_DIR = Path("data/cache")
+log = logging.getLogger(__name__)
 
 
 def load(path: str | Path) -> Document:
     path = Path(path)
     if path.suffix.lower() == ".pdf":
         return load_pdf(path)
-    return load_text(path.read_text())
+    return read_text_file(path)
 
 
 def default_client() -> SystemOneClient:
@@ -46,8 +49,15 @@ async def analyse_async(doc: Document, client: SystemOneClient | None = None, us
     if use_cache and cached.exists():
         registry = Registry.model_validate_json(cached.read_text())
         if is_current(registry, client):
-            return registry, solution
-    registry = await build_registry(doc.id, segment(blocks), client)
+            return feedback.apply_overrides(registry), solution
+    try:
+        registry = await build_registry(doc.id, segment(blocks), client)
+    except Exception as error:
+        if isinstance(client, HeuristicSystemOne):
+            raise
+        # Bad key, wrong TYPESAFE_BASE_URL/SYSTEM_ONE_MODEL or network: degrade instead of failing the upload.
+        log.warning("Jev indisponible (%s) : attribution heuristique.", error)
+        registry = await build_registry(doc.id, segment(blocks), HeuristicSystemOne())
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     cached.write_text(registry.model_dump_json(indent=2))
-    return registry, solution
+    return feedback.apply_overrides(registry), solution

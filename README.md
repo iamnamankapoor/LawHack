@@ -319,14 +319,16 @@ Corpus : 25 arrêts récents de 6 chambres (civ. 1/2/3, com., soc., crim.) couvr
 | **LawHack** | **0,86–0,87** | **11/224** | **47/50** | 27/50 | 49/50 | 45/50 |
 | Mistral seul | 0,76 | 44/224 | 0/50 | **39/50** | 49/50 | **49/50** |
 
-| Indicateur | Valeur |
-|---|---|
-| Écart apparié LawHack − Mistral seul (IC 95 % bootstrap) | +0,11 [+0,02 ; +0,20] texte brut · +0,10 [+0,01 ; +0,19] PDF |
-| Ingestion PDF (similarité avec le .txt Légifrance) | ≥ 0,986 |
-| Zonage (précision au caractère) | 98,5 % |
-| Locuteurs (segments ancrés) | 259/259 |
-| Solution détectée | 24/25 — bug : `_REJECT` ne reconnaît pas « REJETTE le recours » |
-| Latence médiane / réponse | LawHack 2,4 s (texte) · 5,9 s (PDF) — Mistral seul 1,1–1,2 s |
+| Indicateur | LawHack | Mistral seul |
+|---|---|---|
+| Score global (texte brut / PDF) | **0,87 / 0,86** | 0,76 / 0,76 |
+| Réponses entièrement correctes | **182/224** | 159/224 |
+| Score sur les pièges d'attribution (texte / PDF) | **0,82 / 0,79** | 0,48 / 0,49 |
+| Règle conforme au sommaire officiel | 14/24 | **22/24** |
+| Faits inventés | 4 | **1** |
+| Latence médiane / réponse (texte / PDF) | 2,4 s / 5,9 s | **1,1 s / 1,2 s** |
+| Lecture Système 1 | ingestion PDF ≥ 0,986 · zonage 98,5 % · locuteurs 259/259 · solution 24/25 (bug « REJETTE le recours ») | — (pas de registre) |
+| Écart apparié (IC 95 % bootstrap) | +0,11 [+0,02 ; +0,20] texte · +0,10 [+0,01 ; +0,19] PDF | référence |
 
 | Faiblesse mesurée de LawHack | Cas |
 |---|---|

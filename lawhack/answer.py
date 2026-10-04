@@ -207,7 +207,7 @@ async def verify(draft_text: str, registry: Registry, client: SystemOneClient) -
     sentences: list[tuple[str, list[RegistryEntry]]] = []
     for span in spans:
         cited = [registry.by_id(i) for i in dict.fromkeys(_CITE.findall(span))]
-        sentences.append((_CITE.sub("", span).strip(), [c for c in cited if c]))
+        sentences.append((re.sub(r"\s+([.,;:!?])", r"\1", _CITE.sub("", span)).strip(), [c for c in cited if c]))
 
     state = {
         f"claim_{i}": {"claim": text, "cited_sentences": {c.id: {"speaker": c.speaker.value, "text": c.text} for c in cited}}

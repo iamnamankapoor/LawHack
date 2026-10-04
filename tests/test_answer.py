@@ -9,6 +9,7 @@ from lawhack.answer import ask, draft as answer_draft, revise as answer_revise
 from lawhack.attributor import build_registry
 from lawhack.schema import Decision, Zone
 from lawhack.segmenter import segment
+from lawhack.solution import Solution
 from lawhack.system_one import SystemOneResult
 from lawhack.zoning import zone_blocks
 
@@ -153,6 +154,20 @@ def test_answer_cache_misses_when_registry_changes(legifrance_doc, monkeypatch, 
 
     assert first_client.decide_calls > 0 and second_client.decide_calls > 0
     assert mistral.models == ["draft-model", "draft-model"]
+
+
+def test_answer_cache_misses_when_solution_changes(legifrance_doc, monkeypatch, tmp_path):
+    _enable_answer_cache(monkeypatch, tmp_path)
+    registry = _registry(legifrance_doc)
+    s9 = _para(registry, 9).id
+    client = _fake(registry, relevant={s9})
+    monkeypatch.setattr(answer_module, "draft", lambda q, context, model=None: f"Les parties sont en désaccord [{s9}].")
+
+    asyncio.run(ask(registry, "Que décide la Cour ?", client, solution=Solution.REJET))
+    calls_after_first = client.decide_calls
+    asyncio.run(ask(registry, "Que décide la Cour ?", client, solution=Solution.CASSATION))
+
+    assert client.decide_calls > calls_after_first
 
 
 def test_answer_cache_can_be_disabled(legifrance_doc, monkeypatch, tmp_path):
@@ -431,6 +446,47 @@ def test_recheck_failure_keeps_draft_and_removing_everything_abstains(legifrance
     monkeypatch.setattr(answer_module, "revise", lambda s, c, m=None: "SUPPRIMER")
     result = asyncio.run(ask(registry, "?", fake))
     assert result.abstained and result.sentences == []
+
+
+def test_contradicted_sentence_is_dropped_when_rewrite_fails(legifrance_doc, monkeypatch):
+    registry = _registry(legifrance_doc)
+    s9 = _para(registry, 9).id
+    monkeypatch.setattr(
+        answer_module,
+        "draft",
+        lambda q, ctx, m=None: f"La Cour de cassation a partiellement cassé cet arrêt [{s9}].",
+    )
+
+    result = asyncio.run(
+        ask(registry, "Que décide la Cour ?", _fake(registry, relevant={s9}), solution=Solution.REJET)
+    )
+
+    assert result.abstained and result.sentences == []
+
+
+def test_contradicted_sentence_can_be_rewritten_to_match_solution(legifrance_doc, monkeypatch):
+    registry = _registry(legifrance_doc)
+    s9 = _para(registry, 9).id
+    fake = _fake(registry, relevant={s9}, supported=0.2)
+    monkeypatch.setattr(
+        answer_module,
+        "draft",
+        lambda q, ctx, m=None: f"La Cour de cassation a partiellement cassé cet arrêt [{s9}].",
+    )
+
+    def revise(sentence, cited, model=None):
+        assert "Problème : Contredit par le dispositif" in sentence
+        fake.supported = 0.95
+        return f"La Cour de cassation a rejeté le pourvoi [{s9}]."
+
+    monkeypatch.setattr(answer_module, "revise", revise)
+    result = asyncio.run(
+        ask(registry, "Que décide la Cour ?", fake, solution=Solution.REJET)
+    )
+
+    (only,) = result.sentences
+    assert only.text == "La Cour de cassation a rejeté le pourvoi."
+    assert only.revised_from == "La Cour de cassation a partiellement cassé cet arrêt."
 
 
 def test_lower_court_reported_in_a_moyen_is_a_warning(legifrance_doc, monkeypatch):

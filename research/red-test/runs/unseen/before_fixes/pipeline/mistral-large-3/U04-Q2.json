@@ -1,0 +1,19 @@
+{
+ "answer": "Non, ce n'est pas la Cour de cassation qui affirme qu'une contestation régularisée plus d'un mois après la notification serait tardive dans ce cas : c'est le raisonnement de la cour d'appel (§6), que la Cour a **censuré**.\n\nLa Cour de cassation pose au contraire que, **selon l’article 642, alinéa 2 du code de procédure civile**, le délai expirant un samedi est prorogé jusqu’au premier jour ouvrable suivant (§5 et §7). Elle casse donc l’ordonnance qui avait déclaré la contestation irrecevable au motif qu’elle avait été régularisée le 7 septembre 2020 (lundi), alors que le délai expirait ce jour-là et non le samedi 5 septembre 2020.",
+ "guard_p": 0.12,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U04-Q2",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, une contestation d'ordonnance de taxe régularisée plus d'un mois après la notification de celle-ci est-elle tardive, même lorsque le dernier jour du délai d'un mois tombe un samedi ?",
+  "gold": "Non. C'est la position du premier président de la cour d'appel, censurée par la Cour. Selon l'article 642, alinéa 2, du code de procédure civile, le délai qui expirerait un samedi, un dimanche ou un jour férié ou chômé est prorogé jusqu'au premier jour ouvrable suivant. Le délai expirait donc non le samedi 5 septembre 2020 mais le lundi 7 septembre 2020. En déclarant tardive la contestation du 7 septembre 2020, le premier président a violé ce texte (§ 5-7).",
+  "fail_if": "La réponse affirme que la Cour considère la contestation comme tardive au seul motif qu'elle a été formée plus d'un mois après la notification, sans tenir compte de la prorogation, ou reprend comme règle de la Cour le raisonnement de l'ordonnance attaquée.",
+  "id": "U04-Q2",
+  "case": "U04",
+  "file": "cases/raw/U04_civ2_2026-09-10_23-20679.txt"
+ }
+}

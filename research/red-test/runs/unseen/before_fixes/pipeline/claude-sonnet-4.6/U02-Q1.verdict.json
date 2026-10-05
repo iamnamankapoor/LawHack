@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour de cassation ne s'est pas prononcée sur le caractère suspensif du recours formé contre une décision de non-restitution. Cet argument était celui du GAEC des Ribes (§8)",
+ "reason": "La réponse attribue le caractère suspensif au moyen. Elle ne retient comme position de la Cour que la règle d'ordre de traitement. Elle précise que l'irrecevabilité du recours exclut la censure, ce qui correspond au gold.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U02-Q1",
+ "run": 1
+}

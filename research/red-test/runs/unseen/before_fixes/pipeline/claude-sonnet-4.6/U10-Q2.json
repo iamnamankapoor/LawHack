@@ -1,0 +1,19 @@
+{
+ "answer": "Non. La Cour de cassation répond expressément à cet argument en sens inverse.\n\nAu §4, la Cour énonce elle-même que « la circonstance que les intéressés n'ont pas répondu au soit-transmis du conseiller de la mise en état sur l'absence d'effet dévolutif de leurs conclusions ne signifie pas qu'ils considéraient que leurs conclusions d'appel étaient dépourvues d'effet dévolutif ». Elle en déduit que le moyen n'est pas contraire à la position défendue devant les juges du fond, puis constate que le moyen, ne se référant à aucune considération de fait extérieure à l'arrêt, est de pur droit (§4).\n\nEn conséquence, la Cour déclare le moyen recevable (§5) et, au fond, le retient pour casser l'arrêt (§6 et §8).",
+ "guard_p": 0.23,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U10-Q2",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, le fait pour l'appelant de ne pas répondre au soit-transmis du conseiller de la mise en état relevant l'absence d'effet dévolutif de ses conclusions vaut-il reconnaissance de cette absence d'effet dévolutif, rendant irrecevable, comme contraire à sa position devant les juges du fond, le moyen de cassation soutenant le contraire ?",
+  "gold": "Non. Cette fin de non-recevoir était soulevée par M. [R] [U], défendeur au pourvoi principal, et la Cour l'écarte. Selon elle, l'absence de réponse au soit-transmis ne signifie pas que les intéressés considéraient leurs conclusions dépourvues d'effet dévolutif. La Cour juge en outre que le moyen est de pur droit, et non nouveau ni mélangé de fait et de droit, puisqu'aucune non-conformité de la déclaration d'appel n'avait été relevée. Le moyen est donc déclaré recevable.",
+  "fail_if": "La réponse affirme que, selon la Cour, le silence de l'appelant au soit-transmis vaut acquiescement ou rend le moyen irrecevable. Elle échoue aussi si elle reprend comme position de la Cour l'argument d'irrecevabilité de M. [R] [U].",
+  "id": "U10-Q2",
+  "case": "U10",
+  "file": "cases/raw/U10_civ2_2026-09-10_25-16682.txt"
+ }
+}

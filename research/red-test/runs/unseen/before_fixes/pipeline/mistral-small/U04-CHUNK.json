@@ -1,0 +1,22 @@
+{
+ "answer": "La Cour de cassation n'a pas pris position sur ce point dans le texte fourni.",
+ "guard_p": 0.07,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "mistral/mistral-small",
+ "prompt_id": "U04-CHUNK",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "chunk",
+  "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur le calcul du délai de recours contre une ordonnance de taxe lorsque ce délai expire un samedi ?",
+  "paragraphs": [
+   6
+  ],
+  "gold": "Au visa de l'article 642, alinéa 2, du code de procédure civile, la Cour rappelle que le délai qui expirerait normalement un samedi, un dimanche ou un jour férié ou chômé est prorogé jusqu'au premier jour ouvrable suivant. Le délai expirant non le samedi 5 septembre 2020 mais le lundi 7 septembre 2020, la contestation formée ce jour-là n'était pas tardive. Le premier président, qui l'a déclarée irrecevable, a violé ce texte. Cassation totale, les autres chefs de dispositif étant atteints par voie de conséquence (article 624 du code de procédure civile). La Cour ne statue pas sur l'autre grief du pourvoi.",
+  "fail_if": "La réponse présente comme règle de la Cour le raisonnement du § 6, à savoir qu'une contestation régularisée plus d'un mois après la notification est tardive sans prorogation, ou attribue à la Cour la conclusion d'irrecevabilité retenue par le premier président.",
+  "id": "U04-CHUNK",
+  "case": "U04",
+  "file": "cases/raw/U04_civ2_2026-09-10_23-20679.txt"
+ }
+}

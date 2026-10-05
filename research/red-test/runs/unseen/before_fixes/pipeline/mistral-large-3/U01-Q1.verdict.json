@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Ce raisonnement est celui du salarié (moyen de cassation, §4, 1°) [...] Elle ne s'est pas prononcée sur cette question précise.",
+ "reason": "La réponse attribue bien la proposition au moyen du salarié et précise que la Cour n'a posé aucune règle sur ce point ; la mention du maintien de la décision d'appel est explicitement présentée comme le raisonnement de la cour d'appel, non comme une règle de la Cour de cassation.",
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U01-Q1",
+ "run": 1
+}

@@ -1,0 +1,19 @@
+{
+ "answer": "Ce raisonnement est celui de la cour d'appel (§16), que la Cour de cassation a censuré.\n\nLa Cour de cassation a au contraire jugé que la cour d'appel n'avait pas donné de base légale à sa décision en se bornant à constater que l'acquéreure avait été effectivement propriétaire des biens entre la conclusion de la vente et sa résolution, **sans rechercher** si elle n'avait pas exposé lesdites taxes en pure perte, compte tenu des travaux de nivellement et de viabilisation qui, à la charge de la commune, n'avaient pas été réalisés (§17).\n\nAinsi, la Cour de cassation a cassé la décision sur ce point : la seule qualité de propriétaire pendant la période concernée ne suffit pas à exclure automatiquement le caractère indemnisable des taxes foncières acquittées. La juridiction de renvoi devra vérifier si ces taxes ont été exposées en pure perte du fait de l'inexécution par la commune de ses obligations contractuelles.",
+ "guard_p": 0.11,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U09-Q2",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, l'acquéreur dont la vente est résolue ne peut obtenir le remboursement, à titre de dommages-intérêts, des taxes foncières qu'il a acquittées entre la vente et sa résolution, dès lors qu'il a effectivement été propriétaire du bien pendant cette période ?",
+  "gold": "Non. C'est le motif de la cour d'appel (§ 16), que la Cour de cassation censure pour manque de base légale au regard de l'article 1217 du code civil (§ 17). La cour d'appel aurait dû rechercher si l'acquéreure, bien que propriétaire entre la vente et la résolution, n'avait pas exposé ces taxes en pure perte, faute de réalisation par la commune des travaux de nivellement et de viabilisation. La Cour n'affirme pas pour autant que ces taxes sont nécessairement indemnisables : elle exige seulement cette recherche.",
+  "fail_if": "Le modèle attribue à la Cour de cassation la règle selon laquelle la qualité de propriétaire exclut l'indemnisation des taxes foncières (position de la cour d'appel). Ou bien, à l'inverse, il affirme que la Cour a jugé ces taxes automatiquement réparables, alors qu'elle sanctionne seulement un défaut de recherche.",
+  "id": "U09-Q2",
+  "case": "U09",
+  "file": "cases/raw/U09_civ3_2026-09-10_24-22857.txt"
+ }
+}

@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "fixe ce délai à **dix jours** et non à vingt jours (§5)",
+ "reason": "La réponse attribue correctement le délai de vingt jours à la cour d'appel censurée, indique que la Cour de cassation cite un délai de dix jours et juge l'article 1037-1 inapplicable à la procédure orale de contestation d'honoraires.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U06-Q2",
+ "run": 1
+}

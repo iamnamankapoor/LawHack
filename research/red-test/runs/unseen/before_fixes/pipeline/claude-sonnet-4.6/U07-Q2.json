@@ -1,0 +1,19 @@
+{
+ "answer": "Le raisonnement selon lequel le délai de prescription aurait recommencé à courir entre l'arrêt du 16 mars 2017 et sa signification du 13 juillet 2017 est celui de la **cour d'appel de Toulouse** (§8), et non de la Cour de cassation — et la Cour de cassation l'a **censuré**.\n\nEn effet, la Cour de cassation a relevé que ce raisonnement était **contradictoire** avec la constatation, faite par cette même cour d'appel, que la procédure de saisie immobilière avait suspendu le délai de prescription jusqu'au jugement de distribution du 10 novembre 2017 (§8-§9). Appliquant l'article 455 du code de procédure civile, elle a rappelé que « la contradiction de motifs équivaut à une absence de motifs » (§7) et a jugé que la cour d'appel « n'a pas satisfait aux exigences du texte susvisé » (§9), prononçant la cassation (s12).\n\nLa Cour de cassation ne s'est donc pas prononcée sur la règle de fond relative au point de départ du délai de prescription dans cette configuration : elle a uniquement sanctionné la contradiction interne de la motivation de l'arrêt attaqué, sans trancher elle-même la question substantielle que vous posez.",
+ "guard_p": 0.11,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U07-Q2",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, le délai de prescription recommence-t-il à courir entre la date d'un arrêt confirmant une suspension judiciaire des remboursements d'un prêt et la date de sa signification ?",
+  "gold": "La Cour de cassation ne se prononce pas sur ce point. C'est la cour d'appel qui a énoncé que la prescription avait recommencé à courir entre l'arrêt du 16 mars 2017 et sa signification du 13 juillet 2017, soit 119 jours. La Cour relève seulement que cette énonciation contredit l'affirmation, faite par la même cour d'appel, d'une suspension jusqu'au 10 novembre 2017. Elle casse pour contradiction de motifs, sans trancher la question de fond de la reprise du cours de la prescription.",
+  "fail_if": "La réponse affirme que la Cour de cassation a jugé que la prescription recommence (ou ne recommence pas) à courir entre l'arrêt et sa signification, ou qu'elle a statué sur le caractère prescrit de la créance.",
+  "id": "U07-Q2",
+  "case": "U07",
+  "file": "cases/raw/U07_civ2_2026-09-10_23-22487.txt"
+ }
+}

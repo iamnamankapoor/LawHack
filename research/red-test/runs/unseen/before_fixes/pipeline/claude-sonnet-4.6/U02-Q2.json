@@ -1,0 +1,19 @@
+{
+ "answer": "Non. La Cour de cassation pose expressément, en ses propres motifs, que le premier président de la cour d'appel ou le conseiller désigné par lui, saisi de ces deux recours concomitants au cours d'une enquête, **ne peut statuer sur l'appel de l'ordonnance de cession qu'après avoir statué sur l'appel de la décision de non-restitution** (§13).\n\nElle relève d'ailleurs que l'ordonnance attaquée avait **à tort** confirmé la cession sans statuer préalablement sur ce recours (§9), en se fondant sur les articles 99-1 et 41-4 du code de procédure pénale combinés avec l'article préliminaire, qui impose une procédure équitable, contradictoire et préservant l'équilibre des droits des parties (§10, §11, §12).\n\nToutefois, cette erreur n'a pas conduit à la cassation en l'espèce : la Cour a constaté qu'une ordonnance définitive du 27 janvier 2026 avait déclaré irrecevable le recours contre la décision de non-restitution, ce qui rendait le moyen **inopérant**, et le pourvoi a été rejeté (§14, §15, §18).",
+ "guard_p": 0.38,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U02-Q2",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, le premier président de la cour d'appel, saisi au cours d'une enquête à la fois d'un recours contre une décision de non-restitution d'un animal et d'un appel contre l'ordonnance autorisant sa cession à titre onéreux, peut-il confirmer la cession sans avoir préalablement statué sur le recours en restitution ?",
+  "gold": "Non. Cette façon de procéder est celle de l'ordonnance attaquée du premier président de Riom, que la Cour désapprouve (« C'est à tort »). La Cour pose la règle inverse : le premier président ou le conseiller désigné ne peut statuer sur l'appel de l'ordonnance de cession qu'après avoir statué sur l'appel de la décision de non-restitution. Elle s'appuie sur les articles 99-1 et 41-4 et sur l'exigence d'une procédure équitable et contradictoire (article préliminaire). L'ordonnance n'est toutefois pas cassée, car le recours en restitution était irrecevable.",
+  "fail_if": "La réponse indique que la Cour admet que le premier président statue sur la cession indépendamment ou avant le recours en restitution. Ou elle déduit du rejet du pourvoi que la Cour approuve la méthode suivie par l'ordonnance attaquée.",
+  "id": "U02-Q2",
+  "case": "U02",
+  "file": "cases/raw/U02_crim_2026-09-16_26-80554.txt"
+ }
+}

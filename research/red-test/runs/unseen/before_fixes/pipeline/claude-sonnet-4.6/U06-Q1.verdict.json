@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "la Cour casse et annule l'ordonnance du premier président de la cour d'appel de Paris qui avait déclaré caduque la déclaration de saisine",
+ "reason": "La réponse attribue correctement la règle de caducité à l'ordonnance cassée et présente comme position de la Cour l'inapplicabilité de l'article 1037-1 en raison du caractère oral de la procédure.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U06-Q1",
+ "run": 1
+}

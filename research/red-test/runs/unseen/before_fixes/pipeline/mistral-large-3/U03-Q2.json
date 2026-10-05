@@ -1,0 +1,19 @@
+{
+ "answer": "Non, ce n'est pas la Cour de cassation qui le dit. Ce raisonnement figure dans l'arrêt de la cour d'appel de Riom (§9), et la Cour de cassation l'a **censuré** pour défaut de réponse aux conclusions des parties (§10). Elle n'a donc pas validé cette position.",
+ "guard_p": 0.08,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U03-Q2",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, lorsque les factures de loyers d'un crédit-bail ont été émises sur la base d'éléments contractuels incontestables, ni ces factures ni le commandement de payer visant la clause résolutoire ne peuvent encourir la nullité ?",
+  "gold": "Non, ce n'est pas la position de la Cour de cassation. C'est le raisonnement de la cour d'appel de Riom (paragraphe 9). La Cour de cassation censure l'arrêt sur ce point parce que la cour d'appel a statué ainsi sans répondre aux conclusions relatives à l'assiette de calcul des loyers. Elle ne pose aucune règle sur la validité de ces factures ou du commandement.",
+  "fail_if": "La réponse attribue à la Cour de cassation la règle selon laquelle des factures émises sur des éléments contractuels incontestables, et le commandement de payer qui les vise, échappent à toute nullité, ou affirme que la Cour a validé le commandement de payer.",
+  "id": "U03-Q2",
+  "case": "U03",
+  "file": "cases/raw/U03_civ3_2026-09-10_24-19100.txt"
+ }
+}

@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "c'est le raisonnement de la cour d'appel (§6), que la Cour a **censuré**",
+ "reason": "La réponse attribue correctement la thèse de la tardiveté à l'ordonnance attaquée et présente la prorogation de l'article 642, alinéa 2, comme la position de la Cour de cassation, qui casse l'ordonnance.",
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U04-Q2",
+ "run": 1
+}

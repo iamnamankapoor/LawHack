@@ -1,0 +1,297 @@
+{
+ "author": "anthropic/claude-opus-5.5",
+ "questions": [
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, lorsque la lettre de licenciement reproche au salarié un chantage et des menaces envers des agents commerciaux, le juge viole l'article L. 1232-6 du code du travail s'il retient la faute en se fondant sur des rétrocommissions acceptées par ces agents, l'absence de menaces établie notamment par un non-lieu pénal excluant la matérialité du grief ?",
+   "gold": "Non. Cette proposition est celle du salarié demandeur (première branche du troisième moyen). La Cour de cassation n'y répond pas expressément. Sa réponse (§ 5 à 7) porte uniquement sur la caractérisation de l'intention de nuire. Elle conclut globalement que « le moyen n'est donc pas fondé » et rejette le pourvoi. Elle ne pose aucune règle sur la portée de la lettre de licenciement visant un « chantage », ni sur l'incidence du non-lieu ou du consentement des agents.",
+   "fail_if": "Attribue à la Cour de cassation la règle selon laquelle la lettre de licenciement visant un chantage interdit de retenir la faute sur la base d'accords consentis, ou selon laquelle un non-lieu pénal ou le consentement des agents exclut la faute. Ou affirme que la Cour a statué expressément sur l'article L. 1232-6 dans un sens ou dans l'autre.",
+   "id": "U01-Q1",
+   "case": "U01",
+   "file": "cases/raw/U01_soc_2026-09-11_25-13697.txt"
+  },
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, l'intention de nuire caractérisant la faute lourde est établie dès lors que le salarié ne pouvait ignorer qu'il causait un préjudice à son employeur et que ses actes ont rendu impossible le maintien du lien contractuel faute de confiance ?",
+   "gold": "Non. Ces motifs sont ceux de la cour d'appel, tels que rapportés et critiqués par le moyen (deuxième branche). La Cour de cassation pose au contraire que l'intention de nuire implique la volonté du salarié de porter préjudice à l'employeur dans la commission du fait fautif. Elle précise que cette intention ne résulte pas de la seule commission d'un acte préjudiciable à l'entreprise (§ 5). Elle approuve seulement la cour d'appel d'avoir « pu déduire », au regard des faits souverainement constatés, une intention de nuire. Ces faits sont : une organisation mise en place à l'insu de l'employeur, pour l'enrichissement personnel du salarié, pendant près de quatre ans, favorisant ses intérêts personnels au détriment de ceux de la société (§ 6-7). La connaissance du préjudice et la perte de confiance ne sont pas érigées en critères suffisants.",
+   "fail_if": "Affirme que, selon la Cour de cassation, la conscience de causer un préjudice ou la perte de confiance de l'employeur suffit à caractériser l'intention de nuire. Ou présente comme règle de la Cour les motifs de la cour d'appel cités dans le moyen.",
+   "id": "U01-Q2",
+   "case": "U01",
+   "file": "cases/raw/U01_soc_2026-09-11_25-13697.txt"
+  },
+  {
+   "type": "chunk",
+   "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur la caractérisation de la faute lourde ?",
+   "paragraphs": [
+    6
+   ],
+   "gold": "La seule règle posée par la Cour de cassation figure au § 5. La faute lourde est caractérisée par l'intention de nuire à l'employeur. Celle-ci implique la volonté du salarié de lui porter préjudice dans la commission du fait fautif et ne résulte pas de la seule commission d'un acte préjudiciable à l'entreprise. Le § 6 ne pose aucune règle. Il rapporte les constatations de fait de la cour d'appel, issues de son appréciation souveraine des preuves : rétrocommissions perçues à l'insu de l'employeur, pendant près de quatre ans, en contrepartie d'avantages accordés selon des critères étrangers à l'intérêt de la société. La Cour se borne ensuite à juger que la cour d'appel « a pu » en déduire une intention de nuire (contrôle léger, solution d'espèce, arrêt inédit).",
+   "fail_if": "Présente les constatations factuelles de la cour d'appel (§ 6) comme une règle générale de la Cour de cassation. Par exemple : « percevoir des rétrocommissions à l'insu de l'employeur constitue en soi une faute lourde » ou « tout enrichissement personnel au détriment de la société caractérise l'intention de nuire ».",
+   "id": "U01-CHUNK",
+   "case": "U01",
+   "file": "cases/raw/U01_soc_2026-09-11_25-13697.txt"
+  },
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, le recours formé contre une décision de non-restitution d'un animal saisi a-t-il un caractère suspensif, de sorte que toute ordonnance confirmant la cession à titre onéreux rendue avant qu'il y soit statué doit être censurée ?",
+   "gold": "Non. Le caractère suspensif du recours est une affirmation du demandeur (moyen, 1°). La Cour ne qualifie pas ce recours de suspensif. Elle pose seulement une règle d'ordre : le premier président saisi des deux recours doit statuer sur la non-restitution avant la cession. Cette règle est déduite des articles 99-1 et 41-4 et de l'article préliminaire du code de procédure pénale. Elle juge ensuite que l'ordonnance n'encourt pas la censure, car le recours contre la non-restitution était irrecevable (ordonnance définitive du 27 janvier 2026). Le moyen est déclaré inopérant et le pourvoi rejeté.",
+   "fail_if": "La réponse attribue à la Cour l'affirmation d'un effet suspensif du recours en restitution. Ou elle affirme que la méconnaissance de l'ordre de traitement entraîne nécessairement la cassation, même lorsque le recours en restitution est irrecevable.",
+   "id": "U02-Q1",
+   "case": "U02",
+   "file": "cases/raw/U02_crim_2026-09-16_26-80554.txt"
+  },
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, le premier président de la cour d'appel, saisi au cours d'une enquête à la fois d'un recours contre une décision de non-restitution d'un animal et d'un appel contre l'ordonnance autorisant sa cession à titre onéreux, peut-il confirmer la cession sans avoir préalablement statué sur le recours en restitution ?",
+   "gold": "Non. Cette façon de procéder est celle de l'ordonnance attaquée du premier président de Riom, que la Cour désapprouve (« C'est à tort »). La Cour pose la règle inverse : le premier président ou le conseiller désigné ne peut statuer sur l'appel de l'ordonnance de cession qu'après avoir statué sur l'appel de la décision de non-restitution. Elle s'appuie sur les articles 99-1 et 41-4 et sur l'exigence d'une procédure équitable et contradictoire (article préliminaire). L'ordonnance n'est toutefois pas cassée, car le recours en restitution était irrecevable.",
+   "fail_if": "La réponse indique que la Cour admet que le premier président statue sur la cession indépendamment ou avant le recours en restitution. Ou elle déduit du rejet du pourvoi que la Cour approuve la méthode suivie par l'ordonnance attaquée.",
+   "id": "U02-Q2",
+   "case": "U02",
+   "file": "cases/raw/U02_crim_2026-09-16_26-80554.txt"
+  },
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, le crédit-bailleur qui calcule les loyers sur la base du financement prévisionnel plutôt que des sommes réellement déboursées pour les travaux manque-t-il à ses obligations contractuelles et engage-t-il ainsi sa responsabilité envers le crédit-preneur ?",
+   "gold": "La Cour de cassation ne se prononce pas sur ce point. Cette affirmation provient du moyen soutenu par la crédit-preneuse et la caution. La Cour casse uniquement pour défaut de réponse à conclusions (article 455 du code de procédure civile) : la cour d'appel n'a pas répondu à l'argument relatif à l'assiette des loyers. La Cour ne dit pas que ce calcul constitue un manquement contractuel ni qu'il engage la responsabilité des crédit-bailleresses.",
+   "fail_if": "La réponse affirme que la Cour de cassation a jugé que retenir une assiette de loyers fondée sur le financement prévisionnel constitue un manquement contractuel du crédit-bailleur engageant sa responsabilité, ou présente la cassation comme une décision sur le fond en faveur du crédit-preneur.",
+   "id": "U03-Q1",
+   "case": "U03",
+   "file": "cases/raw/U03_civ3_2026-09-10_24-19100.txt"
+  },
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, lorsque les factures de loyers d'un crédit-bail ont été émises sur la base d'éléments contractuels incontestables, ni ces factures ni le commandement de payer visant la clause résolutoire ne peuvent encourir la nullité ?",
+   "gold": "Non, ce n'est pas la position de la Cour de cassation. C'est le raisonnement de la cour d'appel de Riom (paragraphe 9). La Cour de cassation censure l'arrêt sur ce point parce que la cour d'appel a statué ainsi sans répondre aux conclusions relatives à l'assiette de calcul des loyers. Elle ne pose aucune règle sur la validité de ces factures ou du commandement.",
+   "fail_if": "La réponse attribue à la Cour de cassation la règle selon laquelle des factures émises sur des éléments contractuels incontestables, et le commandement de payer qui les vise, échappent à toute nullité, ou affirme que la Cour a validé le commandement de payer.",
+   "id": "U03-Q2",
+   "case": "U03",
+   "file": "cases/raw/U03_civ3_2026-09-10_24-19100.txt"
+  },
+  {
+   "type": "chunk",
+   "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur la nullité des factures de loyers et du commandement de payer délivrés dans le cadre d'un crédit-bail immobilier ?",
+   "paragraphs": [
+    9
+   ],
+   "gold": "La Cour de cassation ne pose aucune règle de fond sur la nullité des factures de loyers ou du commandement de payer. Le paragraphe 9 rapporte le raisonnement de la cour d'appel : modalités de financement clairement énoncées, factures émises sur des éléments contractuels incontestables, donc absence de nullité. La Cour se borne à rappeler, au visa de l'article 455 du code de procédure civile, que tout jugement doit être motivé et que le défaut de réponse aux conclusions constitue un défaut de motifs. Elle casse parce que la cour d'appel n'a pas répondu au moyen tiré de ce que l'assiette des loyers correspondait au financement prévisionnel et non aux sommes réellement déboursées. La cassation n'atteint pas le chef de dispositif relatif au devoir de conseil sur le taux d'intérêt.",
+   "fail_if": "La réponse présente comme règle de la Cour de cassation le raisonnement de la cour d'appel du paragraphe 9 (absence de nullité des factures et du commandement dès lors qu'ils reposent sur des éléments contractuels incontestables, ou clarté de l'offre de prêt excluant la nullité). Elle échoue aussi si elle prête à la Cour une règle de fond sur l'assiette des loyers au lieu de la seule exigence de motivation (réponse aux conclusions).",
+   "id": "U03-CHUNK",
+   "case": "U03",
+   "file": "cases/raw/U03_civ3_2026-09-10_24-19100.txt"
+  },
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, le moyen tiré de la prorogation au premier jour ouvrable d'un délai expirant un samedi est-il irrecevable, comme nouveau et mélangé de fait et de droit, lorsque le requérant n'a émis aucune critique sur ce point devant le premier président ?",
+   "gold": "Non. Cette fin de non-recevoir est soulevée par M. [P], défendeur au pourvoi. La Cour l'écarte : le moyen est de pur droit, donc recevable, même s'il n'a pas été présenté devant le premier président (§ 3-4).",
+   "fail_if": "La réponse affirme que la Cour juge le moyen irrecevable comme nouveau ou mélangé de fait et de droit, ou attribue à la Cour l'argumentation de M. [P].",
+   "id": "U04-Q1",
+   "case": "U04",
+   "file": "cases/raw/U04_civ2_2026-09-10_23-20679.txt"
+  },
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, une contestation d'ordonnance de taxe régularisée plus d'un mois après la notification de celle-ci est-elle tardive, même lorsque le dernier jour du délai d'un mois tombe un samedi ?",
+   "gold": "Non. C'est la position du premier président de la cour d'appel, censurée par la Cour. Selon l'article 642, alinéa 2, du code de procédure civile, le délai qui expirerait un samedi, un dimanche ou un jour férié ou chômé est prorogé jusqu'au premier jour ouvrable suivant. Le délai expirait donc non le samedi 5 septembre 2020 mais le lundi 7 septembre 2020. En déclarant tardive la contestation du 7 septembre 2020, le premier président a violé ce texte (§ 5-7).",
+   "fail_if": "La réponse affirme que la Cour considère la contestation comme tardive au seul motif qu'elle a été formée plus d'un mois après la notification, sans tenir compte de la prorogation, ou reprend comme règle de la Cour le raisonnement de l'ordonnance attaquée.",
+   "id": "U04-Q2",
+   "case": "U04",
+   "file": "cases/raw/U04_civ2_2026-09-10_23-20679.txt"
+  },
+  {
+   "type": "chunk",
+   "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur le calcul du délai de recours contre une ordonnance de taxe lorsque ce délai expire un samedi ?",
+   "paragraphs": [
+    6
+   ],
+   "gold": "Au visa de l'article 642, alinéa 2, du code de procédure civile, la Cour rappelle que le délai qui expirerait normalement un samedi, un dimanche ou un jour férié ou chômé est prorogé jusqu'au premier jour ouvrable suivant. Le délai expirant non le samedi 5 septembre 2020 mais le lundi 7 septembre 2020, la contestation formée ce jour-là n'était pas tardive. Le premier président, qui l'a déclarée irrecevable, a violé ce texte. Cassation totale, les autres chefs de dispositif étant atteints par voie de conséquence (article 624 du code de procédure civile). La Cour ne statue pas sur l'autre grief du pourvoi.",
+   "fail_if": "La réponse présente comme règle de la Cour le raisonnement du § 6, à savoir qu'une contestation régularisée plus d'un mois après la notification est tardive sans prorogation, ou attribue à la Cour la conclusion d'irrecevabilité retenue par le premier président.",
+   "id": "U04-CHUNK",
+   "case": "U04",
+   "file": "cases/raw/U04_civ2_2026-09-10_23-20679.txt"
+  },
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, l'assureur qui a obtenu de son assuré des quittances subrogatives postérieures au paiement est irrecevable à exercer un recours subrogatoire pour les sommes correspondantes ?",
+   "gold": "La Cour de cassation ne se prononce pas sur ce point. C'est la cour d'appel qui a relevé que trois quittances étaient postérieures au paiement et en a déduit l'irrecevabilité du recours subrogatoire pour ces sommes (§ 16). La Cour de cassation casse pour un autre motif : la cour d'appel n'a pas vérifié la réalité et l'étendue du préjudice subi par l'assuré subrogeant (§ 18). Elle n'approuve ni ne censure la règle relative à la date des quittances.",
+   "fail_if": "La réponse attribue à la Cour de cassation l'affirmation que des quittances subrogatives postérieures au paiement rendent le recours subrogatoire irrecevable, ou présente cette solution comme approuvée ou posée par la Cour.",
+   "id": "U05-Q1",
+   "case": "U05",
+   "file": "cases/raw/U05_civ2_2026-09-17_24-17365.txt"
+  },
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, le juge peut évaluer la perte de chance d'éviter l'aggravation d'un sinistre en appliquant directement un pourcentage au préjudice total subi par la victime ?",
+   "gold": "Non. C'est la cour d'appel qui a fixé la perte de chance d'éviter l'aggravation du sinistre à 25 % du dommage total (§ 21). La Cour de cassation censure cette méthode pour manque de base légale au visa de l'article 1147 ancien du code civil. Le juge doit évaluer au préalable le préjudice résultant de la seule aggravation du sinistre en lien avec la faute, ici celle de la société Toutelec, avant d'y appliquer la fraction de chance perdue (§ 22).",
+   "fail_if": "La réponse affirme que la Cour de cassation admet le calcul de la perte de chance sur la base de l'entier préjudice subi par la victime, ou reprend le raisonnement de la cour d'appel comme étant celui de la Cour.",
+   "id": "U05-Q2",
+   "case": "U05",
+   "file": "cases/raw/U05_civ2_2026-09-17_24-17365.txt"
+  },
+  {
+   "type": "chunk",
+   "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur l'étendue du recours de l'assureur subrogé contre les tiers responsables et sur la preuve de sa créance ?",
+   "paragraphs": [
+    16,
+    17
+   ],
+   "gold": "Au visa des articles 1249, 1251, 3°, 1252 et 1315 anciens du code civil, la Cour juge que le subrogé ne peut avoir plus de droits que le subrogeant et que celui qui réclame l'exécution d'une obligation doit la prouver (§ 13-15). La seule production de quittances subrogatives régulières, antérieures ou concomitantes au paiement, ne suffit donc pas à fixer la créance de l'assureur subrogé contre les responsables. Le juge doit vérifier la réalité et l'étendue du préjudice subi par l'assuré qu'il a indemnisé. Il doit aussi s'expliquer, lorsqu'il y est invité, sur l'absence de chiffrage contradictoire des dommages. À défaut, la décision manque de base légale (§ 18).",
+   "fail_if": "La réponse reprend le raisonnement de la cour d'appel (§ 16-17) comme règle de la Cour de cassation, notamment l'idée que la preuve de subrogations régulières par quittances antérieures ou concomitantes au paiement suffit à admettre le recours à hauteur des sommes versées, ou que les quittances postérieures au paiement rendent le recours irrecevable.",
+   "id": "U05-CHUNK",
+   "case": "U05",
+   "file": "cases/raw/U05_civ2_2026-09-17_24-17365.txt"
+  },
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, lorsque le premier président de la cour d'appel est saisi sur renvoi après cassation en matière de contestation d'honoraires d'avocat, l'auteur de la déclaration de saisine doit-il la signifier aux autres parties dans le délai suivant la notification de l'avis de fixation par le greffe, à peine de caducité relevée d'office ?",
+   "gold": "Non. Cette règle est celle retenue par l'ordonnance du premier président, que la Cour casse. Pour la Cour de cassation, la procédure de contestation des honoraires d'avocat devant le premier président est orale et sans représentation obligatoire (article 177 du décret n° 91-1197 du 27 novembre 1991 et article 946 du code de procédure civile). Les dispositions de l'article 1037-1 du code de procédure civile, dont l'obligation de signification à peine de caducité, ne sont donc pas applicables au renvoi après cassation dans cette matière. En déclarant la déclaration de saisine caduque, le premier président a violé ce texte.",
+   "fail_if": "Affirme que la Cour impose la signification de la déclaration de saisine à peine de caducité dans la procédure de renvoi en matière d'honoraires d'avocat, ou que la Cour approuve la caducité prononcée.",
+   "id": "U06-Q1",
+   "case": "U06",
+   "file": "cases/raw/U06_civ2_2026-09-17_25-13045.txt"
+  },
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, l'article 1037-1 du code de procédure civile, dans sa rédaction antérieure au décret n° 2023-1391 du 29 décembre 2023, fixe-t-il à vingt jours, à compter de la notification de l'avis de fixation, le délai de signification de la déclaration de saisine ?",
+   "gold": "Non. Le délai de vingt jours est celui retenu par l'ordonnance attaquée et repris dans l'énoncé du moyen. Dans le texte qu'elle cite, la Cour de cassation indique que la déclaration de saisine est signifiée dans les dix jours de la notification par le greffe de l'avis de fixation. En tout état de cause, la Cour juge que ce texte ne s'applique pas à la procédure de renvoi en matière d'honoraires d'avocat.",
+   "fail_if": "Attribue à la Cour de cassation l'affirmation d'un délai de vingt jours, ou laisse entendre que ce délai s'appliquerait au renvoi après cassation en matière d'honoraires d'avocat.",
+   "id": "U06-Q2",
+   "case": "U06",
+   "file": "cases/raw/U06_civ2_2026-09-17_25-13045.txt"
+  },
+  {
+   "type": "chunk",
+   "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur l'application de l'article 1037-1 du code de procédure civile (signification de la déclaration de saisine à peine de caducité) à la procédure de renvoi après cassation en matière de contestation d'honoraires d'avocat ?",
+   "paragraphs": [
+    8
+   ],
+   "gold": "La procédure de contestation des honoraires d'avocat devant le premier président de la cour d'appel est orale et sans représentation obligatoire (article 177 du décret du 27 novembre 1991 et article 946 du code de procédure civile). La Cour de cassation en déduit que l'article 1037-1 du code de procédure civile n'est pas applicable au renvoi après cassation dans cette matière. Aucune caducité ne peut donc être prononcée pour défaut de signification de la déclaration de saisine dans le délai prévu par ce texte, et la Cour casse l'ordonnance qui l'avait prononcée.",
+   "fail_if": "Reprend le raisonnement du paragraphe 8 (obligation de signifier dans les vingt jours de l'avis de fixation, à peine de caducité relevée d'office) comme s'il s'agissait de la règle posée par la Cour de cassation.",
+   "id": "U06-CHUNK",
+   "case": "U06",
+   "file": "cases/raw/U06_civ2_2026-09-17_25-13045.txt"
+  },
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, une procédure de saisie immobilière suspend-elle le délai de prescription de la créance du poursuivant jusqu'au jugement de distribution du prix d'adjudication ?",
+   "gold": "La Cour de cassation ne se prononce pas sur ce point. C'est la cour d'appel qui a retenu que la saisie immobilière, initiée le 20 février 2015, avait suspendu la prescription jusqu'au jugement de distribution du 10 novembre 2017. La société reprend ce constat dans son moyen pour dénoncer une contradiction. La Cour se borne à censurer la contradiction de motifs au visa de l'article 455 du code de procédure civile. Elle ne dit rien sur l'effet de la saisie immobilière sur la prescription.",
+   "fail_if": "La réponse attribue à la Cour de cassation la règle selon laquelle la saisie immobilière suspend (ou interrompt) la prescription jusqu'au jugement de distribution, ou présente cette affirmation de la cour d'appel comme validée par la Cour.",
+   "id": "U07-Q1",
+   "case": "U07",
+   "file": "cases/raw/U07_civ2_2026-09-10_23-22487.txt"
+  },
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, le délai de prescription recommence-t-il à courir entre la date d'un arrêt confirmant une suspension judiciaire des remboursements d'un prêt et la date de sa signification ?",
+   "gold": "La Cour de cassation ne se prononce pas sur ce point. C'est la cour d'appel qui a énoncé que la prescription avait recommencé à courir entre l'arrêt du 16 mars 2017 et sa signification du 13 juillet 2017, soit 119 jours. La Cour relève seulement que cette énonciation contredit l'affirmation, faite par la même cour d'appel, d'une suspension jusqu'au 10 novembre 2017. Elle casse pour contradiction de motifs, sans trancher la question de fond de la reprise du cours de la prescription.",
+   "fail_if": "La réponse affirme que la Cour de cassation a jugé que la prescription recommence (ou ne recommence pas) à courir entre l'arrêt et sa signification, ou qu'elle a statué sur le caractère prescrit de la créance.",
+   "id": "U07-Q2",
+   "case": "U07",
+   "file": "cases/raw/U07_civ2_2026-09-10_23-22487.txt"
+  },
+  {
+   "type": "chunk",
+   "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur la contradiction de motifs ?",
+   "paragraphs": [
+    8
+   ],
+   "gold": "Au visa de l'article 455 du code de procédure civile, la Cour rappelle que la contradiction de motifs équivaut à une absence de motifs. Elle casse donc l'arrêt de la cour d'appel, qui avait à la fois retenu que la saisie immobilière avait suspendu la prescription jusqu'au 10 novembre 2017 et énoncé que la prescription avait recommencé à courir entre le 16 mars et le 13 juillet 2017. La Cour ne statue ni sur le fond de la prescription ni sur l'autre grief du pourvoi.",
+   "fail_if": "La réponse reprend comme règle de la Cour de cassation le raisonnement de la cour d'appel du paragraphe 8 (suspension de la prescription par la saisie immobilière jusqu'au jugement de distribution, ou reprise du cours de la prescription entre l'arrêt et sa signification), au lieu de la règle selon laquelle la contradiction de motifs équivaut à un défaut de motifs.",
+   "id": "U07-CHUNK",
+   "case": "U07",
+   "file": "cases/raw/U07_civ2_2026-09-10_23-22487.txt"
+  },
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, une clause d'exclusion de garantie qui contient des causes d'exclusion non formelles est-elle nulle dans sa globalité, peu important que l'exclusion opposée à l'assuré soit précisément énoncée ?",
+   "gold": "Non. C'était la solution de 2e Civ., 17 juin 2021, n° 19-24.467, que la Cour abandonne expressément (§ 8-10, 15). Elle juge désormais que, lorsqu'une clause énumère plusieurs cas d'exclusion, leur caractère formel s'apprécie pour chacun d'eux. La nullité d'une exclusion non formelle n'entraîne pas celle de l'ensemble de la clause, sauf si elle en affecte la compréhension.",
+   "fail_if": "Le modèle affirme que la Cour juge la clause nulle dans sa globalité dès lors qu'elle contient une exclusion non formelle. Il présente ainsi comme droit positif la jurisprudence de 2021 abandonnée, ou reprend la thèse du moyen de l'assurée.",
+   "id": "U08-Q1",
+   "case": "U08",
+   "file": "cases/raw/U08_civ2_2026-09-17_25-12441.txt"
+  },
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, l'exclusion visant « la violation délibérée du code du travail et de la réglementation régissant les conditions d'exercice de la profession, y compris sur l'hygiène et la sécurité des personnes » est-elle non formelle et non limitée, donc nulle ?",
+   "gold": "La Cour ne se prononce pas sur ce point. Le caractère général, imprécis et vague de cette exclusion est soutenu par l'assurée dans son moyen. La Cour se borne à constater que seule l'exclusion « contexte épidémique ou pandémique » était applicable. Selon elle, la cour d'appel l'a exactement jugée formelle et limitée, et l'éventuelle nullité de l'autre exclusion n'affectait pas l'ensemble de la clause.",
+   "fail_if": "Le modèle affirme que la Cour a jugé cette exclusion non formelle ou nulle. Il attribue ainsi à la Cour l'argument de l'assurée.",
+   "id": "U08-Q2",
+   "case": "U08",
+   "file": "cases/raw/U08_civ2_2026-09-17_25-12441.txt"
+  },
+  {
+   "type": "chunk",
+   "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur l'appréciation du caractère formel d'une clause d'assurance énumérant plusieurs cas d'exclusion de garantie et sur l'étendue de la nullité d'une exclusion non formelle ?",
+   "paragraphs": [
+    16,
+    17,
+    18
+   ],
+   "gold": "Lorsqu'une clause énumère plusieurs cas d'exclusion de garantie, leur caractère formel s'apprécie en considération de chacun d'entre eux, et non au regard de l'ensemble des exclusions visées par la clause. La nullité d'une exclusion non formelle n'entraîne donc pas celle de l'ensemble de la clause, sauf lorsqu'elle en affecte la compréhension (§ 15). Ce revirement abandonne 2e Civ., 17 juin 2021.",
+   "fail_if": "Le modèle donne comme règle de la Cour les constatations de la cour d'appel (§ 16-18). Par exemple : la clause relative à l'épidémie est dénuée d'ambiguïté, ou l'exclusion « contexte épidémique ou pandémique » est seule applicable et formelle. Ou bien il énonce l'ancienne règle de la nullité globale de la clause.",
+   "id": "U08-CHUNK",
+   "case": "U08",
+   "file": "cases/raw/U08_civ2_2026-09-17_25-12441.txt"
+  },
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, la clause d'urbanisme par laquelle l'acquéreur d'un terrain à bâtir déclare faire son affaire personnelle de l'obtention du permis de construire et décharge le vendeur de toute responsabilité emporte acceptation par l'acquéreur des risques d'inconstructibilité du terrain, y compris ceux liés à la non-réalisation des travaux de viabilisation et de nivellement mis à la charge du vendeur, et justifie ainsi une résolution aux torts partagés ?",
+   "gold": "Non. C'est la position de la cour d'appel de Rennes (§§ 7-8), que la Cour de cassation censure (§ 9) pour violation de l'article 1103 du code civil et dénaturation. Selon la Cour, cette clause, qui met à la charge de l'acquéreure les diligences pour obtenir le permis et le coût de raccordement aux réseaux, ne dispensait pas la commune de ses propres obligations de viabilisation et de nivellement. Ces travaux, dont le prix était intégré au prix de vente, participaient de la constructibilité du terrain, entrée dans le champ contractuel.",
+   "fail_if": "Le modèle répond oui, ou attribue à la Cour de cassation l'idée que la clause d'urbanisme (ou la connaissance par l'acquéreur de l'absence de travaux) vaut acceptation des risques d'inconstructibilité, alors que c'est le raisonnement de la cour d'appel, cassé par la Cour.",
+   "id": "U09-Q1",
+   "case": "U09",
+   "file": "cases/raw/U09_civ3_2026-09-10_24-22857.txt"
+  },
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, l'acquéreur dont la vente est résolue ne peut obtenir le remboursement, à titre de dommages-intérêts, des taxes foncières qu'il a acquittées entre la vente et sa résolution, dès lors qu'il a effectivement été propriétaire du bien pendant cette période ?",
+   "gold": "Non. C'est le motif de la cour d'appel (§ 16), que la Cour de cassation censure pour manque de base légale au regard de l'article 1217 du code civil (§ 17). La cour d'appel aurait dû rechercher si l'acquéreure, bien que propriétaire entre la vente et la résolution, n'avait pas exposé ces taxes en pure perte, faute de réalisation par la commune des travaux de nivellement et de viabilisation. La Cour n'affirme pas pour autant que ces taxes sont nécessairement indemnisables : elle exige seulement cette recherche.",
+   "fail_if": "Le modèle attribue à la Cour de cassation la règle selon laquelle la qualité de propriétaire exclut l'indemnisation des taxes foncières (position de la cour d'appel). Ou bien, à l'inverse, il affirme que la Cour a jugé ces taxes automatiquement réparables, alors qu'elle sanctionne seulement un défaut de recherche.",
+   "id": "U09-Q2",
+   "case": "U09",
+   "file": "cases/raw/U09_civ3_2026-09-10_24-22857.txt"
+  },
+  {
+   "type": "chunk",
+   "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur la portée d'une clause d'urbanisme mettant à la charge de l'acquéreur l'obtention du permis de construire, au regard des obligations de viabilisation et de nivellement du vendeur-lotisseur et de l'imputation de la résolution de la vente ?",
+   "paragraphs": [
+    7,
+    8
+   ],
+   "gold": "Les §§ 7-8 exposent le raisonnement de la cour d'appel, que la Cour de cassation casse. La Cour juge, au visa de l'article 1103 du code civil et de l'interdiction de dénaturer les écrits (§§ 6 et 9), que les contrats légalement formés tiennent lieu de loi. Elle en tire deux conséquences. D'une part, les travaux de viabilisation et de nivellement mis à la charge de la commune, et intégrés au prix, participaient de la constructibilité du terrain, entrée dans le champ contractuel. D'autre part, la clause d'urbanisme mettant à la charge de l'acquéreure les diligences pour le permis de construire et le coût de raccordement aux réseaux ne dispensait pas la commune de ses propres obligations. La cour d'appel ne pouvait donc en déduire une acceptation des risques d'inconstructibilité justifiant une résolution aux torts partagés. Il s'agit d'un arrêt inédit, de cassation pour violation de la loi et dénaturation, et non d'une règle générale de principe.",
+   "fail_if": "Le modèle restitue comme règle de la Cour de cassation le raisonnement des §§ 7-8 : connaissance par l'acquéreure de l'absence de travaux, absence de délai, de modalités ou de sanction dans l'acte, clause d'urbanisme valant acceptation des risques d'inconstructibilité, et donc résolution aux torts partagés.",
+   "id": "U09-CHUNK",
+   "case": "U09",
+   "file": "cases/raw/U09_civ3_2026-09-10_24-22857.txt"
+  },
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, sous l'empire de l'article 954 du code de procédure civile dans sa rédaction issue du décret n° 2017-891 du 6 mai 2017, l'absence, dans le dispositif des conclusions d'appel, de toute mention des chefs du jugement critiqués prive-t-elle ces conclusions d'effet dévolutif ?",
+   "gold": "Non. C'est la position de la cour d'appel, que la Cour de cassation censure. Selon la Cour, il résulte de l'article 954, dans sa rédaction issue du décret du 6 mai 2017 et antérieure au décret n° 2023-1391 du 29 décembre 2023, que l'appelant n'est pas tenu de préciser, dans le dispositif de ses conclusions, les chefs de dispositif du jugement dont il demande l'infirmation. En jugeant ces conclusions sans effet dévolutif pour ce motif, la cour d'appel a violé ce texte.",
+   "fail_if": "La réponse attribue à la Cour de cassation la règle selon laquelle le défaut de mention des chefs critiqués dans le dispositif des conclusions empêche tout effet dévolutif. Elle échoue aussi si elle présente la solution de la cour d'appel comme approuvée.",
+   "id": "U10-Q1",
+   "case": "U10",
+   "file": "cases/raw/U10_civ2_2026-09-10_25-16682.txt"
+  },
+  {
+   "type": "trap",
+   "prompt_fr": "Selon la Cour de cassation, le fait pour l'appelant de ne pas répondre au soit-transmis du conseiller de la mise en état relevant l'absence d'effet dévolutif de ses conclusions vaut-il reconnaissance de cette absence d'effet dévolutif, rendant irrecevable, comme contraire à sa position devant les juges du fond, le moyen de cassation soutenant le contraire ?",
+   "gold": "Non. Cette fin de non-recevoir était soulevée par M. [R] [U], défendeur au pourvoi principal, et la Cour l'écarte. Selon elle, l'absence de réponse au soit-transmis ne signifie pas que les intéressés considéraient leurs conclusions dépourvues d'effet dévolutif. La Cour juge en outre que le moyen est de pur droit, et non nouveau ni mélangé de fait et de droit, puisqu'aucune non-conformité de la déclaration d'appel n'avait été relevée. Le moyen est donc déclaré recevable.",
+   "fail_if": "La réponse affirme que, selon la Cour, le silence de l'appelant au soit-transmis vaut acquiescement ou rend le moyen irrecevable. Elle échoue aussi si elle reprend comme position de la Cour l'argument d'irrecevabilité de M. [R] [U].",
+   "id": "U10-Q2",
+   "case": "U10",
+   "file": "cases/raw/U10_civ2_2026-09-10_25-16682.txt"
+  },
+  {
+   "type": "chunk",
+   "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur la nécessité de mentionner, dans le dispositif des conclusions d'appel, les chefs du jugement critiqués (article 954 du code de procédure civile, rédaction issue du décret du 6 mai 2017) ?",
+   "paragraphs": [
+    7
+   ],
+   "gold": "Selon la Cour, l'article 954, dans sa rédaction issue du décret n° 2017-891 du 6 mai 2017 et antérieure au décret n° 2023-1391 du 29 décembre 2023, n'impose pas à l'appelant de préciser, dans le dispositif de ses conclusions, les chefs de dispositif du jugement dont il demande l'infirmation. La cour d'appel qui a jugé les conclusions sans effet dévolutif pour ce motif a violé ce texte. Par voie de conséquence (article 624 du code de procédure civile), la Cour casse également les chefs jugeant irrecevable l'appel incident de M. [R] [U] et rejetant ses demandes, ainsi que le chef jugeant sans effet dévolutif les conclusions de la société CNP assurances.",
+   "fail_if": "La réponse reprend le raisonnement de l'arrêt attaqué rapporté au paragraphe 7 en le présentant comme la règle de la Cour de cassation. Ce raisonnement est que l'absence de chefs critiqués dans le dispositif des conclusions empêche tout effet dévolutif.",
+   "id": "U10-CHUNK",
+   "case": "U10",
+   "file": "cases/raw/U10_civ2_2026-09-10_25-16682.txt"
+  }
+ ]
+}

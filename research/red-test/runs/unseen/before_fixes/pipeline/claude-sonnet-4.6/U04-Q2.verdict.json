@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour de cassation a cassé l'ordonnance du premier président de la cour d'appel de Paris qui avait retenu exactement ce raisonnement",
+ "reason": "La réponse attribue explicitement le raisonnement de tardiveté au premier président et présente correctement la prorogation de l'article 642 comme la position de la Cour de cassation.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U04-Q2",
+ "run": 1
+}

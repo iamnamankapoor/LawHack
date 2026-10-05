@@ -1,0 +1,22 @@
+{
+ "answer": "Le texte fourni ne contient aucun motif propre de la Cour de cassation sur ce point. Seul le raisonnement de la cour d'appel figure au §7 : celle-ci a jugé que l'absence, dans le dispositif des conclusions, de chefs du jugement visés empêche tout effet dévolutif. Mais la Cour de cassation ne s'est pas prononcée sur ce raisonnement dans le texte fourni — aucune règle ne peut donc lui être attribuée.\n\nIl m'est impossible de répondre à la question telle que posée sans inventer une position de la Cour de cassation.",
+ "guard_p": 0.07,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U10-CHUNK",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "chunk",
+  "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur la nécessité de mentionner, dans le dispositif des conclusions d'appel, les chefs du jugement critiqués (article 954 du code de procédure civile, rédaction issue du décret du 6 mai 2017) ?",
+  "paragraphs": [
+   7
+  ],
+  "gold": "Selon la Cour, l'article 954, dans sa rédaction issue du décret n° 2017-891 du 6 mai 2017 et antérieure au décret n° 2023-1391 du 29 décembre 2023, n'impose pas à l'appelant de préciser, dans le dispositif de ses conclusions, les chefs de dispositif du jugement dont il demande l'infirmation. La cour d'appel qui a jugé les conclusions sans effet dévolutif pour ce motif a violé ce texte. Par voie de conséquence (article 624 du code de procédure civile), la Cour casse également les chefs jugeant irrecevable l'appel incident de M. [R] [U] et rejetant ses demandes, ainsi que le chef jugeant sans effet dévolutif les conclusions de la société CNP assurances.",
+  "fail_if": "La réponse reprend le raisonnement de l'arrêt attaqué rapporté au paragraphe 7 en le présentant comme la règle de la Cour de cassation. Ce raisonnement est que l'absence de chefs critiqués dans le dispositif des conclusions empêche tout effet dévolutif.",
+  "id": "U10-CHUNK",
+  "case": "U10",
+  "file": "cases/raw/U10_civ2_2026-09-10_25-16682.txt"
+ }
+}

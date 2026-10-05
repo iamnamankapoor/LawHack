@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "C'est le salarié qui a soutenu ce raisonnement dans son moyen de cassation (§4, première branche)",
+ "reason": "La réponse attribue correctement la proposition au salarié, limite la réponse de la Cour à l'intention de nuire et précise que la Cour n'a posé aucune règle sur l'article L. 1232-6, le non-lieu ou les rétrocommissions ; la formule « l'a écarté » renvoie au rejet global du moyen sans lui prêter de règle propre.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U01-Q1",
+ "run": 1
+}

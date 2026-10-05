@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Non. La Cour de cassation répond expressément à cet argument en sens inverse.",
+ "reason": "La réponse attribue correctement à la Cour le rejet de la fin de non-recevoir et la recevabilité du moyen de pur droit, sans présenter l'argument d'irrecevabilité comme position de la Cour.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U10-Q2",
+ "run": 1
+}

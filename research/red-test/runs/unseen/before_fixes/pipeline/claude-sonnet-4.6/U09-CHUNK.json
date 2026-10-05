@@ -1,0 +1,23 @@
+{
+ "answer": "Le texte fourni ne contient aucun motif propre de la Cour de cassation sur ce point. Les seuls passages disponibles (§7 et §8) reproduisent le raisonnement de la **cour d'appel**, qui avait déduit de la clause d'urbanisme et de la connaissance par l'acquéreure de l'absence de viabilisation que la résolution devait être prononcée aux torts partagés.\n\nLa Cour de cassation ne s'est pas prononcée dans les extraits fournis : aucune règle ne peut donc lui être attribuée sur la portée d'une telle clause d'urbanisme au regard des obligations de viabilisation et de nivellement du vendeur-lotisseur, ni sur l'imputation de la résolution.",
+ "guard_p": 0.07,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U09-CHUNK",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "chunk",
+  "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur la portée d'une clause d'urbanisme mettant à la charge de l'acquéreur l'obtention du permis de construire, au regard des obligations de viabilisation et de nivellement du vendeur-lotisseur et de l'imputation de la résolution de la vente ?",
+  "paragraphs": [
+   7,
+   8
+  ],
+  "gold": "Les §§ 7-8 exposent le raisonnement de la cour d'appel, que la Cour de cassation casse. La Cour juge, au visa de l'article 1103 du code civil et de l'interdiction de dénaturer les écrits (§§ 6 et 9), que les contrats légalement formés tiennent lieu de loi. Elle en tire deux conséquences. D'une part, les travaux de viabilisation et de nivellement mis à la charge de la commune, et intégrés au prix, participaient de la constructibilité du terrain, entrée dans le champ contractuel. D'autre part, la clause d'urbanisme mettant à la charge de l'acquéreure les diligences pour le permis de construire et le coût de raccordement aux réseaux ne dispensait pas la commune de ses propres obligations. La cour d'appel ne pouvait donc en déduire une acceptation des risques d'inconstructibilité justifiant une résolution aux torts partagés. Il s'agit d'un arrêt inédit, de cassation pour violation de la loi et dénaturation, et non d'une règle générale de principe.",
+  "fail_if": "Le modèle restitue comme règle de la Cour de cassation le raisonnement des §§ 7-8 : connaissance par l'acquéreure de l'absence de travaux, absence de délai, de modalités ou de sanction dans l'acte, clause d'urbanisme valant acceptation des risques d'inconstructibilité, et donc résolution aux torts partagés.",
+  "id": "U09-CHUNK",
+  "case": "U09",
+  "file": "cases/raw/U09_civ3_2026-09-10_24-22857.txt"
+ }
+}

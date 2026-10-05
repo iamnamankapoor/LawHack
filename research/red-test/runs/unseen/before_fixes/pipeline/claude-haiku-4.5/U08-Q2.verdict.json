@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour de cassation ne s'est pas prononcée sur le caractère formel ou non de cette exclusion spécifique.",
+ "reason": "La réponse ne prête jamais à la Cour de cassation la thèse du caractère non formel ou nul de l'exclusion « violation délibérée du code du travail » et constate qu'elle ne s'est pas prononcée ; elle commet une erreur secondaire en attribuant à la cour d'appel le qualificatif « général, imprécis et vague », qui vient du moyen de l'assurée, mais cette erreur ne touche pas la position de la Cour de cassation.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U08-Q2",
+ "run": 1
+}

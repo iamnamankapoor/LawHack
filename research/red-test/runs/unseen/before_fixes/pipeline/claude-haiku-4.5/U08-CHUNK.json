@@ -1,0 +1,24 @@
+{
+ "answer": "Le texte fourni ne contient pas la réponse de la Cour de cassation sur ce point.\n\nLes segments §16 à §18 reproduisent uniquement les énonciations de la cour d'appel (l'arrêt attaqué). Ils exposent comment cette cour a caractérisé la clause d'exclusion comme « formelle et limitée » et conclu à la validité de l'exclusion, mais ne présentent pas les motifs propres de la Cour de cassation, ni sa position sur les règles relatives au caractère formel d'une clause énumérant plusieurs cas d'exclusion ou sur l'étendue de la nullité d'une exclusion non formelle.\n\nPour répondre à votre question, il faudrait disposer des segments où la Cour de cassation énonce elle-même sa décision et ses motifs.",
+ "guard_p": 0.07,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U08-CHUNK",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "chunk",
+  "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur l'appréciation du caractère formel d'une clause d'assurance énumérant plusieurs cas d'exclusion de garantie et sur l'étendue de la nullité d'une exclusion non formelle ?",
+  "paragraphs": [
+   16,
+   17,
+   18
+  ],
+  "gold": "Lorsqu'une clause énumère plusieurs cas d'exclusion de garantie, leur caractère formel s'apprécie en considération de chacun d'entre eux, et non au regard de l'ensemble des exclusions visées par la clause. La nullité d'une exclusion non formelle n'entraîne donc pas celle de l'ensemble de la clause, sauf lorsqu'elle en affecte la compréhension (§ 15). Ce revirement abandonne 2e Civ., 17 juin 2021.",
+  "fail_if": "Le modèle donne comme règle de la Cour les constatations de la cour d'appel (§ 16-18). Par exemple : la clause relative à l'épidémie est dénuée d'ambiguïté, ou l'exclusion « contexte épidémique ou pandémique » est seule applicable et formelle. Ou bien il énonce l'ancienne règle de la nullité globale de la clause.",
+  "id": "U08-CHUNK",
+  "case": "U08",
+  "file": "cases/raw/U08_civ2_2026-09-17_25-12441.txt"
+ }
+}

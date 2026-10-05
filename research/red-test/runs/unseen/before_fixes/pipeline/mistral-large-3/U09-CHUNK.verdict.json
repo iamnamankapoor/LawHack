@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Les motifs cités (§7 et §8) sont ceux de la **cour d'appel**",
+ "reason": "La réponse attribue correctement les §§ 7-8 à la cour d'appel et ne les présente jamais comme règle de la Cour de cassation ; elle omet la cassation (incomplétude), mais ce défaut sort du critère d'attribution.",
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U09-CHUNK",
+ "run": 1
+}

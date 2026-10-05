@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Ce raisonnement est celui de la cour d'appel (§8), et la Cour de cassation l'a censuré (§9).",
+ "reason": "La réponse attribue correctement le raisonnement sur l'acceptation des risques à la cour d'appel et présente la censure par la Cour de cassation (art. 1103, dénaturation), sans jamais le présenter comme la position de la Cour.",
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U09-Q1",
+ "run": 1
+}

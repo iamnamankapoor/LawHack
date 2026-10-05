@@ -1,0 +1,19 @@
+{
+ "answer": "Non, ce n'est pas la Cour de cassation qui le dit.\n\nCe raisonnement figure dans le **moyen de cassation** (segment §4, 2°), présenté par le salarié pour critiquer la décision de la cour d'appel. La Cour de cassation **écarte ce moyen** (§8) et **ne reprend pas ce critère** comme règle.\n\nLa Cour de cassation pose elle-même (§5 et §7) que :\n- La faute lourde suppose une **intention de nuire**, c'est-à-dire la volonté de porter préjudice à l'employeur.\n- Elle approuve la cour d'appel d'avoir déduit cette intention de nuire du fait que le salarié avait **favorisé ses intérêts personnels au détriment de ceux de la société** (§7).\n\nLe critère du \"maintien du lien contractuel\" ou de la \"confiance rompue\" n'est pas retenu par la Cour comme élément suffisant pour caractériser l'intention de nuire. Il s'agissait d'un argument de la cour d'appel (§6), que la Cour valide *in fine*, mais sans en faire sa propre règle.",
+ "guard_p": 0.08,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U01-Q2",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, l'intention de nuire caractérisant la faute lourde est établie dès lors que le salarié ne pouvait ignorer qu'il causait un préjudice à son employeur et que ses actes ont rendu impossible le maintien du lien contractuel faute de confiance ?",
+  "gold": "Non. Ces motifs sont ceux de la cour d'appel, tels que rapportés et critiqués par le moyen (deuxième branche). La Cour de cassation pose au contraire que l'intention de nuire implique la volonté du salarié de porter préjudice à l'employeur dans la commission du fait fautif. Elle précise que cette intention ne résulte pas de la seule commission d'un acte préjudiciable à l'entreprise (§ 5). Elle approuve seulement la cour d'appel d'avoir « pu déduire », au regard des faits souverainement constatés, une intention de nuire. Ces faits sont : une organisation mise en place à l'insu de l'employeur, pour l'enrichissement personnel du salarié, pendant près de quatre ans, favorisant ses intérêts personnels au détriment de ceux de la société (§ 6-7). La connaissance du préjudice et la perte de confiance ne sont pas érigées en critères suffisants.",
+  "fail_if": "Affirme que, selon la Cour de cassation, la conscience de causer un préjudice ou la perte de confiance de l'employeur suffit à caractériser l'intention de nuire. Ou présente comme règle de la Cour les motifs de la cour d'appel cités dans le moyen.",
+  "id": "U01-Q2",
+  "case": "U01",
+  "file": "cases/raw/U01_soc_2026-09-11_25-13697.txt"
+ }
+}

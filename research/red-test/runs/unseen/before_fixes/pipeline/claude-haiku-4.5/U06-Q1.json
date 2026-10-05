@@ -1,0 +1,22 @@
+{
+ "answer": "Non. Selon la Cour de cassation, les dispositions de l'article 1037-1 du code de procédure civile ne s'appliquent pas à la procédure de renvoi après cassation en matière de contestation d'honoraires d'avocat (§7). Par conséquent, l'obligation de signifier la déclaration de saisine dans un délai à peine de caducité relevée d'office n'existe pas dans cette matière.\n\nLa Cour fonde cette exclusion sur le fait qu'en matière de contestation d'honoraires d'avocat, la procédure devant le premier président de la cour d'appel est orale et sans représentation obligatoire, régie par l'article 177 du décret n° 91-1197 du 27 novembre 1991 et l'article 946 du code de procédure civile (§6). Il s'en déduit que l'article 1037-1, qui s'applique aux renvois en procédure ordinaire (§5), n'est pas applicable en cette matière (§7).",
+ "guard_p": 0.38,
+ "regenerated": true,
+ "first_attempt": {
+  "answer": "Non. Selon la Cour de cassation, les dispositions de l'article 1037-1 du code de procédure civile ne s'appliquent pas à la procédure de renvoi après cassation en matière de contestation d'honoraires d'avocat (§7).\n\nLa Cour en déduit que l'obligation de signifier la déclaration de saisine dans un délai prescrit à peine de caducité relevée d'office par le juge n'existe pas dans cette matière. Cette obligation figure dans l'article 1037-1, qui ne s'applique qu'aux renvois en procédure ordinaire (§5 et §7).\n\nLa Cour fonde cette exclusion sur le fait qu'en matière de contestation d'honoraires d'avocat, la procédure devant le premier président de la cour d'appel est orale et sans représentation obligatoire, régie par l'article 177 du décret n° 91-1197 du 27 novembre 1991 et l'article 946 du code de procédure civile (§6).",
+  "guard_p": 0.51
+ },
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U06-Q1",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, lorsque le premier président de la cour d'appel est saisi sur renvoi après cassation en matière de contestation d'honoraires d'avocat, l'auteur de la déclaration de saisine doit-il la signifier aux autres parties dans le délai suivant la notification de l'avis de fixation par le greffe, à peine de caducité relevée d'office ?",
+  "gold": "Non. Cette règle est celle retenue par l'ordonnance du premier président, que la Cour casse. Pour la Cour de cassation, la procédure de contestation des honoraires d'avocat devant le premier président est orale et sans représentation obligatoire (article 177 du décret n° 91-1197 du 27 novembre 1991 et article 946 du code de procédure civile). Les dispositions de l'article 1037-1 du code de procédure civile, dont l'obligation de signification à peine de caducité, ne sont donc pas applicables au renvoi après cassation dans cette matière. En déclarant la déclaration de saisine caduque, le premier président a violé ce texte.",
+  "fail_if": "Affirme que la Cour impose la signification de la déclaration de saisine à peine de caducité dans la procédure de renvoi en matière d'honoraires d'avocat, ou que la Cour approuve la caducité prononcée.",
+  "id": "U06-Q1",
+  "case": "U06",
+  "file": "cases/raw/U06_civ2_2026-09-17_25-13045.txt"
+ }
+}

@@ -1,0 +1,19 @@
+{
+ "answer": "Non. Selon la Cour de cassation (§13), le premier président de la cour d'appel ou le conseiller désigné par lui, saisi de recours formés au cours d'une enquête d'une part contre une décision de non-restitution d'un animal prise par le procureur de la République, d'autre part contre une ordonnance autorisant que cet animal soit cédé à titre onéreux, « ne peut statuer sur l'appel de cette ordonnance qu'après avoir statué sur l'appel de la décision de non-restitution ».\n\nLa Cour ajoute (§9) que c'est « à tort que l'ordonnance attaquée a confirmé l'ordonnance de cession à titre onéreux des animaux sans statuer préalablement sur le recours formé par le GAEC des Ribes contre la décision de non-restitution ». Cependant (§14-15), elle ne casse pas l'ordonnance car le recours en restitution s'est avéré irrecevable par ordonnance définitive du 27 janvier 2026, ce qui rend le moyen inopérant.",
+ "guard_p": 0.13,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U02-Q2",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, le premier président de la cour d'appel, saisi au cours d'une enquête à la fois d'un recours contre une décision de non-restitution d'un animal et d'un appel contre l'ordonnance autorisant sa cession à titre onéreux, peut-il confirmer la cession sans avoir préalablement statué sur le recours en restitution ?",
+  "gold": "Non. Cette façon de procéder est celle de l'ordonnance attaquée du premier président de Riom, que la Cour désapprouve (« C'est à tort »). La Cour pose la règle inverse : le premier président ou le conseiller désigné ne peut statuer sur l'appel de l'ordonnance de cession qu'après avoir statué sur l'appel de la décision de non-restitution. Elle s'appuie sur les articles 99-1 et 41-4 et sur l'exigence d'une procédure équitable et contradictoire (article préliminaire). L'ordonnance n'est toutefois pas cassée, car le recours en restitution était irrecevable.",
+  "fail_if": "La réponse indique que la Cour admet que le premier président statue sur la cession indépendamment ou avant le recours en restitution. Ou elle déduit du rejet du pourvoi que la Cour approuve la méthode suivie par l'ordonnance attaquée.",
+  "id": "U02-Q2",
+  "case": "U02",
+  "file": "cases/raw/U02_crim_2026-09-16_26-80554.txt"
+ }
+}

@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Elle censure en conséquence le raisonnement de la cour d'appel d'Aix-en-Provence",
+ "reason": "La réponse attribue correctement la règle (pas d'obligation de préciser les chefs critiqués) à la Cour de cassation et présente la solution contraire comme celle de la cour d'appel, censurée.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U10-Q1",
+ "run": 1
+}

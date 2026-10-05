@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Non. La Cour de cassation a **rejeté cette règle** et en a adopté une nouvelle.",
+ "reason": "La réponse présente correctement la règle de 2021 comme une jurisprudence abandonnée et attribue à la Cour la nouvelle solution d'appréciation exclusion par exclusion (§15), sans jamais présenter l'ancienne règle comme droit positif.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U08-Q1",
+ "run": 1
+}

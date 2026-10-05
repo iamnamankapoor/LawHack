@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Le segment §8 reproduit simplement le raisonnement de la cour d'appel (arrêt attaqué)",
+ "reason": "La réponse attribue correctement le raisonnement du §8 à la cour d'appel et ne le présente jamais comme règle de la Cour de cassation, même si elle n'identifie pas la règle correcte (contradiction de motifs = défaut de motifs), ce qui ne relève pas du critère d'attribution.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U07-CHUNK",
+ "run": 1
+}

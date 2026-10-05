@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "la Cour ne déclare pas que le recours a un caractère suspensif au sens d'une suspension automatique de l'ordonnance de cession",
+ "reason": "La réponse refuse d'attribuer à la Cour l'effet suspensif, n'y voit qu'une règle d'ordre d'examen et explique le rejet par l'irrecevabilité du recours en non-restitution et l'inopérance du moyen, sans présenter le raisonnement du moyen comme celui de la Cour.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U02-Q1",
+ "run": 1
+}

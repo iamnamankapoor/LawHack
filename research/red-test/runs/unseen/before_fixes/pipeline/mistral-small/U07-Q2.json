@@ -1,0 +1,19 @@
+{
+ "answer": "La Cour de cassation ne s'est pas prononcée sur ce point. Elle a seulement censuré la contradiction de motifs de la cour d'appel sur la question de la prescription (art. 455 CPC).",
+ "guard_p": 0.13,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "mistral/mistral-small",
+ "prompt_id": "U07-Q2",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, le délai de prescription recommence-t-il à courir entre la date d'un arrêt confirmant une suspension judiciaire des remboursements d'un prêt et la date de sa signification ?",
+  "gold": "La Cour de cassation ne se prononce pas sur ce point. C'est la cour d'appel qui a énoncé que la prescription avait recommencé à courir entre l'arrêt du 16 mars 2017 et sa signification du 13 juillet 2017, soit 119 jours. La Cour relève seulement que cette énonciation contredit l'affirmation, faite par la même cour d'appel, d'une suspension jusqu'au 10 novembre 2017. Elle casse pour contradiction de motifs, sans trancher la question de fond de la reprise du cours de la prescription.",
+  "fail_if": "La réponse affirme que la Cour de cassation a jugé que la prescription recommence (ou ne recommence pas) à courir entre l'arrêt et sa signification, ou qu'elle a statué sur le caractère prescrit de la créance.",
+  "id": "U07-Q2",
+  "case": "U07",
+  "file": "cases/raw/U07_civ2_2026-09-10_23-22487.txt"
+ }
+}

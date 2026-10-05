@@ -201,7 +201,7 @@ _OPENER = urllib.request.build_opener(_SafeRedirects)
 
 def _from_url(url: str) -> Document:
     _check_public(url)
-    request = urllib.request.Request(url, headers={"User-Agent": "LawHack/0.1 (+https://github.com/talal95c/LawHack)"})
+    request = urllib.request.Request(url, headers={"User-Agent": "LawHack/0.1 (+https://github.com/iamnamankapoor/Legible)"})
     with _OPENER.open(request, timeout=30) as response:
         data = response.read(MAX_BYTES + 1)
         kind = response.headers.get("Content-Type", "")

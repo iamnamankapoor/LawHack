@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Le segment §6 reproduit uniquement l'appréciation de la cour d'appel sur les faits",
+ "reason": "La réponse attribue correctement les constatations du § 6 à la cour d'appel et ne les présente jamais comme une règle de la Cour de cassation, même si elle ne restitue pas la règle du § 5 (lacune de complétude, hors du critère d'attribution).",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U01-CHUNK",
+ "run": 1
+}

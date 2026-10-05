@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Ce raisonnement (§8) est celui de la cour d'appel, que la Cour de cassation a censuré pour contradiction de motifs",
+ "reason": "La réponse attribue correctement la règle de suspension à la cour d'appel et précise que la Cour de cassation ne s'est pas prononcée sur le fond, la cassation reposant uniquement sur l'article 455 du code de procédure civile.",
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U07-Q1",
+ "run": 1
+}

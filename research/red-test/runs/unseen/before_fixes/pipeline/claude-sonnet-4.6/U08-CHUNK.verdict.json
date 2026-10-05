@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "reproduisent exclusivement le raisonnement de la **cour d'appel** (arrêt attaqué)",
+ "reason": "La réponse attribue explicitement le raisonnement des § 16-18 à la cour d'appel et n'en fait jamais une règle de la Cour de cassation ; elle omet la vraie règle (§ 15), mais c'est un défaut de complétude, pas d'attribution.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U08-CHUNK",
+ "run": 1
+}

@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Le raisonnement cité (§8) est celui de la cour d'appel",
+ "reason": "La réponse attribue bien le raisonnement du §8 à la cour d'appel et ne le présente jamais comme la règle de la Cour de cassation ; elle a tort de dire que la Cour ne s'est pas prononcée, mais c'est une lacune de contenu et non une erreur d'attribution.",
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U06-CHUNK",
+ "run": 1
+}

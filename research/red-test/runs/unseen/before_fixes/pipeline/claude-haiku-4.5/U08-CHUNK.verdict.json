@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Les segments §16 à §18 reproduisent uniquement les énonciations de la cour d'appel (l'arrêt attaqué).",
+ "reason": "La réponse attribue explicitement les §16-18 à la cour d'appel et ne présente aucun de ces motifs comme la règle de la Cour de cassation, même si elle ne donne pas la règle correcte.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U08-CHUNK",
+ "run": 1
+}

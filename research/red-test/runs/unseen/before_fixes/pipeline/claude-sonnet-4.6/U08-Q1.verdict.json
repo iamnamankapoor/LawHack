@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Non. La Cour de cassation opère explicitement un revirement sur ce point.",
+ "reason": "La réponse présente la règle de 2021 comme une jurisprudence abandonnée par la Cour, attribue correctement la nouvelle solution (appréciation exclusion par exclusion, § 15) à la Cour et le rejet de la thèse au moyen de l'assurée, sans aucune inversion dans le titre, la première phrase ou la conclusion.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U08-Q1",
+ "run": 1
+}

@@ -82,12 +82,12 @@ sur le jeu labellisé `eval/gold_speakers.json`.
 
 | | Avant | Après |
 |---|---|---|
-| Précision sur le jeu labellisé (31 étiquettes) | 87 % | 100 % |
+| Précision sur le jeu labellisé (31 étiquettes, test de régression) | 87 % | 100 % |
 | Appels Jev (2 arrêts) | 31 | 7 |
 | Tokens en entrée (2 arrêts) | 19 800 | 7 300 |
 
 Sur 12 arrêts récents non étiquetés (toutes chambres, jeu `antoinejeannot/jurisprudence`), on observe
-2 à 6 appels et 2 300 à 6 700 tokens par arrêt. Le zonage concorde à 100 % avec les zones Judilibre.
+2 à 6 appels et 2 300 à 6 700 tokens par arrêt. Sur ces 12 arrêts, le zonage concorde à 100 % avec les zones Judilibre ; à grande échelle (147 arrêts test), il est de 97,3 % (voir README, § Résultats).
 
 ## Sécurité
 

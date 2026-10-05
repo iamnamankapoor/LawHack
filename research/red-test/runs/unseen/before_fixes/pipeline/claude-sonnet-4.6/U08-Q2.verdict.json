@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour de cassation ne s'est pas prononcée sur ce point.",
+ "reason": "La réponse dit dès la première phrase et en conclusion que la Cour ne tranche pas la validité de cette exclusion. Elle ne lui attribue jamais le grief de l'assurée, même si elle prête à tort à la cour d'appel le fait d'avoir « laissé entendre » ce caractère vague.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U08-Q2",
+ "run": 1
+}

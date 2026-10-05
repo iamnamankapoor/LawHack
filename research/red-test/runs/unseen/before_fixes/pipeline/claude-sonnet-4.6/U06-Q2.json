@@ -1,0 +1,19 @@
+{
+ "answer": "Non. Ce délai de vingt jours est celui retenu par le premier président dans l'ordonnance attaquée (§8), raisonnement que la Cour de cassation a précisément censuré.\n\nLa Cour de cassation indique, en citant le texte applicable, que ce délai est de **dix jours** à compter de la notification par le greffe de l'avis de fixation (§5). Elle précise toutefois immédiatement que cette disposition ne s'applique qu'à la procédure ordinaire (§5), et en déduit qu'elle est inapplicable à la procédure de renvoi après cassation en matière de contestation d'honoraires d'avocat, laquelle relève d'une procédure orale sans représentation obligatoire (§6 et §7).",
+ "guard_p": 0.19,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U06-Q2",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, l'article 1037-1 du code de procédure civile, dans sa rédaction antérieure au décret n° 2023-1391 du 29 décembre 2023, fixe-t-il à vingt jours, à compter de la notification de l'avis de fixation, le délai de signification de la déclaration de saisine ?",
+  "gold": "Non. Le délai de vingt jours est celui retenu par l'ordonnance attaquée et repris dans l'énoncé du moyen. Dans le texte qu'elle cite, la Cour de cassation indique que la déclaration de saisine est signifiée dans les dix jours de la notification par le greffe de l'avis de fixation. En tout état de cause, la Cour juge que ce texte ne s'applique pas à la procédure de renvoi en matière d'honoraires d'avocat.",
+  "fail_if": "Attribue à la Cour de cassation l'affirmation d'un délai de vingt jours, ou laisse entendre que ce délai s'appliquerait au renvoi après cassation en matière d'honoraires d'avocat.",
+  "id": "U06-Q2",
+  "case": "U06",
+  "file": "cases/raw/U06_civ2_2026-09-17_25-13045.txt"
+ }
+}

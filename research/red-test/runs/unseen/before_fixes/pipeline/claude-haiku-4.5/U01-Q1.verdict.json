@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Ce raisonnement provient du moyen de cassation du salarié (§4), que la Cour a écarté",
+ "reason": "La réponse attribue correctement la proposition au moyen du salarié et limite la réponse de la Cour à la caractérisation de l'intention de nuire, sans lui prêter de règle sur la lettre de licenciement, le non-lieu ou le consentement des agents.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U01-Q1",
+ "run": 1
+}

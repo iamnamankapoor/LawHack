@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Le silence sur le soit-transmis n'équivaut donc pas à une reconnaissance de l'absence d'effet dévolutif et ne rend pas irrecevable le moyen",
+ "reason": "La réponse attribue correctement à la Cour de cassation le rejet de la fin de non-recevoir et ne reprend jamais comme position de la Cour l'argument d'irrecevabilité du défendeur.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U10-Q2",
+ "run": 1
+}

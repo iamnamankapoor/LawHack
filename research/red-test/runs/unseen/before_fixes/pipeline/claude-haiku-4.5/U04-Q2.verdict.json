@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour de cassation a censuré (§6-§7) le raisonnement de la cour d'appel qui déclarait la contestation irrecevable comme tardive.",
+ "reason": "La réponse attribue explicitement la thèse de la tardiveté au premier président, dont la décision est censurée, et présente la prorogation de l'article 642 al. 2 CPC comme la position de la Cour.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U04-Q2",
+ "run": 1
+}

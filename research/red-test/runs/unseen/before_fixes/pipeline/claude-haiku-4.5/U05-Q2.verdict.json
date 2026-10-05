@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Non. La Cour de cassation a censuré ce raisonnement (§21-22).",
+ "reason": "La réponse attribue explicitement le calcul à 25 % du dommage total à la cour d'appel et présente correctement la censure pour manque de base légale comme la position de la Cour de cassation.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U05-Q2",
+ "run": 1
+}

@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour de cassation ne s'est pas prononcée sur ce point. (§4 : argument d'une partie écarté, sans analyse par la Cour)",
+ "reason": "La réponse attribue correctement la proposition à une partie et indique que la Cour n'a posé aucune règle sur ce point, conformément au gold.",
+ "model": "mistral/mistral-small",
+ "prompt_id": "U01-Q1",
+ "run": 1
+}

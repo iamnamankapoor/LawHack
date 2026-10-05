@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Le segment §9 rapporte le raisonnement de la cour d'appel (arrêt attaqué)",
+ "reason": "La réponse attribue explicitement le raisonnement du §9 à la cour d'appel et ne prête aucune règle de fond à la Cour de cassation ; elle est incomplète (absence de la motivation au visa de l'article 455), mais l'attribution reste correcte.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U03-CHUNK",
+ "run": 1
+}

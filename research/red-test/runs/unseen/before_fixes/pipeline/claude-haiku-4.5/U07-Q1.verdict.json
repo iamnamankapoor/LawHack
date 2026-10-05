@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour de cassation ne s'est pas prononcée sur cette question.",
+ "reason": "La réponse attribue explicitement l'affirmation sur la suspension à la cour d'appel et précise que la Cour n'a censuré que la contradiction de motifs (art. 455 CPC) sans prendre position sur le fond.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U07-Q1",
+ "run": 1
+}

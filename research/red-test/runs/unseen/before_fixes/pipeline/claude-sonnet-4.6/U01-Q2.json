@@ -1,0 +1,19 @@
+{
+ "answer": "Ce raisonnement est celui de la cour d'appel (§6), et non de la Cour de cassation.\n\nLa Cour de cassation ne l'a pas repris à son compte. Elle a posé elle-même, en §5, la règle selon laquelle « la faute lourde est caractérisée par l'intention de nuire à l'employeur, laquelle implique la volonté du salarié de lui porter préjudice dans la commission du fait fautif et ne résulte pas de la seule commission d'un acte préjudiciable à l'entreprise ». Elle a ensuite retenu, en §7, sa propre formulation : c'est du constat que le salarié avait **favorisé ses intérêts personnels au détriment des intérêts de la société** que la cour d'appel a pu déduire l'intention de nuire.\n\nAinsi, la Cour de cassation a approuvé la décision de la cour d'appel (le pourvoi est rejeté, §8 et §s10), mais le critère qu'elle énonce pour caractériser l'intention de nuire — la faveur délibérée de ses intérêts personnels au détriment de ceux de la société — est distinct du raisonnement fondé sur l'impossibilité de maintien du lien contractuel ou l'absence de confiance, lequel figure dans les motifs de la cour d'appel cités au §6 et n'est pas repris par la Cour de cassation comme fondement de sa solution.",
+ "guard_p": 0.13,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U01-Q2",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, l'intention de nuire caractérisant la faute lourde est établie dès lors que le salarié ne pouvait ignorer qu'il causait un préjudice à son employeur et que ses actes ont rendu impossible le maintien du lien contractuel faute de confiance ?",
+  "gold": "Non. Ces motifs sont ceux de la cour d'appel, tels que rapportés et critiqués par le moyen (deuxième branche). La Cour de cassation pose au contraire que l'intention de nuire implique la volonté du salarié de porter préjudice à l'employeur dans la commission du fait fautif. Elle précise que cette intention ne résulte pas de la seule commission d'un acte préjudiciable à l'entreprise (§ 5). Elle approuve seulement la cour d'appel d'avoir « pu déduire », au regard des faits souverainement constatés, une intention de nuire. Ces faits sont : une organisation mise en place à l'insu de l'employeur, pour l'enrichissement personnel du salarié, pendant près de quatre ans, favorisant ses intérêts personnels au détriment de ceux de la société (§ 6-7). La connaissance du préjudice et la perte de confiance ne sont pas érigées en critères suffisants.",
+  "fail_if": "Affirme que, selon la Cour de cassation, la conscience de causer un préjudice ou la perte de confiance de l'employeur suffit à caractériser l'intention de nuire. Ou présente comme règle de la Cour les motifs de la cour d'appel cités dans le moyen.",
+  "id": "U01-Q2",
+  "case": "U01",
+  "file": "cases/raw/U01_soc_2026-09-11_25-13697.txt"
+ }
+}

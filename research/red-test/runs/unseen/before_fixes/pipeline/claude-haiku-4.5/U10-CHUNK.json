@@ -1,0 +1,22 @@
+{
+ "answer": "Le texte fourni ne contient pas la réponse de la Cour de cassation sur ce point.\n\nLe segment § 7 rapporte le raisonnement de la cour d'appel (arrêt attaqué), qui a jugé sans effet dévolutif les conclusions faute que leurs auteurs visent des chefs du jugement susceptibles d'être réformés ou annulés. Mais le document fourni ne précise pas quel sort la Cour de cassation réserve à ce raisonnement et ne contient aucun motif propre de la Cour permettant de déterminer sa position sur la règle applicable en matière d'effet dévolutif des conclusions d'appel.",
+ "guard_p": 0.07,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U10-CHUNK",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "chunk",
+  "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur la nécessité de mentionner, dans le dispositif des conclusions d'appel, les chefs du jugement critiqués (article 954 du code de procédure civile, rédaction issue du décret du 6 mai 2017) ?",
+  "paragraphs": [
+   7
+  ],
+  "gold": "Selon la Cour, l'article 954, dans sa rédaction issue du décret n° 2017-891 du 6 mai 2017 et antérieure au décret n° 2023-1391 du 29 décembre 2023, n'impose pas à l'appelant de préciser, dans le dispositif de ses conclusions, les chefs de dispositif du jugement dont il demande l'infirmation. La cour d'appel qui a jugé les conclusions sans effet dévolutif pour ce motif a violé ce texte. Par voie de conséquence (article 624 du code de procédure civile), la Cour casse également les chefs jugeant irrecevable l'appel incident de M. [R] [U] et rejetant ses demandes, ainsi que le chef jugeant sans effet dévolutif les conclusions de la société CNP assurances.",
+  "fail_if": "La réponse reprend le raisonnement de l'arrêt attaqué rapporté au paragraphe 7 en le présentant comme la règle de la Cour de cassation. Ce raisonnement est que l'absence de chefs critiqués dans le dispositif des conclusions empêche tout effet dévolutif.",
+  "id": "U10-CHUNK",
+  "case": "U10",
+  "file": "cases/raw/U10_civ2_2026-09-10_25-16682.txt"
+ }
+}

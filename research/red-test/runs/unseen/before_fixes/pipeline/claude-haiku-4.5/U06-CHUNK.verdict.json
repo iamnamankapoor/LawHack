@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Le segment §8 rapporte le raisonnement de la cour d'appel (arrêt attaqué)",
+ "reason": "La réponse attribue correctement le raisonnement du §8 à la cour d'appel et n'en fait jamais la règle de la Cour de cassation, même si elle échoue à donner la bonne réponse (critère hors attribution).",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U06-CHUNK",
+ "run": 1
+}

@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour de cassation ne s'est pas prononcée sur ce point précis : elle a censuré l'arrêt pour d'autres motifs",
+ "reason": "La réponse attribue explicitement le raisonnement sur les quittances postérieures à la cour d'appel de Rennes et précise que la Cour de cassation ne l'a ni validé ni infirmé.",
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U05-Q1",
+ "run": 1
+}

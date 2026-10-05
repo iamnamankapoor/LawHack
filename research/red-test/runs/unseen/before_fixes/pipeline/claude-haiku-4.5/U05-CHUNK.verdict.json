@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Les segments §16 et §17 exposent uniquement le raisonnement et les conclusions de la cour d'appel",
+ "reason": "La réponse attribue explicitement le raisonnement des § 16-17 à la cour d'appel et refuse de le présenter comme règle de la Cour de cassation, sans aucune mauvaise attribution (même si elle ne donne pas la règle correcte).",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U05-CHUNK",
+ "run": 1
+}

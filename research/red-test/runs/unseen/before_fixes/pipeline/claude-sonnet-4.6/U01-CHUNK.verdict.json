@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Le seul passage disponible (§6) est celui de la cour d'appel",
+ "reason": "La réponse attribue correctement le § 6 à la cour d'appel et ne le présente jamais comme une règle de la Cour de cassation ; elle omet la règle du § 5, mais c'est une lacune de complétude, pas une erreur d'attribution.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U01-CHUNK",
+ "run": 1
+}

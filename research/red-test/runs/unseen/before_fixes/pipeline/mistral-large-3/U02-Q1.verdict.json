@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour de cassation ne se prononce pas expressément sur le caractère suspensif du recours",
+ "reason": "La réponse n'attribue jamais à la Cour l'effet suspensif ; elle s'en tient à la règle d'ordre de traitement et explique l'absence de censure par l'irrecevabilité du recours.",
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U02-Q1",
+ "run": 1
+}

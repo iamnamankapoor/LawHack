@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "c'est « à tort que l'ordonnance attaquée a confirmé l'ordonnance de cession à titre onéreux des animaux sans statuer préalablement sur le recours",
+ "reason": "La réponse attribue correctement à la Cour la règle de l'ordre préalable (non-restitution avant cession), signale que la méthode de l'ordonnance attaquée est désapprouvée, et explique que le rejet tient à l'irrecevabilité du recours, sans en déduire une approbation.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U02-Q2",
+ "run": 1
+}

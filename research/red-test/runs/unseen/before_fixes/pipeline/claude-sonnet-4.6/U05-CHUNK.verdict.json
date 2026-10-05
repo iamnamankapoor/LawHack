@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Les seuls passages disponibles (§16 et §17) reproduisent le raisonnement de la **cour d'appel** (arrêt attaqué)",
+ "reason": "La réponse attribue explicitement les §16-17 à la cour d'appel et refuse d'en tirer une règle de la Cour de cassation, sans jamais présenter ce raisonnement comme la position de la Cour (incomplète mais sans erreur d'attribution).",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U05-CHUNK",
+ "run": 1
+}

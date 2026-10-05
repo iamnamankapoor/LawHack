@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "est celui de la crédit-preneuse et de la caution (§7), et non de la Cour de cassation",
+ "reason": "La réponse attribue correctement le raisonnement au moyen et présente la cassation comme purement procédurale (défaut de réponse à conclusions, art. 455 CPC), du titre à la conclusion.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U03-Q1",
+ "run": 1
+}

@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour de cassation ne s'est pas prononcée sur le fond de cette question",
+ "reason": "La réponse attribue correctement l'argument aux parties et présente la cassation comme fondée uniquement sur le défaut de réponse à conclusions (art. 455 CPC), sans en faire une règle de fond de la Cour.",
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U03-Q1",
+ "run": 1
+}

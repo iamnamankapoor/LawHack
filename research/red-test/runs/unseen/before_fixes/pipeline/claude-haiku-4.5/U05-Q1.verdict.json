@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Ce raisonnement figure dans la cour d'appel (§16), mais la Cour de cassation l'a **censuré**",
+ "reason": "La réponse attribue bien la règle des quittances postérieures à la cour d'appel et ne la présente jamais comme posée ou approuvée par la Cour ; elle exagère en parlant de censure (la Cour ne se prononce pas), mais ce n'est pas une erreur d'attribution au sens du critère.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U05-Q1",
+ "run": 1
+}

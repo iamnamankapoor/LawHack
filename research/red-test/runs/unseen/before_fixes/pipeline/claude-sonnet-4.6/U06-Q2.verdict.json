@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Ce délai de vingt jours est celui retenu par le premier président dans l'ordonnance attaquée (§8), raisonnement que la Cour de cassation a précisément censuré.",
+ "reason": "La réponse attribue explicitement le délai de vingt jours à l'ordonnance attaquée, indique que la Cour cite un délai de dix jours et juge le texte inapplicable au renvoi en matière d'honoraires d'avocat.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U06-Q2",
+ "run": 1
+}

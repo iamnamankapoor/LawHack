@@ -1,0 +1,22 @@
+{
+ "answer": "Le texte fourni ne contient aucun motif propre de la Cour de cassation sur ce point.\n\nLa règle mentionnée — selon laquelle la déclaration de saisine doit être signifiée dans les vingt jours de la notification de l'avis de fixation par le greffe, à peine de caducité relevée d'office, en application de l'article 1037-1, alinéa 2, du code de procédure civile — est celle retenue par **la juridiction du premier président** (§8), et non une règle posée par la Cour de cassation.\n\nLe texte fourni ne contient pas la réponse de la Cour de cassation sur ce point : aucune position ne peut lui être attribuée, ni favorable ni défavorable à ce raisonnement.",
+ "guard_p": 0.1,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U06-CHUNK",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "chunk",
+  "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur l'application de l'article 1037-1 du code de procédure civile (signification de la déclaration de saisine à peine de caducité) à la procédure de renvoi après cassation en matière de contestation d'honoraires d'avocat ?",
+  "paragraphs": [
+   8
+  ],
+  "gold": "La procédure de contestation des honoraires d'avocat devant le premier président de la cour d'appel est orale et sans représentation obligatoire (article 177 du décret du 27 novembre 1991 et article 946 du code de procédure civile). La Cour de cassation en déduit que l'article 1037-1 du code de procédure civile n'est pas applicable au renvoi après cassation dans cette matière. Aucune caducité ne peut donc être prononcée pour défaut de signification de la déclaration de saisine dans le délai prévu par ce texte, et la Cour casse l'ordonnance qui l'avait prononcée.",
+  "fail_if": "Reprend le raisonnement du paragraphe 8 (obligation de signifier dans les vingt jours de l'avis de fixation, à peine de caducité relevée d'office) comme s'il s'agissait de la règle posée par la Cour de cassation.",
+  "id": "U06-CHUNK",
+  "case": "U06",
+  "file": "cases/raw/U06_civ2_2026-09-17_25-13045.txt"
+ }
+}

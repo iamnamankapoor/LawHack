@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "L'argument d'irrecevabilité était celui de M. [P] (§3) [...] La Cour l'a écarté",
+ "reason": "La réponse attribue correctement la fin de non-recevoir à M. [P] et présente comme position de la Cour le rejet de cette fin de non-recevoir, le moyen étant de pur droit et donc recevable.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U04-Q1",
+ "run": 1
+}

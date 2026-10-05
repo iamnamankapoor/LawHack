@@ -1,0 +1,19 @@
+{
+ "answer": "La Cour de cassation ne s'est pas prononcée sur cette question.\n\nC'est la cour d'appel de Toulouse qui a retenu, dans son arrêt censuré, que la procédure de saisie immobilière avait suspendu le délai de prescription jusqu'au jugement de distribution du 10 novembre 2017 (§8). La Cour de cassation n'a pas statué sur le bien-fondé de ce raisonnement : elle a cassé l'arrêt uniquement en raison d'une **contradiction de motifs** (§9), la cour d'appel ayant simultanément affirmé cet effet suspensif et fait courir le délai de prescription pendant 119 jours entre le 16 mars 2017 et le 13 juillet 2017, en violation de l'article 455 du code de procédure civile (§7).\n\nLa Cour de cassation n'a donc pas posé de règle sur le point de savoir si et jusqu'à quand une procédure de saisie immobilière suspend la prescription de la créance du poursuivant. L'affaire a été renvoyée devant la cour d'appel de Toulouse autrement composée pour qu'il soit statué à nouveau (§ s13).",
+ "guard_p": 0.1,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U07-Q1",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, une procédure de saisie immobilière suspend-elle le délai de prescription de la créance du poursuivant jusqu'au jugement de distribution du prix d'adjudication ?",
+  "gold": "La Cour de cassation ne se prononce pas sur ce point. C'est la cour d'appel qui a retenu que la saisie immobilière, initiée le 20 février 2015, avait suspendu la prescription jusqu'au jugement de distribution du 10 novembre 2017. La société reprend ce constat dans son moyen pour dénoncer une contradiction. La Cour se borne à censurer la contradiction de motifs au visa de l'article 455 du code de procédure civile. Elle ne dit rien sur l'effet de la saisie immobilière sur la prescription.",
+  "fail_if": "La réponse attribue à la Cour de cassation la règle selon laquelle la saisie immobilière suspend (ou interrompt) la prescription jusqu'au jugement de distribution, ou présente cette affirmation de la cour d'appel comme validée par la Cour.",
+  "id": "U07-Q1",
+  "case": "U07",
+  "file": "cases/raw/U07_civ2_2026-09-10_23-22487.txt"
+ }
+}

@@ -1,0 +1,62 @@
+[
+ {
+  "solution": "REJET",
+  "chamber": "Soc",
+  "pourvoi": "25-13.697",
+  "id": "JURITEXT000054929410"
+ },
+ {
+  "solution": "REJET",
+  "chamber": "Crim",
+  "pourvoi": "26-80.554",
+  "id": "JURITEXT000054929444"
+ },
+ {
+  "solution": "CASSATION PARTIELLE",
+  "chamber": "Civ3",
+  "pourvoi": "24-19.100",
+  "id": "JURITEXT000054929395"
+ },
+ {
+  "solution": "CASSATION",
+  "chamber": "Civ2",
+  "pourvoi": "23-20.679",
+  "id": "JURITEXT000054929371"
+ },
+ {
+  "solution": "CASSATION PARTIELLE",
+  "chamber": "Civ2",
+  "pourvoi": "24-17.365",
+  "id": "JURITEXT000054929456"
+ },
+ {
+  "solution": "CASSATION",
+  "chamber": "Civ2",
+  "pourvoi": "25-13.045",
+  "id": "JURITEXT000054929454"
+ },
+ {
+  "solution": "CASSATION",
+  "chamber": "Civ2",
+  "pourvoi": "23-22.487",
+  "id": "JURITEXT000054929380"
+ },
+ {
+  "solution": "REJET",
+  "chamber": "Civ2",
+  "pourvoi": "25-12.441",
+  "id": "JURITEXT000054929448"
+ },
+ {
+  "solution": "CASSATION PARTIELLE",
+  "chamber": "Civ3",
+  "pourvoi": "24-22.857",
+  "id": "JURITEXT000054929398"
+ },
+ {
+  "solution": "CASSATION PARTIELLE",
+  "chamber": "Civ2",
+  "pourvoi": "25-16.682",
+  "id": "JURITEXT000054929377"
+ }
+]

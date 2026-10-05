@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Non. La Cour de cassation a censuré ce raisonnement, qui était celui de la cour d'appel (§21, sort : censuré).",
+ "reason": "La réponse attribue explicitement le calcul à 25 % du préjudice total à la cour d'appel et présente correctement la censure de la Cour de cassation pour manque de base légale, en exigeant d'évaluer d'abord le préjudice lié à la seule aggravation.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U05-Q2",
+ "run": 1
+}

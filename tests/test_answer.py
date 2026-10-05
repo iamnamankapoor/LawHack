@@ -1,11 +1,13 @@
 import asyncio
+import importlib
+from types import SimpleNamespace
 
 import pytest
 
 from lawhack import answer as answer_module
-from lawhack.answer import ask
+from lawhack.answer import ask, draft as answer_draft, revise as answer_revise
 from lawhack.attributor import build_registry
-from lawhack.schema import Decision, Zone
+from lawhack.schema import Decision, Speaker, Zone
 from lawhack.segmenter import segment
 from lawhack.solution import Solution
 from lawhack.system_one import SystemOneResult
@@ -29,8 +31,10 @@ class FakeRetrieval(FakeSystemOne):
         super().__init__()
         self.relevant, self.supported = set(relevant), supported
         self.target, self.target_p = target, target_p
+        self.decide_calls = 0
 
     async def decide(self, state, questions):
+        self.decide_calls += 1
         if "target" in questions:
             keys = questions["target"].criteria
             other_p = (1 - self.target_p) / (len(keys) - 1)
@@ -53,6 +57,32 @@ class FakeRetrieval(FakeSystemOne):
         return SystemOneResult(decisions=out, model="fake")
 
 
+class FakeMistral:
+    def __init__(self, response):
+        self.response = response
+        self.models = []
+        self.chat = self
+
+    def complete(self, **kwargs):
+        self.models.append(kwargs["model"])
+        return SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content=self.response))])
+
+
+def _fake_mistral(monkeypatch, response):
+    mistral_client = importlib.import_module("mistralai.client")
+    fake = FakeMistral(response)
+    monkeypatch.setattr(mistral_client, "Mistral", lambda api_key: fake)
+    monkeypatch.setenv("MISTRAL_API_KEY", "fake-key")
+    return fake
+
+
+def _enable_answer_cache(monkeypatch, tmp_path):
+    monkeypatch.setattr(answer_module, "ANSWER_CACHE_DIR", tmp_path / "answers")
+    monkeypatch.setenv("ANSWER_CACHE", "1")
+    monkeypatch.setenv("ANSWER_MODEL", "draft-model")
+    monkeypatch.delenv("REVISE_MODEL", raising=False)
+
+
 def _fake(registry, **kwargs):
     fake = FakeRetrieval(**kwargs)
     fake.paragraph_ids = {}
@@ -69,11 +99,209 @@ def _para(registry, n):
     return next(e for e in registry.entries if e.paragraph == n)
 
 
+def _verified_pill(registry, entry, claim, supported, **updates):
+    entry = entry.model_copy(update=updates)
+    registry = registry.model_copy(update={
+        "entries": [entry if current.id == entry.id else current for current in registry.entries]
+    })
+    result = asyncio.run(
+        answer_module.verify(f"{claim} [{entry.id}].", registry, _fake(registry, supported=supported))
+    )
+    return result[0].pills[0]
+
+
 def test_abstains_when_nothing_relevant(legifrance_doc, monkeypatch):
     registry = _registry(legifrance_doc)
     monkeypatch.setattr(answer_module, "draft", lambda *a: (_ for _ in ()).throw(AssertionError("no LLM call")))
     result = asyncio.run(ask(registry, "Montant du préjudice moral ?", _fake(registry)))
     assert result.abstained and result.render() == answer_module.NOT_ADDRESSED
+
+
+def test_answer_cache_hits_for_normalized_question(legifrance_doc, monkeypatch, tmp_path):
+    _enable_answer_cache(monkeypatch, tmp_path)
+    registry = _registry(legifrance_doc)
+    s9 = _para(registry, 9).id
+    client = _fake(registry, relevant={s9})
+    mistral = _fake_mistral(monkeypatch, f"La Cour confirme l'arrêt [{s9}].")
+
+    first = asyncio.run(ask(registry, "Que décide la Cour ?", client))
+    decide_calls = client.decide_calls
+    second_question = "  QUE   DÉCIDE LA COUR ?  "
+    second = asyncio.run(ask(registry, second_question, client))
+
+    assert client.decide_calls == decide_calls
+    assert mistral.models == ["draft-model"]
+    assert first.sentences == second.sentences
+    assert second.question == second_question
+
+
+def test_answer_cache_misses_for_different_question(legifrance_doc, monkeypatch, tmp_path):
+    _enable_answer_cache(monkeypatch, tmp_path)
+    registry = _registry(legifrance_doc)
+    s9 = _para(registry, 9).id
+    client = _fake(registry, relevant={s9})
+    mistral = _fake_mistral(monkeypatch, f"La Cour confirme l'arrêt [{s9}].")
+
+    asyncio.run(ask(registry, "Que décide la Cour ?", client))
+    calls_after_first = client.decide_calls
+    asyncio.run(ask(registry, "Quelle est la décision ?", client))
+
+    assert client.decide_calls > calls_after_first
+    assert mistral.models == ["draft-model", "draft-model"]
+
+
+def test_answer_cache_misses_when_registry_changes(legifrance_doc, monkeypatch, tmp_path):
+    _enable_answer_cache(monkeypatch, tmp_path)
+    registry = _registry(legifrance_doc)
+    s9 = _para(registry, 9).id
+    first_client = _fake(registry, relevant={s9})
+    mistral = _fake_mistral(monkeypatch, f"La Cour confirme l'arrêt [{s9}].")
+
+    asyncio.run(ask(registry, "Que décide la Cour ?", first_client))
+    modified = registry.model_copy(deep=True)
+    modified.entries[0] = modified.entries[0].model_copy(update={"text": modified.entries[0].text + " modifié"})
+    second_client = _fake(modified, relevant={s9})
+    asyncio.run(ask(modified, "Que décide la Cour ?", second_client))
+
+    assert first_client.decide_calls > 0 and second_client.decide_calls > 0
+    assert mistral.models == ["draft-model", "draft-model"]
+
+
+def test_answer_cache_misses_when_solution_changes(legifrance_doc, monkeypatch, tmp_path):
+    _enable_answer_cache(monkeypatch, tmp_path)
+    registry = _registry(legifrance_doc)
+    s9 = _para(registry, 9).id
+    client = _fake(registry, relevant={s9})
+    monkeypatch.setattr(answer_module, "draft", lambda q, context, model=None: f"Les parties sont en désaccord [{s9}].")
+
+    asyncio.run(ask(registry, "Que décide la Cour ?", client, solution=Solution.REJET))
+    calls_after_first = client.decide_calls
+    asyncio.run(ask(registry, "Que décide la Cour ?", client, solution=Solution.CASSATION))
+
+    assert client.decide_calls > calls_after_first
+
+
+def test_answer_cache_key_includes_threshold_and_registry_overrides(legifrance_doc, monkeypatch):
+    registry = _registry(legifrance_doc)
+    monkeypatch.setattr(answer_module.feedback, "ok_threshold", lambda: 0.8)
+    original_key = answer_module._answer_cache_key(registry, "Question ?", None)
+
+    monkeypatch.setattr(answer_module.feedback, "ok_threshold", lambda: 0.7)
+    threshold_key = answer_module._answer_cache_key(registry, "Question ?", None)
+    answer_module.feedback.set_override("doc", registry.entries[0].id, answer_module.Speaker.COUR_CASSATION)
+    overridden = answer_module.feedback.apply_overrides(registry)
+    override_key = answer_module._answer_cache_key(overridden, "Question ?", None)
+
+    assert original_key != threshold_key
+    assert threshold_key != override_key
+
+
+def test_answer_cache_can_be_disabled(legifrance_doc, monkeypatch, tmp_path):
+    _enable_answer_cache(monkeypatch, tmp_path)
+    monkeypatch.setenv("ANSWER_CACHE", "0")
+    registry = _registry(legifrance_doc)
+    s9 = _para(registry, 9).id
+    client = _fake(registry, relevant={s9})
+    mistral = _fake_mistral(monkeypatch, f"La Cour confirme l'arrêt [{s9}].")
+
+    asyncio.run(ask(registry, "Que décide la Cour ?", client))
+    calls_after_first = client.decide_calls
+    asyncio.run(ask(registry, "Que décide la Cour ?", client))
+
+    assert client.decide_calls > calls_after_first
+    assert mistral.models == ["draft-model", "draft-model"]
+
+
+def test_answer_cache_stores_abstentions(legifrance_doc, monkeypatch, tmp_path):
+    _enable_answer_cache(monkeypatch, tmp_path)
+    registry = _registry(legifrance_doc)
+    client = _fake(registry)
+    mistral = _fake_mistral(monkeypatch, "Unused")
+
+    first = asyncio.run(ask(registry, "Question hors sujet ?", client))
+    calls_after_first = client.decide_calls
+    second = asyncio.run(ask(registry, "Question hors sujet ?", client))
+
+    assert first.abstained and second.abstained
+    assert client.decide_calls == calls_after_first
+    assert mistral.models == []
+
+
+def test_corrupt_answer_cache_is_recomputed_and_overwritten(legifrance_doc, monkeypatch, tmp_path):
+    _enable_answer_cache(monkeypatch, tmp_path)
+    registry = _registry(legifrance_doc)
+    s9 = _para(registry, 9).id
+    client = _fake(registry, relevant={s9})
+    mistral = _fake_mistral(monkeypatch, f"La Cour confirme l'arrêt [{s9}].")
+
+    asyncio.run(ask(registry, "Que décide la Cour ?", client))
+    cache_file = next((tmp_path / "answers").rglob("*.json"))
+    cache_file.write_text("{broken", encoding="utf-8")
+    calls_after_first = client.decide_calls
+    asyncio.run(ask(registry, "Que décide la Cour ?", client))
+
+    assert client.decide_calls > calls_after_first
+    assert len(mistral.models) == 2
+    answer_module.Answer.model_validate_json(cache_file.read_text(encoding="utf-8"))
+    assert not list(cache_file.parent.glob(".*.tmp"))
+
+
+def test_draft_exception_does_not_write_answer_cache(legifrance_doc, monkeypatch, tmp_path):
+    _enable_answer_cache(monkeypatch, tmp_path)
+    registry = _registry(legifrance_doc)
+    s9 = _para(registry, 9).id
+    client = _fake(registry, relevant={s9})
+
+    def fail_draft(*args, **kwargs):
+        raise RuntimeError("draft failed")
+
+    monkeypatch.setattr(answer_module, "draft", fail_draft)
+    with pytest.raises(RuntimeError, match="draft failed"):
+        asyncio.run(ask(registry, "Que décide la Cour ?", client))
+
+    assert not (tmp_path / "answers").exists()
+
+
+def test_revise_model_defaults_to_revise_env_while_draft_uses_answer_env(monkeypatch):
+    monkeypatch.setenv("ANSWER_MODEL", "draft-model")
+    monkeypatch.setenv("REVISE_MODEL", "revise-model")
+    fake = _fake_mistral(monkeypatch, "Phrase.")
+
+    answer_draft("Question ?", [], model=None)
+    answer_revise("Phrase à corriger.", [], model=None)
+    answer_revise("Phrase à corriger.", [], model="explicit-model")
+
+    assert fake.models == ["draft-model", "revise-model", "explicit-model"]
+
+
+def test_verify_uses_learned_ok_threshold(legifrance_doc, monkeypatch):
+    registry = _registry(legifrance_doc)
+    s9 = _para(registry, 9).id
+    calls = []
+
+    def learned_threshold():
+        calls.append(None)
+        return 0.7
+
+    monkeypatch.setattr(answer_module.feedback, "ok_threshold", learned_threshold)
+    result = asyncio.run(
+        answer_module.verify(f"La Cour confirme l'arrêt [{s9}].", registry, _fake(registry, supported=0.75))
+    )
+
+    assert calls == [None]
+    assert result[0].pills[0].level == "ok"
+
+
+def test_answer_context_contains_sorted_retrieved_ids(legifrance_doc, monkeypatch):
+    registry = _registry(legifrance_doc)
+    selected = registry.entries[:2]
+    monkeypatch.setattr(answer_module, "retrieve", lambda *args: asyncio.sleep(0, result=list(reversed(selected))))
+    monkeypatch.setattr(answer_module, "draft", lambda *args: answer_module.NOT_ADDRESSED)
+
+    result = asyncio.run(ask(registry, "Question ?", _fake(registry)))
+
+    assert result.abstained
+    assert result.context == sorted(entry.id for entry in selected)
 
 
 def test_pills_carry_speaker_paragraph_and_confidence(legifrance_doc, monkeypatch):
@@ -85,6 +313,8 @@ def test_pills_carry_speaker_paragraph_and_confidence(legifrance_doc, monkeypatc
     result = asyncio.run(ask(registry, "Que décide la Cour ?", _fake(registry, relevant={s9, s7})))
     first, second, third = result.sentences
     assert first.pills[0].label == "Cour, approuvant la cour d'appel" and first.pills[0].paragraph == 9 and first.pills[0].level == "ok"
+    assert first.pills[0].tier == "sur" and first.pills[0].tier_label == "Sûr"
+    assert any("dit bien" in reason for reason in first.pills[0].reasons)
     assert second.pills[0].paragraph == 7
     assert third.pills == [] and third.supported == 0.0
     assert "[Cour, approuvant la cour d'appel · §9 · " in result.render() and "[non sourcé ⚠]" in result.render()
@@ -96,6 +326,48 @@ def test_low_verification_downgrades_pill(legifrance_doc, monkeypatch):
     monkeypatch.setattr(answer_module, "draft", lambda q, ctx, m=None: f"La Cour casse l'arrêt [{s9}].")
     result = asyncio.run(ask(registry, "Que décide la Cour ?", _fake(registry, relevant={s9}, supported=0.2)))
     assert result.sentences[0].pills[0].level == "unsupported"
+
+
+def test_jev_runner_up_is_named_in_pill_reasons(legifrance_doc):
+    registry = _registry(legifrance_doc)
+    entry = _para(registry, 7)
+    pill = _verified_pill(
+        registry,
+        entry,
+        "Le demandeur soutient sa thèse",
+        0.9,
+        source="jev",
+        speaker=Decision(
+            value=Speaker.DEMANDEUR.value,
+            probabilities={"DEMANDEUR": 0.6, "JURIDICTION_FOND": 0.4},
+            confidence=0.6,
+        ),
+    )
+
+    assert pill.tier == "probable"
+    assert "Jev hésite entre Demandeur et Cour d'appel." in pill.reasons
+    assert {speaker.value for speaker in Speaker} <= answer_module.SPEAKER_LABELS.keys()
+
+
+def test_low_support_sets_uncertain_or_false_tier_and_weakest_reason_first(legifrance_doc):
+    registry = _registry(legifrance_doc)
+    entry = _para(registry, 9)
+
+    uncertain = _verified_pill(registry, entry, "La Cour confirme cet élément", 0.3)
+    false = _verified_pill(registry, entry, "La Cour confirme cet élément", 0.1)
+
+    assert uncertain.tier == "incertain"
+    assert uncertain.reasons[0] == "Le passage cité ne permet pas de confirmer la phrase."
+    assert false.tier == "faux"
+    assert any("contredit" in reason for reason in false.reasons)
+
+
+def test_lawyer_source_is_explained_as_human_confirmed(legifrance_doc):
+    registry = _registry(legifrance_doc)
+    entry = _para(registry, 9)
+    pill = _verified_pill(registry, entry, "La Cour confirme cet élément", 0.9, source="lawyer")
+
+    assert "Locuteur confirmé par un avocat." in pill.reasons
 
 
 def test_retrieving_a_moyen_brings_the_cour_reply(legifrance_doc, monkeypatch):
@@ -204,6 +476,17 @@ def test_false_premise_question_is_rescued_lexically(legifrance_doc):
     s8 = _para(registry, 8).id
     picked = asyncio.run(retrieve(registry, "La Cour de cassation a-t-elle constaté que la banque avait refusé le prêt des acquéreurs ?", _fake(registry)))
     assert s8 in {e.id for e in picked}
+
+
+def test_lexical_match_is_added_alongside_jev_picks(legifrance_doc):
+    from lawhack.answer import retrieve
+
+    registry = _registry(legifrance_doc)
+    s8, s10 = _para(registry, 8).id, _para(registry, 10).id
+    question = "La Cour de cassation a-t-elle constaté que la banque avait refusé le prêt des acquéreurs ?"
+    picked = asyncio.run(retrieve(registry, question, _fake(registry, relevant={s10})))
+
+    assert {s8, s10} <= {e.id for e in picked}
 
 
 def test_flagged_sentence_is_rewritten_when_reverification_improves(legifrance_doc, monkeypatch):
@@ -324,5 +607,31 @@ def test_lower_court_reported_in_a_moyen_is_a_warning(legifrance_doc, monkeypatc
     result = asyncio.run(ask(registry, "Qu'a décidé la cour d'appel ?", _fake(registry, relevant={s7.id}, supported=0.1)))
     first, pronoun, party = (s.pills[0] for s in result.sentences)
     assert first.level == pronoun.level == "warn"
+    assert pronoun.tier == "probable"
     assert pronoun.note.startswith("Rapporté par le demandeur (§7)")
+    assert pronoun.note in pronoun.reasons
     assert party.note is None
+
+
+def test_caption_question_gets_the_header_even_when_jev_says_none(legifrance_doc):
+    registry = _registry(legifrance_doc)
+    header = answer_module.header_entries(registry)
+    assert header and all(e.zone in (Zone.INTRODUCTION, Zone.METADONNEES) for e in header)
+    assert not any("Titrages" in e.text for e in header)
+
+    context = asyncio.run(answer_module.retrieve(registry, "Qui est le président de la chambre ?", _fake(registry)))
+
+    assert {e.id for e in header} <= {e.id for e in context}
+
+
+def test_header_stays_out_of_substantive_questions(legifrance_doc, monkeypatch):
+    registry = _registry(legifrance_doc)
+    s10 = _para(registry, 10).id
+    header_ids = {e.id for e in answer_module.header_entries(registry)}
+
+    context = asyncio.run(answer_module.retrieve(registry, "Les acquéreurs devaient-ils accepter le prêt ?", _fake(registry, relevant={s10})))
+    assert not header_ids & {e.id for e in context}
+
+    monkeypatch.setenv("HEADER_CONTEXT", "off")
+    context = asyncio.run(answer_module.retrieve(registry, "Qui est le président de la chambre ?", _fake(registry)))
+    assert not header_ids & {e.id for e in context}

@@ -1,0 +1,873 @@
+<meta charset="utf-8">
+<title>Legible Pitch</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: a fixed 1600x900 stage scaled to the window, one slide at a time, built from the Legible app's own tokens. */
+:root {
+  color-scheme: light;
+  --paper:#ffffff; --ink:#0a0a0a; --grey:#6f6f6f; --soft:#a3a3a3; --hair:#e6e6e6; --wash:#f4f4f4; --fog:#efefef;
+  --night:#1c1c1e; --night2:#151517; --nightline:#2c2c2e; --nighttext:#f2f2f2; --nightgrey:#9a9a9f;
+  --v-cour:#1a47ff; --v-fond:#ff5a1f; --v-dem:#e0006e; --v-cite:#6e56cf; --v-loi:#6e6e6e; --v-faits:#8a8a8a;
+  --ok:#0f8a3c; --warn:#d97706; --bad:#e11d2e; --acc:#ef5f00;
+  --f:"Inter Tight","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --ease:cubic-bezier(.2,.8,.2,1); --snap:cubic-bezier(.2,1.6,.4,1);
+}
+* { box-sizing:border-box; margin:0; padding:0 }
+html, body { height:100% }
+body { background:#d9d9d9; color:var(--ink); font:400 22px/1.45 var(--f); letter-spacing:-.005em; -webkit-font-smoothing:antialiased; overflow:hidden }
+button { font:inherit; color:inherit; background:none; border:0; cursor:pointer }
+.num { font-variant-numeric:tabular-nums }
+.mono { font-family:var(--mono) }
+
+/* Stage */
+#stage { position:absolute; left:50%; top:50%; width:1600px; height:900px; transform:translate(-50%,-50%) scale(var(--s,1)); transform-origin:center; background:var(--paper); box-shadow:0 30px 80px rgba(0,0,0,.18); overflow:hidden }
+.slide { position:absolute; inset:0; padding:72px 96px; display:none; flex-direction:column; background:var(--paper) }
+.slide.active { display:flex }
+.slide.fog { background:var(--fog) }
+.slide.dark { background:var(--night); color:var(--nighttext) }
+.slide.vc { justify-content:center }
+
+/* Chrome */
+.chrome { position:absolute; left:0; right:0; bottom:0; height:44px; display:flex; align-items:center; gap:16px; padding:0 32px; font:500 11px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--grey); z-index:5; pointer-events:none }
+.dark-on .chrome { color:var(--nightgrey) }
+.chrome .logo-s { display:flex; align-items:center; gap:8px; color:inherit }
+.chrome .count { margin-left:auto }
+.progress { position:absolute; left:0; top:0; height:3px; background:var(--ink); transition:width .5s var(--ease); z-index:6 }
+.dark-on .progress { background:var(--acc) }
+.logo { display:inline-flex; align-items:center; gap:12px; font-weight:700; letter-spacing:-.04em }
+.logo svg { flex:none }
+
+/* Type */
+.eyebrow { font:500 13px/1 var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--grey) }
+.dark .eyebrow { color:var(--nightgrey) }
+.eyebrow b { color:var(--acc); font-weight:500 }
+h1 { font-size:104px; line-height:1.0; letter-spacing:-.05em; font-weight:400; text-wrap:balance }
+h2 { font-size:64px; line-height:1.03; letter-spacing:-.045em; font-weight:400; text-wrap:balance }
+h3 { font-size:28px; line-height:1.15; letter-spacing:-.03em; font-weight:500 }
+.lede { font-size:26px; line-height:1.45; color:#3a3a3a; max-width:46ch }
+.dark .lede { color:#b4b4b9 }
+.head { display:grid; grid-template-columns:1fr; align-items:start }
+
+.small { font-size:16px; color:var(--grey); line-height:1.5 }
+.dark .small { color:var(--nightgrey) }
+
+/* Reveal: everything is visible at rest; .active replays the entrance */
+.slide.active .r { animation:rin .7s var(--ease) both; animation-delay:calc(var(--d,0) * 1ms) }
+@keyframes rin { from { opacity:0; transform:translateY(14px) } }
+.slide.active .rl > span { display:inline-block; animation:rise 1s var(--ease) both; animation-delay:calc(var(--d,0) * 1ms) }
+.rl { display:block; overflow:hidden; padding-bottom:.06em }
+@keyframes rise { from { transform:translateY(105%) } }
+
+/* Speaker marks */
+.sp { --v:var(--ink) }
+.c-cour { --v:var(--v-cour) } .c-fond { --v:var(--v-fond) } .c-dem { --v:var(--v-dem) } .c-cite { --v:var(--v-cite) } .c-loi { --v:var(--v-loi) } .c-faits { --v:var(--v-faits) }
+.mk { background-image:linear-gradient(var(--v),var(--v)),linear-gradient(color-mix(in srgb,var(--v) 13%,transparent),color-mix(in srgb,var(--v) 13%,transparent)); background-repeat:no-repeat; background-position:0 100%,0 0; background-size:0 2px,0 100%; -webkit-box-decoration-break:clone; box-decoration-break:clone; transition:background-size .8s var(--ease) }
+.mk.on { background-size:100% 2px,100% 100% }
+.chip { display:inline-flex; align-items:center; gap:7px; border:1px solid color-mix(in srgb,var(--v) 40%,#fff); background:color-mix(in srgb,var(--v) 9%,#fff); padding:3px 10px 3px 7px; font-size:15px; font-weight:500; color:var(--ink); white-space:nowrap }
+.chip i { width:10px; height:10px; background:var(--v); display:block }
+.chip em { font-style:normal; color:var(--v); font-weight:600 }
+.cite { display:inline-flex; align-items:center; gap:6px; vertical-align:2px; margin-left:4px; border:1px solid color-mix(in srgb,var(--v) 40%,#fff); background:color-mix(in srgb,var(--v) 9%,#fff); padding:0 8px 0 6px; font-size:14px; font-weight:500; line-height:24px; white-space:nowrap; color:var(--ink) }
+.cite i { width:9px; height:9px; background:var(--v); display:block }
+.cite em { font-style:normal; color:var(--v); font-weight:600 }
+.cite b { font-weight:500; color:var(--grey) }
+.stamp { display:inline-block; vertical-align:2px; margin-left:8px; padding:0 8px; font-size:12px; font-weight:700; letter-spacing:.07em; line-height:22px; color:#fff; white-space:nowrap }
+.stamp.block, .stamp.fail { background:var(--bad) } .stamp.pass, .stamp.fixed { background:var(--ok) } .stamp.warn, .stamp.soft { background:var(--warn) }
+.pop { animation:pop .45s var(--snap) both } @keyframes pop { from { opacity:0; transform:scale(.6) } }
+.stampin { animation:stampin .45s var(--snap) both } @keyframes stampin { from { opacity:0; transform:scale(2.2) rotate(-8deg) } }
+
+/* Panels (app UI) */
+.panel { border:1px solid var(--ink); background:var(--paper); display:flex; flex-direction:column; min-height:0 }
+.ph { display:flex; align-items:baseline; gap:12px; padding:12px 16px; border-bottom:1px solid var(--ink); font-size:12px; font-weight:600; letter-spacing:.08em; text-transform:uppercase }
+.ph .meta { margin-left:auto; text-transform:none; letter-spacing:0; font-weight:500; color:var(--grey); font-size:13px }
+.appbar { display:flex; align-items:center; gap:18px; height:56px; padding:0 4px; border-bottom:1px solid var(--hair); margin-bottom:20px }
+.appbar .doc { font-size:14px; color:var(--grey) } .appbar .doc strong { color:var(--ink); font-weight:600 }
+.appbar .btn { margin-left:auto; border:1px solid var(--ink); padding:7px 12px; font-size:13px; font-weight:600 }
+
+/* ---------- Slide 1: title ---------- */
+.s-title { padding:0 }
+.skyline { position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:1180px; height:100%; display:flex; align-items:flex-end; pointer-events:none }
+.skyline i { position:relative; flex:1; height:var(--h); margin-left:-1px; border:1px solid #cdcdcd; border-bottom:0; transform-origin:bottom }
+.slide.active .skyline i { animation:barup 1.3s var(--ease) both; animation-delay:calc(var(--i) * 70ms + 150ms) }
+.skyline i::before { content:""; position:absolute; inset:-1px -1px auto; height:3px; background:var(--c,transparent) }
+@keyframes barup { from { transform:scaleY(0) } }
+.s-title .top { position:relative; z-index:1; display:flex; align-items:center; height:84px; padding:0 48px; border-bottom:1px solid #d9d9d9 }
+.s-title .top .logo { font-size:30px }
+.s-title .top .ev { margin-left:auto }
+.s-title h1 { position:relative; z-index:1; text-align:center; margin-top:92px; font-size:120px }
+.s-title .hero-cta { position:relative; z-index:1; margin-top:52px; display:flex; flex-direction:column; align-items:center; gap:18px }
+.cta.big { height:84px; font-size:19px; letter-spacing:.1em; box-shadow:0 18px 40px rgba(10,10,10,.18) }
+.cta.big span { padding:0 40px } .cta.big i { width:84px; font-size:24px }
+.s-title .hero-cta p { font-size:22px; color:#3a3a3a; background:var(--fog); padding:2px 10px }
+.cta { display:inline-flex; align-items:stretch; height:56px; background:var(--ink); color:#fff; font:500 13px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; flex:none }
+.cta span { display:flex; align-items:center; padding:0 22px } .cta i { display:grid; place-items:center; width:48px; border-left:1px solid #333; font-style:normal; color:var(--acc) }
+
+/* ---------- Slide 2: why ---------- */
+.s-why { justify-content:center }
+.s-why h1 { font-size:82px; max-width:none }
+.s-why h1 .dim { color:#6d6d72 }
+.s-why .rule { margin-top:56px; display:flex; gap:56px; font-size:24px; color:#c9c9ce; max-width:1200px }
+.s-why .rule div { flex:1; border-top:1px solid var(--nightline); padding-top:18px }
+.s-why .rule b { display:block; color:var(--nighttext); font-weight:500; margin-bottom:6px }
+
+/* ---------- Slide 3: voices ---------- */
+.voices { display:grid; grid-template-columns:1fr 420px; gap:48px; margin-top:36px; min-height:0 }
+.ruling { border:1px solid var(--ink); padding:22px 28px 26px 0; display:grid; grid-template-columns:1fr 10px; background:var(--paper) }
+.ruling .txt { padding-left:0 }
+.ruling .hd { margin:0 0 12px 56px; font:600 12px/1 var(--f); letter-spacing:.08em; text-transform:uppercase; color:var(--soft) }
+.ruling .hd b { color:var(--ink); font-weight:600 }
+.para { display:grid; grid-template-columns:56px 1fr; font-size:18px; line-height:1.55; margin-bottom:10px }
+.para .n { font-size:12px; font-weight:600; color:var(--soft); text-align:right; padding:4px 14px 0 0 }
+.para .key { font-weight:600 }
+.ruling .mini { display:flex; flex-direction:column; gap:2px; border-left:1px solid var(--hair); margin-left:10px }
+.ruling .mini i { flex:var(--w,1); background:var(--v); transform:scaleX(0); transform-origin:left; transition:transform .4s var(--ease) }
+.ruling .mini i.on { transform:none }
+.notes-side { display:flex; flex-direction:column; gap:22px }
+.callout { border-top:1px solid var(--ink); padding-top:14px }
+.callout .eyebrow { margin-bottom:10px }
+.callout p { font-size:21px; line-height:1.4 }
+.callout p q { font-weight:600; quotes:"«\00a0" "\00a0»" }
+.callout.big p { font-size:30px; letter-spacing:-.025em; line-height:1.2 }
+
+/* ---------- Slide 4: red test ---------- */
+.redtest { display:grid; grid-template-columns:1fr 640px; gap:56px; margin-top:34px }
+.qbox { border-left:3px solid var(--ink); padding:4px 0 4px 20px; font-size:24px; line-height:1.4; font-weight:500; letter-spacing:-.015em }
+.shot { position:relative; width:640px; height:372px; overflow:hidden; border:1px solid var(--ink); background:#0b0b0b }
+.shot img { position:absolute; left:0; top:-386px; width:640px; height:auto; display:block; max-width:none }
+.shot .hl { position:absolute; left:242px; top:58px; width:392px; height:76px; border:3px solid var(--bad); box-shadow:0 0 0 9999px rgba(0,0,0,.35); opacity:0; transition:opacity .5s }
+.shot .hl.on { opacity:1 }
+.shot .tag { position:absolute; right:10px; top:10px; font:600 11px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:#fff; background:var(--bad); padding:6px 8px }
+.cap { margin-top:10px; font-size:14px; color:var(--grey) }
+.bigstat { display:flex; gap:40px; margin-top:34px }
+.bigstat div { flex:1; border-top:1px solid var(--ink); padding-top:12px }
+.bigstat strong { display:block; font-size:72px; line-height:1; letter-spacing:-.05em; font-weight:400 }
+.bigstat strong small { font-size:30px; color:var(--grey) }
+.bigstat span { display:block; margin-top:8px; font-size:17px; line-height:1.4; color:#3a3a3a }
+.truth { margin-top:30px; background:var(--wash); padding:16px 20px; font-size:18px; line-height:1.5 }
+.truth b { font-weight:600 }
+
+/* ---------- Slide 5: sweep ---------- */
+.sweep { display:grid; grid-template-columns:1.7fr 1fr 1fr; gap:40px; margin-top:44px }
+.lab h4 { display:flex; justify-content:space-between; align-items:baseline; border-top:1px solid var(--ink); padding-top:12px; margin-bottom:14px; font-size:15px; font-weight:600; letter-spacing:.08em; text-transform:uppercase }
+.mods { display:grid; gap:8px }
+.lab.anth .mods { grid-template-columns:1fr 1fr; column-gap:16px }
+.mod { display:flex; align-items:center; gap:12px; padding:8px 0; border-bottom:1px solid var(--hair); font-size:19px; line-height:1.2 }
+.slide.active .mod { animation:rin .5s var(--ease) both; animation-delay:calc(var(--i) * 45ms + 300ms) }
+.mod .nm { flex:1; min-width:0; font-weight:500 }
+.mod .res { width:14px; height:14px; flex:none }
+.res.fail { background:var(--bad) } .res.soft { background:var(--warn) } .res.pass { background:var(--ok) } .res.part { background:var(--ok); opacity:.55 }
+.mod.fail .nm, .mod.soft .nm { color:#3a3a3a }
+.sweepkey { display:flex; gap:22px; margin-top:6px; font:500 12px/1 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--grey) }
+.sweepkey span { display:inline-flex; align-items:center; gap:7px } .sweepkey i { width:11px; height:11px; display:block }
+.sweepsum { margin-top:auto; display:flex; gap:24px; align-items:baseline; border-top:1px solid var(--ink); padding-top:16px }
+.sweepsum strong { font-size:64px; font-weight:400; letter-spacing:-.05em; line-height:1; white-space:nowrap }
+.sweepsum span { font-size:22px; color:#3a3a3a; line-height:1.35; max-width:52ch }
+
+/* ---------- Slide 6: patterns ---------- */
+.patterns { display:grid; grid-template-columns:repeat(2,1fr); gap:44px 48px; margin-top:56px }
+.pat { border-top:1px solid var(--ink); padding-top:14px }
+.pat .k { font:500 12px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--bad) }
+.pat h3 { margin-top:10px }
+.pat p { margin-top:8px; font-size:18px; color:#3a3a3a; line-height:1.45 }
+.pat h3 { font-size:34px }
+.pat blockquote { margin-top:14px; padding-left:16px; border-left:2px solid var(--bad); font-size:21px; line-height:1.45 }
+.pat blockquote cite { display:block; margin-top:4px; font-style:normal; font:400 12px/1.3 var(--mono); color:var(--grey); letter-spacing:.04em; text-transform:uppercase }
+
+/* ---------- Slide 7: what ---------- */
+.flow { display:grid; grid-template-columns:1fr 90px 1.1fr 90px 1fr; align-items:stretch; margin-top:56px }
+.fcol .src { font-size:22px }
+.fcol.mid h3 { font-size:44px; letter-spacing:-.04em }
+.client p { font-size:24px }
+.fcol { border:1px solid var(--ink); padding:22px 24px; display:flex; flex-direction:column; gap:12px; background:var(--paper) }
+.fcol .eyebrow { margin-bottom:6px }
+.fcol .src { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-top:1px solid var(--hair); font-size:20px; font-weight:500 }
+.fcol .src:last-child { border-bottom:1px solid var(--hair) }
+.fcol .src small { font:400 11px/1 var(--mono); color:var(--soft); letter-spacing:.05em; text-transform:uppercase }
+.fcol.mid { background:var(--ink); color:#fff; border-color:var(--ink) }
+.fcol.mid .eyebrow { color:var(--soft) }
+.fcol.mid h3 { font-size:34px; font-weight:500 }
+.fcol.mid .src { border-color:#2a2a2a }
+.fcol.mid .src small { color:#8a8a8f }
+.arrow { position:relative; display:grid; place-items:center }
+.arrow::before { content:""; position:absolute; left:10px; right:10px; top:50%; height:1px; background:var(--ink) }
+.arrow b { position:relative; width:12px; height:12px; background:var(--acc); border-radius:50%; offset-path:path("M -30 0 L 30 0") }
+.slide.active .arrow b { animation:travel 1.8s var(--ease) infinite; animation-delay:calc(var(--d,0) * 1ms) }
+@keyframes travel { 0% { transform:translateX(-34px); opacity:0 } 20% { opacity:1 } 80% { opacity:1 } 100% { transform:translateX(34px); opacity:0 } }
+.client p { font-size:20px; line-height:1.5 }
+.client .stamp { margin-left:0 }
+.oneline { margin-top:44px; font-size:30px; letter-spacing:-.025em; line-height:1.25; max-width:40ch }
+
+/* ---------- Slide 8: how ---------- */
+.cards { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:52px }
+.card { background:var(--night2); padding:26px 26px 22px; display:flex; flex-direction:column; min-height:470px }
+.card .art { height:150px; margin-bottom:18px }
+.card .art svg { width:100%; height:100%; overflow:visible }
+.card .art .g { stroke:#3a3a3c; fill:none } .card .art .w { stroke:#e8e8e8; fill:none; stroke-width:1.5 }
+.card .art .d { stroke-dasharray:400; stroke-dashoffset:400 }
+.slide.active .card .art .d { animation:dash 1.6s var(--ease) forwards; animation-delay:calc(var(--i,0) * 160ms + 300ms) }
+@keyframes dash { to { stroke-dashoffset:0 } }
+.card .art .dot { fill:var(--acc) }
+.card h3 { font-size:32px; font-weight:400 }
+.card .who { margin-top:6px; font:500 12px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--acc) }
+.card p { margin-top:14px; font-size:21px; line-height:1.45; color:#b4b4b9 }
+.card footer { margin-top:auto; padding-top:18px; display:flex; justify-content:space-between; font:400 12px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--nightgrey); border-top:1px solid var(--nightline) }
+.card footer b { color:var(--nighttext); font-weight:500 }
+.principle { margin-top:30px; font-size:24px; color:#c9c9ce } .principle b { color:#fff; font-weight:500 }
+
+/* ---------- Slide 9: reading ---------- */
+.desk { display:grid; grid-template-columns:7fr 5fr; gap:24px; flex:1; min-height:0 }
+.desk .panel { min-height:0 }
+.rbody { flex:1; min-height:0; display:grid; grid-template-columns:1fr 10px; overflow:hidden }
+.rdoc { padding:18px 22px 10px 0; overflow:hidden }
+.rdoc .zone { margin:0 0 8px 44px; font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--soft) }
+.rdoc .zone:not(:first-child) { margin-top:14px }
+.rp { display:grid; grid-template-columns:44px 1fr; font-size:15.5px; line-height:1.6; margin-bottom:8px }
+.rp .n { font-size:11px; font-weight:600; color:var(--soft); text-align:right; padding:3px 12px 0 0 }
+.rmini { border-left:1px solid var(--hair); display:flex; flex-direction:column }
+.rmini i { flex:var(--w,1); background:var(--v); transform:scaleX(0); transform-origin:left; transition:transform .3s var(--ease) }
+.rmini i.on { transform:none }
+.track { height:2px; background:var(--hair); position:relative; overflow:hidden }
+.track b { position:absolute; inset:0 auto 0 0; width:0; background:var(--v-cour); transition:width .2s linear }
+.legend { display:flex; flex-wrap:wrap; gap:6px; padding:12px 16px; border-top:1px solid var(--ink); min-height:52px }
+.legend .chip { opacity:0; transform:translateY(6px); transition:opacity .4s, transform .4s var(--ease) }
+.legend .chip.on { opacity:1; transform:none }
+.qpanel .status { padding:18px 20px; font-size:15px; color:var(--grey) }
+.qpanel .status b { color:var(--ink) }
+.sugg { display:flex; justify-content:space-between; padding:13px 20px; border-top:1px solid var(--hair); font-size:16px; font-weight:500; opacity:0; transition:opacity .4s }
+.sugg.on { opacity:1 }
+.sugg i { font-style:normal; color:var(--soft) }
+.askbar { margin-top:auto; display:flex; border-top:1px solid var(--ink) }
+.askbar .in { flex:1; padding:15px 16px; font-size:15px; color:var(--soft) }
+.askbar .send { background:var(--wash); color:var(--soft); padding:0 20px; display:grid; place-items:center; font-size:13px; font-weight:600; border-left:1px solid var(--ink) }
+.meter { display:flex; gap:28px; margin-top:16px; font:500 13px/1 var(--mono); letter-spacing:.04em; color:var(--grey) }
+.meter b { color:var(--ink); font-weight:500 }
+
+/* ---------- Slide 10: ask ---------- */
+.asktop { display:flex; align-items:center; border:1px solid var(--ink); margin-top:26px }
+.asktop .lbl { font:500 11px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--grey); padding:0 16px; border-right:1px solid var(--hair); align-self:stretch; display:grid; place-items:center }
+.asktop .typed { flex:1; padding:14px 18px; font-size:19px; font-weight:500; letter-spacing:-.01em; min-height:58px }
+.asktop .typed .caret { display:inline-block; width:2px; height:22px; background:var(--ink); vertical-align:-4px; margin-left:2px; animation:blink 1s steps(1) infinite }
+@keyframes blink { 50% { opacity:0 } }
+.asktop .go { align-self:stretch; background:var(--ink); color:#fff; padding:0 22px; display:grid; place-items:center; font-size:14px; font-weight:600 }
+.vs { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:20px; flex:1; min-height:0 }
+.ans { display:flex; flex-direction:column; min-height:0 }
+.ans .body { padding:18px 20px; font-size:17px; line-height:1.7; flex:1; overflow:hidden }
+.ans .body p + p { margin-top:10px }
+.ans .s { opacity:0; transition:opacity .5s }
+.ans .s.on { opacity:1 }
+.ans .bad { background:color-mix(in srgb,var(--bad) 10%,transparent); box-shadow:inset 0 -2px 0 var(--bad) }
+.ans .verdict { padding:12px 20px; border-top:1px solid var(--hair); font-size:15px; line-height:1.45; color:#3a3a3a; opacity:0; transition:opacity .5s }
+.ans .verdict.on { opacity:1 }
+.ans .verdict b { font-weight:600 }
+.ans.left .ph { background:color-mix(in srgb,var(--bad) 6%,#fff) }
+.ans.right .ph { background:color-mix(in srgb,var(--ok) 6%,#fff) }
+.popover { position:absolute; width:380px; padding:14px 16px; background:var(--paper); border:1px solid var(--ink); box-shadow:6px 6px 0 rgba(10,10,10,.08); font-size:14px; opacity:0; transform:translateY(6px); transition:opacity .3s, transform .3s var(--ease); pointer-events:none; z-index:3 }
+.popover.on { opacity:1; transform:none }
+.popover .h { display:flex; gap:6px; align-items:center; font-size:13px; font-weight:600 }
+.popover .h small { margin-left:auto; font-size:11px; color:var(--soft); font-weight:500 }
+.popover .quote { margin-top:10px; padding-left:10px; border-left:2px solid var(--v); font-size:14px; line-height:1.5; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden }
+.popover .capt { margin-top:12px; font-size:10.5px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--soft) }
+.popover .bars { margin-top:8px; display:grid; grid-template-columns:max-content 1fr max-content; gap:6px 10px; align-items:center; font-size:12.5px; color:var(--grey) }
+.popover .bar { height:6px; background:var(--wash) } .popover .bar i { display:block; height:100%; width:var(--p); background:var(--v) }
+.popover .bars b { font-weight:500; color:var(--ink) }
+.popover .stance { margin-top:10px; font-size:13px } .popover .stance b { color:var(--warn) }
+
+/* ---------- Slide 11: check ---------- */
+.checkgrid { display:grid; grid-template-columns:1fr 520px; gap:24px; margin-top:24px; flex:1; min-height:0 }
+.draft .body { padding:20px 22px; font-size:18px; line-height:1.75 }
+.draft .ds { transition:background .5s, box-shadow .5s }
+.draft .ds.block { background:color-mix(in srgb,var(--bad) 9%,transparent); box-shadow:inset 0 -2px 0 var(--bad) }
+.draft .ds.pass { box-shadow:inset 0 -2px 0 var(--ok) }
+.draft .ds.fixed { background:color-mix(in srgb,var(--ok) 9%,transparent); box-shadow:inset 0 -2px 0 var(--ok) }
+.draft .ds.sel { outline:2px solid var(--ink); outline-offset:2px }
+.draft .bar2 { display:flex; align-items:center; gap:14px; padding:14px 18px; border-top:1px solid var(--ink); margin-top:auto }
+.pbtn { padding:10px 18px; font-size:15px; font-weight:600; background:var(--ink); color:#fff; transition:transform .15s, background .3s }
+.pbtn.press { transform:scale(.95) }
+.pbtn.done { background:var(--wash); color:var(--soft) }
+.pbtn.ghost { background:var(--paper); color:var(--soft); border:1px solid var(--hair) }
+.pbtn.ghost.ready { color:#fff; background:var(--ok); border-color:var(--ok) }
+.draft .bar2 .cnt { font-size:14px; color:var(--grey) } .draft .bar2 .cnt b { color:var(--ink) }
+.proof { padding:20px 22px; display:flex; flex-direction:column; gap:12px; opacity:0; transform:translateX(16px); transition:opacity .5s, transform .5s var(--ease) }
+.proof.on { opacity:1; transform:none }
+.proof h3 { font-size:26px; font-weight:600; letter-spacing:-.025em }
+.proof .lb { font-size:12px; font-weight:600; color:var(--grey) }
+.proof blockquote { padding-left:12px; border-left:3px solid var(--v); font-size:15px; line-height:1.55 }
+.proof .rw { padding:12px 14px; background:color-mix(in srgb,var(--ok) 7%,#fff); border:1px solid color-mix(in srgb,var(--ok) 35%,#fff); font-size:15px; line-height:1.55 }
+.proof .acts { display:flex; gap:10px }
+.proof .acts span { border:1px solid var(--ink); padding:7px 12px; font-size:13px; font-weight:600; transition:background .3s, color .3s }
+.proof .acts span.hit { background:var(--ink); color:#fff }
+.placeholder { padding:28px 24px; color:var(--soft); font-size:16px }
+
+/* ---------- Stepped live-app slides ---------- */
+.demo { display:grid; grid-template-columns:360px 1fr; gap:40px; margin-top:30px; flex:1; min-height:0; align-items:start }
+.steps { list-style:none; display:grid; gap:0; counter-reset:st }
+.steps li { position:relative; padding:16px 0 16px 46px; border-top:1px solid var(--hair); cursor:pointer; opacity:.38; transition:opacity .4s }
+.steps li:not(.hint)::before { counter-increment:st; content:counter(st); position:absolute; left:0; top:16px; width:28px; height:28px; display:grid; place-items:center; font:500 13px/1 var(--mono); border:1px solid var(--ink) }
+.steps li.on { opacity:1 }
+.steps li.on::before { background:var(--ink); color:#fff }
+.steps li b { display:block; font-size:22px; font-weight:600; letter-spacing:-.02em }
+.steps li span { display:block; margin-top:6px; font-size:17px; line-height:1.45; color:#3a3a3a }
+.steps li.hint { border-top:1px solid var(--hair); padding-left:0; opacity:1; cursor:default; font:500 11px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--soft) }
+.browser { border:1px solid var(--ink); background:var(--paper); box-shadow:10px 10px 0 rgba(10,10,10,.06) }
+.bbar { height:34px; display:flex; align-items:center; gap:7px; padding:0 12px; border-bottom:1px solid var(--ink); background:var(--wash) }
+.bbar i { width:10px; height:10px; border-radius:50%; background:#d0d0d0 }
+.bbar span { margin-left:14px; flex:1; font:400 12px/1 var(--mono); color:var(--grey); letter-spacing:.02em }
+.bbar em { font-style:normal; font:600 11px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:#fff; background:var(--ok); padding:5px 7px }
+.view { position:relative; aspect-ratio:16/9; overflow:hidden; background:#fff }
+.view img { position:absolute; inset:0; width:100%; height:100%; display:block; max-width:none; opacity:0; transform:scale(1); transform-origin:var(--ox) var(--oy); transition:opacity .55s var(--ease), transform 1.3s var(--ease) }
+.view img.on { opacity:1; transform:scale(var(--z)) }
+
+/* ---------- Pitch v2 ---------- */
+.bad-t { color:var(--bad) }
+.slide.vc .sweep { margin-top:56px }
+.slide.vc .mod { font-size:21px; padding:10px 0 }
+.slide.vc .lab h4 { font-size:16px }
+
+.twoans { display:grid; gap:14px; margin-top:26px }
+.twoans > div { border-top:1px solid var(--ink); padding-top:10px }
+.twoans .who { display:flex; justify-content:space-between; font:500 12px/1 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--grey) }
+.twoans .who b { color:var(--bad); font-weight:500 }
+.twoans p { margin-top:8px; font-size:22px; line-height:1.4 }
+.twoans u { text-decoration:none; background:color-mix(in srgb,var(--bad) 12%,transparent); box-shadow:inset 0 -2px 0 var(--bad) }
+.voicegrid { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:52px }
+.voicegrid > div { border-top:1px solid var(--ink); padding-top:16px; display:flex; flex-direction:column; gap:16px }
+.voicegrid h3 { font-size:30px; font-weight:500 }
+.voicegrid .chips { display:flex; flex-wrap:wrap; gap:6px }
+.voicegrid p { font-size:24px; line-height:1.4; color:#3a3a3a }
+.voicegrid .chip { font-size:17px; padding:4px 11px 4px 8px }
+.benchgrid { display:grid; grid-template-columns:1fr 1fr; gap:64px; margin-top:44px; align-items:start }
+.benchgrid .rg { margin-top:0 }
+.benchgrid .rgrow { grid-template-columns:230px repeat(3,56px) 44px repeat(3,56px); gap:7px; font-size:21px }
+.benchgrid .cell { height:50px }
+.benchgrid .hb { height:58px } .benchgrid .vbars { gap:44px }
+.tiles { display:grid; grid-template-columns:repeat(3,1fr); gap:40px; margin-top:56px }
+.tiles > div { border-top:1px solid var(--ink); padding-top:14px }
+.tiles strong { display:block; font-size:72px; line-height:1; letter-spacing:-.05em; font-weight:400; white-space:nowrap }
+.tiles span { display:block; margin-top:16px; font-size:22px; line-height:1.45; color:#3a3a3a }
+.dayg { display:grid; grid-template-columns:1fr 1fr; gap:56px; margin-top:48px }
+.dayg h4 { font:500 13px/1 var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--acc); padding-bottom:12px; border-bottom:1px solid var(--nightline) }
+.dayg ul { list-style:none }
+.dayg li { display:grid; grid-template-columns:140px 1fr; gap:16px; padding:16px 0; border-bottom:1px solid var(--nightline); font-size:21px; line-height:1.4; color:#c9c9ce }
+.dayg li b { color:var(--nighttext); font-weight:500 }
+
+/* ---------- Slide 12: red to green ---------- */
+.rg { margin-top:40px; display:grid; gap:10px }
+.rgrow { display:grid; grid-template-columns:320px repeat(3,84px) 90px repeat(3,84px); align-items:center; gap:8px; font-size:22px }
+.rgrow .nm { font-weight:500 }
+.rgrow .lab { font:400 12px/1 var(--mono); color:var(--grey); letter-spacing:.05em; text-transform:uppercase }
+.rgrow .hdr { font:500 12px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--grey) }
+.cell { height:44px; display:grid; place-items:center; font:600 13px/1 var(--mono); letter-spacing:.06em; color:#fff; background:var(--bad) }
+.cell.g { background:var(--hair); color:var(--soft) }
+.cell.flip { animation:flip .6s var(--ease) both }
+.cell.p { background:var(--ok) }
+@keyframes flip { 0% { transform:rotateX(0) } 50% { transform:rotateX(90deg) } 100% { transform:rotateX(0) } }
+.rgrow .to { text-align:center; color:var(--soft); font-size:26px }
+.rgtot { margin-top:30px; display:flex; gap:56px; border-top:1px solid var(--ink); padding-top:16px }
+.rgtot div strong { display:block; white-space:nowrap; font-size:60px; font-weight:400; letter-spacing:-.05em; line-height:1 }
+.rgtot div strong .arr { color:var(--soft); font-size:40px; padding:0 10px }
+.rgtot div > span { display:block; margin-top:6px; font-size:17px; color:#3a3a3a }
+
+/* ---------- Slide 13: unseen ---------- */
+.unseen { display:grid; grid-template-columns:1fr 520px; gap:64px; margin-top:44px }
+.vbars { display:grid; gap:30px }
+.vb .lbl { display:flex; justify-content:space-between; align-items:baseline; font-size:19px; margin-bottom:8px }
+.vb .lbl span { color:var(--grey); font-size:16px }
+.vb .pair { display:grid; gap:6px }
+.hb { position:relative; height:46px; background:var(--wash) }
+.hb i { position:absolute; inset:0 auto 0 0; width:0; background:var(--bad); transition:width 1.2s var(--ease) }
+.hb.after i { background:var(--ok) }
+.hb b { position:absolute; left:14px; top:50%; transform:translateY(-50%); font:600 14px/1 var(--mono); letter-spacing:.04em; color:#fff; z-index:1; mix-blend-mode:normal }
+.hb em { position:absolute; right:14px; top:50%; transform:translateY(-50%); font-style:normal; font-size:26px; font-weight:500; letter-spacing:-.03em; color:var(--ink) }
+.ptable { width:100%; border-collapse:collapse; font-size:18px }
+.ptable th { text-align:left; font:500 12px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--grey); padding:0 0 10px; border-bottom:1px solid var(--ink) }
+.ptable th:not(:first-child), .ptable td:not(:first-child) { text-align:right }
+.ptable td { padding:11px 0; border-bottom:1px solid var(--hair) }
+.ptable td.up { color:var(--ok); font-weight:600 }
+.ptable tr.tot td { border-bottom:1px solid var(--ink); font-weight:600 }
+
+/* ---------- Slide 14: cost ---------- */
+.cost { margin-top:40px; display:grid; gap:0 }
+.crow { display:grid; grid-template-columns:330px 120px 1fr 1fr; gap:28px; align-items:center; padding:14px 0; border-bottom:1px solid var(--hair) }
+.crow.hdr { font:500 12px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--grey); border-bottom:1px solid var(--ink); padding-top:0 }
+.crow .nm { font-size:20px; font-weight:500 } .crow .nm small { display:block; font-size:14px; color:var(--grey); font-weight:400 }
+.crow.us { background:color-mix(in srgb,var(--ok) 5%,transparent) }
+.meterbar { display:flex; align-items:center; gap:12px; font-size:18px }
+.meterbar span { display:block; height:16px; width:0; background:var(--ink); transition:width 1.1s var(--ease) }
+.crow.us .meterbar span { background:var(--ok) }
+.meterbar b { font-weight:500; font-variant-numeric:tabular-nums; white-space:nowrap }
+.costfoot { display:grid; grid-template-columns:repeat(3,1fr); gap:36px; margin-top:34px }
+.costfoot div { border-top:1px solid var(--ink); padding-top:12px }
+.costfoot strong { display:block; font-size:50px; line-height:1; letter-spacing:-.05em; font-weight:400 }
+.costfoot span { display:block; margin-top:8px; font-size:17px; color:#3a3a3a; line-height:1.4 }
+
+/* ---------- Slide 13b: labs ---------- */
+.labs { margin-top:44px }
+.lrow { display:grid; grid-template-columns:380px 220px 1fr 200px; gap:28px; align-items:center; padding:16px 14px; border-bottom:1px solid var(--hair) }
+.lrow.hdr { font:500 12px/1.4 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--grey); border-bottom:1px solid var(--ink); padding-top:0 }
+.lrow .nm { font-size:24px; font-weight:500 } .lrow .nm small { display:block; font-size:15px; font-weight:400; color:var(--grey) }
+.lrow .v { font-size:40px; letter-spacing:-.04em; color:var(--bad); font-variant-numeric:tabular-nums }
+.lrow .v.ok { color:var(--ok) }
+.lrow .t { font-size:22px }
+.lrow.us { background:var(--paper); box-shadow:inset 3px 0 0 var(--v-cour) }
+.lrow.us .meterbar span { background:var(--ok) }
+
+/* ---------- Slide 15: room ---------- */
+.room { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:52px }
+.room > div { border:1px solid var(--nightline); padding:26px; display:flex; flex-direction:column; gap:14px; min-height:430px; background:var(--night2) }
+.room .eyebrow { color:var(--acc) }
+.room h3 { font-size:30px; font-weight:400; color:var(--nighttext) }
+.room p { font-size:21px; line-height:1.45; color:#b4b4b9 }
+.room .fig { margin-top:auto; border-top:1px solid var(--nightline); padding-top:14px; font-size:16px; color:var(--nightgrey) }
+.room .fig strong { display:block; color:var(--nighttext); font-size:38px; font-weight:400; letter-spacing:-.04em; line-height:1.1 }
+
+/* ---------- Slide 16: method ---------- */
+.method { display:grid; grid-template-columns:1fr 1fr; gap:48px; margin-top:40px }
+.method ul { list-style:none; display:grid; gap:0 }
+.method li { display:grid; grid-template-columns:150px 1fr; gap:16px; padding:16px 0; border-bottom:1px solid var(--hair); font-size:21px; line-height:1.4 }
+.method li b { font:500 12px/1.5 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--grey); padding-top:3px }
+.method h3 { border-top:1px solid var(--ink); padding-top:12px; margin-bottom:6px; font-size:22px; font-weight:600 }
+
+/* ---------- Slide 17: close ---------- */
+.s-close { justify-content:center; align-items:flex-start }
+.s-close h1 { font-size:88px; max-width:none }
+.s-close .row { margin-top:44px; display:flex; gap:28px; align-items:center }
+.closeg { display:grid; grid-template-columns:1fr 400px; gap:72px; align-items:center; width:100% }
+.qrbox { margin:0; display:flex; flex-direction:column; gap:18px; padding:28px; background:var(--paper); border:1px solid var(--ink) }
+.qrbox .qr { width:100%; height:auto; display:block }
+.qrbox figcaption { display:flex; flex-direction:column; gap:6px }
+.qrbox figcaption b { font-size:24px; font-weight:600; letter-spacing:-.02em }
+.qrbox figcaption span { font-size:14px; color:var(--grey) }
+.asks { margin-top:48px; display:grid; grid-template-columns:repeat(3,minmax(0,360px)); gap:28px }
+.asks div { border-top:1px solid var(--ink); padding-top:12px; font-size:22px; line-height:1.35 }
+.asks b { display:block; font:500 12px/1.4 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--acc); margin-bottom:6px }
+.s-close .row .logo { font-size:34px }
+.s-close .row .small { font-size:16px; color:var(--grey) }
+
+/* Notes */
+#notes { position:fixed; left:16px; right:16px; bottom:16px; max-width:980px; max-height:46vh; overflow:auto; margin:0 auto; background:#111; color:#eee; font:400 19px/1.5 var(--f); padding:18px 22px; border-left:3px solid var(--acc); z-index:20; display:none; box-shadow:0 10px 40px rgba(0,0,0,.4) }
+#notes.on { display:block }
+#notes b { color:var(--acc); font:500 12px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; display:block; margin-bottom:10px }
+#notes em { color:#9a9a9f; font-style:normal }
+.help { position:fixed; right:14px; top:12px; z-index:20; font:500 11px/1 var(--mono); letter-spacing:.06em; color:#555; background:rgba(255,255,255,.7); padding:6px 8px; text-transform:uppercase }
+.help.hide { display:none }
+:focus-visible { outline:2px solid var(--v-cour); outline-offset:2px }
+.navzone { position:absolute; top:0; bottom:0; width:12%; z-index:4; cursor:pointer }
+.navzone.l { left:0 } .navzone.rz { right:0 }
+
+@media (prefers-reduced-motion:reduce) {
+  *, *::before, *::after { animation-duration:.01ms !important; animation-delay:0ms !important; transition-duration:.01ms !important }
+}
+</style>
+
+<div id="stage" aria-live="polite">
+  <div class="progress" id="progress"></div>
+
+  <!-- 1 · Title -->
+  <section class="slide fog s-title" data-title="Intro">
+    <div class="skyline" aria-hidden="true">
+      <i style="--h:36%;--i:0"></i><i style="--h:28%;--i:1"></i><i style="--h:55%;--i:2;--c:var(--v-cour)"></i><i style="--h:74%;--i:3"></i><i style="--h:30%;--i:4;--c:var(--v-fond)"></i><i style="--h:66%;--i:5"></i><i style="--h:42%;--i:6;--c:var(--v-dem)"></i><i style="--h:33%;--i:7"></i><i style="--h:58%;--i:8;--c:var(--v-cite)"></i><i style="--h:24%;--i:9"></i>
+    </div>
+    <div class="top">
+      <span class="logo"><svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect x="7" y="5" width="5" height="7" fill="#3e63dd"/><rect x="7" y="12" width="5" height="6" fill="#ef5f00"/><rect x="7" y="18" width="5" height="6" fill="#6e56cf"/><rect x="7" y="24" width="19" height="4" rx="1" fill="#1c1b19"/></svg>Legible</span>
+      <span class="eyebrow ev">Mistral × Stanford CodeX · LLM x Law · Paris</span>
+    </div>
+    <h1><span class="rl"><span style="--d:150">Know exactly</span></span><span class="rl"><span style="--d:260">who said what</span></span><span class="rl"><span style="--d:370">in every ruling.</span></span></h1>
+    <div class="hero-cta r" style="--d:800">
+      <span class="cta big"><span>Upload a ruling</span><i>»</i></span>
+      <p>A who-said-what layer for legal AI.</p>
+    </div>
+    <aside class="notes"><b>1 · Opening</b><em>[On screen as you walk up. Say nothing; let the title sit.]</em></aside>
+  </section>
+  <!-- Why -->
+  <section class="slide dark s-why vc" data-title="Why">
+    <h1 style="margin-top:28px"><span class="rl"><span style="--d:100">Lawyers hesitate to</span></span><span class="rl"><span style="--d:200">let AI summarise.</span></span><span class="rl"><span class="dim" style="--d:420">Because the cost is trust.</span></span></h1>
+    <div class="rule">
+      <div class="r" style="--d:900"><b>Make LLMs reliable.</b>Every claim traced to the voice that made it, with a paragraph and a confidence the lawyer can check.</div>
+      <div class="r" style="--d:1050"><b>Hand back the agency.</b>Interpreting a ruling is the lawyer's creative work. We surface the structure the Court wrote; the conclusion stays theirs.</div>
+    </div>
+    <aside class="notes"><b>2 · Why</b>We spent today with lawyers, and with the people building tools for them. We heard the same thing every time: for all the progress, lawyers still hesitate to let AI summarise a ruling, because the cost is trust.<br>So we built Legible to make LLMs reliable, by tracing every claim to the voice that made it, and to hand lawyers back their creative work: interpreting the law.</aside>
+  </section>
+  <!-- Larger problem -->
+  <section class="slide vc" data-title="Voice disambiguation">
+    <div class="head">
+      <h2 class="r" style="--d:80">Every legal text holds several voices. Models flatten them into one.</h2>
+    </div>
+    <div class="voicegrid">
+      <div class="r" style="--d:250"><h3>Court rulings</h3><div class="chips"><span class="chip c-cour"><i></i>Court</span><span class="chip c-fond"><i></i>Lower court</span><span class="chip c-dem"><i></i>Parties</span><span class="chip c-cite"><i></i>Prior case law</span></div><p>What did the Court decide, and what did it only quote?</p></div>
+      <div class="r" style="--d:350"><h3>Pleadings and conclusions</h3><div class="chips"><span class="chip c-dem"><i></i>Claimant</span><span class="chip c-cour"><i></i>Defendant</span><span class="chip c-faits"><i></i>Admitted facts</span></div><p>What is established, and what is only alleged?</p></div>
+      <div class="r" style="--d:450"><h3>Case files, 100–200 pages</h3><div class="chips"><span class="chip c-fond"><i></i>Witnesses</span><span class="chip c-cite"><i></i>Experts</span><span class="chip c-dem"><i></i>Counsel</span></div><p>Who asserts each fact, and is it contested?</p></div>
+      <div class="r" style="--d:550"><h3>Awards and regulators' decisions</h3><div class="chips"><span class="chip c-cour"><i></i>Tribunal</span><span class="chip c-dem"><i></i>Parties</span><span class="chip c-cite"><i></i>Experts</span></div><p>Which reasoning is the decision-maker's own?</p></div>
+    </div>
+    <p class="oneline r" style="--d:750">The same question every time: who says it, with what status, and what the decision-maker did with it.</p>
+    <aside class="notes"><b>3 · The larger problem</b>Every legal text holds several voices: the court, the court below, the parties.<br>Lawyers read for who says what. Models flatten it all into one.</aside>
+  </section>
+  <!-- Example -->
+  <section class="slide vc" data-title="What goes wrong" id="s-red">
+    <div class="head">
+      <h2 class="r" style="--d:80">LLMs get the speaker wrong.</h2>
+    </div>
+    <div class="redtest">
+      <div>
+        <div class="qbox r" style="--d:250">« Selon la Cour de cassation, le seul fait que le poste proposé soit dépourvu de responsabilité managériale suffit-il à considérer que la proposition n'est pas loyale et sérieuse ? »</div>
+        <div class="twoans">
+          <div class="r" style="--d:450"><span class="who">Legora, default agent <b>3 / 3 runs</b></span><p>« Non. <u>Selon la Cour de cassation</u>, le seul fait […] ne suffit pas […] »</p></div>
+          <div class="r" style="--d:600"><span class="who">Claude Haiku 4.5, bare API <b>3 / 3 runs</b></span><p>« <u>La Cour de cassation énonce clairement</u> dans le point 8 […] »</p></div>
+        </div>
+        <div class="truth r" style="--d:800"><b>In fact, the Court never ruled on this.</b> §8 is the court of appeal (« Il retient »), quoted so the Court could quash its judgment (§10).</div>
+      </div>
+      <div class="r" style="--d:350">
+        <div class="shot"><img src="assets/legora-c2-q1.jpg" alt="An AI answer attributing the court of appeal's reasoning to the Cour de cassation"><div class="hl" id="redhl"></div><span class="tag">Default mode · full ruling pasted</span></div>
+      </div>
+    </div>
+    <aside class="notes"><b>4 · LLMs get the speaker wrong</b>A ruling from three weeks ago. We asked what the Court decided, and the answers quote the court of appeal, whose judgment the Court quashed.<br>Fluent, confident, and in the wrong voice.</aside>
+  </section>
+  <!-- 5 · Sweep -->
+  <section class="slide fog vc" data-title="Every lab" id="s-sweep">
+    <div class="head">
+      <h2 class="r" style="--d:80">Same question, 19 AI setups. <span class="bad-t">14 get the voice wrong.</span></h2>
+    </div>
+    <div class="sweep" id="sweep"></div>
+    <aside class="notes"><b>5 · 19 setups</b>We asked the same question across 19 setups, from every major lab. 14 got the speaker wrong.<br>You shouldn&#x27;t need the biggest model to know who&#x27;s talking.</aside>
+  </section>
+  <!-- 7 · What -->
+  <section class="slide fog vc" data-title="What">
+    <div class="head">
+      <h2 class="r" style="--d:80">A harness any legal AI can run behind its answers.</h2>
+    </div>
+    <div class="flow">
+      <div class="fcol r" style="--d:250">
+        <div class="eyebrow">Any legal AI</div>
+        <div class="src">Legora </div>
+        <div class="src">Harvey </div>
+        <div class="src">Le Chat · Claude · ChatGPT </div>
+        <div class="src">Your own drafts </div>
+      </div>
+      <div class="arrow"><b style="--d:0"></b></div>
+      <div class="fcol mid r" style="--d:400">
+        <div class="eyebrow">Checks every sentence</div>
+        <h3>Legible</h3>
+        <div class="src">Who is speaking</div>
+        <div class="src">What the Court did with it</div>
+        <div class="src">Pass · review · block</div>
+      </div>
+      <div class="arrow"><b style="--d:600"></b></div>
+      <div class="fcol client r" style="--d:550">
+        <div class="eyebrow">Your client</div>
+        <p>Only what the sources support.</p>
+        <p><span class="stamp pass">PASS</span> <span class="small">§10 · the Court</span></p>
+      </div>
+    </div>
+    <p class="oneline r" style="--d:800">Plugs in through an API or MCP.</p>
+    <aside class="notes"><b>6 · Our solution</b>So we built a harness, not another assistant.<br>Any legal AI runs it behind its answers, and the client only gets what the sources support.</aside>
+  </section>
+  <!-- 8 · How -->
+  <section class="slide dark" data-title="How">
+    <div class="head">
+      <h2 class="r" style="--d:80">The LLM never decides who is speaking.</h2>
+    </div>
+    <div class="cards">
+      <div class="card r" style="--d:250">
+        <div class="art"><svg viewBox="0 0 300 150" aria-hidden="true"><rect class="g" x="20" y="10" width="180" height="130"/><line class="w d" x1="40" y1="34" x2="180" y2="34" style="--i:0;stroke:#1a47ff"/><line class="w d" x1="40" y1="58" x2="150" y2="58" style="--i:1;stroke:#ff5a1f"/><line class="w d" x1="40" y1="82" x2="170" y2="82" style="--i:2;stroke:#ff5a1f"/><line class="w d" x1="40" y1="106" x2="130" y2="106" style="--i:3;stroke:#e0006e"/><line class="w d" x1="40" y1="124" x2="160" y2="124" style="--i:4;stroke:#1a47ff"/><rect class="g" x="220" y="10" width="60" height="130"/><circle class="dot" cx="250" cy="58" r="5"/></svg></div>
+        <h3>Attributing</h3><div class="who">Jev (TypeSafe) + the Court's drafting rules</div>
+        <p>Every sentence gets a speaker, a probability, and what the Court did with it. The Court's drafting rules decide first; Jev takes the ambiguous calls.</p>
+        <footer><span>Once per ruling</span><b>2.1 s</b></footer>
+      </div>
+      <div class="card r" style="--d:400">
+        <div class="art"><svg viewBox="0 0 300 150" aria-hidden="true"><rect class="g" x="20" y="20" width="260" height="110"/><line class="w d" x1="40" y1="50" x2="220" y2="50" style="--i:2"/><line class="w d" x1="40" y1="76" x2="190" y2="76" style="--i:3"/><line class="w d" x1="40" y1="102" x2="160" y2="102" style="--i:4"/><rect class="w d" x="196" y="94" width="64" height="16" style="--i:5;stroke:#1a47ff"/><circle class="dot" cx="262" cy="50" r="5"/></svg></div>
+        <h3>Answering</h3><div class="who">Any LLM · Mistral · Claude · GPT</div>
+        <p>Any model answers from the labelled ruling. Every sentence carries its paragraph and speaker. When the ruling is silent, it says so.</p>
+        <footer><span>Per question</span><b>Any model</b></footer>
+      </div>
+      <div class="card r" style="--d:550">
+        <div class="art"><svg viewBox="0 0 300 150" aria-hidden="true"><rect class="g" x="20" y="20" width="120" height="110"/><rect class="g" x="160" y="20" width="120" height="110"/><path class="w d" d="M140 58 C 150 58, 150 90, 160 90" style="--i:3;stroke:#ef5f00"/><line class="w d" x1="36" y1="58" x2="124" y2="58" style="--i:2;stroke:#e11d2e"/><line class="w d" x1="176" y1="90" x2="264" y2="90" style="--i:4;stroke:#0f8a3c"/><circle class="dot" cx="140" cy="58" r="5"/></svg></div>
+        <h3>Verifying</h3><div class="who">Jev guard + rewrite</div>
+        <p>Each sentence is re-checked against its source. Pass, review or blocked, with the paragraph as proof and a rewrite.</p>
+        <footer><span>Per sentence</span><b>0.39 s</b></footer>
+      </div>
+    </div>
+    <p class="principle r" style="--d:800"><b>Rule of the build:</b> what code and rules can decide is never handed to a model. Jev makes typed decisions; the LLM only writes.</p>
+    <aside class="notes"><b>7 · How it works</b>A fast classifier labels every sentence with its speaker, once per ruling. Any LLM answers from that map.<br>The LLM never decides who&#x27;s speaking.</aside>
+  </section>
+  <section class="slide stepped" data-title="In the app · ask" id="s-ask">
+    <div class="head">
+      <h2 class="r" style="--d:80;font-size:50px">Same question. Every sentence sourced.</h2>
+    </div>
+    <div class="demo">
+      <ol class="steps"><li data-step="0"><b>Ask the same question</b><span>Legible: the Court does not rule on this. It is the cour d’appel, §8. Marked Sûr, and Sourcé.</span></li><li data-step="1"><b>Hover a pill</b><span>The source sentence, why it is sure, and Jev’s speaker probability.</span></li><li data-step="2"><b>Click it</b><span>The ruling jumps to §8. A lawyer can confirm the label or correct the speaker.</span></li><li class="hint">→ next step</li></ol>
+      <div class="browser r" style="--d:250"><div class="bbar"><i></i><i></i><i></i><span>legible-or4n.onrender.com</span><em>Live app</em></div><div class="view"><img data-step="0" src="assets/ui/ask-answer.jpg" alt="Legible answer with citation pills" style="--z:1.9;--ox:100%;--oy:42%"><img data-step="1" src="assets/ui/ask-pop.jpg" alt="Popover with source sentence and speaker probability" style="--z:1.6;--ox:100%;--oy:80%"><img data-step="2" src="assets/ui/ask-source.jpg" alt="Ruling scrolled to paragraph 8, feedback controls open" style="--z:1.12;--ox:50%;--oy:45%"></div></div>
+    </div>
+    <aside class="notes"><b>8 · Live app: ask</b>Same question, in Legible: the Court didn&#x27;t rule on this; that&#x27;s the court of appeal, paragraph 8.<br><em>[→]</em> Hover for the source. <em>[→]</em> Click, and you&#x27;re in the ruling.</aside>
+  </section>
+  <section class="slide stepped" data-title="In the app · check" id="s-check">
+    <div class="head">
+      <h2 class="r" style="--d:80;font-size:50px">Any AI draft, checked sentence by sentence.</h2>
+    </div>
+    <div class="demo">
+      <ol class="steps"><li data-step="0"><b>Run the check</b><span>A note written the way a legal AI would: 4 pass, 5 blocked. This sentence rests on §6, case law the Court only cites.</span></li><li data-step="1"><b>Follow the thread</b><span>This one is §13: the court of appeal’s reasoning, which the Court quashed at §14.</span></li><li class="hint">→ next step</li></ol>
+      <div class="browser r" style="--d:250"><div class="bbar"><i></i><i></i><i></i><span>legible-or4n.onrender.com</span><em>Live app</em></div><div class="view"><img data-step="0" src="assets/ui/check-run.jpg" alt="Draft check: 4 pass, 5 blocked" style="--z:1;--ox:50%;--oy:50%"><img data-step="1" src="assets/ui/check-proof.jpg" alt="Thread from a blocked sentence to paragraph 13" style="--z:1.3;--ox:50%;--oy:55%"></div></div>
+    </div>
+    <aside class="notes"><b>9 · Live app: check a draft</b>Paste any AI draft. Every wrong voice is blocked, <em>[→]</em> with a thread to the paragraph that proves it.</aside>
+  </section>
+  <!-- Benchmarks -->
+  <section class="slide fog vc" data-title="Benchmarks" id="s-rg">
+    <div class="head">
+      <h2 class="r" style="--d:80">With the harness, every model reads the ruling right.</h2>
+    </div>
+    <div class="benchgrid">
+      <div class="r" style="--d:200">
+        <div class="rg" id="rg">
+          <div class="rgrow"><span class="hdr">Red test · 3 runs</span><span class="hdr" style="grid-column:span 3">Alone</span><span></span><span class="hdr" style="grid-column:span 3">+ Legible</span></div>
+        </div>
+        <p class="small" style="margin-top:14px">6 models from Anthropic and Mistral: 0 / 18 → 18 / 18 runs. All 9 dev questions: 15 / 54 → 53 / 54.</p>
+      </div>
+      <div class="vbars">
+        <div class="vb r" style="--d:350">
+          <div class="lbl"><span style="color:var(--ink);font-size:21px">Rulings we had never seen</span><span>10 rulings · 4 models</span></div>
+          <div class="pair">
+            <div class="hb"><i data-w="54"></i><b>ALONE</b><em class="num">54 %</em></div>
+            <div class="hb after"><i data-w="97"></i><b>+ LEGIBLE</b><em class="num">97 %</em></div>
+          </div>
+        </div>
+        <div class="vb r" style="--d:500">
+          <div class="lbl"><span style="color:var(--ink);font-size:21px">Excerpts only, as search tools see them</span></div>
+          <div class="pair">
+            <div class="hb"><i data-w="22"></i><b>ALONE</b><em class="num">22 %</em></div>
+            <div class="hb after"><i data-w="100"></i><b>+ LEGIBLE</b><em class="num">100 %</em></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes"><b>10 · Benchmarks</b>Every model we tested goes from red to green.<br>On rulings it had never seen: 54% to 97%.</aside>
+  </section>
+  <!-- Trust metrics -->
+  <section class="slide vc" data-title="Trust metrics">
+    <div class="head">
+      <h2 class="r" style="--d:80">Trust you can check, sentence by sentence.</h2>
+    </div>
+    <div class="tiles">
+      <div class="r" style="--d:300"><strong class="num">4× fewer</strong><span>misattributed answers on 25 Légifrance rulings: 11 against 44 out of 224, with the same Mistral model.</span></div>
+      <div class="r" style="--d:400"><strong class="num">80 %</strong><span>confidence threshold. Below it the pill says « à vérifier », and a lawyer's correction is stored.</span></div>
+      <div class="r" style="--d:500"><strong class="num">5× cheaper</strong><span>Claude Haiku with the harness matches Opus 5.5 on the red test, and runs 3.5× faster.</span></div>
+    </div>
+    <aside class="notes"><b>11 · Trust metrics</b>Four times fewer misattributions. A confidence on every claim.<br>And five times cheaper than the biggest model.</aside>
+  </section>
+  <!-- In one day -->
+  <section class="slide dark vc" data-title="In one day">
+    <div class="head">
+      <h2 class="r" style="--d:80">Built in a day. Designed to plug in anywhere.</h2>
+    </div>
+    <div class="dayg">
+      <div class="r" style="--d:250">
+        <h4>What we shipped</h4>
+        <ul>
+          <li><b>Live app</b><span>Upload a ruling, read it by voice, ask, check a draft. Deployed.</span></li>
+          <li><b>Harness</b><span>Jev labels the voices, any LLM writes, a guard checks every sentence.</span></li>
+          <li><b>Connector</b><span>API and MCP server, ready for Le Chat, Claude, Legora or Harvey.</span></li>
+          <li><b>Evidence</b><span>20 models from 3 labs, 5 benchmarks, every run logged.</span></li>
+        </ul>
+      </div>
+      <div class="r" style="--d:400">
+        <h4>Where it extends</h4>
+        <ul>
+          <li><b>Platforms</b><span>A verification layer behind every legal AI answer.</span></li>
+          <li><b>Courts</b><span>Conseil d'État, cours d'appel, CJEU, ECHR.</span></li>
+          <li><b>Litigation</b><span>Who asserts each fact across a 200-page case file, and its status.</span></li>
+          <li><b>Training</b><span>Lawyer corrections become labelled data for the next model.</span></li>
+        </ul>
+      </div>
+    </div>
+    <aside class="notes"><b>12 · Built in a day</b>We built all this in one day: the live app, the harness, and a connector any platform can plug in.<br>Next: every court, every case file.</aside>
+  </section>
+  <!-- Close -->
+  <section class="slide fog s-close" data-title="Close">
+    <div class="closeg">
+      <div>
+        <h1><span class="rl"><span style="--d:100">We don't summarise</span></span><span class="rl"><span style="--d:200">the ruling for you.</span></span><span class="rl"><span style="--d:380">We show you who's speaking,</span></span><span class="rl"><span style="--d:480">so the conclusion</span></span><span class="rl"><span style="--d:580">stays yours.</span></span></h1>
+        <div class="row r" style="--d:900">
+          <span class="logo"><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect x="7" y="5" width="5" height="7" fill="#3e63dd"/><rect x="7" y="12" width="5" height="6" fill="#ef5f00"/><rect x="7" y="18" width="5" height="6" fill="#6e56cf"/><rect x="7" y="24" width="19" height="4" rx="1" fill="#1c1b19"/></svg>Legible</span>
+        </div>
+      </div>
+      <figure class="qrbox r" style="--d:700">
+        <svg class="qr" viewBox="0 0 29 29" shape-rendering="crispEdges" role="img" aria-label="QR code to legible-or4n.onrender.com"><g fill="#0a0a0a"><rect x="0" y="0" width="1" height="1"/><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="3" y="0" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="5" y="0" width="1" height="1"/><rect x="6" y="0" width="1" height="1"/><rect x="8" y="0" width="1" height="1"/><rect x="9" y="0" width="1" height="1"/><rect x="10" y="0" width="1" height="1"/><rect x="11" y="0" width="1" height="1"/><rect x="15" y="0" width="1" height="1"/><rect x="16" y="0" width="1" height="1"/><rect x="18" y="0" width="1" height="1"/><rect x="22" y="0" width="1" height="1"/><rect x="23" y="0" width="1" height="1"/><rect x="24" y="0" width="1" height="1"/><rect x="25" y="0" width="1" height="1"/><rect x="26" y="0" width="1" height="1"/><rect x="27" y="0" width="1" height="1"/><rect x="28" y="0" width="1" height="1"/><rect x="0" y="1" width="1" height="1"/><rect x="6" y="1" width="1" height="1"/><rect x="10" y="1" width="1" height="1"/><rect x="12" y="1" width="1" height="1"/><rect x="13" y="1" width="1" height="1"/><rect x="14" y="1" width="1" height="1"/><rect x="16" y="1" width="1" height="1"/><rect x="17" y="1" width="1" height="1"/><rect x="18" y="1" width="1" height="1"/><rect x="20" y="1" width="1" height="1"/><rect x="22" y="1" width="1" height="1"/><rect x="28" y="1" width="1" height="1"/><rect x="0" y="2" width="1" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="3" y="2" width="1" height="1"/><rect x="4" y="2" width="1" height="1"/><rect x="6" y="2" width="1" height="1"/><rect x="8" y="2" width="1" height="1"/><rect x="10" y="2" width="1" height="1"/><rect x="11" y="2" width="1" height="1"/><rect x="12" y="2" width="1" height="1"/><rect x="14" y="2" width="1" height="1"/><rect x="15" y="2" width="1" height="1"/><rect x="16" y="2" width="1" height="1"/><rect x="17" y="2" width="1" height="1"/><rect x="18" y="2" width="1" height="1"/><rect x="22" y="2" width="1" height="1"/><rect x="24" y="2" width="1" height="1"/><rect x="25" y="2" width="1" height="1"/><rect x="26" y="2" width="1" height="1"/><rect x="28" y="2" width="1" height="1"/><rect x="0" y="3" width="1" height="1"/><rect x="2" y="3" width="1" height="1"/><rect x="3" y="3" width="1" height="1"/><rect x="4" y="3" width="1" height="1"/><rect x="6" y="3" width="1" height="1"/><rect x="10" y="3" width="1" height="1"/><rect x="11" y="3" width="1" height="1"/><rect x="14" y="3" width="1" height="1"/><rect x="17" y="3" width="1" height="1"/><rect x="18" y="3" width="1" height="1"/><rect x="19" y="3" width="1" height="1"/><rect x="22" y="3" width="1" height="1"/><rect x="24" y="3" width="1" height="1"/><rect x="25" y="3" width="1" height="1"/><rect x="26" y="3" width="1" height="1"/><rect x="28" y="3" width="1" height="1"/><rect x="0" y="4" width="1" height="1"/><rect x="2" y="4" width="1" height="1"/><rect x="3" y="4" width="1" height="1"/><rect x="4" y="4" width="1" height="1"/><rect x="6" y="4" width="1" height="1"/><rect x="9" y="4" width="1" height="1"/><rect x="10" y="4" width="1" height="1"/><rect x="12" y="4" width="1" height="1"/><rect x="13" y="4" width="1" height="1"/><rect x="14" y="4" width="1" height="1"/><rect x="15" y="4" width="1" height="1"/><rect x="17" y="4" width="1" height="1"/><rect x="22" y="4" width="1" height="1"/><rect x="24" y="4" width="1" height="1"/><rect x="25" y="4" width="1" height="1"/><rect x="26" y="4" width="1" height="1"/><rect x="28" y="4" width="1" height="1"/><rect x="0" y="5" width="1" height="1"/><rect x="6" y="5" width="1" height="1"/><rect x="8" y="5" width="1" height="1"/><rect x="12" y="5" width="1" height="1"/><rect x="15" y="5" width="1" height="1"/><rect x="17" y="5" width="1" height="1"/><rect x="22" y="5" width="1" height="1"/><rect x="28" y="5" width="1" height="1"/><rect x="0" y="6" width="1" height="1"/><rect x="1" y="6" width="1" height="1"/><rect x="2" y="6" width="1" height="1"/><rect x="3" y="6" width="1" height="1"/><rect x="4" y="6" width="1" height="1"/><rect x="5" y="6" width="1" height="1"/><rect x="6" y="6" width="1" height="1"/><rect x="8" y="6" width="1" height="1"/><rect x="10" y="6" width="1" height="1"/><rect x="12" y="6" width="1" height="1"/><rect x="14" y="6" width="1" height="1"/><rect x="16" y="6" width="1" height="1"/><rect x="18" y="6" width="1" height="1"/><rect x="20" y="6" width="1" height="1"/><rect x="22" y="6" width="1" height="1"/><rect x="23" y="6" width="1" height="1"/><rect x="24" y="6" width="1" height="1"/><rect x="25" y="6" width="1" height="1"/><rect x="26" y="6" width="1" height="1"/><rect x="27" y="6" width="1" height="1"/><rect x="28" y="6" width="1" height="1"/><rect x="9" y="7" width="1" height="1"/><rect x="11" y="7" width="1" height="1"/><rect x="12" y="7" width="1" height="1"/><rect x="14" y="7" width="1" height="1"/><rect x="15" y="7" width="1" height="1"/><rect x="16" y="7" width="1" height="1"/><rect x="19" y="7" width="1" height="1"/><rect x="20" y="7" width="1" height="1"/><rect x="0" y="8" width="1" height="1"/><rect x="2" y="8" width="1" height="1"/><rect x="6" y="8" width="1" height="1"/><rect x="7" y="8" width="1" height="1"/><rect x="11" y="8" width="1" height="1"/><rect x="12" y="8" width="1" height="1"/><rect x="13" y="8" width="1" height="1"/><rect x="14" y="8" width="1" height="1"/><rect x="16" y="8" width="1" height="1"/><rect x="20" y="8" width="1" height="1"/><rect x="23" y="8" width="1" height="1"/><rect x="26" y="8" width="1" height="1"/><rect x="28" y="8" width="1" height="1"/><rect x="1" y="9" width="1" height="1"/><rect x="5" y="9" width="1" height="1"/><rect x="7" y="9" width="1" height="1"/><rect x="8" y="9" width="1" height="1"/><rect x="10" y="9" width="1" height="1"/><rect x="13" y="9" width="1" height="1"/><rect x="14" y="9" width="1" height="1"/><rect x="19" y="9" width="1" height="1"/><rect x="22" y="9" width="1" height="1"/><rect x="23" y="9" width="1" height="1"/><rect x="27" y="9" width="1" height="1"/><rect x="28" y="9" width="1" height="1"/><rect x="1" y="10" width="1" height="1"/><rect x="2" y="10" width="1" height="1"/><rect x="4" y="10" width="1" height="1"/><rect x="6" y="10" width="1" height="1"/><rect x="8" y="10" width="1" height="1"/><rect x="9" y="10" width="1" height="1"/><rect x="12" y="10" width="1" height="1"/><rect x="15" y="10" width="1" height="1"/><rect x="17" y="10" width="1" height="1"/><rect x="19" y="10" width="1" height="1"/><rect x="20" y="10" width="1" height="1"/><rect x="21" y="10" width="1" height="1"/><rect x="22" y="10" width="1" height="1"/><rect x="24" y="10" width="1" height="1"/><rect x="25" y="10" width="1" height="1"/><rect x="26" y="10" width="1" height="1"/><rect x="28" y="10" width="1" height="1"/><rect x="1" y="11" width="1" height="1"/><rect x="2" y="11" width="1" height="1"/><rect x="3" y="11" width="1" height="1"/><rect x="8" y="11" width="1" height="1"/><rect x="11" y="11" width="1" height="1"/><rect x="13" y="11" width="1" height="1"/><rect x="15" y="11" width="1" height="1"/><rect x="16" y="11" width="1" height="1"/><rect x="18" y="11" width="1" height="1"/><rect x="19" y="11" width="1" height="1"/><rect x="20" y="11" width="1" height="1"/><rect x="22" y="11" width="1" height="1"/><rect x="24" y="11" width="1" height="1"/><rect x="25" y="11" width="1" height="1"/><rect x="0" y="12" width="1" height="1"/><rect x="1" y="12" width="1" height="1"/><rect x="2" y="12" width="1" height="1"/><rect x="3" y="12" width="1" height="1"/><rect x="6" y="12" width="1" height="1"/><rect x="10" y="12" width="1" height="1"/><rect x="12" y="12" width="1" height="1"/><rect x="13" y="12" width="1" height="1"/><rect x="16" y="12" width="1" height="1"/><rect x="20" y="12" width="1" height="1"/><rect x="22" y="12" width="1" height="1"/><rect x="23" y="12" width="1" height="1"/><rect x="28" y="12" width="1" height="1"/><rect x="0" y="13" width="1" height="1"/><rect x="1" y="13" width="1" height="1"/><rect x="5" y="13" width="1" height="1"/><rect x="7" y="13" width="1" height="1"/><rect x="8" y="13" width="1" height="1"/><rect x="11" y="13" width="1" height="1"/><rect x="15" y="13" width="1" height="1"/><rect x="17" y="13" width="1" height="1"/><rect x="19" y="13" width="1" height="1"/><rect x="20" y="13" width="1" height="1"/><rect x="22" y="13" width="1" height="1"/><rect x="23" y="13" width="1" height="1"/><rect x="27" y="13" width="1" height="1"/><rect x="28" y="13" width="1" height="1"/><rect x="0" y="14" width="1" height="1"/><rect x="2" y="14" width="1" height="1"/><rect x="3" y="14" width="1" height="1"/><rect x="4" y="14" width="1" height="1"/><rect x="5" y="14" width="1" height="1"/><rect x="6" y="14" width="1" height="1"/><rect x="8" y="14" width="1" height="1"/><rect x="9" y="14" width="1" height="1"/><rect x="13" y="14" width="1" height="1"/><rect x="14" y="14" width="1" height="1"/><rect x="15" y="14" width="1" height="1"/><rect x="19" y="14" width="1" height="1"/><rect x="20" y="14" width="1" height="1"/><rect x="28" y="14" width="1" height="1"/><rect x="1" y="15" width="1" height="1"/><rect x="2" y="15" width="1" height="1"/><rect x="7" y="15" width="1" height="1"/><rect x="9" y="15" width="1" height="1"/><rect x="11" y="15" width="1" height="1"/><rect x="14" y="15" width="1" height="1"/><rect x="16" y="15" width="1" height="1"/><rect x="20" y="15" width="1" height="1"/><rect x="23" y="15" width="1" height="1"/><rect x="0" y="16" width="1" height="1"/><rect x="1" y="16" width="1" height="1"/><rect x="3" y="16" width="1" height="1"/><rect x="4" y="16" width="1" height="1"/><rect x="6" y="16" width="1" height="1"/><rect x="8" y="16" width="1" height="1"/><rect x="10" y="16" width="1" height="1"/><rect x="12" y="16" width="1" height="1"/><rect x="13" y="16" width="1" height="1"/><rect x="14" y="16" width="1" height="1"/><rect x="16" y="16" width="1" height="1"/><rect x="19" y="16" width="1" height="1"/><rect x="22" y="16" width="1" height="1"/><rect x="23" y="16" width="1" height="1"/><rect x="28" y="16" width="1" height="1"/><rect x="4" y="17" width="1" height="1"/><rect x="7" y="17" width="1" height="1"/><rect x="8" y="17" width="1" height="1"/><rect x="12" y="17" width="1" height="1"/><rect x="13" y="17" width="1" height="1"/><rect x="14" y="17" width="1" height="1"/><rect x="15" y="17" width="1" height="1"/><rect x="16" y="17" width="1" height="1"/><rect x="19" y="17" width="1" height="1"/><rect x="22" y="17" width="1" height="1"/><rect x="23" y="17" width="1" height="1"/><rect x="26" y="17" width="1" height="1"/><rect x="27" y="17" width="1" height="1"/><rect x="28" y="17" width="1" height="1"/><rect x="0" y="18" width="1" height="1"/><rect x="1" y="18" width="1" height="1"/><rect x="2" y="18" width="1" height="1"/><rect x="4" y="18" width="1" height="1"/><rect x="5" y="18" width="1" height="1"/><rect x="6" y="18" width="1" height="1"/><rect x="12" y="18" width="1" height="1"/><rect x="15" y="18" width="1" height="1"/><rect x="17" y="18" width="1" height="1"/><rect x="19" y="18" width="1" height="1"/><rect x="20" y="18" width="1" height="1"/><rect x="22" y="18" width="1" height="1"/><rect x="24" y="18" width="1" height="1"/><rect x="25" y="18" width="1" height="1"/><rect x="28" y="18" width="1" height="1"/><rect x="2" y="19" width="1" height="1"/><rect x="4" y="19" width="1" height="1"/><rect x="5" y="19" width="1" height="1"/><rect x="7" y="19" width="1" height="1"/><rect x="12" y="19" width="1" height="1"/><rect x="13" y="19" width="1" height="1"/><rect x="15" y="19" width="1" height="1"/><rect x="16" y="19" width="1" height="1"/><rect x="19" y="19" width="1" height="1"/><rect x="21" y="19" width="1" height="1"/><rect x="23" y="19" width="1" height="1"/><rect x="0" y="20" width="1" height="1"/><rect x="1" y="20" width="1" height="1"/><rect x="4" y="20" width="1" height="1"/><rect x="5" y="20" width="1" height="1"/><rect x="6" y="20" width="1" height="1"/><rect x="10" y="20" width="1" height="1"/><rect x="11" y="20" width="1" height="1"/><rect x="12" y="20" width="1" height="1"/><rect x="13" y="20" width="1" height="1"/><rect x="16" y="20" width="1" height="1"/><rect x="19" y="20" width="1" height="1"/><rect x="20" y="20" width="1" height="1"/><rect x="21" y="20" width="1" height="1"/><rect x="22" y="20" width="1" height="1"/><rect x="23" y="20" width="1" height="1"/><rect x="24" y="20" width="1" height="1"/><rect x="25" y="20" width="1" height="1"/><rect x="27" y="20" width="1" height="1"/><rect x="8" y="21" width="1" height="1"/><rect x="9" y="21" width="1" height="1"/><rect x="10" y="21" width="1" height="1"/><rect x="15" y="21" width="1" height="1"/><rect x="16" y="21" width="1" height="1"/><rect x="19" y="21" width="1" height="1"/><rect x="20" y="21" width="1" height="1"/><rect x="24" y="21" width="1" height="1"/><rect x="25" y="21" width="1" height="1"/><rect x="26" y="21" width="1" height="1"/><rect x="28" y="21" width="1" height="1"/><rect x="0" y="22" width="1" height="1"/><rect x="1" y="22" width="1" height="1"/><rect x="2" y="22" width="1" height="1"/><rect x="3" y="22" width="1" height="1"/><rect x="4" y="22" width="1" height="1"/><rect x="5" y="22" width="1" height="1"/><rect x="6" y="22" width="1" height="1"/><rect x="8" y="22" width="1" height="1"/><rect x="10" y="22" width="1" height="1"/><rect x="13" y="22" width="1" height="1"/><rect x="14" y="22" width="1" height="1"/><rect x="15" y="22" width="1" height="1"/><rect x="17" y="22" width="1" height="1"/><rect x="20" y="22" width="1" height="1"/><rect x="22" y="22" width="1" height="1"/><rect x="24" y="22" width="1" height="1"/><rect x="28" y="22" width="1" height="1"/><rect x="0" y="23" width="1" height="1"/><rect x="6" y="23" width="1" height="1"/><rect x="10" y="23" width="1" height="1"/><rect x="12" y="23" width="1" height="1"/><rect x="14" y="23" width="1" height="1"/><rect x="15" y="23" width="1" height="1"/><rect x="18" y="23" width="1" height="1"/><rect x="19" y="23" width="1" height="1"/><rect x="20" y="23" width="1" height="1"/><rect x="24" y="23" width="1" height="1"/><rect x="28" y="23" width="1" height="1"/><rect x="0" y="24" width="1" height="1"/><rect x="2" y="24" width="1" height="1"/><rect x="3" y="24" width="1" height="1"/><rect x="4" y="24" width="1" height="1"/><rect x="6" y="24" width="1" height="1"/><rect x="9" y="24" width="1" height="1"/><rect x="12" y="24" width="1" height="1"/><rect x="13" y="24" width="1" height="1"/><rect x="14" y="24" width="1" height="1"/><rect x="15" y="24" width="1" height="1"/><rect x="16" y="24" width="1" height="1"/><rect x="19" y="24" width="1" height="1"/><rect x="20" y="24" width="1" height="1"/><rect x="21" y="24" width="1" height="1"/><rect x="22" y="24" width="1" height="1"/><rect x="23" y="24" width="1" height="1"/><rect x="24" y="24" width="1" height="1"/><rect x="25" y="24" width="1" height="1"/><rect x="27" y="24" width="1" height="1"/><rect x="28" y="24" width="1" height="1"/><rect x="0" y="25" width="1" height="1"/><rect x="2" y="25" width="1" height="1"/><rect x="3" y="25" width="1" height="1"/><rect x="4" y="25" width="1" height="1"/><rect x="6" y="25" width="1" height="1"/><rect x="11" y="25" width="1" height="1"/><rect x="12" y="25" width="1" height="1"/><rect x="13" y="25" width="1" height="1"/><rect x="14" y="25" width="1" height="1"/><rect x="15" y="25" width="1" height="1"/><rect x="16" y="25" width="1" height="1"/><rect x="18" y="25" width="1" height="1"/><rect x="19" y="25" width="1" height="1"/><rect x="20" y="25" width="1" height="1"/><rect x="24" y="25" width="1" height="1"/><rect x="25" y="25" width="1" height="1"/><rect x="26" y="25" width="1" height="1"/><rect x="28" y="25" width="1" height="1"/><rect x="0" y="26" width="1" height="1"/><rect x="2" y="26" width="1" height="1"/><rect x="3" y="26" width="1" height="1"/><rect x="4" y="26" width="1" height="1"/><rect x="6" y="26" width="1" height="1"/><rect x="8" y="26" width="1" height="1"/><rect x="10" y="26" width="1" height="1"/><rect x="15" y="26" width="1" height="1"/><rect x="16" y="26" width="1" height="1"/><rect x="18" y="26" width="1" height="1"/><rect x="21" y="26" width="1" height="1"/><rect x="24" y="26" width="1" height="1"/><rect x="27" y="26" width="1" height="1"/><rect x="28" y="26" width="1" height="1"/><rect x="0" y="27" width="1" height="1"/><rect x="6" y="27" width="1" height="1"/><rect x="9" y="27" width="1" height="1"/><rect x="11" y="27" width="1" height="1"/><rect x="12" y="27" width="1" height="1"/><rect x="13" y="27" width="1" height="1"/><rect x="15" y="27" width="1" height="1"/><rect x="16" y="27" width="1" height="1"/><rect x="20" y="27" width="1" height="1"/><rect x="21" y="27" width="1" height="1"/><rect x="22" y="27" width="1" height="1"/><rect x="25" y="27" width="1" height="1"/><rect x="0" y="28" width="1" height="1"/><rect x="1" y="28" width="1" height="1"/><rect x="2" y="28" width="1" height="1"/><rect x="3" y="28" width="1" height="1"/><rect x="4" y="28" width="1" height="1"/><rect x="5" y="28" width="1" height="1"/><rect x="6" y="28" width="1" height="1"/><rect x="8" y="28" width="1" height="1"/><rect x="9" y="28" width="1" height="1"/><rect x="12" y="28" width="1" height="1"/><rect x="13" y="28" width="1" height="1"/><rect x="14" y="28" width="1" height="1"/><rect x="16" y="28" width="1" height="1"/><rect x="18" y="28" width="1" height="1"/><rect x="20" y="28" width="1" height="1"/><rect x="22" y="28" width="1" height="1"/><rect x="25" y="28" width="1" height="1"/><rect x="28" y="28" width="1" height="1"/></g></svg>
+        <figcaption><b>Try the live demo</b><span class="mono">legible-or4n.onrender.com</span></figcaption>
+      </figure>
+    </div>
+    <aside class="notes"><b>13 · Close</b>We don&#x27;t summarise the ruling for you. We show you who&#x27;s speaking, so the conclusion stays yours.<br><em>[Pause.]</em> Scan it, and try your own ruling.</aside>
+  </section>
+  <div class="navzone l" id="navl" aria-hidden="true"></div>
+  <div class="navzone rz" id="navr" aria-hidden="true"></div>
+  <div class="chrome" id="chrome">
+    <span class="logo-s"><svg width="14" height="14" viewBox="0 0 32 32" aria-hidden="true"><rect x="7" y="5" width="5" height="7" fill="#3e63dd"/><rect x="7" y="12" width="5" height="6" fill="#ef5f00"/><rect x="7" y="18" width="5" height="6" fill="#6e56cf"/><rect x="7" y="24" width="19" height="4" rx="1" fill="currentColor"/></svg>Legible</span>
+    <span class="count num" id="ccount"></span>
+  </div>
+</div>
+
+<div id="notes" role="note"><span id="notestext"></span></div>
+<div class="help" id="help">← → navigate · N notes · R replay · F fullscreen</div>
+
+<script>
+(() => {
+  const stage = document.getElementById('stage');
+  const slides = [...stage.querySelectorAll('.slide')];
+  const notes = document.getElementById('notes');
+  let cur = 0, timers = [];
+
+  const fit = () => {
+    const s = Math.min(innerWidth / 1600, innerHeight / 900);
+    stage.style.setProperty('--s', s);
+  };
+  addEventListener('resize', fit); fit();
+
+  const later = (ms, fn) => timers.push(setTimeout(fn, ms));
+  const clearAll = () => { timers.forEach(clearTimeout); timers = []; };
+
+  /* Data: red test C2-Q1 without any harness (runs/RESULTS.md) */
+  const SWEEP = [
+    { lab:'Anthropic · Claude', cls:'anth', items:[
+      ['Claude Haiku 4.5','API','0/3'],['Claude Sonnet 4.5','API','0/3'],['Claude Sonnet 4.6','API','0/3'],['Claude Sonnet 5','API','0/3'],
+      ['Claude Opus 4.5','API','0/3'],['Claude Opus 4.6','API','0/3'],['Claude Opus 4.7','Legora','FAIL'],['Claude Opus 4.8','Legora','FAIL'],
+      ['Claude Opus 5','API','2/3'],['Claude Sonnet 5.5','API','3/3'],['Claude Opus 5.5','API','3/3'],['Claude Fable 5.1','API','3/3'] ]},
+    { lab:'OpenAI', cls:'oai', items:[ ['GPT 5.5','Legora','SOFT'],['GPT 5.6 Sol','Legora','FAIL'],['GPT 6 Astra','Legora','PASS'] ]},
+    { lab:'Mistral', cls:'mis', items:[ ['Mistral Small','API','0/3'],['Mistral Medium 3.5','API','0/3'],['Mistral Large 3','API','0/3'] ]},
+  ];
+  const resClass = r => r === '3/3' || r === 'PASS' ? 'pass' : r === '2/3' ? 'part' : r === 'SOFT' ? 'soft' : 'fail';
+  (() => {
+    const box = document.getElementById('sweep');
+    let i = 0, total = 0, failing = 0;
+    const cols = [[SWEEP[0]], [SWEEP[1], { lab:'Legal AI platform', cls:'plat', items:[['Legora default Agent','Legora','0/3']] }], [SWEEP[2]]];
+    cols.forEach(groups => {
+      const col = document.createElement('div');
+      groups.forEach((grp, k) => {
+        const wrap = document.createElement('div'); wrap.className = 'lab ' + grp.cls; if (k) wrap.style.marginTop = '32px';
+        wrap.innerHTML = '<h4>' + grp.lab + '</h4>';
+        const m = document.createElement('div'); m.className = 'mods';
+        grp.items.forEach(([nm, , r]) => {
+          const c = resClass(r); total++; if (c === 'fail' || c === 'soft') failing++;
+          const el = document.createElement('div');
+          el.className = 'mod ' + c; el.style.setProperty('--i', i++);
+          el.title = r;
+          el.innerHTML = '<span class="nm">' + nm.replace('Claude ', '') + '</span><i class="res ' + c + '"></i>';
+          m.appendChild(el);
+        });
+        wrap.appendChild(m); col.appendChild(wrap);
+      });
+      box.appendChild(col);
+    });
+    const key = document.createElement('div'); key.className = 'sweepkey';
+    key.innerHTML = '<span><i class="res fail"></i>Fails</span><span><i class="res soft"></i>Soft fail</span><span><i class="res pass"></i>Passes</span>';
+    box.lastChild.appendChild(key); key.style.marginTop = '28px';
+  })();
+
+  /* Data: red-to-green on C2-Q1 (runs/green/summary_all.md) */
+  const RG = ['Claude Haiku 4.5','Claude Sonnet 4.6','Claude Opus 4.6','Mistral Large 3','Mistral Medium 3.5','Mistral Small'];
+  (() => {
+    const box = document.getElementById('rg');
+    RG.forEach((nm, i) => {
+      const row = document.createElement('div'); row.className = 'rgrow';
+      row.innerHTML = '<span class="nm">' + nm + '</span>' +
+        '<span class="cell">F</span><span class="cell">F</span><span class="cell">F</span><span class="to">→</span>' +
+        '<span class="cell g" data-i="' + i + '">·</span><span class="cell g" data-i="' + i + '">·</span><span class="cell g" data-i="' + i + '">·</span>';
+      box.appendChild(row);
+    });
+  })();
+
+  /* Per-slide sequences */
+  const enter = {
+    's-voices'(el) {
+      const mks = el.querySelectorAll('.mk'), mini = el.querySelectorAll('.mini i');
+      mks.forEach(m => m.classList.remove('on')); mini.forEach(m => m.classList.remove('on'));
+      mks.forEach((m, i) => later(900 + i * 420, () => { m.classList.add('on'); mini[i] && mini[i].classList.add('on'); }));
+    },
+    's-red'(el) {
+      const hl = el.querySelector('#redhl'); hl.classList.remove('on');
+      later(1300, () => hl.classList.add('on'));
+    },
+    's-rg'(el) {
+      const bars = el.querySelectorAll('.hb i');
+      bars.forEach(b => b.style.width = '0');
+      bars.forEach((b, i) => later(900 + i * 250, () => b.style.width = b.dataset.w + '%'));
+      const cells = el.querySelectorAll('.cell.g, .cell.p');
+      cells.forEach(c => { c.className = 'cell g'; c.textContent = '·'; });
+      cells.forEach((c, k) => later(900 + (+c.dataset.i) * 260 + (k % 3) * 90, () => { c.className = 'cell p flip'; c.textContent = 'P'; }));
+    },
+    's-unseen'(el) {
+      const bars = el.querySelectorAll('.hb i');
+      bars.forEach(b => b.style.width = '0');
+      bars.forEach((b, i) => later(500 + i * 250, () => b.style.width = b.dataset.w + '%'));
+    },
+    's-labs'(el) {
+      const bars = el.querySelectorAll('.meterbar span[data-w]');
+      bars.forEach(b => b.style.width = '0');
+      bars.forEach((b, i) => later(500 + i * 120, () => b.style.width = (b.dataset.w / b.dataset.max * 360) + 'px'));
+    },
+    's-cost'(el) {
+      const bars = el.querySelectorAll('.meterbar span[data-w]');
+      bars.forEach(b => b.style.width = '0');
+      bars.forEach((b, i) => later(500 + i * 120, () => b.style.width = (b.dataset.w / b.dataset.max * 260) + 'px'));
+    },
+  };
+
+  let step = 0;
+  const setStep = (el, k) => {
+    const imgs = el.querySelectorAll('.view img'), lis = el.querySelectorAll('.steps li[data-step]');
+    step = Math.max(0, Math.min(imgs.length - 1, k));
+    imgs.forEach(im => im.classList.toggle('on', +im.dataset.step === step));
+    lis.forEach(li => li.classList.toggle('on', +li.dataset.step === step));
+  };
+  document.querySelectorAll('.steps li[data-step]').forEach(li => li.addEventListener('click', () => setStep(li.closest('.slide'), +li.dataset.step)));
+  const advance = d => {
+    const el = slides[cur];
+    if (el.classList.contains('stepped')) {
+      const n = el.querySelectorAll('.view img').length;
+      if (d > 0 && step < n - 1) return setStep(el, step + 1);
+      if (d < 0 && step > 0) return setStep(el, step - 1);
+    }
+    show(cur + d);
+  };
+  const show = (i, replay) => {
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    if (i === cur && !replay && slides[i].classList.contains('active')) return;
+    clearAll();
+    slides.forEach(s => s.classList.remove('active'));
+    const el = slides[i];
+    void el.offsetWidth;
+    el.classList.add('active');
+    cur = i;
+    stage.classList.toggle('dark-on', el.classList.contains('dark'));
+    document.getElementById('progress').style.width = ((i + 1) / slides.length * 100) + '%';
+    document.getElementById('ccount').textContent = String(i + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+    const n = el.querySelector('.notes');
+    document.getElementById('notestext').innerHTML = n ? n.innerHTML : '';
+    if (el.classList.contains('stepped')) setStep(el, 0);
+    if (enter[el.id]) enter[el.id](el);
+    try { history.replaceState(null, '', '#' + (i + 1)); } catch (e) {}
+  };
+
+  document.querySelectorAll('.notes').forEach(n => n.hidden = true);
+  addEventListener('keydown', e => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const k = e.key;
+    if (['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(k)) { e.preventDefault(); advance(1); }
+    else if (['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(k)) { e.preventDefault(); advance(-1); }
+    else if (k === 'Home') show(0);
+    else if (k === 'End') show(slides.length - 1);
+    else if (k === 'n' || k === 'N') notes.classList.toggle('on');
+    else if (k === 'r' || k === 'R') show(cur, true);
+    else if (k === 'f' || k === 'F') { const d = document.documentElement; (document.fullscreenElement ? document.exitFullscreen() : d.requestFullscreen && d.requestFullscreen()).catch?.(() => {}); }
+    else if (k === 'h' || k === 'H') document.getElementById('help').classList.toggle('hide');
+  });
+  document.getElementById('navl').addEventListener('click', () => advance(-1));
+  document.getElementById('navr').addEventListener('click', () => advance(1));
+  let tx = null;
+  addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive:true });
+  addEventListener('touchend', e => { if (tx == null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 40) advance(dx < 0 ? 1 : -1); tx = null; });
+  setTimeout(() => document.getElementById('help').classList.add('hide'), 6000);
+
+  addEventListener('hashchange', () => { const h = parseInt(location.hash.slice(1), 10); if (Number.isFinite(h) && h - 1 !== cur) show(h - 1, true); });
+  const start = parseInt((location.hash || '').slice(1), 10);
+  show(Number.isFinite(start) ? start - 1 : 0, true);
+})();
+</script>

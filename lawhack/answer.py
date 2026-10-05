@@ -1,32 +1,52 @@
 """System 2: retrieve registry segments with Jev, draft a cited answer with Mistral, verify with Jev."""
 
 import asyncio
+import hashlib
+import json
 import logging
 import os
 import re
+import tempfile
 import time
+from pathlib import Path
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, ValidationError
 from typesafe_sdk import Choice, Noul
 
+from lawhack import feedback
 from lawhack.retrieval import BM25, coverage
 from lawhack.schema import Registry, RegistryEntry, Speaker, Zone
 from lawhack.segmenter import split_sentences
 from lawhack.solution import Solution
 from lawhack.system_one import SystemOneClient
+from lawhack import verify as verify_module
 from lawhack.verify import claimed_speaker, contradiction, strip_cues
+
+ANSWER_CODE_FINGERPRINT = hashlib.sha256(
+    Path(__file__).read_bytes() + Path(verify_module.__file__).read_bytes()
+).hexdigest()
 
 ANSWER_ABOVE = 0.8
 WARN_ABOVE = 0.5
+FALSE_BELOW = 0.2
 MAX_PARAGRAPHS = 4
 MIN_PARAGRAPH_P = 0.05
 COVER = 0.9
 PARAGRAPH_CHARS = 1500
 NONE = "NONE"
+ANSWER_CACHE_DIR = Path("data/cache/answers")
+ANSWER_CACHE_VERSION = "1"
 TARGET_ANY = "ANY"
 TARGET_MIN = 0.6
 MAX_PINNED = 3
 LEXICAL_RESCUE = 0.6
+HEADER_MIN = 0.5
+_HEADER_CUES = re.compile(
+    r"\b(auteur|r[ée]dig|pr[ée]sid|rapporteu?r|conseill[eè]r|avocat|greff|magistrat|juges?\b|chambre|formation"
+    r"|date|quand|audience|num[ée]ro|pourvoi n|ecli|quelle (cour|juridiction)|qui a (rendu|jug[ée]|sign)|rendu par"
+    r"|d[ée]cision attaqu[ée]e|publi[ée]|bulletin)",
+    re.I,
+)
 
 log = logging.getLogger(__name__)
 
@@ -39,6 +59,7 @@ SPEAKER_LABELS = {
     "LOI": "Loi",
     "INDETERMINE": "Indéterminé",
 }
+TIER_LABELS = {"sur": "Sûr", "probable": "Probable", "incertain": "Incertain", "faux": "Faux"}
 ZONE_LABELS = {
     Zone.INTRODUCTION: "En-tête",
     Zone.EXPOSE: "Faits et procédure",
@@ -66,6 +87,9 @@ class Pill(BaseModel):
     source_text: str
     probabilities: dict[str, float]
     note: str | None = None
+    tier: str = "sur"
+    tier_label: str = "Sûr"
+    reasons: list[str] = Field(default_factory=list)
 
 
 class AnswerSentence(BaseModel):
@@ -79,6 +103,7 @@ class Answer(BaseModel):
     question: str
     sentences: list[AnswerSentence]
     abstained: bool = False
+    context: list[str] = Field(default_factory=list)
 
     def render(self) -> str:
         if self.abstained:
@@ -115,6 +140,69 @@ def _describe(e: RegistryEntry) -> str:
             f"rubrique={ZONE_LABELS[e.zone]} · {para} · statut={e.status.value}\n{e.text}")
 
 
+def _reasons(c: RegistryEntry, supported: float, ok_threshold: float, note: str | None) -> list[str]:
+    if c.source == "lawyer":
+        speaker_reason = "Locuteur confirmé par un avocat."
+    elif c.source == "rule":
+        if c.zone is Zone.DISPOSITIF:
+            speaker_reason = "Passage du dispositif : c'est la décision de la Cour."
+        elif c.zone is Zone.MOYENS:
+            speaker_reason = "Passage de l'énoncé du moyen : c'est l'argument d'une partie, la Cour ne le reprend pas à son compte."
+        else:
+            speaker_reason = f"Locuteur déduit de la structure de l'arrêt ({ZONE_LABELS[c.zone]})."
+    else:
+        speaker = SPEAKER_LABELS.get(c.speaker.value, c.speaker.value)
+        if c.speaker.confidence >= ok_threshold:
+            speaker_reason = f"Jev attribue clairement ce passage à : {speaker}."
+        else:
+            runner_up = max(
+                (
+                    (value, probability)
+                    for value, probability in c.speaker.probabilities.items()
+                    if value != c.speaker.value
+                ),
+                key=lambda item: item[1],
+                default=(None, None),
+            )[0]
+            if runner_up in SPEAKER_LABELS:
+                speaker_reason = f"Jev hésite entre {speaker} et {SPEAKER_LABELS[runner_up]}."
+            else:
+                speaker_reason = "Jev n'est pas sûr du locuteur."
+
+    if note:
+        content_reason = note
+    elif supported >= ok_threshold:
+        content_reason = "Le passage cité dit bien ce qu'affirme la phrase."
+    elif supported >= WARN_ABOVE:
+        content_reason = "Le passage cité ne soutient la phrase qu'en partie."
+    elif supported >= FALSE_BELOW:
+        content_reason = "Le passage cité ne permet pas de confirmer la phrase."
+    else:
+        content_reason = "Le passage cité contredit la phrase ou l'attribue à un autre locuteur."
+
+    if c.status.value == "ALLEGUE":
+        status_reason = "Le passage rapporte une allégation, pas un fait établi."
+    elif c.status.value == "CONTESTE":
+        status_reason = "Ce point est contesté par une partie."
+    elif c.status.value == "CONSTATE" and c.speaker.value == Speaker.JURIDICTION_FOND.value:
+        status_reason = "Fait constaté par les juges du fond (la Cour de cassation ne juge pas les faits)."
+    else:
+        status_reason = None
+
+    content_first = note is not None or (
+        min(c.speaker.confidence, supported) < ok_threshold and supported < c.speaker.confidence
+    )
+    reasons = [content_reason, speaker_reason] if content_first else [speaker_reason, content_reason]
+    if status_reason:
+        reasons.append(status_reason)
+    return reasons
+
+
+def draft_user_message(question: str, context: list[RegistryEntry]) -> str:
+    excerpts = "\n\n".join(_describe(e) for e in sorted(context, key=lambda e: e.id))
+    return f"Extraits :\n\n{excerpts}\n\nQuestion : {question}"
+
+
 async def retrieve(registry: Registry, question: str, client: SystemOneClient) -> list[RegistryEntry]:
     """Jev picks the paragraph(s) answering the question (or none → abstention).
 
@@ -133,9 +221,10 @@ async def retrieve(registry: Registry, question: str, client: SystemOneClient) -
         },
     }
     keys = [*paragraphs, NONE]
-    target_result, votes = await asyncio.gather(
+    target_result, votes, header = await asyncio.gather(
         client.decide({"question": question}, {"target": _target_choice()}),
         _vote(state, keys, client),
+        _header_for(registry, question, client),
     )
     target_probabilities = target_result.decisions["target"].probabilities
     top_target = max(target_probabilities, key=target_probabilities.get)
@@ -156,12 +245,13 @@ async def retrieve(registry: Registry, question: str, client: SystemOneClient) -
         # A question naming the wrong speaker (« la Cour a-t-elle constaté… ») can hide the passage: retry on its substance.
         state = {**state, "question": strip_cues(question)}
         votes = await _vote(state, keys, client)
+    rescued = _lexical_match(paragraphs, strip_cues(question))
     if none_everywhere() and not pinned:
-        rescued = _lexical_match(paragraphs, strip_cues(question))
-        if rescued is None:
+        if rescued is None and not header:
             return []
-        votes = [{rescued: 1.0}]
-    picked: dict[str, RegistryEntry] = {e.id: e for e in pinned}
+        if rescued is not None:
+            votes = [{rescued: 1.0}]
+    picked: dict[str, RegistryEntry] = {e.id: e for e in [*header, *pinned]}
     if not none_everywhere():
         averaged = {k: sum(v.get(k, 0.0) for v in votes) / len(votes) for k in keys if k != NONE}
         ranked = sorted(averaged.items(), key=lambda t: -t[1])
@@ -172,6 +262,9 @@ async def retrieve(registry: Registry, question: str, client: SystemOneClient) -
             cumulative += p
             for e in paragraphs[key]:
                 picked[e.id] = e
+    if rescued is not None:
+        for e in paragraphs[rescued]:
+            picked[e.id] = e
     # The operative ruling is short and needed to state what the Cour actually decided.
     for e in registry.entries:
         if e.zone is Zone.DISPOSITIF:
@@ -181,6 +274,36 @@ async def retrieve(registry: Registry, question: str, client: SystemOneClient) -
             for reply in _court_reply(registry, e):
                 picked.setdefault(reply.id, reply)
     return sorted(picked.values(), key=lambda e: e.start)
+
+
+def header_entries(registry: Registry) -> list[RegistryEntry]:
+    """Caption of the arrêt (court, chamber, date, pourvoi, président, rapporteur, avocats), before the exposé.
+
+    Légifrance titrages and résumés come after the decision and are written by the documentation service: excluded.
+    """
+    out = []
+    for e in sorted(registry.entries, key=lambda e: e.start):
+        if e.zone not in (Zone.INTRODUCTION, Zone.METADONNEES):
+            break
+        out.append(e)
+    return out
+
+
+async def _header_for(registry: Registry, question: str, client: SystemOneClient) -> list[RegistryEntry]:
+    """The caption, only for questions about the arrêt itself (who rendered it, when, which judges or lawyers)."""
+    mode = os.environ.get("HEADER_CONTEXT", "lex")
+    header = header_entries(registry)
+    if not header or mode == "off":
+        return []
+    if mode == "always":
+        return header
+    if mode == "lex":
+        return header if _HEADER_CUES.search(question) else []
+    gate = await client.decide({"question": question}, {"about_caption": Noul(instructions=(
+        "Does `question` ask about the identity of the court decision itself: which court or chamber rendered it, "
+        "its date, case number, presiding judge, rapporteur, lawyers, parties' names, or the decision under appeal?"
+    ))})
+    return header if gate.decisions["about_caption"].probabilities["yes"] >= HEADER_MIN else []
 
 
 def _lexical_match(paragraphs: dict[str, list[RegistryEntry]], query: str) -> str | None:
@@ -200,8 +323,8 @@ async def _vote(state: dict, keys: list[str], client: SystemOneClient) -> list[d
 
 def _paragraph_choice(keys: list[str]) -> Choice:
     criteria = {
-        key: "No paragraph of the decision answers the question" if key == NONE
-        else f"Paragraph `paragraphs.{key}` answers the question"
+        key: "No paragraph of the decision mentions what the question asks about" if key == NONE
+        else f"Paragraph `paragraphs.{key}` answers the question or mentions the facts, arguments or rules it asks about"
         for key in keys
     }
     return Choice(instructions="Which paragraph of the decision best answers `question`?", criteria=criteria)
@@ -249,24 +372,32 @@ SYSTEM_PROMPT = """Tu es LawHack, assistant juridique qui répond UNIQUEMENT à 
 Chaque extrait porte un identifiant [S-xxx], son locuteur (Cour, Cour d'appel, Demandeur…), sa rubrique et son paragraphe.
 
 Règles impératives :
+- Commence par répondre directement à la question posée (oui, non, ou « la Cour ne se prononce pas sur ce point »), en citant
+  le passage du vrai locuteur, ex. « Non : la Cour ne se prononce pas sur ce point, c'est la cour d'appel qui l'a retenu [S-012]. »
 - Chaque phrase de ta réponse se termine par le ou les identifiants qui la justifient, ex. « … [S-012] ».
 - Attribue chaque affirmation à son vrai locuteur : « la Cour décide/juge », « la cour d'appel a retenu », « le demandeur soutient ».
   Ne présente jamais l'argument d'une partie ou le motif de la cour d'appel comme une décision de la Cour.
 - Si la Cour approuve la cour d'appel (« à bon droit », « exactement déduit »), dis-le explicitement.
 - Si le point n'apparaît que dans le moyen, écris que la Cour ne le tranche pas et que c'est l'argument du demandeur.
+- « Est-il établi que… ? » : si le fait n'est qu'allégué par une partie ou rapporté sans être constaté, dis qui l'allègue
+  et que l'arrêt ne le tient pas pour établi.
 - Si la question prête une affirmation au mauvais locuteur (ex. « la Cour a-t-elle constaté… » alors que c'est la cour d'appel
   qui l'a relevé), ne t'abstiens pas : corrige l'attribution et donne l'information avec son vrai locuteur.
   Rappelle si utile que la Cour de cassation, juge du droit, ne constate pas les faits.
-- Si les extraits ne permettent pas de répondre, réponds exactement : « L'arrêt ne traite pas cette question. »
+- Si la question prête à la Cour un raisonnement que seuls la cour d'appel ou une partie ont tenu, dis que la Cour ne se
+  prononce pas sur ce point, rapporte ce qu'a retenu la cour d'appel (ou soutenu la partie), puis indique sur quel
+  fondement la Cour casse ou rejette.
+- Seulement si aucun extrait n'évoque le sujet de la question, réponds exactement : « L'arrêt ne traite pas cette question. »
+- Les extraits « En-tête » / « Métadonnées » décrivent l'arrêt lui-même (juridiction, chambre, date, pourvoi, président,
+  rapporteur, avocats) : pour « qui est l'auteur », réponds la Cour de cassation et sa chambre, en citant l'en-tête.
 - N'utilise aucune connaissance extérieure à ces extraits. Réponse en français, concise (au plus 5 phrases)."""
 
 
 def draft(question: str, context: list[RegistryEntry], model: str | None = None) -> str:
-    excerpts = "\n\n".join(_describe(e) for e in sorted(context, key=lambda e: e.id))
     return _complete([
         {"role": "system", "content": SYSTEM_PROMPT},
-        {"role": "user", "content": f"Extraits :\n\n{excerpts}\n\nQuestion : {question}"},
-    ], model)
+        {"role": "user", "content": draft_user_message(question, context)},
+    ], _draft_model(model))
 
 
 REVISE_PROMPT = """Tu corriges UNE phrase d'une réponse juridique que la vérification a jugée non soutenue par ses passages cités.
@@ -283,10 +414,18 @@ def revise(sentence: str, cited: list[RegistryEntry], model: str | None = None) 
     return _complete([
         {"role": "system", "content": REVISE_PROMPT},
         {"role": "user", "content": f"Passages cités :\n\n{excerpts}\n\nPhrase à corriger : {sentence}"},
-    ], model)
+    ], _revise_model(model))
 
 
-def _complete(messages: list[dict], model: str | None) -> str:
+def _draft_model(model: str | None) -> str:
+    return model or os.environ.get("ANSWER_MODEL", "mistral-medium-latest")
+
+
+def _revise_model(model: str | None) -> str:
+    return model or os.environ.get("REVISE_MODEL") or _draft_model(None)
+
+
+def _complete(messages: list[dict], model: str) -> str:
     from mistralai.client import Mistral
     from mistralai.client.errors import SDKError
 
@@ -294,7 +433,7 @@ def _complete(messages: list[dict], model: str | None) -> str:
     for attempt in range(5):
         try:
             response = client.chat.complete(
-                model=model or os.environ.get("ANSWER_MODEL", "mistral-medium-latest"), temperature=0, messages=messages
+                model=model, temperature=0, messages=messages
             )
             return response.choices[0].message.content.strip()
         except SDKError as error:
@@ -304,6 +443,7 @@ def _complete(messages: list[dict], model: str | None) -> str:
 
 
 async def verify(draft_text: str, registry: Registry, client: SystemOneClient) -> list[AnswerSentence]:
+    ok_threshold = feedback.ok_threshold()
     spans = [draft_text[s:e].strip() for s, e in split_sentences(draft_text)]
     sentences: list[tuple[str, list[RegistryEntry]]] = []
     for span in spans:
@@ -312,7 +452,7 @@ async def verify(draft_text: str, registry: Registry, client: SystemOneClient) -
 
     # One Jev call per claim: batched questions influence each other and drag correct claims down.
     async def check(i: int, text: str, cited: list[RegistryEntry]) -> tuple[str, object]:
-        state = {"claim": text, "cited_sentences": {c.id: {"speaker": c.speaker.value, "text": c.text} for c in cited}}
+        state = {"claim": text, "cited_sentences": {c.id: {"speaker": _verify_speaker(c), "text": c.text} for c in cited}}
         question = Noul(
             instructions=(
                 "Is `claim` fully supported by `cited_sentences`, AND does it attribute each statement to the same "
@@ -334,20 +474,34 @@ async def verify(draft_text: str, registry: Registry, client: SystemOneClient) -
         pills = []
         for c in cited:
             confidence = min(c.speaker.confidence, supported)
-            level = "ok" if confidence >= ANSWER_ABOVE else "warn" if confidence >= WARN_ABOVE else "unsupported"
+            level = "ok" if confidence >= ok_threshold else "warn" if confidence >= WARN_ABOVE else "unsupported"
             note = None
             if about_lower_court and _reports_lower_court(text, c):
                 # The party's moyen paraphrases the arrêt attaqué: a real source, but second-hand.
                 confidence, level = c.speaker.confidence, "warn"
                 who = SPEAKER_LABELS[c.speaker.value].lower()
                 note = f"Rapporté par le {who}" + (f" (§{c.paragraph})" if c.paragraph else "") + ", pas par la Cour."
+            if level == "ok":
+                tier = "sur"
+            elif level == "warn":
+                tier = "probable"
+            elif supported < FALSE_BELOW:
+                tier = "faux"
+            else:
+                tier = "incertain"
             pills.append(Pill(
                 segment_id=c.id, speaker=c.speaker.value, label=speaker_label(c),
                 paragraph=c.paragraph, zone_label=ZONE_LABELS[c.zone], confidence=round(confidence, 3),
                 level=level, source_text=c.text, probabilities=c.speaker.probabilities, note=note,
+                tier=tier, tier_label=TIER_LABELS[tier], reasons=_reasons(c, supported, ok_threshold, note),
             ))
         out.append(AnswerSentence(text=text, pills=pills, supported=round(supported, 3)))
     return out
+
+
+def _verify_speaker(e: RegistryEntry) -> str:
+    # Jev reads the caption's « Président Mme X » as a speaker clash unless it is labelled as metadata.
+    return "METADONNEES" if e.zone in (Zone.INTRODUCTION, Zone.METADONNEES) else e.speaker.value
 
 
 def _reports_lower_court(claim: str, cited: RegistryEntry) -> bool:
@@ -363,20 +517,92 @@ async def ask(
     *,
     solution: Solution | None = None,
 ) -> Answer:
+    if os.environ.get("ANSWER_CACHE") == "0":
+        return await _ask(registry, question, client, model, solution=solution)
+    key = _answer_cache_key(registry, question, model, solution)
+    cache_file = ANSWER_CACHE_DIR / registry.document_id / f"{key}.json"
+    cached = _read_cached_answer(cache_file, question)
+    if cached is not None:
+        return cached
+    answer = await _ask(registry, question, client, model, solution=solution)
+    _write_cached_answer(cache_file, answer)
+    return answer
+
+
+def _answer_cache_key(
+    registry: Registry,
+    question: str,
+    model: str | None,
+    solution: Solution | None = None,
+) -> str:
+    registry_hash = hashlib.sha256(registry.model_dump_json().encode("utf-8")).hexdigest()
+    content = json.dumps(
+        [
+            ANSWER_CACHE_VERSION,
+            ANSWER_CODE_FINGERPRINT,
+            registry_hash,
+            " ".join(question.split()).casefold(),
+            _draft_model(model),
+            _revise_model(model),
+            solution.value if solution else None,
+            feedback.ok_threshold(),
+        ],
+        ensure_ascii=False,
+        separators=(",", ":"),
+    )
+    return hashlib.sha256(content.encode("utf-8")).hexdigest()
+
+
+def _read_cached_answer(path: Path, question: str) -> Answer | None:
+    try:
+        cached = Answer.model_validate_json(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError, ValidationError):
+        return None
+    return cached.model_copy(update={"question": question})
+
+
+def _write_cached_answer(path: Path, answer: Answer) -> None:
+    temporary: Path | None = None
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with tempfile.NamedTemporaryFile(
+            mode="w", encoding="utf-8", dir=path.parent, prefix=f".{path.name}.", suffix=".tmp", delete=False
+        ) as stream:
+            temporary = Path(stream.name)
+            stream.write(answer.model_dump_json())
+        os.replace(temporary, path)
+    except OSError as error:
+        if temporary is not None:
+            try:
+                temporary.unlink(missing_ok=True)
+            except OSError:
+                pass
+        log.warning("Réponse non mise en cache (%s).", error)
+
+
+async def _ask(
+    registry: Registry,
+    question: str,
+    client: SystemOneClient,
+    model: str | None = None,
+    *,
+    solution: Solution | None = None,
+) -> Answer:
     context = await retrieve(registry, question, client)
     if not context:
         return Answer(question=question, sentences=[], abstained=True)
+    context_ids = sorted(e.id for e in context)
     text = await asyncio.to_thread(draft, question, context, model)
     if text.strip().startswith(NOT_ADDRESSED):
-        return Answer(question=question, sentences=[], abstained=True)
+        return Answer(question=question, sentences=[], abstained=True, context=context_ids)
     sentences = await _repair(await verify(text, registry, client), registry, client, model, solution)
     sentences = [
         sentence for sentence in sentences
         if contradiction(sentence.text, claimed_speaker(sentence.text), solution) is None
     ]
     if not sentences:
-        return Answer(question=question, sentences=[], abstained=True)
-    return Answer(question=question, sentences=sentences)
+        return Answer(question=question, sentences=[], abstained=True, context=context_ids)
+    return Answer(question=question, sentences=sentences, context=context_ids)
 
 
 def _flagged(s: AnswerSentence) -> bool:
@@ -408,6 +634,7 @@ async def _repair(
             prompt = f"{s.text}\nProblème : {reasons[i]} {tags}"
         try:  # a failed rewrite or re-check must not lose the verified draft
             rewritten = (await asyncio.to_thread(revise, prompt, cited, model)).strip()
+            rewritten = rewritten[:1].upper() + rewritten[1:]
             if rewritten.startswith(DROP):
                 return None
             ids = set(_CITE.findall(rewritten))

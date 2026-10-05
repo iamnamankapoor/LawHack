@@ -1,0 +1,19 @@
+{
+ "answer": "La Cour de cassation a censuré ce raisonnement : selon elle, le juge doit d'abord évaluer le préjudice résultant de la seule aggravation du sinistre en lien avec la faute, avant d'appliquer un pourcentage (§22).",
+ "guard_p": 0.3,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "mistral/mistral-small",
+ "prompt_id": "U05-Q2",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, le juge peut évaluer la perte de chance d'éviter l'aggravation d'un sinistre en appliquant directement un pourcentage au préjudice total subi par la victime ?",
+  "gold": "Non. C'est la cour d'appel qui a fixé la perte de chance d'éviter l'aggravation du sinistre à 25 % du dommage total (§ 21). La Cour de cassation censure cette méthode pour manque de base légale au visa de l'article 1147 ancien du code civil. Le juge doit évaluer au préalable le préjudice résultant de la seule aggravation du sinistre en lien avec la faute, ici celle de la société Toutelec, avant d'y appliquer la fraction de chance perdue (§ 22).",
+  "fail_if": "La réponse affirme que la Cour de cassation admet le calcul de la perte de chance sur la base de l'entier préjudice subi par la victime, ou reprend le raisonnement de la cour d'appel comme étant celui de la Cour.",
+  "id": "U05-Q2",
+  "case": "U05",
+  "file": "cases/raw/U05_civ2_2026-09-17_24-17365.txt"
+ }
+}

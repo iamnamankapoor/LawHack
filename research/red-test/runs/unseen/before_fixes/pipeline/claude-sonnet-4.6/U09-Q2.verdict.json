@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Ce raisonnement est celui de la cour d'appel (§16), que la Cour de cassation a censuré.",
+ "reason": "La réponse attribue correctement le motif à la cour d'appel, présente la censure pour défaut de recherche sans affirmer que les taxes sont automatiquement indemnisables (« ne suffit pas à exclure automatiquement »).",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U09-Q2",
+ "run": 1
+}

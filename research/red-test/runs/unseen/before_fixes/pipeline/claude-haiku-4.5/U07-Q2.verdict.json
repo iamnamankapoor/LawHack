@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour de cassation ne s'est pas prononcée sur cette question.",
+ "reason": "La réponse attribue explicitement l'énonciation sur la reprise du cours de la prescription à la cour d'appel et précise que la Cour de cassation a seulement cassé pour contradiction de motifs sans trancher le fond.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U07-Q2",
+ "run": 1
+}

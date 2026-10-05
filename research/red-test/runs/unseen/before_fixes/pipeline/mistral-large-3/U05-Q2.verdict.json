@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour de cassation a **censuré** le raisonnement de la cour d'appel qui évaluait la perte de chance en appliquant directement un pourcentage (25 %)",
+ "reason": "La réponse attribue bien la méthode du pourcentage appliqué au préjudice total à la cour d'appel, et précise que la Cour de cassation la censure en exigeant d'évaluer d'abord le préjudice lié à la seule aggravation.",
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U05-Q2",
+ "run": 1
+}

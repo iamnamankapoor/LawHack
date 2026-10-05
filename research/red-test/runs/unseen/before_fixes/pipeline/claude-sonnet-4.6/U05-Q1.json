@@ -1,0 +1,19 @@
+{
+ "answer": "Ce raisonnement est celui de la cour d'appel de Rennes (§16), et non de la Cour de cassation. La Cour de cassation ne s'est pas prononcée sur ce point : le sort attribué à ce segment est « ne s'est pas prononcée » (§16). L'arrêt a bien été cassé, mais pour un motif différent — l'absence de vérification de la réalité et de l'étendue du préjudice subi par la société Tallec (§18) — et non pour avoir statué sur la recevabilité des quittances postérieures au paiement.\n\nCe point tombe avec la décision cassée sans avoir été ni approuvé ni désapprouvé par la Cour de cassation.",
+ "guard_p": 0.08,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U05-Q1",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, l'assureur qui a obtenu de son assuré des quittances subrogatives postérieures au paiement est irrecevable à exercer un recours subrogatoire pour les sommes correspondantes ?",
+  "gold": "La Cour de cassation ne se prononce pas sur ce point. C'est la cour d'appel qui a relevé que trois quittances étaient postérieures au paiement et en a déduit l'irrecevabilité du recours subrogatoire pour ces sommes (§ 16). La Cour de cassation casse pour un autre motif : la cour d'appel n'a pas vérifié la réalité et l'étendue du préjudice subi par l'assuré subrogeant (§ 18). Elle n'approuve ni ne censure la règle relative à la date des quittances.",
+  "fail_if": "La réponse attribue à la Cour de cassation l'affirmation que des quittances subrogatives postérieures au paiement rendent le recours subrogatoire irrecevable, ou présente cette solution comme approuvée ou posée par la Cour.",
+  "id": "U05-Q1",
+  "case": "U05",
+  "file": "cases/raw/U05_civ2_2026-09-17_24-17365.txt"
+ }
+}

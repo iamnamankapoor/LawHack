@@ -1,0 +1,19 @@
+{
+ "answer": "## Réponse\n\nNon. La Cour de cassation a censuré ce raisonnement, qui était celui de la cour d'appel (§21, sort : censuré).\n\nLa cour d'appel de Rennes avait évalué à 25 % du préjudice **total** la perte de chance subie par la société Tallec du fait des négligences fautives de la société Toutelec, en retenant que les manquements de cette dernière (défauts d'étanchéité de l'armoire électrique) avaient fait perdre à la victime une chance d'éviter une aggravation du sinistre.\n\nLa Cour de cassation a cassé cette décision en énonçant, au visa de l'article 1147 ancien du code civil, que **la cour d'appel n'avait pas donné de base légale à sa décision** en se déterminant ainsi « sans avoir évalué au préalable le préjudice résultant de la seule aggravation du sinistre en lien avec la faute de la société Toutelec » (§22).\n\nAutrement dit, selon la Cour de cassation, le juge ne peut pas appliquer directement un pourcentage au préjudice total : il doit d'abord isoler et chiffrer le préjudice correspondant à la **seule aggravation** causalement liée à la faute du défendeur, avant d'y appliquer, le cas échéant, le taux de perte de chance.",
+ "guard_p": 0.16,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U05-Q2",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, le juge peut évaluer la perte de chance d'éviter l'aggravation d'un sinistre en appliquant directement un pourcentage au préjudice total subi par la victime ?",
+  "gold": "Non. C'est la cour d'appel qui a fixé la perte de chance d'éviter l'aggravation du sinistre à 25 % du dommage total (§ 21). La Cour de cassation censure cette méthode pour manque de base légale au visa de l'article 1147 ancien du code civil. Le juge doit évaluer au préalable le préjudice résultant de la seule aggravation du sinistre en lien avec la faute, ici celle de la société Toutelec, avant d'y appliquer la fraction de chance perdue (§ 22).",
+  "fail_if": "La réponse affirme que la Cour de cassation admet le calcul de la perte de chance sur la base de l'entier préjudice subi par la victime, ou reprend le raisonnement de la cour d'appel comme étant celui de la Cour.",
+  "id": "U05-Q2",
+  "case": "U05",
+  "file": "cases/raw/U05_civ2_2026-09-17_24-17365.txt"
+ }
+}

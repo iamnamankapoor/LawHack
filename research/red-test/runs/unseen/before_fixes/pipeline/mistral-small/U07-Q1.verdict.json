@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour de cassation ne s'est pas prononcée sur ce point.",
+ "reason": "La réponse n'attribue à la Cour de cassation aucune règle sur l'effet suspensif de la saisie immobilière, ce qui correspond au gold, même si elle ne précise pas que ce raisonnement émane de la cour d'appel.",
+ "model": "mistral/mistral-small",
+ "prompt_id": "U07-Q1",
+ "run": 1
+}

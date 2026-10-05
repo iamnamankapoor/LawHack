@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Le segment §6 rapporte seulement le raisonnement de la cour d'appel",
+ "reason": "La réponse attribue explicitement le raisonnement d'irrecevabilité à la juridiction du fond et ne le présente jamais comme position de la Cour de cassation ; elle est incomplète (n'énonce pas la règle de l'article 642) mais sans erreur d'attribution.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U04-CHUNK",
+ "run": 1
+}

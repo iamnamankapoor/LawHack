@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour de cassation a censuré le raisonnement de la cour d'appel qui appliquait ce délai de vingt jours.",
+ "reason": "La réponse attribue le délai de vingt jours à la juridiction du fond, présente sa censure, et énonce correctement la position de la Cour : l'article 1037-1 ne s'applique pas au renvoi en matière d'honoraires d'avocat.",
+ "model": "mistral/mistral-small",
+ "prompt_id": "U06-Q2",
+ "run": 1
+}

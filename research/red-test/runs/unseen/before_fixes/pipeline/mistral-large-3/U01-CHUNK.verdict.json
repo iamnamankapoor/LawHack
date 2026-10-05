@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Le raisonnement exposé au §6 est celui de la cour d'appel",
+ "reason": "La réponse n'attribue pas les constatations du §6 à la Cour de cassation ; elle omet à tort la règle du §5 (intention de nuire, volonté de porter préjudice), mais c'est une erreur de complétude, pas d'attribution.",
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U01-CHUNK",
+ "run": 1
+}

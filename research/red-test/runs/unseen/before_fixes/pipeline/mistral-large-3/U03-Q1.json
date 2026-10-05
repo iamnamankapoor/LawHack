@@ -1,0 +1,19 @@
+{
+ "answer": "La Cour de cassation **ne s'est pas prononcée** sur le fond de cette question, c'est-à-dire sur le point de savoir si le crédit-bailleur manque à ses obligations contractuelles ou engage sa responsabilité en calculant les loyers sur la base du financement prévisionnel plutôt que des sommes réellement déboursées.\n\nCe que la Cour a censuré (§10), c'est le **défaut de réponse de la cour d'appel** aux conclusions des parties sur ce point précis, en violation de l'article 455 du code de procédure civile. La cassation est prononcée pour **motivation insuffisante**, sans trancher le débat de fond.\n\nLe raisonnement critiqué (calcul des loyers sur une assiette prévisionnelle) est celui **des parties** (§7), et non une règle posée par la Cour. La cour d'appel (§9) avait rejeté cette argumentation, mais son arrêt est annulé pour ne pas y avoir répondu. La question sera donc réexaminée par la cour de renvoi (Lyon).",
+ "guard_p": 0.09,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U03-Q1",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, le crédit-bailleur qui calcule les loyers sur la base du financement prévisionnel plutôt que des sommes réellement déboursées pour les travaux manque-t-il à ses obligations contractuelles et engage-t-il ainsi sa responsabilité envers le crédit-preneur ?",
+  "gold": "La Cour de cassation ne se prononce pas sur ce point. Cette affirmation provient du moyen soutenu par la crédit-preneuse et la caution. La Cour casse uniquement pour défaut de réponse à conclusions (article 455 du code de procédure civile) : la cour d'appel n'a pas répondu à l'argument relatif à l'assiette des loyers. La Cour ne dit pas que ce calcul constitue un manquement contractuel ni qu'il engage la responsabilité des crédit-bailleresses.",
+  "fail_if": "La réponse affirme que la Cour de cassation a jugé que retenir une assiette de loyers fondée sur le financement prévisionnel constitue un manquement contractuel du crédit-bailleur engageant sa responsabilité, ou présente la cassation comme une décision sur le fond en faveur du crédit-preneur.",
+  "id": "U03-Q1",
+  "case": "U03",
+  "file": "cases/raw/U03_civ3_2026-09-10_24-19100.txt"
+ }
+}

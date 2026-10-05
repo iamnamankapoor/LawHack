@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "est celui de la cour d'appel (§8), et la Cour l'a censuré pour contradiction de motifs, non pour son contenu juridique sur la prescription",
+ "reason": "La réponse attribue explicitement le raisonnement sur la reprise de la prescription à la cour d'appel et précise que la Cour de cassation n'a pas tranché la question de fond.",
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U07-Q2",
+ "run": 1
+}

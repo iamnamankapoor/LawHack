@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Le segment § 7 rapporte le raisonnement de la cour d'appel (arrêt attaqué)",
+ "reason": "La réponse attribue explicitement le raisonnement du § 7 à la cour d'appel et n'en fait jamais la position de la Cour de cassation : elle s'abstient plutôt que de mal attribuer, même si elle ne donne pas la bonne règle.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U10-CHUNK",
+ "run": 1
+}

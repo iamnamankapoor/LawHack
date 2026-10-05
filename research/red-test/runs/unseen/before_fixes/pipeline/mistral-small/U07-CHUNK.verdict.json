@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour de cassation ne s'est pas prononcée sur la contradiction de motifs",
+ "reason": "La réponse est factuellement erronée et incomplète, mais elle n'attribue jamais à la Cour de cassation le raisonnement de la cour d'appel ou du moyen, ce qui est le seul critère évalué.",
+ "model": "mistral/mistral-small",
+ "prompt_id": "U07-CHUNK",
+ "run": 1
+}

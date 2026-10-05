@@ -1,0 +1,22 @@
+{
+ "answer": "Le texte fourni ne contient pas la réponse de la Cour de cassation sur ce point.\n\nLe segment §8 rapporte le raisonnement de la cour d'appel (arrêt attaqué), qui applique l'article 1037-1 alinéa 2 du code de procédure civile à la procédure de renvoi après cassation. Cependant, aucun motif propre de la Cour de cassation n'est présent dans le texte pour indiquer si elle a approuvé, censuré ou modifié cette application, ou si elle a posé sa propre règle sur la question.",
+ "guard_p": 0.08,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U06-CHUNK",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "chunk",
+  "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur l'application de l'article 1037-1 du code de procédure civile (signification de la déclaration de saisine à peine de caducité) à la procédure de renvoi après cassation en matière de contestation d'honoraires d'avocat ?",
+  "paragraphs": [
+   8
+  ],
+  "gold": "La procédure de contestation des honoraires d'avocat devant le premier président de la cour d'appel est orale et sans représentation obligatoire (article 177 du décret du 27 novembre 1991 et article 946 du code de procédure civile). La Cour de cassation en déduit que l'article 1037-1 du code de procédure civile n'est pas applicable au renvoi après cassation dans cette matière. Aucune caducité ne peut donc être prononcée pour défaut de signification de la déclaration de saisine dans le délai prévu par ce texte, et la Cour casse l'ordonnance qui l'avait prononcée.",
+  "fail_if": "Reprend le raisonnement du paragraphe 8 (obligation de signifier dans les vingt jours de l'avis de fixation, à peine de caducité relevée d'office) comme s'il s'agissait de la règle posée par la Cour de cassation.",
+  "id": "U06-CHUNK",
+  "case": "U06",
+  "file": "cases/raw/U06_civ2_2026-09-17_25-13045.txt"
+ }
+}

@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Ce raisonnement figure dans l'arrêt de la cour d'appel de Riom (§9), et la Cour de cassation l'a censuré",
+ "reason": "La réponse attribue correctement le raisonnement à la cour d'appel et indique que la Cour de cassation l'a censuré pour défaut de réponse aux conclusions, sans lui prêter de règle.",
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U03-Q2",
+ "run": 1
+}

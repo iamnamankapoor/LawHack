@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Le raisonnement critiqué (obligation de signification sous peine de caducité) était celui de la cour d'appel (§8), que la Cour de cassation a censuré.",
+ "reason": "La réponse attribue correctement l'inapplicabilité de l'article 1037-1 à la Cour de cassation et l'exigence de signification à peine de caducité à la juridiction censurée (désignée « cour d'appel » au lieu de premier président, imprécision sans effet sur l'attribution).",
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U06-Q1",
+ "run": 1
+}

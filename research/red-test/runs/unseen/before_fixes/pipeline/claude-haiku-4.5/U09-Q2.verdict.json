@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Non, ce raisonnement provient de la cour d'appel, et la Cour de cassation l'a censuré",
+ "reason": "La réponse attribue à la cour d'appel le motif tiré de la qualité de propriétaire et décrit la cassation pour défaut de recherche sur des taxes exposées en pure perte, sans affirmer qu'elles sont automatiquement indemnisables.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U09-Q2",
+ "run": 1
+}

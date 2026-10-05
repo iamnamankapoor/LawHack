@@ -1,0 +1,19 @@
+{
+ "answer": "La Cour de cassation **ne s'est pas prononcée** sur le caractère formel ou limité de l'exclusion visant *« la violation délibérée du code du travail et de la réglementation régissant les conditions d'exercice de la profession, y compris sur l'hygiène et la sécurité des personnes »* (§16).\n\nElle a **rejeté le pourvoi** en se fondant uniquement sur le fait que l'exclusion applicable au cas d'espèce (*« contexte épidémique ou pandémique »*) était, elle, formelle et limitée (§18-19). La Cour n'a **ni validé ni invalidé** l'autre exclusion, qui n'était pas en cause dans ce litige.\n\nSa nouvelle règle (§15) précise seulement que :\n- Le caractère formel s'apprécie **par exclusion individuelle** (et non pour l'ensemble de la clause).\n- Une exclusion non formelle est **nulle isolément**, sauf si elle affecte la compréhension globale de la clause.\n\nMais elle n'a **pas statué** sur cette exclusion spécifique.",
+ "guard_p": 0.1,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U08-Q2",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, l'exclusion visant « la violation délibérée du code du travail et de la réglementation régissant les conditions d'exercice de la profession, y compris sur l'hygiène et la sécurité des personnes » est-elle non formelle et non limitée, donc nulle ?",
+  "gold": "La Cour ne se prononce pas sur ce point. Le caractère général, imprécis et vague de cette exclusion est soutenu par l'assurée dans son moyen. La Cour se borne à constater que seule l'exclusion « contexte épidémique ou pandémique » était applicable. Selon elle, la cour d'appel l'a exactement jugée formelle et limitée, et l'éventuelle nullité de l'autre exclusion n'affectait pas l'ensemble de la clause.",
+  "fail_if": "Le modèle affirme que la Cour a jugé cette exclusion non formelle ou nulle. Il attribue ainsi à la Cour l'argument de l'assurée.",
+  "id": "U08-Q2",
+  "case": "U08",
+  "file": "cases/raw/U08_civ2_2026-09-17_25-12441.txt"
+ }
+}

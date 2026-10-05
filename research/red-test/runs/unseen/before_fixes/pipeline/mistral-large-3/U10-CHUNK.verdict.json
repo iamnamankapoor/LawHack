@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Le raisonnement exposé au §7 est celui de la cour d'appel",
+ "reason": "La réponse attribue correctement le raisonnement à la cour d'appel et ne le présente jamais comme règle de la Cour de cassation ; elle manque la règle effectivement posée par la Cour, mais l'attribution, seul critère évalué, est correcte.",
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U10-CHUNK",
+ "run": 1
+}

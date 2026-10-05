@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour de cassation ne s'est donc pas prononcée sur la règle de fond relative au point de départ du délai de prescription",
+ "reason": "La réponse attribue explicitement le raisonnement sur la reprise du délai à la cour d'appel et précise que la Cour de cassation casse uniquement pour contradiction de motifs, sans trancher la question de fond.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U07-Q2",
+ "run": 1
+}

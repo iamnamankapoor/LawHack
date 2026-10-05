@@ -23,7 +23,7 @@ INSTRUCTIONS = """LawHack tells you WHO says what in a French Cour de cassation 
 Workflow: 1) lawhack_load_decision once per decision → decision_id. 2) lawhack_read_decision for a summary or an open question (whole decision, annotated, a few thousand tokens), or lawhack_who_said for a targeted question. 3) lawhack_verify on your draft before sending it, citing segments as [S-xx]; fix every MAL_ATTRIBUE / NON_SOURCE sentence.
 Rules: answer only from returned passages; never present a party's argument (moyen) as the Court's ruling; cite `citation` and append `badge`; flag a_verifier passages; if answer_status is not answered, say the Cour de cassation does not decide the point."""
 
-mcp = FastMCP("LawHack", instructions=INSTRUCTIONS, website_url="https://github.com/talal95c/LawHack")
+mcp = FastMCP("LawHack", instructions=INSTRUCTIONS, website_url="https://github.com/iamnamankapoor/Legible")
 
 READ_ONLY = ToolAnnotations(readOnlyHint=True, idempotentHint=True, openWorldHint=False)
 

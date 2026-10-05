@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Non. C'est le raisonnement de la cour d'appel (§8), que la Cour de cassation a censuré.",
+ "reason": "La réponse attribue correctement l'acceptation des risques à la cour d'appel et expose fidèlement la censure de la Cour de cassation pour violation de l'article 1103 et dénaturation.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U09-Q1",
+ "run": 1
+}

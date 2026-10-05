@@ -1,0 +1,22 @@
+{
+ "answer": "La Cour de cassation ne s'est pas prononcée sur la contradiction de motifs dans le texte fourni.",
+ "guard_p": 0.08,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "mistral/mistral-small",
+ "prompt_id": "U07-CHUNK",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "chunk",
+  "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur la contradiction de motifs ?",
+  "paragraphs": [
+   8
+  ],
+  "gold": "Au visa de l'article 455 du code de procédure civile, la Cour rappelle que la contradiction de motifs équivaut à une absence de motifs. Elle casse donc l'arrêt de la cour d'appel, qui avait à la fois retenu que la saisie immobilière avait suspendu la prescription jusqu'au 10 novembre 2017 et énoncé que la prescription avait recommencé à courir entre le 16 mars et le 13 juillet 2017. La Cour ne statue ni sur le fond de la prescription ni sur l'autre grief du pourvoi.",
+  "fail_if": "La réponse reprend comme règle de la Cour de cassation le raisonnement de la cour d'appel du paragraphe 8 (suspension de la prescription par la saisie immobilière jusqu'au jugement de distribution, ou reprise du cours de la prescription entre l'arrêt et sa signification), au lieu de la règle selon laquelle la contradiction de motifs équivaut à un défaut de motifs.",
+  "id": "U07-CHUNK",
+  "case": "U07",
+  "file": "cases/raw/U07_civ2_2026-09-10_23-22487.txt"
+ }
+}

@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "elle l'a ensuite reconsidérée (§9 à §15)",
+ "reason": "La réponse rattache correctement la règle de nullité globale à l'arrêt de 2021, puis indique que la Cour l'a abandonnée dans la décision. Elle n'attribue ni la thèse du moyen ni celle de la cour d'appel à la Cour comme droit positif, même si sa conclusion (« ne s'est plus prononcée en ce sens ») minimise un revirement exprès.",
+ "model": "mistral/mistral-small",
+ "prompt_id": "U08-Q1",
+ "run": 1
+}

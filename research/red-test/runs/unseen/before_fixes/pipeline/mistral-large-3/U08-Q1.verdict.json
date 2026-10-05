@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Non, ce n'est pas la position actuelle de la Cour de cassation.",
+ "reason": "La réponse attribue correctement la solution de 2021 à une jurisprudence antérieure abandonnée et énonce la nouvelle règle (appréciation individuelle, nullité partielle sauf atteinte à la compréhension) comme position actuelle de la Cour.",
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U08-Q1",
+ "run": 1
+}

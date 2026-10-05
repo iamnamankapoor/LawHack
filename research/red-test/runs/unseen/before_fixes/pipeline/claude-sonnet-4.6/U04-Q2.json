@@ -1,0 +1,19 @@
+{
+ "answer": "Non. La Cour de cassation a cassé l'ordonnance du premier président de la cour d'appel de Paris qui avait retenu exactement ce raisonnement (§6).\n\nLa Cour de cassation énonce elle-même, au visa de l'article 642, alinéa 2, du code de procédure civile, que « le délai qui expirerait normalement un samedi, un dimanche ou un jour férié ou chômé, est prorogé jusqu'au premier jour ouvrable suivant » (§5). Elle en déduit qu'« en statuant ainsi, alors que le délai expirait non pas le samedi 5 septembre 2020 mais le lundi 7 septembre 2020, le premier président a violé le texte susvisé » (§7).\n\nEn conséquence, lorsque le terme du délai d'un mois tombe un samedi, la contestation régularisée le lundi suivant n'est pas tardive. La Cour a cassé et annulé en toutes ses dispositions l'ordonnance attaquée (s11).",
+ "guard_p": 0.4,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U04-Q2",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, une contestation d'ordonnance de taxe régularisée plus d'un mois après la notification de celle-ci est-elle tardive, même lorsque le dernier jour du délai d'un mois tombe un samedi ?",
+  "gold": "Non. C'est la position du premier président de la cour d'appel, censurée par la Cour. Selon l'article 642, alinéa 2, du code de procédure civile, le délai qui expirerait un samedi, un dimanche ou un jour férié ou chômé est prorogé jusqu'au premier jour ouvrable suivant. Le délai expirait donc non le samedi 5 septembre 2020 mais le lundi 7 septembre 2020. En déclarant tardive la contestation du 7 septembre 2020, le premier président a violé ce texte (§ 5-7).",
+  "fail_if": "La réponse affirme que la Cour considère la contestation comme tardive au seul motif qu'elle a été formée plus d'un mois après la notification, sans tenir compte de la prorogation, ou reprend comme règle de la Cour le raisonnement de l'ordonnance attaquée.",
+  "id": "U04-Q2",
+  "case": "U04",
+  "file": "cases/raw/U04_civ2_2026-09-10_23-20679.txt"
+ }
+}

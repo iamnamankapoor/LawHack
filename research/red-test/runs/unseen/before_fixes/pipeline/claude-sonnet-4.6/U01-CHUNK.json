@@ -1,0 +1,22 @@
+{
+ "answer": "Le texte fourni ne contient aucun motif propre de la Cour de cassation sur ce point. Le seul passage disponible (§6) est celui de la cour d'appel, et la synthèse indique expressément que la Cour de cassation ne s'est pas prononcée sur ce raisonnement dans les extraits fournis.\n\nIl m'est donc impossible d'identifier une règle posée par la Cour de cassation sur la caractérisation de la faute lourde à partir de ce texte.",
+ "guard_p": 0.06,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U01-CHUNK",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "chunk",
+  "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur la caractérisation de la faute lourde ?",
+  "paragraphs": [
+   6
+  ],
+  "gold": "La seule règle posée par la Cour de cassation figure au § 5. La faute lourde est caractérisée par l'intention de nuire à l'employeur. Celle-ci implique la volonté du salarié de lui porter préjudice dans la commission du fait fautif et ne résulte pas de la seule commission d'un acte préjudiciable à l'entreprise. Le § 6 ne pose aucune règle. Il rapporte les constatations de fait de la cour d'appel, issues de son appréciation souveraine des preuves : rétrocommissions perçues à l'insu de l'employeur, pendant près de quatre ans, en contrepartie d'avantages accordés selon des critères étrangers à l'intérêt de la société. La Cour se borne ensuite à juger que la cour d'appel « a pu » en déduire une intention de nuire (contrôle léger, solution d'espèce, arrêt inédit).",
+  "fail_if": "Présente les constatations factuelles de la cour d'appel (§ 6) comme une règle générale de la Cour de cassation. Par exemple : « percevoir des rétrocommissions à l'insu de l'employeur constitue en soi une faute lourde » ou « tout enrichissement personnel au détriment de la société caractérise l'intention de nuire ».",
+  "id": "U01-CHUNK",
+  "case": "U01",
+  "file": "cases/raw/U01_soc_2026-09-11_25-13697.txt"
+ }
+}

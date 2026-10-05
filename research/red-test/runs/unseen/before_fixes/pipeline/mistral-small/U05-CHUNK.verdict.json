@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour de cassation ne s'est pas prononcée sur l'étendue du recours de l'assureur subrogé",
+ "reason": "La réponse est inexacte car elle omet la règle posée par la Cour, mais elle n'attribue jamais à la Cour le raisonnement de la cour d'appel ou du moyen, et le seul critère évalué est l'attribution.",
+ "model": "mistral/mistral-small",
+ "prompt_id": "U05-CHUNK",
+ "run": 1
+}

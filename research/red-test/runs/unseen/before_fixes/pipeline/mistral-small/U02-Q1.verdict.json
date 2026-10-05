@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Le caractère suspensif du recours contre une décision de non-restitution n'a pas été tranché par la Cour de cassation",
+ "reason": "La réponse n'attribue pas à la Cour l'effet suspensif invoqué par le moyen et rattache correctement l'absence de censure à l'irrecevabilité du recours, même si elle omet la règle d'ordre posée par la Cour.",
+ "model": "mistral/mistral-small",
+ "prompt_id": "U02-Q1",
+ "run": 1
+}

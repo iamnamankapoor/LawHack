@@ -45,7 +45,7 @@ Without a server, `site/index.html` + `site/data.json` work as a static demo.
 | GPT-6.1 Sol | 0 | 2 (false alarms) | 5 / 15 | 3.4 s |
 | GPT-6 Astra | 0 | 1 (false alarm) | 5 / 15 | 3.0 s |
 | Mistral Medium 3.5 | 7 | 8 | 3 / 15 | 1.8 s |
-| Legible | 0 | n/a (maps the whole decision once) | 15 / 15 | 0.44 s |
+| Legible | 0 | n/a (maps the whole decision once) | 15 / 15 | 0.39 s |
 
 Legora and Harvey are still to be measured. These are small numbers on two decisions, measured on 2026-10-04.
 

@@ -1,0 +1,19 @@
+{
+ "answer": "Non, ce n'est pas la Cour de cassation qui affirme que le moyen serait irrecevable pour ces raisons.\n\nLa Cour de cassation a expressément rejeté cette objection de recevabilité (§4) :\n*« Cependant, le moyen, qui est de pur droit, est recevable. »*\n\nL’argument selon lequel le moyen serait nouveau ou mélangé de fait et de droit avait été soulevé par M. [P] (§3), mais la Cour ne l’a pas retenu. Elle a au contraire accueilli le moyen, le jugeant de pur droit et donc recevable.",
+ "guard_p": 0.09,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U04-Q1",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, le moyen tiré de la prorogation au premier jour ouvrable d'un délai expirant un samedi est-il irrecevable, comme nouveau et mélangé de fait et de droit, lorsque le requérant n'a émis aucune critique sur ce point devant le premier président ?",
+  "gold": "Non. Cette fin de non-recevoir est soulevée par M. [P], défendeur au pourvoi. La Cour l'écarte : le moyen est de pur droit, donc recevable, même s'il n'a pas été présenté devant le premier président (§ 3-4).",
+  "fail_if": "La réponse affirme que la Cour juge le moyen irrecevable comme nouveau ou mélangé de fait et de droit, ou attribue à la Cour l'argumentation de M. [P].",
+  "id": "U04-Q1",
+  "case": "U04",
+  "file": "cases/raw/U04_civ2_2026-09-10_23-20679.txt"
+ }
+}

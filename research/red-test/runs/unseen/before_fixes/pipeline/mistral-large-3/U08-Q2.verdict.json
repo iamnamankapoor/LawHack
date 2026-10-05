@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour de cassation ne s'est pas prononcée sur le caractère formel ou limité de l'exclusion",
+ "reason": "La réponse indique bien que la Cour n'a ni validé ni invalidé cette exclusion et qu'elle s'est fondée uniquement sur l'exclusion « contexte épidémique ou pandémique », sans reprendre à son compte l'argument de l'assurée.",
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U08-Q2",
+ "run": 1
+}

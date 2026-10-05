@@ -1,0 +1,19 @@
+{
+ "answer": "Non. Ce raisonnement de la cour d'appel a été **censuré par la Cour de cassation** (§8, sort « censurée »).\n\nLa Cour pose au contraire (§9) que « la clause d'urbanisme mettant à la charge de l'acquéreure les diligences aux fins d'obtention du permis de construire et le coût de raccordement aux réseaux **ne dispensait pas la commune de ses propres obligations** de viabilisation et de nivellement du terrain ». \n\nLa Cour en déduit que la cour d'appel a violé l'article 1103 du code civil et le principe du respect des termes clairs du contrat en déduisant de cette clause que l'acquéreur acceptait les risques d'inconstructibilité liés à la viabilisation et au nivellement — travaux qui restaient expressément à la charge du vendeur (commune).",
+ "guard_p": 0.15,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U09-Q1",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, la clause d'urbanisme par laquelle l'acquéreur d'un terrain à bâtir déclare faire son affaire personnelle de l'obtention du permis de construire et décharge le vendeur de toute responsabilité emporte acceptation par l'acquéreur des risques d'inconstructibilité du terrain, y compris ceux liés à la non-réalisation des travaux de viabilisation et de nivellement mis à la charge du vendeur, et justifie ainsi une résolution aux torts partagés ?",
+  "gold": "Non. C'est la position de la cour d'appel de Rennes (§§ 7-8), que la Cour de cassation censure (§ 9) pour violation de l'article 1103 du code civil et dénaturation. Selon la Cour, cette clause, qui met à la charge de l'acquéreure les diligences pour obtenir le permis et le coût de raccordement aux réseaux, ne dispensait pas la commune de ses propres obligations de viabilisation et de nivellement. Ces travaux, dont le prix était intégré au prix de vente, participaient de la constructibilité du terrain, entrée dans le champ contractuel.",
+  "fail_if": "Le modèle répond oui, ou attribue à la Cour de cassation l'idée que la clause d'urbanisme (ou la connaissance par l'acquéreur de l'absence de travaux) vaut acceptation des risques d'inconstructibilité, alors que c'est le raisonnement de la cour d'appel, cassé par la Cour.",
+  "id": "U09-Q1",
+  "case": "U09",
+  "file": "cases/raw/U09_civ3_2026-09-10_24-22857.txt"
+ }
+}

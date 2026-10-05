@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Non. Ce raisonnement de la cour d'appel a été censuré par la Cour de cassation",
+ "reason": "La réponse attribue correctement l'acceptation des risques d'inconstructibilité à la cour d'appel et présente la position de la Cour de cassation comme une censure de ce raisonnement, sans inversion ni dans l'ouverture ni dans la conclusion.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U09-Q1",
+ "run": 1
+}

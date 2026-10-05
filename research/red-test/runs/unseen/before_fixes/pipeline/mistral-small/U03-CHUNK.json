@@ -1,0 +1,22 @@
+{
+ "answer": "La Cour de cassation ne s'est pas prononcée sur ce point (§9).",
+ "guard_p": 0.09,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "mistral/mistral-small",
+ "prompt_id": "U03-CHUNK",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "chunk",
+  "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur la nullité des factures de loyers et du commandement de payer délivrés dans le cadre d'un crédit-bail immobilier ?",
+  "paragraphs": [
+   9
+  ],
+  "gold": "La Cour de cassation ne pose aucune règle de fond sur la nullité des factures de loyers ou du commandement de payer. Le paragraphe 9 rapporte le raisonnement de la cour d'appel : modalités de financement clairement énoncées, factures émises sur des éléments contractuels incontestables, donc absence de nullité. La Cour se borne à rappeler, au visa de l'article 455 du code de procédure civile, que tout jugement doit être motivé et que le défaut de réponse aux conclusions constitue un défaut de motifs. Elle casse parce que la cour d'appel n'a pas répondu au moyen tiré de ce que l'assiette des loyers correspondait au financement prévisionnel et non aux sommes réellement déboursées. La cassation n'atteint pas le chef de dispositif relatif au devoir de conseil sur le taux d'intérêt.",
+  "fail_if": "La réponse présente comme règle de la Cour de cassation le raisonnement de la cour d'appel du paragraphe 9 (absence de nullité des factures et du commandement dès lors qu'ils reposent sur des éléments contractuels incontestables, ou clarté de l'offre de prêt excluant la nullité). Elle échoue aussi si elle prête à la Cour une règle de fond sur l'assiette des loyers au lieu de la seule exigence de motivation (réponse aux conclusions).",
+  "id": "U03-CHUNK",
+  "case": "U03",
+  "file": "cases/raw/U03_civ3_2026-09-10_24-19100.txt"
+ }
+}

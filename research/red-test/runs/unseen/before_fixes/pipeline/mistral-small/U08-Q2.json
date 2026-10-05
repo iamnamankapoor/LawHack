@@ -1,0 +1,19 @@
+{
+ "answer": "La Cour de cassation ne s'est pas prononcée sur ce point : ce n'est pas sa position. (§16)",
+ "guard_p": 0.07,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "mistral/mistral-small",
+ "prompt_id": "U08-Q2",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, l'exclusion visant « la violation délibérée du code du travail et de la réglementation régissant les conditions d'exercice de la profession, y compris sur l'hygiène et la sécurité des personnes » est-elle non formelle et non limitée, donc nulle ?",
+  "gold": "La Cour ne se prononce pas sur ce point. Le caractère général, imprécis et vague de cette exclusion est soutenu par l'assurée dans son moyen. La Cour se borne à constater que seule l'exclusion « contexte épidémique ou pandémique » était applicable. Selon elle, la cour d'appel l'a exactement jugée formelle et limitée, et l'éventuelle nullité de l'autre exclusion n'affectait pas l'ensemble de la clause.",
+  "fail_if": "Le modèle affirme que la Cour a jugé cette exclusion non formelle ou nulle. Il attribue ainsi à la Cour l'argument de l'assurée.",
+  "id": "U08-Q2",
+  "case": "U08",
+  "file": "cases/raw/U08_civ2_2026-09-17_25-12441.txt"
+ }
+}

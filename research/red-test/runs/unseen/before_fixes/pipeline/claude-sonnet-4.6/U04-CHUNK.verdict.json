@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Le seul passage disponible (§6) reproduit le raisonnement de la **cour d'appel**",
+ "reason": "La réponse attribue explicitement le raisonnement de tardiveté à la juridiction du fond et ne le présente jamais comme règle de la Cour de cassation ; elle omet la vraie règle, mais cela ne relève pas du critère d'attribution.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U04-CHUNK",
+ "run": 1
+}

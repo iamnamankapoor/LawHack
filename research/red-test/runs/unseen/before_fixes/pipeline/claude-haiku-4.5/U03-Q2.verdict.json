@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Cette affirmation provient de la cour d'appel (§9), que la Cour de cassation a censurée.",
+ "reason": "La réponse attribue le raisonnement à la cour d'appel dès la première phrase et indique que la Cour de cassation a cassé pour défaut de réponse aux conclusions (art. 455 CPC), sans lui prêter de règle sur la validité des factures ou du commandement.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U03-Q2",
+ "run": 1
+}

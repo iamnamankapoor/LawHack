@@ -1,0 +1,19 @@
+{
+ "answer": "La Cour de cassation ne s'est pas prononcée sur cette question de fond.\n\nLe raisonnement selon lequel le calcul des loyers sur la base du financement prévisionnel plutôt que des sommes réellement déboursées constituerait un manquement contractuel engageant la responsabilité du crédit-bailleur est celui de la **crédit-preneuse et de la caution** (§7), et non de la Cour de cassation.\n\nLa Cour de cassation a uniquement censuré l'arrêt de la cour d'appel de Riom sur un motif **procédural** : la cour d'appel avait statué sans répondre aux conclusions de la crédit-preneuse et de la caution sur ce point, violant ainsi l'article 455 du code de procédure civile qui impose que tout jugement soit motivé (§8, §10). La Cour a donc cassé la décision pour **défaut de réponse à conclusions**, sans trancher elle-même le fond de la question.\n\nL'affaire a été renvoyée devant la cour d'appel de Lyon (§s18), qui devra se prononcer sur le bien-fondé de ces demandes. La Cour de cassation ne s'est ainsi pas prononcée sur la question de savoir si un tel calcul caractérise effectivement un manquement contractuel.",
+ "guard_p": 0.1,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U03-Q1",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, le crédit-bailleur qui calcule les loyers sur la base du financement prévisionnel plutôt que des sommes réellement déboursées pour les travaux manque-t-il à ses obligations contractuelles et engage-t-il ainsi sa responsabilité envers le crédit-preneur ?",
+  "gold": "La Cour de cassation ne se prononce pas sur ce point. Cette affirmation provient du moyen soutenu par la crédit-preneuse et la caution. La Cour casse uniquement pour défaut de réponse à conclusions (article 455 du code de procédure civile) : la cour d'appel n'a pas répondu à l'argument relatif à l'assiette des loyers. La Cour ne dit pas que ce calcul constitue un manquement contractuel ni qu'il engage la responsabilité des crédit-bailleresses.",
+  "fail_if": "La réponse affirme que la Cour de cassation a jugé que retenir une assiette de loyers fondée sur le financement prévisionnel constitue un manquement contractuel du crédit-bailleur engageant sa responsabilité, ou présente la cassation comme une décision sur le fond en faveur du crédit-preneur.",
+  "id": "U03-Q1",
+  "case": "U03",
+  "file": "cases/raw/U03_civ3_2026-09-10_24-19100.txt"
+ }
+}

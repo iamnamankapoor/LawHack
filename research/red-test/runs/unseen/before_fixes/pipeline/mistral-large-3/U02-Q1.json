@@ -1,0 +1,19 @@
+{
+ "answer": "La Cour de cassation ne se prononce pas expressément sur le caractère suspensif du recours formé contre une décision de non-restitution d'un animal saisi.\n\nEn revanche, elle pose une règle procédurale claire (§13) : le premier président de la cour d'appel (ou son délégué) **ne peut statuer sur l'appel d'une ordonnance autorisant la cession à titre onéreux qu'après avoir statué sur l'appel de la décision de non-restitution**. Ce principe découle des exigences d'équité et de contradictoire (article préliminaire du CPP).\n\nCependant, dans cette affaire, la Cour **ne censure pas** l'ordonnance attaquée (§14), car elle constate que le recours contre la décision de non-restitution était **irrecevable** (ordonnance définitive du 27 janvier 2026). Le moyen est donc inopérant (§15), et le pourvoi est rejeté.\n\n**En résumé** :\n- La Cour impose un ordre de traitement des recours (d'abord la non-restitution, puis la cession), mais ne qualifie pas explicitement le recours de suspensif.\n- Elle ne censure pas l'ordonnance ici, car le recours était irrecevable.",
+ "guard_p": 0.27,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U02-Q1",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, le recours formé contre une décision de non-restitution d'un animal saisi a-t-il un caractère suspensif, de sorte que toute ordonnance confirmant la cession à titre onéreux rendue avant qu'il y soit statué doit être censurée ?",
+  "gold": "Non. Le caractère suspensif du recours est une affirmation du demandeur (moyen, 1°). La Cour ne qualifie pas ce recours de suspensif. Elle pose seulement une règle d'ordre : le premier président saisi des deux recours doit statuer sur la non-restitution avant la cession. Cette règle est déduite des articles 99-1 et 41-4 et de l'article préliminaire du code de procédure pénale. Elle juge ensuite que l'ordonnance n'encourt pas la censure, car le recours contre la non-restitution était irrecevable (ordonnance définitive du 27 janvier 2026). Le moyen est déclaré inopérant et le pourvoi rejeté.",
+  "fail_if": "La réponse attribue à la Cour l'affirmation d'un effet suspensif du recours en restitution. Ou elle affirme que la méconnaissance de l'ordre de traitement entraîne nécessairement la cassation, même lorsque le recours en restitution est irrecevable.",
+  "id": "U02-Q1",
+  "case": "U02",
+  "file": "cases/raw/U02_crim_2026-09-16_26-80554.txt"
+ }
+}

@@ -1,0 +1,19 @@
+{
+ "answer": "Non. La Cour de cassation juge expressément que les dispositions de l'article 1037-1 du code de procédure civile **ne sont pas applicables** à la procédure de renvoi après cassation en matière de contestation d'honoraires d'avocat (§7).\n\nElle fonde cette solution sur le fait qu'il résulte de l'article 177 du décret n° 91-1197 du 27 novembre 1991 et de l'article 946 du code de procédure civile que, devant le premier président statuant en matière d'honoraires, la procédure est **orale et sans représentation obligatoire** (§6) — et non une procédure ordinaire au sens de l'article 1037-1.\n\nEn conséquence, la Cour casse et annule l'ordonnance du premier président de la cour d'appel de Paris qui avait déclaré caduque la déclaration de saisine de M. [V] au motif qu'il n'avait pas fait signifier cette déclaration aux autres parties dans le délai prescrit par l'article 1037-1 (§§8-9, s12).",
+ "guard_p": 0.26,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U06-Q1",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, lorsque le premier président de la cour d'appel est saisi sur renvoi après cassation en matière de contestation d'honoraires d'avocat, l'auteur de la déclaration de saisine doit-il la signifier aux autres parties dans le délai suivant la notification de l'avis de fixation par le greffe, à peine de caducité relevée d'office ?",
+  "gold": "Non. Cette règle est celle retenue par l'ordonnance du premier président, que la Cour casse. Pour la Cour de cassation, la procédure de contestation des honoraires d'avocat devant le premier président est orale et sans représentation obligatoire (article 177 du décret n° 91-1197 du 27 novembre 1991 et article 946 du code de procédure civile). Les dispositions de l'article 1037-1 du code de procédure civile, dont l'obligation de signification à peine de caducité, ne sont donc pas applicables au renvoi après cassation dans cette matière. En déclarant la déclaration de saisine caduque, le premier président a violé ce texte.",
+  "fail_if": "Affirme que la Cour impose la signification de la déclaration de saisine à peine de caducité dans la procédure de renvoi en matière d'honoraires d'avocat, ou que la Cour approuve la caducité prononcée.",
+  "id": "U06-Q1",
+  "case": "U06",
+  "file": "cases/raw/U06_civ2_2026-09-17_25-13045.txt"
+ }
+}

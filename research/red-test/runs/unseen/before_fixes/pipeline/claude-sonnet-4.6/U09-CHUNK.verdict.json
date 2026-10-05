@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "reproduisent le raisonnement de la **cour d'appel**",
+ "reason": "La réponse attribue explicitement les §§ 7-8 à la cour d'appel et ne présente jamais ce raisonnement comme une règle de la Cour de cassation ; elle s'abstient à tort de restituer la solution de cassation, mais cela ne relève pas du critère d'attribution.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U09-CHUNK",
+ "run": 1
+}

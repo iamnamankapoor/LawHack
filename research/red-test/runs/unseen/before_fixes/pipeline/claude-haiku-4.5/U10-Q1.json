@@ -1,0 +1,19 @@
+{
+ "answer": "Non. Selon la Cour de cassation (§6), « Il résulte de ce texte que l'appelant n'est pas tenu de préciser, dans le dispositif de ses conclusions, les chefs de dispositif du jugement dont il demande l'infirmation. »\n\nLa Cour a censuré (§7-§8) le raisonnement de la cour d'appel qui avait déduit de cette absence une privation d'effet dévolutif : en statuant ainsi, la cour d'appel a violé l'article 954 du code de procédure civile.",
+ "guard_p": 0.48,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U10-Q1",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, sous l'empire de l'article 954 du code de procédure civile dans sa rédaction issue du décret n° 2017-891 du 6 mai 2017, l'absence, dans le dispositif des conclusions d'appel, de toute mention des chefs du jugement critiqués prive-t-elle ces conclusions d'effet dévolutif ?",
+  "gold": "Non. C'est la position de la cour d'appel, que la Cour de cassation censure. Selon la Cour, il résulte de l'article 954, dans sa rédaction issue du décret du 6 mai 2017 et antérieure au décret n° 2023-1391 du 29 décembre 2023, que l'appelant n'est pas tenu de préciser, dans le dispositif de ses conclusions, les chefs de dispositif du jugement dont il demande l'infirmation. En jugeant ces conclusions sans effet dévolutif pour ce motif, la cour d'appel a violé ce texte.",
+  "fail_if": "La réponse attribue à la Cour de cassation la règle selon laquelle le défaut de mention des chefs critiqués dans le dispositif des conclusions empêche tout effet dévolutif. Elle échoue aussi si elle présente la solution de la cour d'appel comme approuvée.",
+  "id": "U10-Q1",
+  "case": "U10",
+  "file": "cases/raw/U10_civ2_2026-09-10_25-16682.txt"
+ }
+}

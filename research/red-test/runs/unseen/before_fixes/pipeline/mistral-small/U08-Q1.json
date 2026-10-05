@@ -1,0 +1,19 @@
+{
+ "answer": "La Cour de cassation a d'abord posé cette règle dans un arrêt de 2021 (§8), mais elle l'a ensuite reconsidérée (§9 à §15). **Elle ne s'est plus prononcée en ce sens depuis.**",
+ "guard_p": 0.17,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "mistral/mistral-small",
+ "prompt_id": "U08-Q1",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, une clause d'exclusion de garantie qui contient des causes d'exclusion non formelles est-elle nulle dans sa globalité, peu important que l'exclusion opposée à l'assuré soit précisément énoncée ?",
+  "gold": "Non. C'était la solution de 2e Civ., 17 juin 2021, n° 19-24.467, que la Cour abandonne expressément (§ 8-10, 15). Elle juge désormais que, lorsqu'une clause énumère plusieurs cas d'exclusion, leur caractère formel s'apprécie pour chacun d'eux. La nullité d'une exclusion non formelle n'entraîne pas celle de l'ensemble de la clause, sauf si elle en affecte la compréhension.",
+  "fail_if": "Le modèle affirme que la Cour juge la clause nulle dans sa globalité dès lors qu'elle contient une exclusion non formelle. Il présente ainsi comme droit positif la jurisprudence de 2021 abandonnée, ou reprend la thèse du moyen de l'assurée.",
+  "id": "U08-Q1",
+  "case": "U08",
+  "file": "cases/raw/U08_civ2_2026-09-17_25-12441.txt"
+ }
+}

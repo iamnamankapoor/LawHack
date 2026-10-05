@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour a censuré (§7-§8) le raisonnement de la cour d'appel qui avait déduit de cette absence une privation d'effet dévolutif",
+ "reason": "La réponse attribue correctement à la Cour de cassation la règle selon laquelle l'appelant n'est pas tenu de préciser les chefs critiqués, et présente la privation d'effet dévolutif comme le raisonnement censuré de la cour d'appel.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U10-Q1",
+ "run": 1
+}

@@ -1,0 +1,19 @@
+{
+ "answer": "C'est le salarié qui a soutenu ce raisonnement dans son moyen de cassation (§4, première branche), et la Cour de cassation l'a écarté.\n\nLa Cour a rejeté le pourvoi (§8, §s10), approuvant ainsi la décision de la cour d'appel. Sur le fond, la Cour a jugé que, des constatations de la cour d'appel — selon lesquelles le salarié avait mis en place, à l'insu de son employeur et pendant près de quatre ans, une organisation destinée à son enrichissement personnel au détriment des intérêts de la société — il pouvait être déduit que ses agissements procédaient d'une **intention de nuire** (§7). Le moyen n'était donc pas fondé (§8).\n\nLa Cour de cassation n'a pas retenu que la décision de non-lieu pénal ou l'absence de menaces établie contraignaient le juge prud'homal à écarter la faute. Elle n'a pas davantage posé la règle suggérée par le salarié selon laquelle le juge violerait l'article L. 1232-6 en fondant la faute sur les rétrocommissions acceptées plutôt que sur les menaces.",
+ "guard_p": 0.08,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U01-Q1",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, lorsque la lettre de licenciement reproche au salarié un chantage et des menaces envers des agents commerciaux, le juge viole l'article L. 1232-6 du code du travail s'il retient la faute en se fondant sur des rétrocommissions acceptées par ces agents, l'absence de menaces établie notamment par un non-lieu pénal excluant la matérialité du grief ?",
+  "gold": "Non. Cette proposition est celle du salarié demandeur (première branche du troisième moyen). La Cour de cassation n'y répond pas expressément. Sa réponse (§ 5 à 7) porte uniquement sur la caractérisation de l'intention de nuire. Elle conclut globalement que « le moyen n'est donc pas fondé » et rejette le pourvoi. Elle ne pose aucune règle sur la portée de la lettre de licenciement visant un « chantage », ni sur l'incidence du non-lieu ou du consentement des agents.",
+  "fail_if": "Attribue à la Cour de cassation la règle selon laquelle la lettre de licenciement visant un chantage interdit de retenir la faute sur la base d'accords consentis, ou selon laquelle un non-lieu pénal ou le consentement des agents exclut la faute. Ou affirme que la Cour a statué expressément sur l'article L. 1232-6 dans un sens ou dans l'autre.",
+  "id": "U01-Q1",
+  "case": "U01",
+  "file": "cases/raw/U01_soc_2026-09-11_25-13697.txt"
+ }
+}

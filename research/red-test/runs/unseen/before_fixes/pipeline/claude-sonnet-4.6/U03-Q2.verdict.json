@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Ce raisonnement est celui de la cour d'appel de Riom (§9), et non de la Cour de cassation. La Cour de cassation l'a précisément censuré.",
+ "reason": "La réponse attribue explicitement le raisonnement à la cour d'appel et indique que la Cour de cassation l'a censuré pour défaut de réponse aux conclusions, sans lui prêter de règle sur la validité des factures ou du commandement.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U03-Q2",
+ "run": 1
+}

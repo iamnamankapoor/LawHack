@@ -1,0 +1,23 @@
+{
+ "answer": "Le texte fourni ne contient pas la réponse de la Cour de cassation sur cette question.\n\nLes segments §16 et §17 exposent uniquement le raisonnement et les conclusions de la cour d'appel (quittances postérieures au paiement, subrogation antérieure ou concomitante au paiement, recevabilité du recours subrogatoire). Aucun motif propre de la Cour de cassation n'est fourni pour indiquer quelle règle elle pose sur l'étendue du recours subrogatoire ou sur la preuve de la créance de l'assureur subrogé.",
+ "guard_p": 0.06,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U05-CHUNK",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "chunk",
+  "prompt_fr": "Quelle règle la Cour de cassation pose-t-elle sur l'étendue du recours de l'assureur subrogé contre les tiers responsables et sur la preuve de sa créance ?",
+  "paragraphs": [
+   16,
+   17
+  ],
+  "gold": "Au visa des articles 1249, 1251, 3°, 1252 et 1315 anciens du code civil, la Cour juge que le subrogé ne peut avoir plus de droits que le subrogeant et que celui qui réclame l'exécution d'une obligation doit la prouver (§ 13-15). La seule production de quittances subrogatives régulières, antérieures ou concomitantes au paiement, ne suffit donc pas à fixer la créance de l'assureur subrogé contre les responsables. Le juge doit vérifier la réalité et l'étendue du préjudice subi par l'assuré qu'il a indemnisé. Il doit aussi s'expliquer, lorsqu'il y est invité, sur l'absence de chiffrage contradictoire des dommages. À défaut, la décision manque de base légale (§ 18).",
+  "fail_if": "La réponse reprend le raisonnement de la cour d'appel (§ 16-17) comme règle de la Cour de cassation, notamment l'idée que la preuve de subrogations régulières par quittances antérieures ou concomitantes au paiement suffit à admettre le recours à hauteur des sommes versées, ou que les quittances postérieures au paiement rendent le recours irrecevable.",
+  "id": "U05-CHUNK",
+  "case": "U05",
+  "file": "cases/raw/U05_civ2_2026-09-17_24-17365.txt"
+ }
+}

@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Ce raisonnement est celui de la **cour d'appel** (§16), et la Cour de cassation l'a **censuré** (§17).",
+ "reason": "La réponse attribue correctement le motif à la cour d'appel et présente la Cour de cassation comme exigeant seulement la recherche d'une dépense en pure perte, sans affirmer que les taxes sont automatiquement réparables (la qualification « violé » au lieu de « manque de base légale » est imprécise mais ne relève pas du critère d'attribution).",
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U09-Q2",
+ "run": 1
+}

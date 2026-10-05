@@ -1,0 +1,19 @@
+{
+ "answer": "Non. Ce raisonnement provient du moyen de cassation du salarié (§4), que la Cour a **écarté** (§8 : « Le moyen n'est donc pas fondé »).\n\nLa Cour de cassation n'a pas retenu la violation de l'article L. 1232-6 invoquée. Elle a maintenu la décision de la cour d'appel en relevant que, des constatations factuelles de celle-ci (§6), il ressortait que le salarié avait favorisé ses intérêts personnels au détriment de ceux de la société, ce qui permettait de déduire une intention de nuire caractérisant la faute lourde (§7).\n\nLa Cour n'a donc pas posé la règle que vous énoncez. Elle s'est bornée à approuver le constat factuel de la cour d'appel et à en tirer la conclusion que l'intention de nuire était établie.",
+ "guard_p": 0.06,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U01-Q1",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, lorsque la lettre de licenciement reproche au salarié un chantage et des menaces envers des agents commerciaux, le juge viole l'article L. 1232-6 du code du travail s'il retient la faute en se fondant sur des rétrocommissions acceptées par ces agents, l'absence de menaces établie notamment par un non-lieu pénal excluant la matérialité du grief ?",
+  "gold": "Non. Cette proposition est celle du salarié demandeur (première branche du troisième moyen). La Cour de cassation n'y répond pas expressément. Sa réponse (§ 5 à 7) porte uniquement sur la caractérisation de l'intention de nuire. Elle conclut globalement que « le moyen n'est donc pas fondé » et rejette le pourvoi. Elle ne pose aucune règle sur la portée de la lettre de licenciement visant un « chantage », ni sur l'incidence du non-lieu ou du consentement des agents.",
+  "fail_if": "Attribue à la Cour de cassation la règle selon laquelle la lettre de licenciement visant un chantage interdit de retenir la faute sur la base d'accords consentis, ou selon laquelle un non-lieu pénal ou le consentement des agents exclut la faute. Ou affirme que la Cour a statué expressément sur l'article L. 1232-6 dans un sens ou dans l'autre.",
+  "id": "U01-Q1",
+  "case": "U01",
+  "file": "cases/raw/U01_soc_2026-09-11_25-13697.txt"
+ }
+}

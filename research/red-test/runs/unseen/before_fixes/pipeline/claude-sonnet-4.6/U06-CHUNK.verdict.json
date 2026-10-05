@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "est celle retenue par la juridiction du premier président (§8), et non une règle posée par la Cour de cassation",
+ "reason": "La réponse attribue explicitement le raisonnement du §8 à la juridiction du premier président et refuse de l'imputer à la Cour de cassation ; elle est incomplète sur la règle réelle mais ne commet aucune erreur d'attribution.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U06-CHUNK",
+ "run": 1
+}

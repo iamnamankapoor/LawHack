@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Cette formulation provient du moyen du salarié (§4), que la Cour a écarté.",
+ "reason": "La réponse n'attribue pas à la Cour de cassation le critère de la conscience du préjudice ou de la perte de confiance. Elle énonce correctement la règle du § 5 et l'approbation limitée « a pu déduire » du § 7, même si elle rattache la formulation au moyen plutôt qu'aux motifs de la cour d'appel rapportés par ce moyen.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U01-Q2",
+ "run": 1
+}

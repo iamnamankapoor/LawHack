@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "La Cour de cassation ne s'est pas prononcée sur ce point (§9).",
+ "reason": "La réponse n'attribue pas à la Cour de cassation le raisonnement de la cour d'appel du §9 ni aucune règle de fond, ce qui est correct sur le critère d'attribution, même si elle omet la cassation pour défaut de réponse aux conclusions.",
+ "model": "mistral/mistral-small",
+ "prompt_id": "U03-CHUNK",
+ "run": 1
+}

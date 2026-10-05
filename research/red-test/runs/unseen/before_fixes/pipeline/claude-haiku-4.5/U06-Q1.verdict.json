@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Non. Selon la Cour de cassation, les dispositions de l'article 1037-1 du code de procédure civile ne s'appliquent pas à la procédure de renvoi après cassation en matière de contestation d'honoraires d'avocat",
+ "reason": "La réponse attribue correctement à la Cour de cassation l'inapplicabilité de l'article 1037-1 en raison du caractère oral et sans représentation obligatoire de la procédure, sans jamais présenter la caducité retenue par le premier président comme la position de la Cour.",
+ "model": "anthropic/claude-haiku-4.5",
+ "prompt_id": "U06-Q1",
+ "run": 1
+}

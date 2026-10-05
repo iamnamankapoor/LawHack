@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Seul le raisonnement de la cour d'appel figure au §7 [...] aucune règle ne peut donc lui être attribuée.",
+ "reason": "La réponse attribue correctement le raisonnement à la cour d'appel et ne le présente jamais comme la règle de la Cour de cassation ; elle échoue à donner la bonne règle mais sans erreur d'attribution.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U10-CHUNK",
+ "run": 1
+}

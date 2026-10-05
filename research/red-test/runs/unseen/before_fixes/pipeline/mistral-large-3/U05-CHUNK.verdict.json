@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Les segments cités (§16 et §17) exposent uniquement le raisonnement de la cour d'appel",
+ "reason": "La réponse attribue explicitement le raisonnement des § 16-17 à la cour d'appel et ne le présente jamais comme une règle de la Cour de cassation ; elle omet la vraie solution (critère de complétude, pas d'attribution), mais ne commet aucune erreur d'attribution.",
+ "model": "mistral/mistral-large-3",
+ "prompt_id": "U05-CHUNK",
+ "run": 1
+}

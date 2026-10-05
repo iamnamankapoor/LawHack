@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "Seul figure le raisonnement de la cour d'appel (§8), cité dans l'arrêt attaqué, sans que la Cour de cassation exprime elle-même une position",
+ "reason": "La réponse n'attribue jamais à la Cour de cassation le raisonnement de la cour d'appel, qu'elle identifie explicitement comme tel. Elle refuse de répondre au lieu de donner la règle correcte, mais cela relève de l'exhaustivité et non de l'attribution.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U07-CHUNK",
+ "run": 1
+}

@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "C'est la cour d'appel de Toulouse qui a retenu, dans son arrêt censuré, que la procédure de saisie immobilière avait suspendu le délai de prescription",
+ "reason": "La réponse attribue explicitement l'effet suspensif à la cour d'appel, précise que la Cour de cassation n'a censuré que la contradiction de motifs (art. 455 CPC) et conclut qu'elle n'a posé aucune règle sur ce point.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U07-Q1",
+ "run": 1
+}

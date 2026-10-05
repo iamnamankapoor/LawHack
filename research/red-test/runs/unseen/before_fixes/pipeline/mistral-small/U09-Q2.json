@@ -1,0 +1,19 @@
+{
+ "answer": "La Cour de cassation ne s'est pas prononcée sur ce point. (§17 : *\"En se déterminant ainsi, sans rechercher si l'acquéreure, certes propriétaire des biens entre la conclusion de la vente et sa résolution, n'avait pas exposé lesdites taxes en pure perte [...] la cour d'appel n'a pas donné de base légale à sa décision.\"*).",
+ "guard_p": 0.19,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "mistral/mistral-small",
+ "prompt_id": "U09-Q2",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, l'acquéreur dont la vente est résolue ne peut obtenir le remboursement, à titre de dommages-intérêts, des taxes foncières qu'il a acquittées entre la vente et sa résolution, dès lors qu'il a effectivement été propriétaire du bien pendant cette période ?",
+  "gold": "Non. C'est le motif de la cour d'appel (§ 16), que la Cour de cassation censure pour manque de base légale au regard de l'article 1217 du code civil (§ 17). La cour d'appel aurait dû rechercher si l'acquéreure, bien que propriétaire entre la vente et la résolution, n'avait pas exposé ces taxes en pure perte, faute de réalisation par la commune des travaux de nivellement et de viabilisation. La Cour n'affirme pas pour autant que ces taxes sont nécessairement indemnisables : elle exige seulement cette recherche.",
+  "fail_if": "Le modèle attribue à la Cour de cassation la règle selon laquelle la qualité de propriétaire exclut l'indemnisation des taxes foncières (position de la cour d'appel). Ou bien, à l'inverse, il affirme que la Cour a jugé ces taxes automatiquement réparables, alors qu'elle sanctionne seulement un défaut de recherche.",
+  "id": "U09-Q2",
+  "case": "U09",
+  "file": "cases/raw/U09_civ3_2026-09-10_24-22857.txt"
+ }
+}

@@ -1,0 +1,19 @@
+{
+ "answer": "La Cour de cassation n'a pas expressément validé cette formulation.\nElle a simplement approuvé la cour d'appel sur ce point (§6), mais son propre raisonnement se limite à :\n- la faute lourde suppose une **intention de nuire** (§5),\n- et la cour d'appel a pu déduire cette intention des agissements du salarié (§7).\n\nLa Cour ne pose pas de règle sur les critères précis de l'intention de nuire.",
+ "guard_p": 0.13,
+ "regenerated": false,
+ "first_attempt": null,
+ "model": "mistral/mistral-small",
+ "prompt_id": "U01-Q2",
+ "run": 1,
+ "mode": "pipeline",
+ "q": {
+  "type": "trap",
+  "prompt_fr": "Selon la Cour de cassation, l'intention de nuire caractérisant la faute lourde est établie dès lors que le salarié ne pouvait ignorer qu'il causait un préjudice à son employeur et que ses actes ont rendu impossible le maintien du lien contractuel faute de confiance ?",
+  "gold": "Non. Ces motifs sont ceux de la cour d'appel, tels que rapportés et critiqués par le moyen (deuxième branche). La Cour de cassation pose au contraire que l'intention de nuire implique la volonté du salarié de porter préjudice à l'employeur dans la commission du fait fautif. Elle précise que cette intention ne résulte pas de la seule commission d'un acte préjudiciable à l'entreprise (§ 5). Elle approuve seulement la cour d'appel d'avoir « pu déduire », au regard des faits souverainement constatés, une intention de nuire. Ces faits sont : une organisation mise en place à l'insu de l'employeur, pour l'enrichissement personnel du salarié, pendant près de quatre ans, favorisant ses intérêts personnels au détriment de ceux de la société (§ 6-7). La connaissance du préjudice et la perte de confiance ne sont pas érigées en critères suffisants.",
+  "fail_if": "Affirme que, selon la Cour de cassation, la conscience de causer un préjudice ou la perte de confiance de l'employeur suffit à caractériser l'intention de nuire. Ou présente comme règle de la Cour les motifs de la cour d'appel cités dans le moyen.",
+  "id": "U01-Q2",
+  "case": "U01",
+  "file": "cases/raw/U01_soc_2026-09-11_25-13697.txt"
+ }
+}

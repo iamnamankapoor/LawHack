@@ -1,0 +1,9 @@
+{
+ "verdict": "PASS",
+ "pattern": "none",
+ "key_quote": "est celui de la **cour d'appel** (§9), et non de la Cour de cassation",
+ "reason": "La réponse attribue explicitement le raisonnement sur l'absence de nullité à la cour d'appel et ne prête aucune règle de fond à la Cour de cassation, même si elle omet la cassation pour défaut de réponse aux conclusions, ce qui ne relève pas du critère d'attribution.",
+ "model": "anthropic/claude-sonnet-4.6",
+ "prompt_id": "U03-CHUNK",
+ "run": 1
+}

@@ -1,0 +1,106 @@
+Cour de cassation, civile, Chambre civile 3, 10 septembre 2026, 24-22.857, Inédit
+Texte intégral
+
+Cour de cassation - Chambre civile 3
+
+N° de pourvoi : 24-22.857
+
+ECLI : FR:CCASS:2026:C300479
+
+Solution : Cassation partielle
+
+Décision attaquée : Cour d'appel de Rennes, du 24 septembre 2024
+
+Non publié au bulletin
+
+[En-tête (parties, avocats, composition) omis.]
+
+la troisième chambre civile de la Cour de cassation, composée de la présidente et des conseillers précités, après en avoir délibéré conformément à la loi, a rendu le présent arrêt.
+
+Faits et procédure
+
+1. Selon l'arrêt attaqué (Rennes, 24 septembre 2024, n° RG 21/04786), par acte authentique des 15 et 19 décembre 2016, la commune de [Localité 2] (la venderesse) a vendu, dans le cadre d'une opération de lotissement, à la société KLC (l'acquéreure) plusieurs parcelles de terrain cadastrées section BN n° [Cadastre 1], [Cadastre 2], [Cadastre 3] et [Cadastre 4].
+
+2. Le cahier des charges du lotissement annexé à l'acte de vente imposait à l'acquéreure de déposer sa demande de permis de construire et de justifier d'une déclaration attestant l'achèvement et la conformité des travaux (DAACT), dans les délais respectifs d'un an et de quatre ans à compter du jour de la signature de l'acte de vente, sous peine de résolution de la vente.
+
+3. Faisant valoir que l'acquéreure n'avait justifié ni du dépôt d'une demande de permis de construire ni de l'obtention d'une DAACT dans les délais, la venderesse l'a assignée en résolution de la vente.
+
+Examen des moyens
+
+Sur le moyen du pourvoi incident
+
+4. En application de l'article 1014, alinéa 2, du code de procédure civile, il n'y a pas lieu de statuer par une décision spécialement motivée sur ce moyen qui n'est manifestement pas de nature à entraîner la cassation.
+
+Mais sur le premier moyen, pris en ses deux premières branches, du pourvoi principal
+
+Enoncé du moyen
+
+5. L'acquéreure fait grief à l'arrêt de prononcer la résolution de la vente aux torts partagés des parties, alors :
+
+« 1° / que l'acte de vente des 15 et 19 décembre 2016 énonce que « Le vendeur s'engage à achever les ouvrages et travaux divers sous les conditions définies dans la deuxième partie du présent acte » tandis que le cahier des charges, intégralement reproduit en deuxième partie de l'acte de vente et annexé à ce dernier, énonce, à l'article 16 relatif aux travaux à exécuter par le lotisseur, que celui-ci « exécutera tous les travaux de viabilité conformément au programme de travaux annexé au dossier de lotissement, ainsi que les travaux de clôture nécessaires à la mise en sécurité du site le long des ruisseaux et fossés d'eaux pluviales. Les branchements AEP / EU / EP (entre le réseau principal et les boîtes de branchements privatifs) seront faits par le lotisseur ou l'entreprise désignée par lui ; cette charge sera intégrée au prix de vente des terrains. Les branchements (gaines et coffrets) aux réseaux d'électricité, de gaz et de télécommunication seront effectués par le lotisseur. Cette charge sera intégrée au prix de vente » et à l'article 17, relatif aux travaux à la charge de l'acquéreur, que « Les raccordements (câbles, compteurs et mise en service) aux réseaux électrique, télécommunication et gaz, seront effectués par les gestionnaires de réseaux à la demande et à la charge de chaque acquéreur. Le compteur d'eau potable sera à la charge de chaque acquéreur » ; que, dès lors, en déduisant de la reproduction de l'article 17 du cahier des charges dans l'acte de vente que la société KLC, acquéreur, avait accepté de supporter la charge des risques concernant la constructibilité du terrain au jour de la vente en ce compris ceux afférents au nivellement et à la viabilisation, après avoir constaté que l'article 16 du cahier des charges prévoyait que les travaux de viabilisation (les branchements AEP / EU / EP et les branchements gaines et coffrets aux réseaux de gaz, d'électricité et de télécommunication) étaient à la charge de la commune de [Localité 2], développeur, la cour d'appel, qui n'a pas tiré les conséquences de ses propres constatations, a violé l'article 1103 du code civil, dans sa rédaction issue de l'ordonnance du 10 février 2016 ;
+
+2°/ que l'acte de vente des 15 et 19 décembre 2016 énonce, dans la partie relative à l'urbanisme et plus précisément à l'obtention d'un permis de construire, que « l'acquéreur déclare ne pas avoir à ce jour obtenu son permis de construire. Il déclare vouloir en faire son affaire personnelle et décharge le vendeur et le notaire soussigné de toute responsabilité à cet égard et requiert le notaire soussigné de régulariser le présent acte », libérant ainsi uniquement le vendeur et le notaire de toute obligation de déposer une demande de permis de construire ; que, dès lors en déduisant de cette clause, qui ne concernait pourtant pas les autres obligations expressément mises à la charge du vendeur et notamment l'obligation de procéder à la viabilisation et le nivellement des terrains, que la société KLC, acquéreur, avait accepté de supporter la charge des risques concernant la constructibilité du terrain au jour de la vente en ce compris ceux afférents à la viabilisation et au nivellement du terrain, la cour d'appel a dénaturé les termes clairs et précis du contrat de vente, en méconnaissance de l'article 1192 du code civil, ensemble le principe selon lequel le juge ne doit pas dénaturer les écrits qui lui sont soumis. »
+
+Réponse de la Cour
+
+Vu l'article 1103 du code civil et l'obligation pour le juge de ne pas dénaturer l'écrit qui lui est soumis :
+
+6. Selon ce texte, les contrats légalement formés tiennent lieu de loi à ceux qui les ont faits.
+
+7. Pour prononcer la résolution de la vente aux torts partagés, l'arrêt retient, d'une part, que l'acquéreure avait connaissance, à la date de la vente, de l'absence de réalisation des travaux de viabilisation et de nivellement, mis à la charge de la commune, d'autre part, que l'acte ne comportait ni délai, ni modalités d'exécution, ni sanction de l'inexécution, enfin, qu'une clause d'urbanisme, stipulée dans l'acte, indiquait que l'acquéreure faisait son affaire personnelle et déchargeait le vendeur et le notaire de toute responsabilité quant à l'obtention d'un permis de construire et que les travaux de raccordement aux réseaux électrique, de communication et de gaz demeuraient à sa charge.
+
+8. Il en déduit que l'acquéreure avait accepté de supporter la charge des risques de l'inconstructibilité du terrain au jour de la vente, de sorte que la résolution de celle-ci, faute pour elle d'avoir déposé un permis de construire et de justifier d'une déclaration d'achèvement des travaux dans les délais stipulés dans l'acte, devait être prononcée aux torts partagés.
+
+9. En statuant ainsi, d'une part, après avoir retenu que les travaux de viabilisation et de nivellement des terrains, mis à la charge de la commune et dont le prix avait été intégré au prix de vente, participaient de la constructibilité du terrain, qui était entrée dans le champ contractuel, d'autre part, alors que la clause d'urbanisme mettant à la charge de l'acquéreure les diligences aux fins d'obtention du permis de construire et le coût de raccordement aux réseaux ne dispensait pas la commune de ses propres obligations de viabilisation et de nivellement du terrain, la cour d'appel a violé le texte et le principe susvisés.
+
+Sur le second moyen, pris en sa première branche, du pourvoi principal
+
+Enoncé du moyen
+
+10. L'acquéreure fait grief à l'arrêt de limiter la condamnation de la commune à une certaine somme au titre de son préjudice économique, alors « que le créancier qui demande la résolution du contrat aux torts de son cocontractant peut obtenir la réparation des préjudices causés par l'inexécution du contrat qui ne seraient pas réparés par les restitutions ; qu'en retenant, pour débouter la société KLC de sa demande tendant à voir la commune de [Localité 2] condamnée à lui rembourser les frais d'acte de vente et les frais engagés pour l'étude et le permis de construire, que ces sommes ne présentaient aucun lien avec l'absence de réalisation des travaux de viabilisation et de nivellement par la commune de [Localité 2], après avoir constaté que ces travaux présentaient un caractère essentiel et nécessaire à rendre le terrain constructible et que leur non-réalisation par la commune justifiait que la résolution soit prononcée en partie aux torts de cette dernière, ce dont il résultait que l'ensemble des frais qui avaient été engagés en vain pour l'exécution du contrat par la société KLC constituaient des préjudices réparables, la cour d'appel, qui a statué par des motifs inopérants au regard de ses propres constatations, a violé l'article 1217 du code civil, dans sa rédaction issue de l'ordonnance du 10 février 2016, ensemble le principe de la réparation intégrale du préjudice. »
+
+Réponse de la Cour
+
+Vu l'article 1217 du code civil :
+
+11. Selon ce texte, la partie envers laquelle l'engagement n'a pas été exécuté peut provoquer la résolution du contrat et demander réparation des conséquences de l'inexécution.
+
+12. Pour rejeter la demande de l'acquéreure au titre des frais d'acte de vente et des frais engagés pour l'étude et le permis de construire, l'arrêt retient, d'une part, que les premiers ne présentent aucun lien avec le préjudice subi résultant de l'absence d'exécution par la commune des travaux de viabilisation et de nivellement des terrains vendus, le fait que le contrat ait été finalement résolu étant contingent au stade de la vente, d'autre part, que les seconds ont été engagés par l'acquéreure afin d'aboutir au projet de construction qu'elle envisageait, d'où il suit qu'ils sont sans lien avec l'obligation particulière de la commune de viabiliser et niveler les terrains.
+
+13. En statuant ainsi, après avoir prononcé la résolution de la vente aux torts partagés, ce dont il résultait nécessairement que les préjudices invoqués par l'acquéreure étaient en lien direct avec la part de responsabilité incombant à la commune dans la résolution du contrat, la cour d'appel a violé le texte susvisé.
+
+Et sur le second moyen, pris en sa deuxième branche
+
+Enoncé du moyen
+
+14. L'acquéreure fait le même grief à l'arrêt, alors « que le créancier qui demande la résolution du contrat aux torts de son cocontractant peut obtenir la réparation des préjudices causés par l'inexécution du contrat qui ne seraient pas réparés par les restitutions ; qu'en retenant, pour débouter la société KLC de sa demande tendant à voir la commune de [Localité 2] condamnée à lui rembourser la taxe foncière qu'elle avait payée pendant la période comprise entre la conclusion du contrat et sa résolution, que cette somme ne constituait pas un préjudice réparable puisque la société KLC avait effectivement été propriétaire malgré la résolution ultérieure, après avoir constaté que les travaux que la commune n'avait pas réalisés présentaient un caractère essentiel et nécessaire à rendre le terrain constructible et que leur non-réalisation justifiait que la résolution soit prononcée en partie aux torts de la commune, ce dont il résultait la société KLC avait dû s'acquitter de taxes pour des terrains dont elle n'avait pu jouir par la faute de la commune, la cour d'appel, qui a statué par des motifs inopérants au regard de ses propres constatations, a violé l'article 1217 du code civil, dans sa rédaction issue de l'ordonnance du 10 février 2016, ensemble le principe de la réparation intégrale du préjudice. »
+
+Réponse de la Cour
+
+Vu l'article 1217 du code civil :
+
+15. Selon ce texte, la partie envers laquelle l'engagement n'a pas été exécuté peut provoquer la résolution du contrat et demander réparation des conséquences de l'inexécution.
+
+16. Pour rejeter la demande indemnitaire de l'acquéreure au titre des taxes foncières réglées par ses soins à l'administration fiscale, l'arrêt retient que celle-ci doit être écartée puisque cette partie a été effectivement propriétaire des biens objet de la vente, malgré la résolution judiciaire.
+
+17. En se déterminant ainsi, sans rechercher si l'acquéreure, certes propriétaire des biens entre la conclusion de la vente et sa résolution, n'avait pas exposé lesdites taxes en pure perte, compte tenu des travaux de nivellement et de viabilisation des terrains, qui à la charge de la commune n'avaient pas été réalisés, ce qu'elle avait constaté, la cour d'appel n'a pas donné de base légale à sa décision.
+
+Portée et conséquences de la cassation
+
+18. La cassation des chefs de dispositif prononçant la résolution de la vente aux torts partagés des parties et condamnant la venderesse à verser à l'acquéreure une certaine somme au titre de son préjudice économique n'emporte pas celle du chef de dispositif de l'arrêt rejetant l'action de l'acquéreure en garantie des vices cachés, disposition de l'arrêt non remise en cause.
+
+PAR CES MOTIFS, et sans qu'il y ait lieu de statuer sur les autres griefs, la Cour :
+
+REJETTE le pourvoi incident ;
+
+CASSE ET ANNULE, sauf en ce qu'il rejette l'action de la société KLC au titre de la garantie des vices cachés, l'arrêt rendu le 24 septembre 2024, entre les parties, par la cour d'appel de Rennes ;
+
+Remet, sauf sur ce point, l'affaire et les parties dans l'état où elles se trouvaient avant cet arrêt et les renvoie devant la cour d'appel de Rennes, autrement composée ;
+
+Condamne la commune de [Localité 2] aux dépens ;
+
+En application de l'article 700 du code de procédure civile, rejette les demandes ;
+
+Dit que sur les diligences du procureur général près la Cour de cassation, le présent arrêt sera transmis pour être transcrit en marge ou à la suite de l'arrêt partiellement cassé ;
+
+Ainsi fait et jugé par la Cour de cassation, troisième chambre civile, et prononcé publiquement le dix septembre deux mille vingt-six par mise à disposition de l'arrêt au greffe de la Cour, les parties ayant été préalablement avisées dans les conditions prévues au deuxième alinéa de l'article 450 du code de procédure civile.ECLI:FR:CCASS:2026:C300479

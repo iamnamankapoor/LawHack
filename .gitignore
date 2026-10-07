@@ -10,3 +10,6 @@ data/raw/
 .venv/
 data/hf/
 /eval/cache/
+.DS_Store
+.claude/
+

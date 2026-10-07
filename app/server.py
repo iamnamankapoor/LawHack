@@ -31,9 +31,24 @@ UPLOADS = ROOT / "data" / "raw"
 HISTORY = ROOT / "data" / "history.json"
 DEMO_PDF = ROOT / "data" / "samples" / "cass_civ3_2022-12-14_21-24539.pdf"
 STATIC = Path(__file__).resolve().parent / "static"
+PITCH = ROOT / "pitch"
 
 app = FastAPI(title="LawHack")
 app.mount("/showcase", StaticFiles(directory=STATIC / "showcase", html=True), name="showcase")
+if PITCH.exists():
+    app.mount("/pitch", StaticFiles(directory=PITCH, html=True), name="pitch")
+
+
+@app.get("/pitch.pdf")
+def pitch_pdf() -> FileResponse:
+    pdf_path = PITCH / "Legible_Pitch.pdf"
+    if not pdf_path.exists():
+        pdf_path = ROOT / "Legible_Pitch.pdf"
+    if pdf_path.exists():
+        return FileResponse(pdf_path, media_type="application/pdf", filename="Legible_Pitch.pdf")
+    raise HTTPException(404, "Pitch PDF not found")
+
+
 _registries: dict[str, tuple[Registry, Solution]] = {}
 _answers: dict[str, tuple[str, Answer]] = {}
 
